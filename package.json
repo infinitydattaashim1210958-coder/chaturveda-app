@@ -1,0 +1,17 @@
+{
+  "name": "chaturveda-app",
+  "version": "2.0.0",
+  "description": "Chaturveda — offline Vedic scripture app with SQLite-backed navigation and search",
+  "scripts": {
+    "build": "echo 'static site, no build step'"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor-community/sqlite": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0"
+  }
+}
