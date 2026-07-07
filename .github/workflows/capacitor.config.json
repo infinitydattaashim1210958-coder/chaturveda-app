@@ -1,0 +1,14 @@
+{
+  "appId": "com.arsasiddanto.chaturveda",
+  "appName": "Chaturveda",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "CapacitorSQLite": {
+      "androidIsEncryption": false
+    }
+  }
+}
