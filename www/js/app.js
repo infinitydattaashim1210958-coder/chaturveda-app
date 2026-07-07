@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v2.2-debug-2026-07-08";
+const APP_BUILD_VERSION = "v2.3-stacktrace-2026-07-08";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -284,7 +284,8 @@ async function boot() {
     await window.VedaDB.initDB();
     router();
   } catch (e) {
-    root.innerHTML = `<div class="empty">ডাটাবেস লোড করতে সমস্যা হয়েছে। [${APP_BUILD_VERSION}]<br><small>${e.message || e}</small></div>`;
+    const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack available";
+    root.innerHTML = `<div class="empty" style="text-align:left;word-break:break-word;">ডাটাবেস লোড করতে সমস্যা হয়েছে। [${APP_BUILD_VERSION}]<br><br><b>${e.message || e}</b><br><br><small style="opacity:.6;">${stackInfo}</small></div>`;
     console.error(e);
   }
 }
