@@ -3,6 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
+const APP_BUILD_VERSION = "v2.2-debug-2026-07-08";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -278,12 +279,12 @@ backBtn.addEventListener("click", () => history.length ? window.history.back() :
 searchBtn.addEventListener("click", () => (location.hash = "#/search"));
 
 async function boot() {
-  root.innerHTML = `<div class="loading"><div class="om spin">ॐ</div><div>ডাটাবেস লোড হচ্ছে…</div></div>`;
+  root.innerHTML = `<div class="loading"><div class="om spin">ॐ</div><div>ডাটাবেস লোড হচ্ছে…</div><div style="margin-top:10px;font-size:.7rem;opacity:.5;">${APP_BUILD_VERSION}</div></div>`;
   try {
     await window.VedaDB.initDB();
     router();
   } catch (e) {
-    root.innerHTML = `<div class="empty">ডাটাবেস লোড করতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
+    root.innerHTML = `<div class="empty">ডাটাবেস লোড করতে সমস্যা হয়েছে। [${APP_BUILD_VERSION}]<br><small>${e.message || e}</small></div>`;
     console.error(e);
   }
 }
