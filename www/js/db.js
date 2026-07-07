@@ -6,22 +6,28 @@
  */
 
 const DB_NAME = "chaturveda";
-let sqlite = null;
-let db = null;
+
+function sqlitePlugin() {
+  return window.Capacitor.Plugins.CapacitorSQLite;
+}
 
 async function initDB() {
-  const capSQLite = window.Capacitor.Plugins.CapacitorSQLite;
-  sqlite = new window.SQLiteConnection(capSQLite);
+  const sqlite = sqlitePlugin();
 
-  const isDBExists = await sqlite.isDatabase(DB_NAME);
-
+  const isDBExists = await sqlite.isDatabase({ database: DB_NAME });
   if (!isDBExists.result) {
     // Copies every .db file found in www/assets/databases/ into app storage
-    await sqlite.copyFromAssets();
+    await sqlite.copyFromAssets({ overwrite: false });
   }
 
-  db = await sqlite.createConnection(DB_NAME, false, "no-encryption", 1, false);
-  await db.open();
+  await sqlite.createConnection({
+    database: DB_NAME,
+    encrypted: false,
+    mode: "no-encryption",
+    version: 1,
+    readonly: false,
+  });
+  await sqlite.open({ database: DB_NAME });
 }
 
 function rowsOf(result) {
@@ -29,7 +35,7 @@ function rowsOf(result) {
 }
 
 async function query(sql, params = []) {
-  const res = await db.query(sql, params);
+  const res = await sqlitePlugin().query({ database: DB_NAME, statement: sql, values: params });
   return rowsOf(res);
 }
 
