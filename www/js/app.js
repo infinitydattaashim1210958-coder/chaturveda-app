@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v2.3-stacktrace-2026-07-08";
+const APP_BUILD_VERSION = "v2.5-swara-fix-2026-07-08";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -144,7 +144,7 @@ function renderMantraList(veda, mantras) {
       ${mantras.map(m => `
         <a class="mantraItem" href="#/mantra/${veda.code}/${encodeURIComponent(m.mantra_ref_id)}">
           <div class="mref">${m.mantra_ref_id}</div>
-          <div class="mtext">${(m.sanskrit_text || "").slice(0, 70)}${(m.sanskrit_text || "").length > 70 ? "…" : ""}</div>
+          <div class="mtext">${(m.sanskrit_swara || m.sanskrit_text || "").slice(0, 70)}${(m.sanskrit_swara || m.sanskrit_text || "").length > 70 ? "…" : ""}</div>
         </a>`).join("")}
     </div>`;
 }
@@ -163,6 +163,7 @@ async function screenMantra(code, refEncoded) {
     return;
   }
   const scholars = await window.VedaDB.getScholarsForMantra(mantra.id);
+  const { prev, next } = await window.VedaDB.getAdjacentMantras(veda.id, mantra.id);
 
   const meta = [
     mantra.devata ? `দেবতা: ${mantra.devata}` : "",
@@ -170,37 +171,73 @@ async function screenMantra(code, refEncoded) {
     mantra.chhanda ? `ছন্দ: ${mantra.chhanda}` : "",
   ].filter(Boolean).join(" &nbsp;·&nbsp; ");
 
-  const tabsHtml = scholars.map((s, i) => `
-    <button class="tabBtn ${i === 0 ? "active" : ""}" data-scholar="${s.id}">
-      ${s.name}${s.language ? ` <span class="lang">(${s.language})</span>` : ""}
-    </button>`).join("");
+  // Group scholars by language
+  const byLang = {};
+  const langOrder = [];
+  for (const s of scholars) {
+    const lang = s.language || "অন্যান্য";
+    if (!byLang[lang]) { byLang[lang] = []; langOrder.push(lang); }
+    byLang[lang].push(s);
+  }
 
-  const panelsHtml = scholars.map((s, i) => `
-    <div class="tabPanel ${i === 0 ? "active" : ""}" data-scholar="${s.id}">
-      ${s.fields.map(f => `
-        <div class="field">
-          <div class="fieldLabel">${f.field_key}</div>
-          <div class="fieldValue">${f.value}</div>
-        </div>`).join("") || `<div class="empty">কোনো তথ্য নেই।</div>`}
-    </div>`).join("");
+  const langChipsHtml = langOrder.map((lang, i) => `
+    <button class="langChip ${i === 0 ? "active" : ""}" data-lang="${lang}">${lang}</button>
+  `).join("");
+
+  const scholarGroupsHtml = langOrder.map((lang, i) => `
+    <div class="scholarGroup ${i === 0 ? "active" : ""}" data-lang-group="${lang}">
+      <div class="tabBar">
+        ${byLang[lang].map((s, j) => `
+          <button class="tabBtn ${j === 0 ? "active" : ""}" data-scholar="${s.id}">${s.name}</button>
+        `).join("")}
+      </div>
+      <div class="tabPanels">
+        ${byLang[lang].map((s, j) => `
+          <div class="tabPanel ${j === 0 ? "active" : ""}" data-scholar="${s.id}">
+            ${s.fields.map(f => `
+              <div class="field">
+                <div class="fieldLabel">${f.field_key}</div>
+                <div class="fieldValue">${f.value}</div>
+              </div>`).join("") || `<div class="empty">কোনো তথ্য নেই।</div>`}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
 
   root.innerHTML = `
     <div class="mantraDetail">
-      <div class="sanskritBlock">${mantra.sanskrit_text || ""}</div>
+      <div class="sanskritBlock">${mantra.sanskrit_swara || mantra.sanskrit_text || ""}</div>
       ${meta ? `<div class="mantraMeta">${meta}</div>` : ""}
     </div>
     ${scholars.length ? `
-      <div class="tabBar">${tabsHtml}</div>
-      <div class="tabPanels">${panelsHtml}</div>
+      <div class="langChips">${langChipsHtml}</div>
+      ${scholarGroupsHtml}
     ` : `<div class="empty">এই মন্ত্রের কোনো ভাষ্য পাওয়া যায়নি।</div>`}
+    <div class="mantraNav">
+      <a class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="#/mantra/${code}/${encodeURIComponent(prev)}"` : ""}>← আগের মন্ত্র</a>
+      <a class="navBtn ${next ? "" : "disabled"}" ${next ? `href="#/mantra/${code}/${encodeURIComponent(next)}"` : ""}>পরের মন্ত্র →</a>
+    </div>
   `;
 
+  // Language chip switching
+  root.querySelectorAll(".langChip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      root.querySelectorAll(".langChip").forEach(c => c.classList.remove("active"));
+      root.querySelectorAll(".scholarGroup").forEach(g => g.classList.remove("active"));
+      chip.classList.add("active");
+      root.querySelector(`.scholarGroup[data-lang-group="${chip.dataset.lang}"]`).classList.add("active");
+    });
+  });
+
+  // Scholar tab switching (within each language group)
   root.querySelectorAll(".tabBtn").forEach(btn => {
     btn.addEventListener("click", () => {
-      root.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("active"));
-      root.querySelectorAll(".tabPanel").forEach(p => p.classList.remove("active"));
+      const group = btn.closest(".scholarGroup");
+      group.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("active"));
+      group.querySelectorAll(".tabPanel").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
-      root.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`).classList.add("active");
+      group.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`).classList.add("active");
     });
   });
 }
