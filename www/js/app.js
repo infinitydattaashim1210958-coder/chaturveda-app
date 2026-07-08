@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v2.5-swara-fix-2026-07-08";
+const APP_BUILD_VERSION = "v2.6-error-catch-2026-07-08";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -292,23 +292,29 @@ async function router() {
   const hash = location.hash || "#/";
   const parts = hash.replace(/^#\//, "").split("/").filter(Boolean);
 
-  if (parts.length === 0) return screenHome();
+  try {
+    if (parts.length === 0) return await screenHome();
 
-  if (parts[0] === "search") return screenSearch();
+    if (parts[0] === "search") return await screenSearch();
 
-  if (parts[0] === "veda" && parts.length === 2) return screenVeda(parts[1]);
+    if (parts[0] === "veda" && parts.length === 2) return await screenVeda(parts[1]);
 
-  if (parts[0] === "veda" && parts.length === 4 && parts[2] === "range") {
-    const [fromNo, toNo] = parts[3].split("-").map(Number);
-    return screenRange(parts[1], fromNo, toNo);
+    if (parts[0] === "veda" && parts.length === 4 && parts[2] === "range") {
+      const [fromNo, toNo] = parts[3].split("-").map(Number);
+      return await screenRange(parts[1], fromNo, toNo);
+    }
+
+    if (parts[0] === "veda" && parts.length === 3) return await screenLevel1(parts[1], parts[2]);
+    if (parts[0] === "veda" && parts.length === 4) return await screenLevel2(parts[1], parts[2], parts[3]);
+
+    if (parts[0] === "mantra" && parts.length === 3) return await screenMantra(parts[1], parts[2]);
+
+    return await screenHome();
+  } catch (e) {
+    const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack available";
+    root.innerHTML = `<div class="empty" style="text-align:left;word-break:break-word;">এই পাতা লোড করতে সমস্যা হয়েছে। [${APP_BUILD_VERSION}]<br><br>hash: ${hash}<br><br><b>${e.message || e}</b><br><br><small style="opacity:.6;">${stackInfo}</small></div>`;
+    console.error(e);
   }
-
-  if (parts[0] === "veda" && parts.length === 3) return screenLevel1(parts[1], parts[2]);
-  if (parts[0] === "veda" && parts.length === 4) return screenLevel2(parts[1], parts[2], parts[3]);
-
-  if (parts[0] === "mantra" && parts.length === 3) return screenMantra(parts[1], parts[2]);
-
-  return screenHome();
 }
 
 window.addEventListener("hashchange", router);
