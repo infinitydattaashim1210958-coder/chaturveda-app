@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v2.6-error-catch-2026-07-08";
+const APP_BUILD_VERSION = "v2.7-autoscroll-2026-07-08";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -227,6 +227,11 @@ async function screenMantra(code, refEncoded) {
       root.querySelectorAll(".scholarGroup").forEach(g => g.classList.remove("active"));
       chip.classList.add("active");
       root.querySelector(`.scholarGroup[data-lang-group="${chip.dataset.lang}"]`).classList.add("active");
+      chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      const langChipsRow = root.querySelector(".langChips");
+      if (langChipsRow) {
+        langChipsRow.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     });
   });
 
@@ -238,6 +243,7 @@ async function screenMantra(code, refEncoded) {
       group.querySelectorAll(".tabPanel").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
       group.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`).classList.add("active");
+      btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     });
   });
 }
