@@ -100,6 +100,21 @@ async function getMantraByRef(vedaId, ref) {
   return rows[0] || null;
 }
 
+async function getAdjacentMantras(vedaId, mantraId) {
+  const prevRows = await query(
+    "SELECT mantra_ref_id FROM mantras WHERE veda_id=? AND id < ? ORDER BY id DESC LIMIT 1",
+    [vedaId, mantraId]
+  );
+  const nextRows = await query(
+    "SELECT mantra_ref_id FROM mantras WHERE veda_id=? AND id > ? ORDER BY id ASC LIMIT 1",
+    [vedaId, mantraId]
+  );
+  return {
+    prev: prevRows[0] ? prevRows[0].mantra_ref_id : null,
+    next: nextRows[0] ? nextRows[0].mantra_ref_id : null,
+  };
+}
+
 async function getScholarsForMantra(mantraId) {
   const scholars = await query(
     `SELECT DISTINCT s.id, s.name, s.language, s.display_order
@@ -149,6 +164,7 @@ window.VedaDB = {
   getMantraRange,
   getMantraCount,
   getMantraByRef,
+  getAdjacentMantras,
   getScholarsForMantra,
   search,
 };
