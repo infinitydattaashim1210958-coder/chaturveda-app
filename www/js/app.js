@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v2.8-scrollfix-2026-07-08";
+const APP_BUILD_VERSION = "v2.9-om-static-2026-07-08";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -338,7 +338,12 @@ backBtn.addEventListener("click", () => history.length ? window.history.back() :
 searchBtn.addEventListener("click", () => (location.hash = "#/search"));
 
 async function boot() {
-  root.innerHTML = `<div class="loading"><div class="om spin">ॐ</div><div>ডাটাবেস লোড হচ্ছে…</div><div style="margin-top:10px;font-size:.7rem;opacity:.5;">${APP_BUILD_VERSION}</div></div>`;
+  root.innerHTML = `
+    <div class="loadingFull">
+      <div class="omBig">ओ३म्</div>
+      <div class="loadingText">ডাটাবেস লোড হচ্ছে…</div>
+      <div class="loadingVersion">${APP_BUILD_VERSION}</div>
+    </div>`;
   try {
     await window.VedaDB.initDB();
     router();
