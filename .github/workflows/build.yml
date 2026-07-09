@@ -48,11 +48,26 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
+      - name: Do not compress the .db asset (avoids OOM on a large SQLite file)
+        run: |
+          BUILD_GRADLE="android/app/build.gradle"
+          if ! grep -q "aaptOptions" "$BUILD_GRADLE"; then
+            sed -i '/^android {/a\    aaptOptions { noCompress "db" }' "$BUILD_GRADLE"
+          fi
+          echo "----- android block after patch -----"
+          grep -n "aaptOptions" -A 2 "$BUILD_GRADLE"
+
+      - name: Increase Gradle daemon heap size
+        run: |
+          {
+            echo "org.gradle.jvmargs=-Xmx6144m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8"
+            echo "org.gradle.daemon=false"
+          } >> android/gradle.properties
+          cat android/gradle.properties
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug --stacktrace
-        env:
-          GRADLE_OPTS: "-Xmx4g"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
