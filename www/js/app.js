@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v2.9-om-static-2026-07-08";
+const APP_BUILD_VERSION = "v3.0-digital-library-2026-07-10";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -56,12 +56,120 @@ async function screenHome() {
       </a>`;
   }).join("");
 
+  const libraryCard = `
+    <a class="card" href="#/library" style="--a:#7fb0a8;--b:#4f8c6b">
+      <div class="tag">অনলাইন</div>
+      <h2>ডিজিটাল লাইব্রেরি</h2>
+      <div class="arrow">→</div>
+    </a>`;
+
   root.innerHTML = `
     <div class="hero">
       <div class="om">ॐ</div>
       <div class="sub">The Four Vedas — সম্পূর্ণ মন্ত্র সংকলন, ভাষ্য ও অনুবাদসহ</div>
     </div>
-    <div class="grid">${cards}</div>`;
+    <div class="grid">${cards}${libraryCard}</div>`;
+}
+
+async function screenLibrary() {
+  showBack(true);
+  setTitle("ডিজিটাল লাইব্রেরি");
+  root.innerHTML = `<div class="loading" style="padding:60px 20px;"><div>বইয়ের তালিকা লোড হচ্ছে…</div></div>`;
+
+  let books, manifest;
+  try {
+    [books, manifest] = await Promise.all([
+      window.VedaLibrary.fetchBlogBooks(),
+      window.VedaLibrary.getManifest(),
+    ]);
+  } catch (e) {
+    root.innerHTML = `<div class="empty">বইয়ের তালিকা লোড করা যায়নি।<br><small>ইন্টারনেট সংযোগ পরীক্ষা করুন।</small><br><br><small style="opacity:.5;">${e.message || e}</small></div>`;
+    return;
+  }
+
+  if (!books.length) {
+    root.innerHTML = `<div class="empty">এখনো কোনো বই যোগ করা হয়নি।</div>`;
+    return;
+  }
+
+  renderLibraryList(books, manifest);
+}
+
+function renderLibraryList(books, manifest) {
+  root.innerHTML = `
+    <div class="listHeader">${books.length}টা বই · সম্পূর্ণ অনলাইন-ভিত্তিক</div>
+    <div class="libraryList">
+      ${books.map((b) => {
+        const dl = manifest[b.id];
+        const thumb = b.thumbnail
+          ? `<img class="bookThumb" src="${b.thumbnail}" alt="">`
+          : `<div class="bookThumb bookThumbPlaceholder">ও৩ম্</div>`;
+        return `
+          <div class="bookCard" data-book-id="${b.id}">
+            ${thumb}
+            <div class="bookInfo">
+              <div class="bookTitle">${b.title}</div>
+              <div class="bookMeta">${(b.published || "").slice(0, 10)}</div>
+              <div class="bookActions">
+                ${dl
+                  ? `<button class="bookBtn openBtn" data-id="${b.id}">খুলুন</button>
+                     <button class="bookBtn deleteBtn" data-id="${b.id}">মুছুন</button>`
+                  : `<button class="bookBtn downloadBtn" data-id="${b.id}">ডাউনলোড</button>`
+                }
+              </div>
+              <div class="bookStatus" data-status="${b.id}"></div>
+            </div>
+          </div>`;
+      }).join("")}
+    </div>`;
+
+  const booksById = {};
+  books.forEach((b) => (booksById[b.id] = b));
+
+  root.querySelectorAll(".downloadBtn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      const statusEl = root.querySelector(`.bookStatus[data-status="${id}"]`);
+      btn.disabled = true;
+      btn.textContent = "ডাউনলোড হচ্ছে…";
+      try {
+        await window.VedaLibrary.downloadBook(booksById[id], (msg) => {
+          if (statusEl) statusEl.textContent = msg;
+        });
+        if (statusEl) statusEl.textContent = "✓ সেভ হয়েছে";
+        const manifest = await window.VedaLibrary.getManifest();
+        renderLibraryList(books, manifest);
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = "ডাউনলোড";
+        if (statusEl) statusEl.textContent = "ব্যর্থ: " + (e.message || e);
+      }
+    });
+  });
+
+  root.querySelectorAll(".deleteBtn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      if (!confirm("এই বইটা ফোন থেকে মুছে ফেলতে চান?")) return;
+      await window.VedaLibrary.deleteBook(id);
+      const manifest = await window.VedaLibrary.getManifest();
+      renderLibraryList(books, manifest);
+    });
+  });
+
+  root.querySelectorAll(".openBtn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      const entry = manifest[id];
+      if (!entry) return;
+      try {
+        const uri = await window.VedaLibrary.getFileUri(entry.filename);
+        window.open(uri, "_system");
+      } catch (e) {
+        alert("ফাইল খুলতে সমস্যা হয়েছে: " + (e.message || e));
+      }
+    });
+  });
 }
 
 async function screenVeda(code) {
@@ -312,6 +420,7 @@ async function router() {
     if (parts.length === 0) return await screenHome();
 
     if (parts[0] === "search") return await screenSearch();
+    if (parts[0] === "library") return await screenLibrary();
 
     if (parts[0] === "veda" && parts.length === 2) return await screenVeda(parts[1]);
 
