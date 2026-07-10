@@ -149,7 +149,32 @@ a{color:inherit;text-decoration:none;}
 }
 #searchInput:focus{ outline:none; border-color:var(--gold); }
 
-/* ---- Misc ---- */
+/* ---- Digital Library ---- */
+.libraryList{ display:flex; flex-direction:column; gap:14px; }
+.bookCard{
+  display:flex; gap:14px; background:var(--panel); border:1px solid var(--line);
+  border-radius:10px; padding:14px; align-items:flex-start;
+}
+.bookThumb{
+  width:64px; height:86px; object-fit:cover; border-radius:6px; flex-shrink:0;
+  background:#171b22; border:1px solid var(--line);
+}
+.bookThumbPlaceholder{
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-family:'Noto Serif Devanagari',serif; font-size:1.2rem;
+}
+.bookInfo{ flex:1; min-width:0; }
+.bookTitle{ font-size:1rem; color:var(--parchment); line-height:1.4; margin-bottom:6px; }
+.bookMeta{ font-size:.78rem; color:var(--ash-dim); margin-bottom:10px; }
+.bookActions{ display:flex; gap:8px; }
+.bookBtn{
+  border:1px solid var(--line); background:none; color:var(--gold-bright);
+  padding:7px 14px; border-radius:6px; font-size:.85rem; cursor:pointer;
+}
+.downloadBtn{ background:var(--gold); color:#1a1200; border-color:var(--gold); font-weight:600; }
+.deleteBtn{ color:#e8756c; border-color:rgba(232,117,108,.3); }
+.bookBtn:disabled{ opacity:.5; }
+.bookStatus{ font-size:.78rem; color:var(--ash); margin-top:8px; min-height:1em; }
 .empty{ text-align:center; color:var(--ash); padding:40px 20px; line-height:1.7; }
 .loadingFull{
   position:fixed; inset:0;
