@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v3.0-digital-library-2026-07-10";
+const APP_BUILD_VERSION = "v3.1-jsonp-fix-2026-07-10";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");

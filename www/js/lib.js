@@ -34,10 +34,42 @@ function stripHtmlForFilename(title) {
     .slice(0, 60) || "book";
 }
 
+function jsonpFetch(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = "vedaLibCallback_" + Date.now();
+    const script = document.createElement("script");
+
+    const cleanup = () => {
+      delete window[callbackName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+
+    window[callbackName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Blogger থেকে তালিকা আনা যায়নি (JSONP লোড ব্যর্থ)।"));
+    };
+
+    const sep = url.includes("?") ? "&" : "?";
+    script.src = url + sep + "callback=" + callbackName;
+    document.body.appendChild(script);
+
+    setTimeout(() => {
+      if (window[callbackName]) {
+        cleanup();
+        reject(new Error("সময় শেষ — Blogger থেকে কোনো সাড়া আসেনি।"));
+      }
+    }, 15000);
+  });
+}
+
 async function fetchBlogBooks() {
-  const res = await fetch(BLOG_LABEL_FEED, { cache: "no-store" });
-  if (!res.ok) throw new Error("Blog feed fetch failed: " + res.status);
-  const data = await res.json();
+  const url = BLOG_LABEL_FEED.replace("alt=json", "alt=json-in-script");
+  const data = await jsonpFetch(url);
   const entries = (data.feed && data.feed.entry) || [];
   return entries.map((e) => {
     const id = extractPostId(e.id ? e.id.$t : "");
