@@ -197,8 +197,13 @@ function blobToBase64(blob) {
 async function downloadPack(scholarId, packFile, onProgress) {
   onProgress && onProgress("ডাউনলোড হচ্ছে…");
   const url = PACK_RELEASE_BASE + packFile;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("ডাউনলোড ব্যর্থ: HTTP " + res.status);
+  let res;
+  try {
+    res = await fetch(url);
+  } catch (networkErr) {
+    throw new Error(`নেটওয়ার্ক ব্যর্থ। URL: ${url} — ${networkErr.message || networkErr}`);
+  }
+  if (!res.ok) throw new Error(`ডাউনলোড ব্যর্থ: HTTP ${res.status}. URL: ${url}`);
   const arrayBuffer = await res.arrayBuffer();
 
   onProgress && onProgress("আনপ্যাক হচ্ছে…");
