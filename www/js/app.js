@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v5.0-perMantraScholars-htmlLibrary-2026-07-11";
+const APP_BUILD_VERSION = "v5.1-inapp-reader-2026-07-11";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -158,18 +158,38 @@ function renderLibraryList(books, manifest) {
   });
 
   root.querySelectorAll(".openBtn").forEach((btn) => {
-    btn.addEventListener("click", async () => {
+    btn.addEventListener("click", () => {
       const id = btn.dataset.id;
-      const entry = manifest[id];
-      if (!entry) return;
-      try {
-        const uri = await window.VedaLibrary.getFileUri(entry.filename);
-        await window.Capacitor.Plugins.FileOpener.open({ filePath: uri, contentType: "text/html" });
-      } catch (e) {
-        alert("ফাইল খুলতে সমস্যা হয়েছে: " + (e.message || e));
-      }
+      location.hash = `#/library/read/${id}`;
     });
   });
+}
+
+async function screenLibraryReader(bookId) {
+  showBack(true);
+  setTitle("বই পড়ুন");
+  root.innerHTML = `<div class="loading" style="padding:60px 20px;"><div>বই লোড হচ্ছে…</div></div>`;
+
+  const manifest = await window.VedaLibrary.getManifest();
+  const entry = manifest[bookId];
+  if (!entry) {
+    root.innerHTML = `<div class="empty">এই বইটা ডাউনলোড করা নেই।</div>`;
+    return;
+  }
+
+  try {
+    const res = await window.Capacitor.Plugins.Filesystem.readFile({
+      path: entry.filename,
+      directory: "DOCUMENTS",
+      encoding: "utf8",
+    });
+    setTitle(entry.title || "বই পড়ুন");
+    root.innerHTML = `<iframe class="bookReaderFrame" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
+    const iframe = root.querySelector(".bookReaderFrame");
+    iframe.srcdoc = res.data;
+  } catch (e) {
+    root.innerHTML = `<div class="empty">বই খুলতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
+  }
 }
 
 async function screenVeda(code) {
@@ -546,7 +566,8 @@ async function router() {
     if (parts.length === 0) return await screenHome();
 
     if (parts[0] === "search") return await screenSearch();
-    if (parts[0] === "library") return await screenLibrary();
+    if (parts[0] === "library" && parts.length === 1) return await screenLibrary();
+    if (parts[0] === "library" && parts[1] === "read" && parts.length === 3) return await screenLibraryReader(parts[2]);
 
     if (parts[0] === "veda" && parts.length === 2) return await screenVeda(parts[1]);
 
