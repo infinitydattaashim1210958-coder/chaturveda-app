@@ -1,10 +1,34 @@
 {
   "books": [
-    {
-      "id": "1",
-      "title": "উদাহরণ বই — এখানে বইয়ের নাম লিখুন",
-      "filename": "example-book.html",
-      "date": "2026-07-11"
-    }
+  {
+    "id": "1",
+    "title": "আর্যদের আদিদেশ",
+    "filename": "aryaderadidesh.html",
+    "date": "2026-07-11"
+  },
+  {
+    "id": "2",
+    "title": "বৈশেষিক দর্শন",
+    "filename": "boisheshik.html",
+    "date": "2026-07-11"
+  },
+  {
+    "id": "3",
+    "title": "সমাজ বিপ্লব",
+    "filename": "somajbiplob.html",
+    "date": "2026-07-11"
+  },
+  {
+    "id": "4",
+    "title": "বেদ-কেন ও কী",
+    "filename": "vedkenooki.html",
+    "date": "2026-07-11"
+  },
+  {
+    "id": "5",
+    "title": "বেদ পরিচয়",
+    "filename": "vedporichoy.html",
+    "date": "2026-07-11"
+  }
   ]
 }
