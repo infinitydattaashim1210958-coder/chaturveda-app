@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v4.1-fixes-2026-07-10";
+const APP_BUILD_VERSION = "v4.4-crash-fixes-2026-07-11";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -164,10 +164,8 @@ function renderLibraryList(books, manifest) {
       if (!entry) return;
       try {
         const uri = await window.VedaLibrary.getFileUri(entry.filename);
-        await window.Capacitor.Plugins.FileOpener.open({
-          filePath: uri,
-          contentType: "application/pdf",
-        });
+        const contentType = entry.filename.endsWith(".txt") ? "text/plain" : "application/pdf";
+        await window.Capacitor.Plugins.FileOpener.open({ filePath: uri, contentType });
       } catch (e) {
         alert("ফাইল খুলতে সমস্যা হয়েছে: " + (e.message || e));
       }
@@ -260,11 +258,17 @@ function renderMantraList(veda, mantras) {
     </div>`;
 }
 
-async function screenMantra(code, refEncoded) {
+async function screenMantra(code, refEncodedWithQuery) {
   await ensureVedaCache();
   const veda = vedaCache[code];
   if (!veda) return screenHome();
+
+  const [refEncoded, queryString] = refEncodedWithQuery.split("?");
   const ref = decodeURIComponent(refEncoded);
+  const queryParams = new URLSearchParams(queryString || "");
+  const wantedLang = queryParams.get("lang");
+  const wantedScholarId = queryParams.get("scholar") ? parseInt(queryParams.get("scholar"), 10) : null;
+
   showBack(true);
   setTitle(`${veda.name} ${ref}`);
 
@@ -282,16 +286,38 @@ async function screenMantra(code, refEncoded) {
     mantra.chhanda ? `ছন্দ: ${mantra.chhanda}` : "",
   ].filter(Boolean).join(" &nbsp;·&nbsp; ");
 
+  // Normalize near-duplicate/non-language labels
+  const LANG_NORMALIZE = { "Hinglish": "Hindi" };
+
   const byLang = {};
-  const langOrder = [];
   for (const s of scholars) {
-    const lang = s.language || "অন্যান্য";
-    if (!byLang[lang]) { byLang[lang] = []; langOrder.push(lang); }
+    let lang = s.language || "অন্যান্য";
+    lang = LANG_NORMALIZE[lang] || lang;
+    s._lang = lang;
+    if (!byLang[lang]) byLang[lang] = [];
     byLang[lang].push(s);
   }
+  const langOrder = Object.keys(byLang).sort((a, b) => a.localeCompare(b, "en"));
 
-  const langChipsHtml = langOrder.map((lang, i) => `
-    <button class="langChip ${i === 0 ? "active" : ""}" data-lang="${lang}">${lang}</button>
+  // Decide initial active language + scholar (from nav state, else first)
+  let activeLang = langOrder.includes(wantedLang) ? wantedLang : langOrder[0];
+  let activeScholarId =
+    wantedScholarId && byLang[activeLang] && byLang[activeLang].some((s) => s.id === wantedScholarId)
+      ? wantedScholarId
+      : (byLang[activeLang] && byLang[activeLang][0] ? byLang[activeLang][0].id : null);
+
+  const navState = { lang: activeLang, scholarId: activeScholarId };
+
+  function navUrl(targetRef) {
+    if (!targetRef) return "";
+    const q = navState.lang
+      ? `?lang=${encodeURIComponent(navState.lang)}${navState.scholarId ? `&scholar=${navState.scholarId}` : ""}`
+      : "";
+    return `#/mantra/${code}/${encodeURIComponent(targetRef)}${q}`;
+  }
+
+  const langChipsHtml = langOrder.map((lang) => `
+    <button class="langChip ${lang === activeLang ? "active" : ""}" data-lang="${lang}">${lang}</button>
   `).join("");
 
   function sizeLabel(bytes) {
@@ -300,18 +326,18 @@ async function screenMantra(code, refEncoded) {
     return kb < 1024 ? `${Math.round(kb)} KB` : `${(kb / 1024).toFixed(1)} MB`;
   }
 
-  const scholarGroupsHtml = langOrder.map((lang, i) => `
-    <div class="scholarGroup ${i === 0 ? "active" : ""}" data-lang-group="${lang}">
-      <div class="tabBar">
-        ${byLang[lang].map((s, j) => `
-          <button class="tabBtn ${j === 0 ? "active" : ""}" data-scholar="${s.id}">
+  const scholarGroupsHtml = langOrder.map((lang) => `
+    <div class="scholarGroup ${lang === activeLang ? "active" : ""}" data-lang-group="${lang}">
+      <div class="tabBar tabBarVertical">
+        ${byLang[lang].map((s) => `
+          <button class="tabBtn ${s.id === activeScholarId ? "active" : ""}" data-scholar="${s.id}">
             ${s.name}${s.downloaded ? "" : " ⬇"}
           </button>
         `).join("")}
       </div>
       <div class="tabPanels">
-        ${byLang[lang].map((s, j) => `
-          <div class="tabPanel ${j === 0 ? "active" : ""}" data-scholar="${s.id}" data-loaded="0">
+        ${byLang[lang].map((s) => `
+          <div class="tabPanel ${s.id === activeScholarId ? "active" : ""}" data-scholar="${s.id}" data-loaded="0">
             <div class="panelBody"></div>
           </div>
         `).join("")}
@@ -329,10 +355,17 @@ async function screenMantra(code, refEncoded) {
       ${scholarGroupsHtml}
     ` : `<div class="empty">এই মন্ত্রের কোনো ভাষ্য পাওয়া যায়নি।</div>`}
     <div class="mantraNav">
-      <a class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="#/mantra/${code}/${encodeURIComponent(prev)}"` : ""}>← আগের মন্ত্র</a>
-      <a class="navBtn ${next ? "" : "disabled"}" ${next ? `href="#/mantra/${code}/${encodeURIComponent(next)}"` : ""}>পরের মন্ত্র →</a>
+      <a class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="${navUrl(prev)}"` : ""}>← আগের মন্ত্র</a>
+      <a class="navBtn ${next ? "" : "disabled"}" ${next ? `href="${navUrl(next)}"` : ""}>পরের মন্ত্র →</a>
     </div>
   `;
+
+  function refreshNavLinks() {
+    const prevLink = root.querySelector(".mantraNav .navBtn:first-child");
+    const nextLink = root.querySelector(".mantraNav .navBtn:last-child");
+    if (prevLink && prev) prevLink.setAttribute("href", navUrl(prev));
+    if (nextLink && next) nextLink.setAttribute("href", navUrl(next));
+  }
 
   const scholarsById = {};
   scholars.forEach((s) => (scholarsById[s.id] = s));
@@ -413,6 +446,12 @@ async function screenMantra(code, refEncoded) {
       activeGroup.classList.add("active");
       const activePanelInGroup = activeGroup.querySelector(".tabPanel.active");
       if (activePanelInGroup) loadPanel(activePanelInGroup);
+
+      navState.lang = chip.dataset.lang;
+      const activeBtnInGroup = activeGroup.querySelector(".tabBtn.active");
+      navState.scholarId = activeBtnInGroup ? parseInt(activeBtnInGroup.dataset.scholar, 10) : null;
+      refreshNavLinks();
+
       chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       setTimeout(() => {
         const appBar = document.querySelector(".appBar");
@@ -433,6 +472,10 @@ async function screenMantra(code, refEncoded) {
       const activePanel = group.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`);
       activePanel.classList.add("active");
       loadPanel(activePanel);
+
+      navState.scholarId = parseInt(btn.dataset.scholar, 10);
+      refreshNavLinks();
+
       btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       setTimeout(() => {
         const appBar = document.querySelector(".appBar");
@@ -491,6 +534,12 @@ async function runSearch(term) {
 // ---------- Router ----------
 
 async function router() {
+  // Defensive safety net: remove any leftover offscreen PDF-render containers
+  // (e.g. from a crashed download) so they can never block the UI.
+  document.querySelectorAll(".pdfRenderContainer").forEach((el) => {
+    try { el.parentNode && el.parentNode.removeChild(el); } catch (e) { /* ignore */ }
+  });
+
   const hash = location.hash || "#/";
   const parts = hash.replace(/^#\//, "").split("/").filter(Boolean);
 

@@ -236,10 +236,26 @@ async function getBhashyaForMantraFromPack(scholarId, mantraId) {
     const uriRes = await fsPlugin().getUri({ path: packFileName(scholarId), directory: "DATA" });
     let path = uriRes.uri;
     if (path.startsWith("file://")) path = path.replace("file://", "");
-    await sqlite.execute({
-      database: CORE_DB_NAME,
-      statements: `ATTACH DATABASE '${path}' AS ${alias};`,
-    });
+
+    // Defensive: force-detach first in case the native connection still has
+    // this alias attached from a previous session/state our JS tracking
+    // doesn't know about (e.g. after a delete+redownload cycle).
+    try {
+      await sqlite.execute({ database: CORE_DB_NAME, statements: `DETACH DATABASE ${alias};` });
+    } catch (e) {
+      // not attached — fine, this is the expected case most of the time
+    }
+
+    try {
+      await sqlite.execute({
+        database: CORE_DB_NAME,
+        statements: `ATTACH DATABASE '${path}' AS ${alias};`,
+      });
+    } catch (attachErr) {
+      const msg = (attachErr && attachErr.message) || String(attachErr);
+      if (!msg.includes("already in use")) throw attachErr;
+      // already attached under the hood — proceed, treat as success
+    }
     attachedPacks.add(scholarId);
   }
 

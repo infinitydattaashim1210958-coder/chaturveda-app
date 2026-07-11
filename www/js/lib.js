@@ -119,13 +119,22 @@ async function downloadBook(book, onProgress) {
 
   onProgress && onProgress("বইয়ের কন্টেন্ট প্রস্তুত হচ্ছে…");
   const container = document.createElement("div");
+  container.className = "pdfRenderContainer"; // tagged for defensive sweep-cleanup elsewhere
   container.style.cssText =
-    "position:fixed;left:-9999px;top:0;width:760px;background:#fff;color:#000;padding:24px;font-family:'Noto Serif Bengali',Georgia,serif;font-size:16px;line-height:1.7;";
+    "position:fixed;left:-9999px;top:0;width:760px;background:#fff;color:#000;padding:24px;font-family:'Noto Serif Bengali',Georgia,serif;font-size:16px;line-height:1.7;z-index:-1;pointer-events:none;";
   container.innerHTML = `<h1 style="font-size:24px;margin-bottom:16px;">${book.title}</h1>` + book.content;
   document.body.appendChild(container);
 
+  function safeRemoveContainer() {
+    try {
+      if (container && container.parentNode) container.parentNode.removeChild(container);
+    } catch (e) {
+      // never let cleanup failure break the caller
+    }
+  }
+
   onProgress && onProgress("PDF তৈরি হচ্ছে… (কিছুটা সময় লাগতে পারে)");
-  const filename = stripHtmlForFilename(book.title) + ".pdf";
+  const baseName = stripHtmlForFilename(book.title);
 
   async function renderToPdfBlob() {
     return window
@@ -133,7 +142,7 @@ async function downloadBook(book, onProgress) {
       .from(container)
       .set({
         margin: 10,
-        filename,
+        filename: baseName + ".pdf",
         image: { type: "jpeg", quality: 0.92 },
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
@@ -142,39 +151,36 @@ async function downloadBook(book, onProgress) {
   }
 
   try {
-    let pdfBlob;
+    let blob, filename, isPdf;
     try {
-      pdfBlob = await renderToPdfBlob();
+      blob = await renderToPdfBlob();
+      filename = baseName + ".pdf";
+      isPdf = true;
     } catch (renderErr1) {
-      // Layer 2: strip all images and any inline background-image styles,
-      // which is the most common cause of "Unsupported image type".
+      // Layer 2: strip all images and inline background-images —
+      // the most common cause of "Unsupported image type" in html2canvas.
       onProgress && onProgress("ছবিতে সমস্যা হয়েছে — ছবি ছাড়া আবার চেষ্টা করা হচ্ছে…");
       container.querySelectorAll("img").forEach((img) => img.remove());
       container.querySelectorAll("*").forEach((el) => {
         if (el.style && el.style.backgroundImage) el.style.backgroundImage = "none";
       });
       try {
-        pdfBlob = await renderToPdfBlob();
+        blob = await renderToPdfBlob();
+        filename = baseName + ".pdf";
+        isPdf = true;
       } catch (renderErr2) {
-        // Layer 3: guaranteed fallback — plain text PDF via jsPDF directly,
-        // bypassing html2canvas entirely so a download never fully fails.
-        onProgress && onProgress("সরল টেক্সট PDF হিসেবে তৈরি হচ্ছে…");
-        const jsPDF = window.jspdf ? window.jspdf.jsPDF : window.jsPDF;
-        const doc = new jsPDF({ unit: "mm", format: "a4" });
-        const plainText = container.innerText || container.textContent || "";
-        const lines = doc.splitTextToSize(plainText, 180);
-        let y = 15;
-        for (const line of lines) {
-          if (y > 280) { doc.addPage(); y = 15; }
-          doc.text(line, 15, y);
-          y += 6;
-        }
-        pdfBlob = doc.output("blob");
+        // Layer 3: guaranteed fallback — plain text file. No PDF library
+        // dependency at all here, so this cannot itself fail from a library issue.
+        onProgress && onProgress("সরল টেক্সট ফাইল হিসেবে সেভ করা হচ্ছে…");
+        const plainText = book.title + "\n\n" + (container.innerText || container.textContent || "");
+        blob = new Blob([plainText], { type: "text/plain;charset=utf-8" });
+        filename = baseName + ".txt";
+        isPdf = false;
       }
     }
 
     onProgress && onProgress("ফোনে সেভ হচ্ছে…");
-    const base64Data = await blobToBase64(pdfBlob);
+    const base64Data = await blobToBase64(blob);
 
     await fsPlugin().writeFile({
       path: filename,
@@ -188,12 +194,13 @@ async function downloadBook(book, onProgress) {
       title: book.title,
       filename,
       downloadedAt: new Date().toISOString(),
+      isPdf,
     };
     await saveManifest(manifest);
 
     return { success: true, filename };
   } finally {
-    document.body.removeChild(container);
+    safeRemoveContainer();
   }
 }
 
