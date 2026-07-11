@@ -143,6 +143,22 @@ async function getScholarsForVeda(vedaId) {
   return scholars;
 }
 
+// Only scholars who actually have commentary for this specific mantra
+// (uses the compact presence index — no need to download anything to know this).
+async function getScholarsForMantra(vedaId, mantraId) {
+  const scholars = await query(
+    `SELECT s.* FROM scholars s
+     JOIN bhashya_presence p ON p.scholar_id = s.id
+     WHERE s.veda_id=? AND p.mantra_id=?
+     ORDER BY s.display_order, s.id`,
+    [vedaId, mantraId]
+  );
+  for (const s of scholars) {
+    s.downloaded = await isPackDownloaded(s.id);
+  }
+  return scholars;
+}
+
 function escapeFTS(term) {
   return '"' + term.replace(/"/g, '""') + '"';
 }
@@ -294,6 +310,7 @@ window.VedaDB = {
   getMantraByRef,
   getAdjacentMantras,
   getScholarsForVeda,
+  getScholarsForMantra,
   search,
   isPackDownloaded,
   downloadPack,

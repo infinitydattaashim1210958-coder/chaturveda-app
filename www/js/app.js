@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v4.4-crash-fixes-2026-07-11";
+const APP_BUILD_VERSION = "v5.0-perMantraScholars-htmlLibrary-2026-07-11";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -164,8 +164,7 @@ function renderLibraryList(books, manifest) {
       if (!entry) return;
       try {
         const uri = await window.VedaLibrary.getFileUri(entry.filename);
-        const contentType = entry.filename.endsWith(".txt") ? "text/plain" : "application/pdf";
-        await window.Capacitor.Plugins.FileOpener.open({ filePath: uri, contentType });
+        await window.Capacitor.Plugins.FileOpener.open({ filePath: uri, contentType: "text/html" });
       } catch (e) {
         alert("ফাইল খুলতে সমস্যা হয়েছে: " + (e.message || e));
       }
@@ -277,7 +276,7 @@ async function screenMantra(code, refEncodedWithQuery) {
     root.innerHTML = `<div class="empty">এই মন্ত্র খুঁজে পাওয়া যায়নি।</div>`;
     return;
   }
-  const scholars = await window.VedaDB.getScholarsForVeda(veda.id);
+  const scholars = await window.VedaDB.getScholarsForMantra(veda.id, mantra.id);
   const { prev, next } = await window.VedaDB.getAdjacentMantras(veda.id, mantra.id);
 
   const meta = [
