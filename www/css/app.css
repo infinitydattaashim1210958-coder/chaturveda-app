@@ -175,6 +175,17 @@ a{color:inherit;text-decoration:none;}
 .deleteBtn{ color:#e8756c; border-color:rgba(232,117,108,.3); }
 .bookBtn:disabled{ opacity:.5; }
 .bookStatus{ font-size:.78rem; color:var(--ash); margin-top:8px; min-height:1em; }
+
+.downloadPrompt{
+  text-align:center; padding:24px 16px; background:rgba(212,162,76,.06);
+  border:1px dashed var(--line); border-radius:8px;
+}
+.downloadPromptText{ color:var(--ash); font-size:.9rem; margin-bottom:14px; }
+.panelDeleteRow{ display:flex; justify-content:flex-end; margin-bottom:12px; }
+.miniBtn{
+  background:none; border:1px solid rgba(232,117,108,.3); color:#e8756c;
+  padding:5px 12px; border-radius:6px; font-size:.75rem; cursor:pointer;
+}
 .empty{ text-align:center; color:var(--ash); padding:40px 20px; line-height:1.7; }
 .loadingFull{
   position:fixed; inset:0;
