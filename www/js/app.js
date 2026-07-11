@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v3.1-jsonp-fix-2026-07-10";
+const APP_BUILD_VERSION = "v4.0-ondemand-packs-2026-07-10";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -270,7 +270,7 @@ async function screenMantra(code, refEncoded) {
     root.innerHTML = `<div class="empty">এই মন্ত্র খুঁজে পাওয়া যায়নি।</div>`;
     return;
   }
-  const scholars = await window.VedaDB.getScholarsForMantra(mantra.id);
+  const scholars = await window.VedaDB.getScholarsForVeda(veda.id);
   const { prev, next } = await window.VedaDB.getAdjacentMantras(veda.id, mantra.id);
 
   const meta = [
@@ -279,7 +279,6 @@ async function screenMantra(code, refEncoded) {
     mantra.chhanda ? `ছন্দ: ${mantra.chhanda}` : "",
   ].filter(Boolean).join(" &nbsp;·&nbsp; ");
 
-  // Group scholars by language
   const byLang = {};
   const langOrder = [];
   for (const s of scholars) {
@@ -292,21 +291,25 @@ async function screenMantra(code, refEncoded) {
     <button class="langChip ${i === 0 ? "active" : ""}" data-lang="${lang}">${lang}</button>
   `).join("");
 
+  function sizeLabel(bytes) {
+    if (!bytes) return "";
+    const kb = bytes / 1024;
+    return kb < 1024 ? `${Math.round(kb)} KB` : `${(kb / 1024).toFixed(1)} MB`;
+  }
+
   const scholarGroupsHtml = langOrder.map((lang, i) => `
     <div class="scholarGroup ${i === 0 ? "active" : ""}" data-lang-group="${lang}">
       <div class="tabBar">
         ${byLang[lang].map((s, j) => `
-          <button class="tabBtn ${j === 0 ? "active" : ""}" data-scholar="${s.id}">${s.name}</button>
+          <button class="tabBtn ${j === 0 ? "active" : ""}" data-scholar="${s.id}">
+            ${s.name}${s.downloaded ? "" : " ⬇"}
+          </button>
         `).join("")}
       </div>
       <div class="tabPanels">
         ${byLang[lang].map((s, j) => `
-          <div class="tabPanel ${j === 0 ? "active" : ""}" data-scholar="${s.id}">
-            ${s.fields.map(f => `
-              <div class="field">
-                <div class="fieldLabel">${f.field_key}</div>
-                <div class="fieldValue">${f.value}</div>
-              </div>`).join("") || `<div class="empty">কোনো তথ্য নেই।</div>`}
+          <div class="tabPanel ${j === 0 ? "active" : ""}" data-scholar="${s.id}" data-loaded="0">
+            <div class="panelBody"></div>
           </div>
         `).join("")}
       </div>
@@ -328,6 +331,75 @@ async function screenMantra(code, refEncoded) {
     </div>
   `;
 
+  const scholarsById = {};
+  scholars.forEach((s) => (scholarsById[s.id] = s));
+
+  async function loadPanel(panel) {
+    if (panel.dataset.loaded === "1") return;
+    const scholarId = parseInt(panel.dataset.scholar, 10);
+    const s = scholarsById[scholarId];
+    const body = panel.querySelector(".panelBody");
+
+    if (!s.downloaded) {
+      body.innerHTML = `
+        <div class="downloadPrompt">
+          <div class="downloadPromptText">এই ভাষ্য এখনো ডাউনলোড করা হয়নি (${sizeLabel(s.pack_size_bytes)}, ${s.entry_count} এন্ট্রি)</div>
+          <button class="bookBtn downloadBtn" data-scholar-dl="${scholarId}">ডাউনলোড করুন</button>
+          <div class="bookStatus" data-dl-status="${scholarId}"></div>
+        </div>`;
+      const btn = body.querySelector(".downloadBtn");
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        const statusEl = body.querySelector(`[data-dl-status="${scholarId}"]`);
+        try {
+          await window.VedaDB.downloadPack(scholarId, s.pack_file, (msg) => {
+            if (statusEl) statusEl.textContent = msg;
+          });
+          s.downloaded = true;
+          panel.dataset.loaded = "0";
+          await loadPanel(panel);
+          const tabBtn = root.querySelector(`.tabBtn[data-scholar="${scholarId}"]`);
+          if (tabBtn) tabBtn.innerHTML = s.name;
+        } catch (e) {
+          btn.disabled = false;
+          if (statusEl) statusEl.textContent = "ব্যর্থ: " + (e.message || e);
+        }
+      });
+      return;
+    }
+
+    body.innerHTML = `<div class="empty" style="padding:20px 0;">লোড হচ্ছে…</div>`;
+    try {
+      const fields = await window.VedaDB.getBhashyaForMantraFromPack(scholarId, mantra.id);
+      body.innerHTML = `
+        <div class="panelDeleteRow">
+          <button class="miniBtn deletePackBtn" data-scholar-del="${scholarId}">এই ভাষ্য মুছুন</button>
+        </div>
+        ${fields.length ? fields.map(f => `
+          <div class="field">
+            <div class="fieldLabel">${f.field_key}</div>
+            <div class="fieldValue">${f.value}</div>
+          </div>`).join("") : `<div class="empty">এই মন্ত্রে এই ভাষ্যকারের কোনো তথ্য নেই।</div>`}
+      `;
+      body.querySelector(".deletePackBtn").addEventListener("click", async () => {
+        if (!confirm(`"${s.name}" ভাষ্যটা ফোন থেকে মুছে ফেলতে চান?`)) return;
+        await window.VedaDB.deletePack(scholarId);
+        s.downloaded = false;
+        panel.dataset.loaded = "0";
+        await loadPanel(panel);
+        const tabBtn = root.querySelector(`.tabBtn[data-scholar="${scholarId}"]`);
+        if (tabBtn) tabBtn.innerHTML = s.name + " ⬇";
+      });
+    } catch (e) {
+      body.innerHTML = `<div class="empty">লোড করতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
+    }
+    panel.dataset.loaded = "1";
+  }
+
+  // Load the initially-visible active panel
+  const firstActivePanel = root.querySelector(".tabPanel.active");
+  if (firstActivePanel) loadPanel(firstActivePanel);
+
   // Language chip switching
   root.querySelectorAll(".langChip").forEach(chip => {
     chip.addEventListener("click", () => {
@@ -336,6 +408,8 @@ async function screenMantra(code, refEncoded) {
       chip.classList.add("active");
       const activeGroup = root.querySelector(`.scholarGroup[data-lang-group="${chip.dataset.lang}"]`);
       activeGroup.classList.add("active");
+      const activePanelInGroup = activeGroup.querySelector(".tabPanel.active");
+      if (activePanelInGroup) loadPanel(activePanelInGroup);
       chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       setTimeout(() => {
         const appBar = document.querySelector(".appBar");
@@ -355,6 +429,7 @@ async function screenMantra(code, refEncoded) {
       btn.classList.add("active");
       const activePanel = group.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`);
       activePanel.classList.add("active");
+      loadPanel(activePanel);
       btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       setTimeout(() => {
         const appBar = document.querySelector(".appBar");

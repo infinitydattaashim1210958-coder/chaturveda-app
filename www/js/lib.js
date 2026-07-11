@@ -127,8 +127,8 @@ async function downloadBook(book, onProgress) {
   onProgress && onProgress("PDF তৈরি হচ্ছে… (কিছুটা সময় লাগতে পারে)");
   const filename = stripHtmlForFilename(book.title) + ".pdf";
 
-  try {
-    const pdfBlob = await window
+  async function renderToPdfBlob() {
+    return window
       .html2pdf()
       .from(container)
       .set({
@@ -139,6 +139,20 @@ async function downloadBook(book, onProgress) {
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       })
       .outputPdf("blob");
+  }
+
+  try {
+    let pdfBlob;
+    try {
+      pdfBlob = await renderToPdfBlob();
+    } catch (renderErr) {
+      // Common cause: an embedded image format html2canvas can't decode
+      // (e.g. WebP, or a broken/blocked cross-origin image). Retry with
+      // all images stripped so the text content still comes through.
+      onProgress && onProgress("ছবিতে সমস্যা হয়েছে — ছবি ছাড়া আবার চেষ্টা করা হচ্ছে…");
+      container.querySelectorAll("img").forEach((img) => img.remove());
+      pdfBlob = await renderToPdfBlob();
+    }
 
     onProgress && onProgress("ফোনে সেভ হচ্ছে…");
     const base64Data = await blobToBase64(pdfBlob);
