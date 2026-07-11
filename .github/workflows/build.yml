@@ -27,13 +27,13 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      - name: Download Chaturveda database from latest Release
+      - name: Download core database from latest Release
         run: |
           mkdir -p www/assets/databases
-          curl -L -o chaturveda.db.gz \
-            "https://github.com/${{ github.repository }}/releases/latest/download/chaturveda.db.gz"
-          gunzip -f chaturveda.db.gz
-          mv chaturveda.db www/assets/databases/chaturveda.db
+          curl -L -o core.db.gz \
+            "https://github.com/${{ github.repository }}/releases/latest/download/core.db.gz"
+          gunzip -f core.db.gz
+          mv core.db www/assets/databases/core.db
           ls -la www/assets/databases/
 
       - name: Add Android platform
