@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বেদ-পরিচয় | পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1A1410;
+  --bg-deep:#120E0B;
+  --panel:#251D16;
+  --panel-line:#3A2E22;
+  --ink:#EDE3CC;
+  --ink-dim:#B8A988;
+  --ink-faint:#7C6E57;
+  --udatta:#C9A227;     /* high tone — gold */
+  --anudatta:#6B7C5A;   /* low tone — ash green */
+  --svarita:#9B5A3C;    /* mixed tone — terracotta */
+  --rule: rgba(237,227,204,0.14);
+  --serif-display: 'Cormorant Garamond', serif;
+  --bn-display: 'Tiro Bangla', serif;
+  --bn-body: 'Noto Serif Bengali', serif;
+  --bn-utility: 'Noto Sans Bengali', sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--bn-body);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* subtle grain / vignette texture on body */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,162,39,0.06), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(155,90,60,0.05), transparent 60%);
+  z-index:1;
+}
+
+::selection{ background:var(--udatta); color:var(--bg-deep); }
+
+a{ color:var(--svarita); }
+
+/* ===================== SCROLLBAR ===================== */
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg-deep); }
+::-webkit-scrollbar-thumb{ background:var(--panel-line); border-radius:6px; }
+::-webkit-scrollbar-thumb:hover{ background:var(--ink-faint); }
+
+/* ===================== TOP PROGRESS THREAD ===================== */
+#thread-progress{
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:linear-gradient(90deg,var(--anudatta),var(--udatta),var(--svarita));
+  z-index:200; transition:width .08s linear;
+}
+
+/* ===================== LAYOUT SHELL ===================== */
+.shell{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  min-height:100vh;
+  position:relative;
+  z-index:2;
+}
+@media (max-width:920px){
+  .shell{ grid-template-columns:1fr; }
+}
+
+/* ===================== SIDEBAR ===================== */
+.sidebar{
+  position:sticky; top:0; height:100vh;
+  background:var(--bg-deep);
+  border-right:1px solid var(--panel-line);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+@media (max-width:920px){
+  .sidebar{
+    position:fixed; top:0; left:0; height:100vh; width:280px;
+    transform:translateX(-100%);
+    transition:transform .3s ease;
+    z-index:150;
+    box-shadow:20px 0 40px rgba(0,0,0,.5);
+  }
+  .sidebar.open{ transform:translateX(0); }
+}
+
+.sidebar-head{
+  padding:26px 22px 18px;
+  border-bottom:1px solid var(--panel-line);
+  flex-shrink:0;
+}
+.sidebar-glyph{
+  font-family:var(--bn-display);
+  font-size:2.1rem;
+  color:var(--udatta);
+  line-height:1;
+  margin-bottom:6px;
+  position:relative;
+  display:inline-block;
+}
+.sidebar-glyph .mark-u{ position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-size:.9rem; color:var(--udatta); }
+.sidebar-title{
+  font-family:var(--bn-display);
+  font-size:1.05rem;
+  letter-spacing:.02em;
+  color:var(--ink);
+}
+.sidebar-sub{
+  font-family:var(--bn-utility);
+  font-size:.72rem;
+  color:var(--ink-faint);
+  margin-top:4px;
+  letter-spacing:.03em;
+}
+
+.search-wrap{
+  padding:14px 18px;
+  border-bottom:1px solid var(--panel-line);
+  flex-shrink:0;
+}
+.search-box{
+  position:relative;
+  display:flex; align-items:center;
+  background:var(--panel);
+  border:1px solid var(--panel-line);
+  border-radius:8px;
+  padding:8px 10px;
+  transition:border-color .2s;
+}
+.search-box:focus-within{ border-color:var(--udatta); }
+.search-box svg{ width:15px; height:15px; flex-shrink:0; opacity:.55; margin-right:7px; }
+.search-box input{
+  background:none; border:none; outline:none;
+  color:var(--ink); font-family:var(--bn-utility);
+  font-size:.82rem; width:100%;
+}
+.search-box input::placeholder{ color:var(--ink-faint); }
+#search-count{
+  font-family:var(--bn-utility);
+  font-size:.68rem;
+  color:var(--ink-faint);
+  padding:6px 18px 0;
+  min-height:16px;
+}
+
+.toc{
+  flex:1;
+  overflow-y:auto;
+  padding:8px 0 18px;
+}
+.toc-item{
+  display:flex; align-items:baseline; gap:10px;
+  padding:9px 22px;
+  cursor:pointer;
+  font-family:var(--bn-utility);
+  font-size:.84rem;
+  color:var(--ink-dim);
+  border-left:2px solid transparent;
+  transition:background .15s, color .15s, border-color .15s;
+  text-decoration:none;
+}
+.toc-item:hover{ background:rgba(237,227,204,0.04); color:var(--ink); }
+.toc-item.active{
+  color:var(--udatta);
+  border-left-color:var(--udatta);
+  background:rgba(201,162,39,0.06);
+}
+.toc-mark{ color:var(--ink-faint); font-size:.7rem; flex-shrink:0; width:14px; }
+.toc-item.active .toc-mark{ color:var(--svarita); }
+
+.sidebar-foot{
+  padding:14px 22px 18px;
+  border-top:1px solid var(--panel-line);
+  font-family:var(--bn-utility);
+  font-size:.68rem;
+  color:var(--ink-faint);
+  line-height:1.6;
+  flex-shrink:0;
+}
+
+.mobile-toggle{
+  display:none;
+  position:fixed; top:16px; right:16px; z-index:160;
+  width:42px; height:42px;
+  background:var(--panel);
+  border:1px solid var(--panel-line);
+  border-radius:50%;
+  align-items:center; justify-content:center;
+  color:var(--ink);
+  cursor:pointer;
+}
+@media (max-width:920px){ .mobile-toggle{ display:flex; } }
+.mobile-toggle svg{ width:18px; height:18px; }
+
+.sidebar-backdrop{
+  display:none;
+  position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:140;
+}
+.sidebar-backdrop.show{ display:block; }
+
+/* ===================== MAIN ===================== */
+main{ position:relative; min-width:0; }
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:92vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding:60px 24px 40px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-stage{
+  position:relative;
+  width:100%;
+  max-width:520px;
+  margin-bottom:34px;
+}
+.hero-akshar{
+  font-family:var(--bn-display);
+  font-size:min(34vw, 230px);
+  line-height:1;
+  color:var(--ink);
+  position:relative;
+  display:inline-block;
+  user-select:none;
+}
+.accent-mark{
+  position:absolute;
+  font-family:var(--bn-utility);
+  font-weight:700;
+  opacity:0;
+  transition:opacity .6s ease, transform .6s ease;
+}
+.accent-mark.show{ opacity:1; }
+.accent-mark.udatta{
+  top:-2%; left:50%; transform:translate(-50%,-10px);
+  color:var(--udatta);
+  font-size:5vw;
+}
+.accent-mark.udatta.show{ transform:translate(-50%,0); }
+.accent-mark.anudatta{
+  bottom:-1%; left:50%; transform:translate(-50%,10px);
+  color:var(--anudatta);
+  font-size:5vw;
+}
+.accent-mark.anudatta.show{ transform:translate(-50%,0); }
+.accent-mark.svarita{
+  top:46%; left:96%; transform:translate(0,-10px) rotate(8deg);
+  color:var(--svarita);
+  font-size:3.4vw;
+}
+.accent-mark.svarita.show{ transform:translate(0,0) rotate(8deg); }
+
+.hero-legend{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:18px;
+  margin-top:10px;
+  font-family:var(--bn-utility);
+  font-size:.74rem;
+}
+.legend-pill{
+  display:flex; align-items:center; gap:6px;
+  color:var(--ink-faint);
+  cursor:default;
+  padding:4px 10px;
+  border:1px solid var(--panel-line);
+  border-radius:20px;
+  transition:border-color .2s, color .2s;
+}
+.legend-pill:hover{ border-color:currentColor; }
+.legend-pill.u{ color:var(--udatta); }
+.legend-pill.a{ color:var(--anudatta); }
+.legend-pill.s{ color:var(--svarita); }
+.legend-dot{ width:7px; height:7px; border-radius:50%; background:currentColor; }
+
+.hero-eyebrow{
+  font-family:var(--bn-utility);
+  font-size:.78rem;
+  letter-spacing:.18em;
+  color:var(--ink-faint);
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.hero h1{
+  font-family:var(--bn-display);
+  font-size:clamp(2.4rem, 6vw, 4.2rem);
+  margin:0 0 14px;
+  color:var(--ink);
+  letter-spacing:.01em;
+}
+.hero-tagline{
+  font-family:var(--bn-body);
+  font-style:italic;
+  font-size:clamp(1rem,2vw,1.25rem);
+  color:var(--ink-dim);
+  max-width:600px;
+  line-height:1.8;
+  margin:0 0 26px;
+}
+.hero-meta{
+  font-family:var(--bn-utility);
+  font-size:.8rem;
+  color:var(--ink-faint);
+  line-height:2;
+}
+.hero-meta b{ color:var(--ink-dim); font-weight:600; }
+.hero-scroll-cue{
+  margin-top:46px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--ink-faint);
+  font-family:var(--bn-utility);
+  font-size:.68rem;
+  letter-spacing:.1em;
+  animation:bob 2.4s ease-in-out infinite;
+}
+@keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(7px);} }
+
+/* ---------- FRONT MATTER (title page) ---------- */
+.frontmatter{
+  max-width:680px; margin:0 auto;
+  padding:70px 28px 30px;
+  text-align:center;
+}
+.fm-ornament{
+  width:60px; height:auto; margin:0 auto 28px; opacity:.85;
+}
+.fm-line{
+  font-family:var(--bn-body);
+  font-size:1.05rem;
+  color:var(--ink-dim);
+  margin:6px 0;
+  line-height:1.9;
+}
+.fm-line.bold{ font-weight:700; color:var(--ink); font-size:1.15rem; }
+.fm-line.small{ font-size:.85rem; color:var(--ink-faint); }
+.fm-divider{
+  width:80px; height:1px; margin:26px auto;
+  background:linear-gradient(90deg,transparent,var(--panel-line),transparent);
+}
+.fm-section-label{
+  font-family:var(--bn-utility);
+  font-size:.72rem;
+  letter-spacing:.15em;
+  color:var(--svarita);
+  text-transform:uppercase;
+  margin:26px 0 6px;
+}
+
+/* ---------- ARTICLE CONTENT ---------- */
+.article{
+  max-width:700px;
+  margin:0 auto;
+  padding:20px 28px 140px;
+}
+.section{
+  padding-top:54px;
+  scroll-margin-top:30px;
+}
+.section-head{
+  display:flex; align-items:baseline; gap:14px;
+  margin-bottom:24px;
+}
+.section-thread{
+  flex-shrink:0;
+  width:30px; height:30px;
+  display:flex; align-items:center; justify-content:center;
+}
+.section h2{
+  font-family:var(--bn-display);
+  font-size:clamp(1.5rem,3.4vw,2rem);
+  color:var(--ink);
+  margin:0;
+  letter-spacing:.01em;
+}
+.section p{
+  font-family:var(--bn-body);
+  font-size:1.06rem;
+  line-height:2.05;
+  color:var(--ink-dim);
+  margin:0 0 1.5em;
+  text-align:justify;
+  hyphens:auto;
+}
+.section p:last-child{ margin-bottom:0; }
+
+mark.q{
+  background:none;
+  color:var(--ink);
+  font-weight:600;
+  position:relative;
+  padding:0 .12em;
+}
+
+.verse-block{
+  margin:1.8em 0;
+  padding:22px 26px;
+  background:var(--panel);
+  border-left:3px solid var(--svarita);
+  border-radius:2px;
+  position:relative;
+}
+.verse-block p{
+  font-family:var(--bn-display);
+  font-style:italic;
+  font-size:1.18rem;
+  color:var(--ink);
+  text-align:left;
+  line-height:1.85;
+  margin:0;
+}
+.verse-block p + p{ margin-top:.5em; }
+.verse-cite{
+  display:block;
+  margin-top:14px;
+  font-family:var(--bn-utility);
+  font-size:.72rem;
+  color:var(--ink-faint);
+  font-style:normal;
+  letter-spacing:.04em;
+}
+
+.dialectic{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  margin:1.8em 0;
+}
+.dialectic .voice{
+  padding:18px 20px;
+  border-radius:6px;
+  background:var(--panel);
+  border:1px solid var(--panel-line);
+}
+.dialectic .voice.against{ border-left:3px solid var(--anudatta); }
+.dialectic .voice.for{ border-left:3px solid var(--udatta); }
+.voice-label{
+  font-family:var(--bn-utility);
+  font-size:.7rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  display:block;
+}
+.voice.against .voice-label{ color:var(--anudatta); }
+.voice.for .voice-label{ color:var(--udatta); }
+.voice p{ margin:0; font-size:1rem; line-height:1.9; }
+
+.stat-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:1px;
+  background:var(--panel-line);
+  margin:1.8em 0;
+  border:1px solid var(--panel-line);
+  border-radius:4px;
+  overflow:hidden;
+}
+.stat-cell{
+  background:var(--bg-deep);
+  padding:18px 14px;
+  text-align:center;
+}
+.stat-num{
+  font-family:var(--serif-display);
+  font-size:1.7rem;
+  color:var(--udatta);
+  display:block;
+  line-height:1.2;
+}
+.stat-label{
+  font-family:var(--bn-utility);
+  font-size:.72rem;
+  color:var(--ink-faint);
+  margin-top:4px;
+  display:block;
+}
+
+.scholar-list{
+  margin:1.6em 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:2px;
+}
+.scholar-list li{
+  font-family:var(--bn-body);
+  font-size:.96rem;
+  color:var(--ink-dim);
+  padding:9px 14px;
+  border-bottom:1px solid var(--rule);
+  display:flex;
+  gap:10px;
+}
+.scholar-list li:last-child{ border-bottom:none; }
+.scholar-num{
+  font-family:var(--bn-utility);
+  color:var(--svarita);
+  flex-shrink:0;
+  font-size:.85rem;
+  min-width:1.4em;
+}
+
+.accent-demo{
+  margin:2em 0;
+  padding:30px 26px;
+  background:var(--bg-deep);
+  border:1px solid var(--panel-line);
+  border-radius:8px;
+  text-align:center;
+}
+.accent-demo-row{
+  display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.accent-syll{
+  position:relative;
+  font-family:var(--bn-display);
+  font-size:2.4rem;
+  color:var(--ink);
+  padding:14px 6px;
+  cursor:pointer;
+}
+.accent-syll .tag{
+  position:absolute; top:-2px; left:50%; transform:translateX(-50%);
+  font-size:.9rem; font-weight:700;
+}
+.accent-syll .label{
+  display:block;
+  font-family:var(--bn-utility);
+  font-size:.66rem;
+  color:var(--ink-faint);
+  margin-top:6px;
+  transition:color .2s;
+}
+.accent-syll[data-type="udatta"] .tag{ color:var(--udatta); }
+.accent-syll[data-type="anudatta"]{ text-decoration:underline; text-decoration-color:var(--anudatta); text-decoration-thickness:2px; }
+.accent-syll[data-type="svarita"] .tag{ color:var(--svarita); }
+.accent-syll:hover .label{ color:var(--ink); }
+.accent-note{
+  font-family:var(--bn-utility);
+  font-size:.78rem;
+  color:var(--ink-faint);
+  line-height:1.8;
+  max-width:480px;
+  margin:0 auto;
+}
+
+/* end ornament */
+.section-end{
+  display:flex; align-items:center; justify-content:center;
+  margin:60px 0 0;
+  opacity:.5;
+}
+
+.closing{
+  max-width:680px; margin:80px auto 0;
+  padding:0 28px 100px;
+  text-align:center;
+}
+.closing-mark{
+  font-family:var(--bn-display);
+  font-size:2.6rem;
+  color:var(--udatta);
+  margin-bottom:18px;
+}
+.closing p{
+  font-family:var(--bn-body);
+  font-style:italic;
+  color:var(--ink-dim);
+  font-size:1.05rem;
+  line-height:1.9;
+}
+.closing-sig{
+  margin-top:30px;
+  font-family:var(--bn-utility);
+  font-size:.78rem;
+  color:var(--ink-faint);
+}
+
+footer.site-footer{
+  border-top:1px solid var(--panel-line);
+  padding:28px 28px 40px;
+  text-align:center;
+  font-family:var(--bn-utility);
+  font-size:.72rem;
+  color:var(--ink-faint);
+  max-width:700px;
+  margin:0 auto;
+}
+
+/* back to top */
+.totop{
+  position:fixed; bottom:24px; right:24px;
+  width:44px; height:44px;
+  border-radius:50%;
+  background:var(--panel);
+  border:1px solid var(--panel-line);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  opacity:0; pointer-events:none;
+  transition:opacity .25s, border-color .2s;
+  z-index:120;
+  color:var(--ink-dim);
+}
+.totop.show{ opacity:1; pointer-events:auto; }
+.totop:hover{ border-color:var(--udatta); color:var(--udatta); }
+.totop svg{ width:16px; height:16px; }
+
+/* search highlight */
+.hit{ background:rgba(201,162,39,0.28); color:var(--ink); border-radius:2px; }
+.section.search-hidden{ display:none; }
+
+/* fade-in on scroll */
+.fade-in{
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.fade-in.visible{ opacity:1; transform:translateY(0); }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+
+@media (max-width:600px){
+  .section p{ font-size:1rem; line-height:1.95; }
+  .verse-block{ padding:18px 18px; }
+}
+</style>
+</head>
+<body>
+
+<div id="thread-progress"></div>
+
+<div class="mobile-toggle" id="mobileToggle" aria-label="মেনু খুলুন">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+</div>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-glyph">अ<span class="mark-u">॑</span></div>
+      <div class="sidebar-title">বেদ-পরিচয়</div>
+      <div class="sidebar-sub">পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী</div>
+    </div>
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="অনুচ্ছেদে খুঁজুন…">
+      </div>
+      <div id="search-count"></div>
+    </div>
+    <div class="toc" id="toc">
+      <a class="toc-item" data-target="hero"><span class="toc-mark">॰</span>প্রচ্ছদ</a>
+      <a class="toc-item" data-target="frontmatter"><span class="toc-mark">॰</span>গ্রন্থ-পরিচিতি</a>
+      <a class="toc-item" data-target="sec-mahima"><span class="toc-mark">॰</span>মহিমা</a>
+      <a class="toc-item" data-target="sec-intro"><span class="toc-mark">॰</span>বেদ-পরিচয়</a>
+      <a class="toc-item" data-target="sec-paurusheya"><span class="toc-mark">॰</span>পৌরুষেয়বাদ</a>
+      <a class="toc-item" data-target="sec-arsha"><span class="toc-mark">॰</span>আর্ষবাদ</a>
+      <a class="toc-item" data-target="sec-ishwariya"><span class="toc-mark">॰</span>ঈশ্বরীয়বাদ</a>
+      <a class="toc-item" data-target="sec-apaurusheya"><span class="toc-mark">॰</span>অপৌরুষেয়বাদ</a>
+      <a class="toc-item" data-target="sec-shabda-vivad"><span class="toc-mark">॰</span>শব্দ নিত্য কি না</a>
+      <a class="toc-item" data-target="sec-charivede"><span class="toc-mark">॰</span>চারিবেদ</a>
+      <a class="toc-item" data-target="sec-ayatan"><span class="toc-mark">॰</span>আয়তন ও মন্ত্রসংখ্যা</a>
+      <a class="toc-item" data-target="sec-rishi-devata"><span class="toc-mark">॰</span>ঋষি, দেবতা, ছন্দ</a>
+      <a class="toc-item" data-target="sec-bedanga"><span class="toc-mark">॰</span>বেদাঙ্গ ও স্বর</a>
+      <a class="toc-item" data-target="sec-swarchihno"><span class="toc-mark">॰</span>স্বরের চিহ্ন</a>
+      <a class="toc-item" data-target="sec-samagan"><span class="toc-mark">॰</span>সামগান</a>
+      <a class="toc-item" data-target="sec-pathprashali"><span class="toc-mark">॰</span>বেদপাঠ প্রশালী</a>
+      <a class="toc-item" data-target="sec-bhashyakar"><span class="toc-mark">॰</span>বেদভাষ্য ও ভাষ্যকার</a>
+      <a class="toc-item" data-target="sec-rigbhashyakar"><span class="toc-mark">॰</span>ঋগ্বেদের ভাষ্যকার</a>
+      <a class="toc-item" data-target="sec-yajurbhashyakar"><span class="toc-mark">॰</span>যজুর্বেদ ভাষ্যকার</a>
+      <a class="toc-item" data-target="sec-samabhashyakar"><span class="toc-mark">॰</span>সামবেদ ভাষ্যকার</a>
+      <a class="toc-item" data-target="sec-atharvabhashyakar"><span class="toc-mark">॰</span>অথর্ববেদ ভাষ্যকার</a>
+      <a class="toc-item" data-target="sec-anga"><span class="toc-mark">॰</span>অঙ্গ, উপাঙ্গ, উপবেদ</a>
+      <a class="toc-item" data-target="sec-shakha"><span class="toc-mark">॰</span>বেদের শাখা</a>
+      <a class="toc-item" data-target="sec-bhashya-type"><span class="toc-mark">॰</span>বেদের ভাষ্য</a>
+      <a class="toc-item" data-target="sec-nirukta"><span class="toc-mark">॰</span>নৈরুক্তিক ও ঐতিহাসিক</a>
+      <a class="toc-item" data-target="sec-misuse1"><span class="toc-mark">॰</span>পৌরাণিক অপব্যাখ্যা — ১</a>
+      <a class="toc-item" data-target="sec-misuse2"><span class="toc-mark">॰</span>পৌরাণিক অপব্যাখ্যা — ২</a>
+      <a class="toc-item" data-target="sec-misuse3"><span class="toc-mark">॰</span>পৌরাণিক অপব্যাখ্যা — ৩</a>
+      <a class="toc-item" data-target="sec-vedicbhasha"><span class="toc-mark">॰</span>বৈদিক ভাষা</a>
+      <a class="toc-item" data-target="sec-samaveda"><span class="toc-mark">॰</span>সামবেদ সংহিতা</a>
+      <a class="toc-item" data-target="sec-samashakha"><span class="toc-mark">॰</span>সামবেদের শাখা</a>
+      <a class="toc-item" data-target="sec-nirghantu"><span class="toc-mark">॰</span>নির্ঘণ্টু ও দয়ানন্দ</a>
+      <a class="toc-item" data-target="sec-urvashi"><span class="toc-mark">॰</span>উর্বশী-পুরুরবা প্রসঙ্গ</a>
+      <a class="toc-item" data-target="sec-closing"><span class="toc-mark">॰</span>উপসংহার</a>
+    </div>
+    <div class="sidebar-foot">কণ্ব-৩৪ সংরক্ষণাগারের জন্য রূপান্তরিত পাঠ। মূল পুস্তিকা — ১৪০৫ বঙ্গাব্দ, আর্য সমাজ কলিকাতা।</div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-stage">
+        <div class="hero-eyebrow">শ্রীকৃষ্ণ জন্মাষ্টমী উপলক্ষে প্রণীত</div>
+        <div class="hero-akshar">
+          अ
+          <span class="accent-mark udatta" id="mark-u">॑</span>
+          <span class="accent-mark anudatta" id="mark-a">॒</span>
+          <span class="accent-mark svarita" id="mark-s">³</span>
+        </div>
+      </div>
+      <h1>বেদ-পরিচয়</h1>
+      <p class="hero-tagline">"বেদ পরমেশ্বরোক্ত। সকলেরই বেদানুকূলে আচরণ করা কর্তব্য।"</p>
+      <div class="hero-legend">
+        <span class="legend-pill u"><span class="legend-dot"></span>উদাত্ত — উচ্চ স্বর</span>
+        <span class="legend-pill a"><span class="legend-dot"></span>অনুদাত্ত — কোমল স্বর</span>
+        <span class="legend-pill s"><span class="legend-dot"></span>স্বরিত — মধ্যবর্তী স্বর</span>
+      </div>
+      <div class="hero-meta">
+        প্রণীত — <b>পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী, বি. এ.</b> · সম্পাদনা — <b>পণ্ডিত নচিকেতা</b><br>
+        প্রকাশক — আর্য সমাজ কলিকাতা · ১৪০৫ বঙ্গাব্দ
+      </div>
+      <div class="hero-scroll-cue">
+        <span>পাঠ আরম্ভ</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" id="frontmatter">
+      <svg class="fm-ornament" viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M2 12h20M38 12h20" stroke-linecap="round"/>
+        <circle cx="30" cy="12" r="6"/>
+        <circle cx="30" cy="12" r="2" fill="currentColor"/>
+      </svg>
+      <p class="fm-line bold">বেদ-পরিচয়</p>
+      <p class="fm-line">শ্রীকৃষ্ণ জন্মাষ্টমী উপলক্ষে</p>
+      <p class="fm-line small">প্রণীত</p>
+      <p class="fm-line bold">পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী, বি. এ.</p>
+      <p class="fm-line small">১৪০৫</p>
+
+      <div class="fm-divider"></div>
+
+      <p class="fm-line small">লেখক</p>
+      <p class="fm-line">পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী বি. এ,</p>
+      <p class="fm-line small">আদি সম্পাদক</p>
+      <p class="fm-line bold">আচার্য্য পণ্ডিত শ্রীপ্রিয়দর্শন সিদ্ধান্তভূষণের</p>
+      <p class="fm-line">পুণ্য স্মৃতির উদ্দেশ্যে অর্পিত।</p>
+
+      <div class="fm-divider"></div>
+
+      <p class="fm-line small">সম্পাদক</p>
+      <p class="fm-line bold">পণ্ডিত নচিকেতা</p>
+      <p class="fm-line small">প্রকাশক</p>
+      <p class="fm-line">আর্য সমাজ কলিকাতা</p>
+      <p class="fm-line">১৯, বিধান সরণী</p>
+      <p class="fm-line">কলিকাতা-৬</p>
+      <p class="fm-line small">মুদ্রক</p>
+      <p class="fm-line">শ্রীঅজিত চৌধুরী</p>
+      <p class="fm-line">সাধনা প্রেস</p>
+      <p class="fm-line">৪৫/১এফ বিডন ষ্ট্রীট</p>
+      <p class="fm-line">কলিকাতা-৬</p>
+
+      <div class="fm-divider"></div>
+
+      <p class="fm-line">পঠন পাঠন</p>
+      <p class="fm-line">শ্রবণ শ্রাবণ</p>
+      <p class="fm-line small">শুল্ক ৫.০০ টাকা</p>
+    </section>
+
+    <!-- ARTICLE -->
+    <article class="article">
+
+      <div class="section fade-in" id="sec-mahima">
+        <div class="section-head">
+          <div class="section-thread">𑗀</div>
+          <h2>মহিমা</h2>
+        </div>
+        <p>জ্ঞের ব্যতীত জ্ঞান হয় না। গায়ত্রী আদি ছন্দ, যজ্ঞাদি ও উদাত্ত অনুদাত্ত আদি স্বর, জ্ঞানের সহিত গায়ত্রী প্রভৃতি ছন্দসমূহের রচনা সামর্থ্য, সর্বজ্ঞ ব্যতীত কাহারও নাই। এইরূপ সর্বজ্ঞানযুক্ত শাস্ত্র নির্মাণ করাও অপরের সাধ্যাতীত। ঋষি মুনিগণ বেদ অধ্যয়নের পর ব্যাকরণ, নিযুক্ত ও ছন্দ প্রভৃতি গ্রন্থ বিদ্যা প্রকাশার্থ রচনা করিয়াছেন পরমাত্মা বেদ প্রকাশ না করিলে কিছুই রচনা করিতে পারিতেন না। সূতরাং বেদ পরমেশ্বরোক্ত। সকলেরই বেদানুকূলে আচরণ করা কর্তব্য। যদি কাহাকেও কেহ জিজ্ঞাসা করে— ❝আপনার মত কি?❞ তবে উত্তর দেওয়া উচিত—❝আমার মত বেদ।❞ অর্থাৎ বেদোক্ত বিষয় সকল আমি স্বীকার করি।</p>
+        <p>বেদ প্রচার ব্রত গ্রহণ যখন করিয়াছি তখন যেভাবেই হোক—সে কথকতার মধ্য দিয়া, বা বক্তৃতা, অথবা সাহিত্যের মধ্য দিয়া, যে কোনও ভাবেই হোউক না কেন—ব্রত পালন করতেই হবে। তাই বৈদিক সাহিত্য সৃষ্টি এবং বৈদিক সাহিত্য প্রচারের কাজ আজও করে চলেছি। লেখা ও বলা সহজ কিন্তু লেখাকে ছাপার অক্ষরে রূপদান করা কঠিন। বিশেষ করে যার উপর অব্ধি কন্যার কৃপা দৃষ্টি না থাকে।</p>
+        <p>❝বেদ-পরিচয়❞ নাম আদি সম্পাদকের দেওয়া। পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী মহাশয় বঙ্গভাষায় সামবেদ ভাষ্য করার সময় যে ভূমিকা লেখেন সেই ভূমিকাকেই ❝বেদ-পরিচয়❞ নামে প্রকাশ করা হয়েছে। আজ পর্যন্ত লোকের ধারণা বেদ নাকি অতীব কঠিন তাই বেদ পাঠ ত্যাগ করে অনেকেই অবৈদিক গ্রন্থাদিকে ধর্ম বলে পাঠ করা আরম্ভ করে। ইহা অসঙ্গত। ❝বেদ-পরিচয়❞ পুস্তিকায় ঋষি অনুমোদিত বেদ-জ্ঞান লাভ করার নিয়ম লিখিত হয়েছে। অধিকাংশ বেদ-ভাষ্যকার সে পথ অবলম্বন না করে, লৌকিক সংস্কৃত জ্ঞানলাভ করে বেদ ভাষ্য করে বাহবা কুড়াতে চান। পরিণাম—যথার্থের অযথার্থ ভাব প্রকাশ, মানব সমাজে অনাচার ও অবিদ্যার আবির্ভাব এবং দুঃখের পর দুঃখ বৃদ্ধি।</p>
+        <p>মানুষ বথাযথ উপায়ে বেদজ্ঞান লাভ করুক, মানব সমাজে প্রীতি ও আনন্দ বৃদ্ধি হোক। এই শুভবুদ্ধি নিয়ে ❝বেদ-পরিচয়❞ পুস্তিকার বহুল প্রচার উদ্দেশ্যে প্রকাশ করা হয়।</p>
+        <p>❝বেদ-পরিচয়❞ পুস্তকটির অতিরিক্ত চাহিদা পাঠকদের মধ্যে পরিলক্ষিত হওয়ায় আর্য্যসমাজ কলিকাতার প্রধান শ্রীলক্ষ্মণ সিংহ এর প্রেরণা মন্ত্রী শ্রীরাম আর্য্য ও শ্রীরাজেন্দ্র জয়সওয়ালের সহযোগীতায় ইহা পুনমুদ্রণ করা সম্ভব হল। পুস্তকখানি যেন সকলের প্রিয় পাঠ্য হয়ে সকলে বেদ বিষবে পরিচয় লাভ করতে পারে এই আমার অভিলাষ। ইত্যোম্।</p>
+        <p style="text-align:right;font-style:italic;">সম্পাদক—❝বেদমাতা❞<br>নচিকেতা<br>সম্পাদক</p>
+      </div>
+
+      <div class="section fade-in" id="sec-intro">
+        <div class="section-head">
+          <div class="section-thread">ওম্</div>
+          <h2>ওম্ · বেদ-পরিচয়</h2>
+        </div>
+        <p>বেদ আর্য জাতির ধর্মগ্রন্থ এবং সময় মানবের আদি জ্ঞান ভাণ্ডার। জগতের যাবতীর ধর্ম বেদ হইতেই জন্মলাভ করিয়াছে, বিশ্বের যাবতীয় ভাষা বৈদিক ভাষা হইতেই নিঃসৃত। পৃথিবীর যে কোনও মানব তাহার শিক্ষা সভ্যতা ও তাহার ইতিহাস পাঠ করিতে ইচ্ছা করিলে তাহাকে বেদের শরণাপন্ন হইতে হয়। বেদের মধ্যে যে অক্ষর জ্ঞান সম্পদ স্তূপীকৃত রহিয়াছে তাহা আহরণের জন্য যুগে যুগে সব দেশের শ্রেষ্ঠ মনীষীরা আমারণ পরিশ্রম করিয়াছেন। সে পরিশ্রম এখনও শেষ হয় নাই। পৃথিবীর নানা জাতি নানা ভাষায় ও নানা ভাবে আজও বেদের গবেষণা করিতেছে। বেদের উপর পণ্ডিতগণের শ্রদ্ধা থাকিলেও সকলে বেদকে একভাবে দেখেন না। যাঁহারা বেদ-বিষয়ে গবেষণা করিয়াছেন তাঁহাদিগকে আমরা চারিভাগে ভাগ করিতে পারি। একদল বেদকে ❝পৌরুষেয়❞, দ্বিতীয় দল ❝আর্য❞, তৃতীয় দল ❝ঈশ্বরীয়❞ এবং চতুর্ধ্ব দল ❝অপৌরুষের❞ বলেন।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-paurusheya">
+        <div class="section-head">
+          <div class="section-thread">১</div>
+          <h2>পৌরুষেয়বাদ</h2>
+        </div>
+        <p>পাশ্চাত্য পণ্ডিতেরা বেদকে পৌরুষেয় বলেন। তাঁহাদের মতে বেদ মানবের রচনা মনে করিয়াই তাঁহারা বেদকে পুরুষ বিশেষের রচিত বা ❝পৌরুষেয়❞ বলেন। বেদ তাঁহাদের মতে মানব মস্তিষ্কের চরম উৎকর্য। ঋষিদিগকেই তাঁহারা বেদ মন্ত্রের রচয়িতা ও উপদেষ্টা মনে করেন। বেদ মানব জাতির গ্রন্থ ভাণ্ডারে প্রাচীনতম গ্রন্থ— ইহা তাঁহারা মুক্তকণ্ঠে স্বীকার করেন। বেদকে কেন্দ্র করিয়াই ব্রাহ্মণ, আরণ্যক ও উপনিষদ গ্রন্থ রচিত হইয়াছে। তাঁহারা এই সব সাহিত্যরাজির মধ্য হইতে প্রাচীন আর্য জাতির ইতিহাস উদ্ধার করিতে সচেষ্ট রহিয়াছেন। প্রাচীন পৃথিবীর ভৌগোলিক বৃত্তান্তও তাঁহারা বেদ হইতেই উত্থার করিতে প্রয়াস পাইয়াছেন। পৌরুষেয়বাদী এই সব দেশী ও বিদেশী পণ্ডিত বেদকে উপাদেয় গ্রন্থ ও গবেষণার ক্ষেত্র মনে করিয়া শ্রদ্ধার দৃষ্টিতে দেখিতেছেন।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-arsha">
+        <div class="section-head">
+          <div class="section-thread">২</div>
+          <h2>আর্ষবাদ</h2>
+        </div>
+        <p>দ্বিতীয় পক্ষ বেদকে ❝আর্ষ❞ বলেন। প্রাচীনকাল হইতেই ইহারা ঘোষণা করিয়া আসিতেছেন যে, বেদ ঋযি প্রণীত। স্বচ্ছ-হৃদয়, সত্যচারী, শুদ্ধাত্মা ঋষিরা পূণ্যবলে ধর্ম, অর্থ, কাম ও মোক্ষ—বিষয়ের যে সাক্ষাৎ জ্ঞান দর্শন করিয়াছিলেন, ইহাই বেদ মন্ত্রের সমষ্টি। ইহাদের মতে বেদের বিষয়ীভূত জ্ঞান সর্বদাই একরস থাকে। কল্প কল্পান্তরেও এই জ্ঞানের পরিবর্তন হয় না। এই জ্ঞান মানব জাতির উন্নতির চির সহায়। এক কথায় আর্ষবাদীরা বেদ মন্ত্রের ভাষাকে ঋষিদের নিজস্ব মনে করেন, কিন্তু বেদমন্ত্রের জ্ঞানকে ঈশ্বরের নিজস্ব মনে করেন। তাঁহাদের মতে বেদান্তগত ধর্ম-অর্থ-কাম-মোক্ষ প্রাপ্তির নিয়ম অপৌরুষের বা ঈশ্বরীর। পরমেশ্বর বেদকে উৎপন্ন করিয়াছেন এবং ইহা ঋষিদের ভাষায় প্রকাশিত হইয়াছে। পৌরুষেয় ও আর্ষ পক্ষ—উভয়ের মতেই বেদমন্ত্র একসঙ্গে রচিত হয় নাই। বেদ মন্ত্র রচনা করিতে ঋষিদের কয়েক পুরুষ অতিবাহিত হইয়াছিল। তাহার পর ব্রাহ্মণ, আরণ্যক ও উপনিষদ রচিত হইয়াছে। আর্ষবাদী মতে, উপনিষদ রচিত হইবার সঙ্গে সঙ্গেই ঋষিদের যুগ শেষ হইয়াছে। ইহাদের মতে বেদের মধ্যে কল্পিত উপাখ্যানও আছে। বেদের ভাষা ঋষিদের নিজের বলিয়াই তাঁহারা ইহাকে ❝আর্ষ❞ বলিয়া থাকেন।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-ishwariya">
+        <div class="section-head">
+          <div class="section-thread">৩</div>
+          <h2>ঈশ্বরীয়বাদ</h2>
+        </div>
+        <p>তৃতীয় পক্ষ বেদকে ❝ঈশ্বরীয়❞ বলেন। তাঁহাদের মতে প্রত্যেক সৃষ্টির প্রথমে স্বচ্ছ হৃদয় মানবের হৃদয়ে ঈশ্বর বেদবাণীর প্রেরণা দান করেন। যে সব মানবের আত্মা পূর্ব সৃষ্টিতে শুভকর্ম দ্বারা শুদ্ধ থাকে তাঁহাদের হৃদয়ই বেদবাণীর প্রেরণা লাভ করে। ঈশ্বরীয় পক্ষ বলেন—চন্দ্র, সূর্য, পৃথিবী, অন্তরিক ও স্বলোকাদি যেমন পূর্ব কল্পের অনুযায়ী, যেমন এ কল্পে রচিত হইয়াছে তেমন পূর্ব পূর্ব কল্পে বেদ যেভাবে প্রকট হইয়াছিল এ কল্পেও সেইভাবেই প্রকট হইয়াছে। ইহাদের মতে বেদের মন্ত্র, ভাষ্য ও অর্থ প্রত্যেক কল্পে একরূপ ভাবেই চলিয়া আসিতেছে। আর্ষপক্ষ জ্ঞানের এক রসত্ব স্বীকার করেন আর ঈশ্বরীয় পক্ষ ভাষা, শব্দ, মন্ত্র ও জ্ঞানের এক রসত্ব স্বীকার করেন। ইহাদের মধ্যে কেহ কেহ বলেন, কল্পের প্রথমে ব্রহ্মার হৃদয়ে বেদ অর্পিত হইয়াছিল এবং ব্রহ্মার নিকট হইতে শিষ্য পরম্পরায় বেদ মানবের মধ্যে প্রচারিত হইয়াছে। কাহারও মতে অগ্নি, বায়ু, আদিত্য, অঙ্গিরা—এই চারিজন ঋষির হৃদয়ে চারি বেদ অর্পিত হইয়াছিল। এই চারিজন ঋষি হইতেই শিষ্য পরম্পরার বেদ মানবজাতির মধ্যে প্রচারিত হইয়াছে। ইহাদের মতে বেদ ❝ঈশ্বরীয়❞ ও নিত্য। কল্পের প্রারম্ভে ঋষিরা ইহার প্রকাশ করিয়াছিলেন। বেদ ঋষিদের নিজস্ব বস্তু নয়, তাঁহারা বেদের রচয়িতা নহেন তাঁহারা বেদের দ্রষ্টা। উত্তর মীমাংসা বা বেদান্তদর্শন এই ঈশ্বরীয় পক্ষ সমর্থন করিয়াছেন। উত্তর মীমাংসার মতে বেদ দিব্যবাক্।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-apaurusheya">
+        <div class="section-head">
+          <div class="section-thread">৪</div>
+          <h2>অপৌরুষেয়বাদ</h2>
+        </div>
+        <p>চতুর্থ পঞ্চ বেদকে ❝অপৌরুষেয়❞ বলেন। ইহারা বেদের উৎপত্তি স্বীকার করের না। অভিব্যক্তি স্বীকার করেন। মীমাংসা দর্শনকার জৈমিনীর মতে শব্দ নিত্য। নিত্য পদার্থ অপরিণামী ও প্রবাহ ভেদে বিবিধ। যাহার স্বরূপ বা গুণের কোনই পরিবর্তন হয় না তাহা ❝অপরিণামী-নিত্য❞ এবং যাহা নানা রূপান্তরের মধ্যেও নিজের অস্তিত্ব রক্ষা করে তাহা ❝প্রবাহ-নিত্য❞। পরমাত্মা ❝অপরিণামী-নিত্য❞। তিনি সর্বদাই এক রস থাকেন কিন্তু প্রকৃতি প্রবাহ নিত্য। সৃষ্টি, স্থিতি, প্রলয়ের চক্র প্রকৃতি নানা পরিণাম প্রাপ্ত হয় কিন্তু রূপে ইহা নিত্য। বেদ শব্দময় কারণ। মহর্ষি জৈমিনি শব্দকে নিত্য বলিয়াছেন। অ-আ-ক-খ প্রভৃতি বর্ণের উৎপত্তি হয় না। ইহার অভিব্যক্তি হয়। স্বর্ণ হইতে অলঙ্কারের উৎপত্তি হয় কারণ অলংকার পূর্বে ছিল না। অন্ধকার গৃহে প্রদীপের সাহায্যে অলঙ্কার দৃষ্টে হয় এখানে অলঙ্কারের অস্তিত্ব পূর্বেই ছিল, তবে তাহার মাত্র অভিব্যক্তি হইল। কোনও বস্তুর অভিব্যক্তির পূর্বে তাহার উৎপত্তি হয়, উৎপত্তির পূর্বে অভিব্যক্তি হয় না। ক, খ, গ, ঘ প্রভতিকে অক্ষর বলে, কেননা ইহাদের ক্ষরণ বা ধ্বংস হয় না। অক্ষর জগতের প্রত্যেক স্থানেই বর্তমান রহিয়াছে। কণ্ঠ, তালু, দন্ত প্রভৃতি স্থান অক্ষরকে উৎপাদন করে না, ব্যক্ত করে মাত্র। অক্ষর সমষ্টি মিলিত হইয়া পদ ও শব্দসমষ্টি। ইহারা কোন অর্থ প্রকাশ করিতে মিলিত হইয়া বাক্য গঠন করে। অক্ষর বা বর্ণ কোন পুরুষ বিশেষের রচিত নয় বলিয়া অপৌরুষেয়। বর্ণ অপৌরুষেয় হইলেও বিভিন্ন অর্থের সংকেত অনুসারে ইহারা মিলিত হইয়া পদ গঠন করে এবং বিভিন্ন পদও অর্থের সংকেতানুসারে মিলিত হইয়া বাক্য গঠন করে। মনুষ্যকৃত গ্রন্থে এই সব বর্ণ ও বাক্যের সাহায্যে অর্থের সংকেত প্রকাশ কর। হইয়াছে। বেদ ও মনুষ্যকৃত গ্রন্থের পার্থক্য এই স্থানে যে, মনুষ্যকৃত গ্রন্থের বর্ণ বা অক্ষর অপৌরুষেয় হইলেও পদ বা বাক্য সমষ্টি পৌরুষেয়। কিন্তু বেদের পদ, শব্দার্থ, বাক্য, বাক্যার্থ সবই অপৌরুষেয়। বেদমন্ত্রকে কোন পুরুষ বিশেষ রচনা করে নাই। ইহা নিদিষ্ট আকারে অনাদিকাল হইতে চলিয়া আসিতেছে। ঋষিরা নিজের তপোবলে এই নিত্য বেদকে দর্শন করেন ও তাহাকে অভিব্যক্ত করেন। বেদমন্ত্রের অর্থকেও তাঁহারা দর্শন করেন। বেদ শব্দার্থ সম্বন্ধযুক্ত হইয়াই অনাদিরূপে অবস্থান করে। ঋষিরা যুগে যুগে ইহা প্রকাশ করেন। জৈমিনি শব্দের নিত্যতা প্রমাণ করিরাই বেদের নিত্যত্ব সিদ্ধ করিয়াছেন এবং শব্দের অনিত্যত্ব খণ্ডন করিয়াছেন।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-shabda-vivad">
+        <div class="section-head">
+          <div class="section-thread">⚖</div>
+          <h2>শব্দ নিত্য কি না — দুই পক্ষের বিচার</h2>
+        </div>
+        <div class="dialectic">
+          <div class="voice against">
+            <span class="voice-label">অনিত্যতাবাদ</span>
+            <p>শব্দের অনিত্যতাবাদীরা বলেন—❝শব্দ স্বয়ং উৎপন্ন হয় না, কণ্ঠ, তালু, দন্ত প্রভৃতির প্রযত্ন দ্বারা ইহা উৎপন্ন হয়; শব্দ এক প্রকারের উচ্চারণ ক্রিয়া। উচ্চারণের সহিত স্বল্প সময়ের জন্য শব্দ প্রত্যক্ষ হয়। ইহা প্রথমে অনুৎপন্ন ছিল, উচ্চারণের সময় স্বল্প সময়ের জন্য ইহার স্থিতি হয় এবং উচ্চারণের পরেই ইহার ধ্বংস হয়। অতএব যাহা উৎপন্ন তাহা নিত্য নহে।❞</p>
+          </div>
+          <div class="voice for">
+            <span class="voice-label">নিত্যতাবাদ</span>
+            <p>শব্দের নিত্যতাবাদীরা ইহার উত্তরে বলেন—❝উচ্চারণের পূর্বে শব্দের অস্তিত্ব আছে; ইহা নিরাকার, নিত্য ও অব্যক্ত রূপে আছে। উচ্চারণ করিলে ইহা উৎপন্ন হয় না, শুধু ব্যক্ত হয় মাত্র। উচ্চারণের পর ইহার ধ্বংস হয় না শুধু শ্রবণেনিয়ের আগোচর হয় মাত্র। উচ্চারিত হইলে ইহ্য শ্রবণেন্দ্রিয়ের গোচরীভূত হয় এবং শব্দকারীর সহিত ইহার কোন সম্বন্ধ থাকে না। আজ একটা শব্দ শ্রুতিগোচর হইয়া জ্ঞান প্রকাশ করিল, বহুদিন পরও শব্দটা জ্ঞান প্রকাশ করিবে। ইহাতেই শব্দের নিত্যতা সিদ্ধ হয়।</p>
+          </div>
+          <div class="voice against">
+            <span class="voice-label">অনিত্যতাবাদ</span>
+            <p>শব্দের অনিত্যতাবাদীরা বলেন—❝রাম শব্দ করিল, যদু শব্দ করিবে ইত্যাদি বাক্যে শব্দের কর্তা রাম ও যদুকেই বুঝায়। যখন শব্দ কোন ব্যক্তি কর্তৃক উৎপন্ন কার্য, তখন তাহার নিত্যতা হইতে পারে না।❞</p>
+          </div>
+          <div class="voice for">
+            <span class="voice-label">নিত্যতাবাদ</span>
+            <p>শব্দের নিত্যতাবাদীরা বলেন—❝রাম ও যদু শব্দের নির্মাতা নহে, শব্দের উচ্চারণ কর্তা মাত্র। কেহই শব্দকে উৎপন্ন করিতে বলে না, উচ্চারণ করিতেই বলে। উৎপন্ন পদার্থের উপাদান কারণের প্রয়োজন হয় কিন্তু শব্দ উৎপাদনের জন্য উপাদান কারণ পাওয়া দুষ্কর; বায়ু শব্দের উপাদান কারণ নয়। বায়ু সাহায্য করে মাত্র। বায়ু, শব্দকে বহন করে। ধ্বনি ও শব্দের পার্থক্য সকলেই মানিয়া থাকেন।</p>
+          </div>
+          <div class="voice against">
+            <span class="voice-label">অনিত্যতাবাদ</span>
+            <p>শব্দের অনিত্যতাবাদীরা বলেন—❝এক সঙ্গে বহু লোকে মিলিয়া শব্দ করিলে তাহার বৃদ্ধি হয় এবং অল্প লোক বালক বা রোগী উচ্চারণ করিলে তাহা হ্রাস হয়, শব্দ নিত্য হইলে তাহাতে হ্রাস বৃদি হইতে পারে না।❞</p>
+          </div>
+          <div class="voice for">
+            <span class="voice-label">নিত্যতাবাদ</span>
+            <p>নিত্যতাবাদীরা বলেন—❝বহুজনে মিলিয়া শব্দ করিলে শুধু ধ্বনি বৃদ্ধি পায়, শব্দ বৃদ্ধি পায় না। ধ্বনির হ্রাস বৃদ্ধিতে শব্দের হ্রাস বৃদ্ধি ঘটে না।❞</p>
+          </div>
+          <div class="voice against">
+            <span class="voice-label">অনিত্যতাবাদ</span>
+            <p>শব্দের অনিত্যতাবাদীরা বলেন—❝নিত্য বস্তুর হ্রাস বৃদ্ধি হয় না কিন্তু ব্যাকরণ গ্রন্থে দেখি শব্দের বিকৃতি, রূপান্তর ও হ্রাস বৃদ্ধি হয়।❞</p>
+          </div>
+          <div class="voice for">
+            <span class="voice-label">নিত্যতাবাদ</span>
+            <p>শব্দের নিত্যতাবাদীরা বলেন—❝ব্যাকরণ গ্রন্থে যে, 'ই' স্থানে 'য' হয় বা 'উ' স্থানে 'ব' হয় ইহা আকৃতির বিকৃতি ভাব নহে এখানে দুটি বর্ণ সম্পূর্ণ স্বতন্ত্র ও পৃথক।❞</p>
+          </div>
+          <div class="voice against">
+            <span class="voice-label">অনিত্যতাবাদ</span>
+            <p>শব্দের অনিত্যতাবাদীরা বলেন—❝বহু সময় বহু স্থানে বহু লোক একই শব্দের উচ্চারণ করে। শব্দ নিত্য হইলে এইরূপ ঘটিত না।❞</p>
+          </div>
+          <div class="voice for">
+            <span class="voice-label">নিত্যতাবাদ</span>
+            <p>শব্দের নিত্যতাবাদীরা বলেন—❝নিত্য বস্তুর ইহাও একটি লক্ষণ। একই পরমাত্মাকে বহু স্থানে বহু ব্যক্তি অনুভব করিতে পারে। ইহাতে নিত্যত্ব খণ্ডিত হয় না, সিদ্ধ হয়।❝❞</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section fade-in" id="sec-charivede">
+        <div class="section-head">
+          <div class="section-thread">४</div>
+          <h2>চারিবেদ</h2>
+        </div>
+        <p>পরমাত্মা যেমন নিত্য তাঁহার জ্ঞান এই বেদও নিত্য। ভিন্ন ভিন্ন বিদ্যা জানিবার জন্য একই বেদ চারিভাগে বিভক্ত হইয়াছে—ঋগ্বেদ, যজুর্বেদ, সামবেদ ও অথর্ববেদ। চারি বেদে যথাক্রমে চারি বিষয়ের বর্ণনা রহিয়াছে, যথা—বিজ্ঞান, কর্ম, উপাসনা ও জ্ঞান। ঋচ্ ধাতুর অর্থ স্তুতি করা অর্থাৎ গুণ প্রকাশ করা। যে বেদ সর্ব পদার্থের স্তুতি অর্থাৎ গুণ প্রকাশ করা হইয়াছে তাহাই ঋগ্বেদ। যজ্ ধাতুর অর্থ দেব পুজা, সঙ্গতি করণ ও দান। যে বেদে মোক্ষ সাধনা ও ইহলৌকিক ব্যবহার অর্থাৎ কর্মকাণ্ডের বিধান প্রকাশিত হইয়াছে তাহাই যজুর্বেদ। যাহাতে জ্ঞান ও আনন্দের উন্নতি হয় তাহাই সামবেদ। থর্ব অর্থে সচল এবং অথর্ব অর্থে অচল ব্রহ্ম; যাহাতে অচল ব্রহ্মের জ্ঞান ও সংশয়ের দোদুল্যমান অবস্থার সমাপ্তি হয় তাহাই অথর্ববেদ। ছন্দবেদ, অথবাঙ্গিরস ও ব্রহ্মবেদ এগুলি অথর্ববেদেরই নাম।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-ayatan">
+        <div class="section-head">
+          <div class="section-thread">⊞</div>
+          <h2>বেদের আয়তন ও মন্ত্রসংখ্যা</h2>
+        </div>
+        <p>ঋগ্বেদে মোট মন্ত্রসংখ্যা ১০৫৫২। সমস্ত ঋগ্বেদ ১০ মণ্ডলে, ৮৫ অনুবাকে ও ১০২৮ সূক্তে বিভক্ত। ঋগ্বেদকে অন্যভাবেও বিভাগ করা হইরাছে। যেমন— অষ্টক ৮, অধ্যায় ৬৪ ও বর্গ ১০২৪। যজুর্বেদের মোট মন্ত্র সংখ্যা ১৯৭৫ এবং সাম বেদের মস্তসংখ্যা ১৮৭৫। সামবেদ ৩ ভাগে বিভক্ত, যথা— পূর্বার্চিক, মহানাম্নী আর্চিক ও উত্তরার্চিক। মহানাম্নী আর্চিককে পূর্বাচিকের মধ্যেই ধরা হয়। পূর্বার্চিক ৪ কাণ্ডে বিভক্ত, ৪ কাণ্ড ৬ প্রপাঠক বা ৫ অধ্যায়ে বিভক্ত। প্রপাঠক অর্ধপ্রপাঠক ও দশতিতে বিভক্ত। উত্তরার্চিকে ২১ অধ্যায় ও ৯ প্রপাঠক। এই প্রপাঠকগুলিতে অর্ধপ্রপাঠক আছে, দশতি নাই কিন্তু সূক্ত আছে। অথর্ববেদের মন্ত্রসংখ্যা ৫৯৭৭। অথর্ববেদে ২০ কান্ড। এই কাণ্ডগুলি ৩৪ প্রপাঠকে বিভন্ত। ইহাতে ১১১ অনুবাক ৭৭ বর্গ ও ৭৩১ সূক্ত। সমগ্ন বেদে মোট মন্ত্রসংখ্যা ২০৩৭৯।</p>
+        <div class="stat-row">
+          <div class="stat-cell"><span class="stat-num">১০৫৫২</span><span class="stat-label">ঋগ্বেদ মন্ত্র</span></div>
+          <div class="stat-cell"><span class="stat-num">১৯৭৫</span><span class="stat-label">যজুর্বেদ মন্ত্র</span></div>
+          <div class="stat-cell"><span class="stat-num">১৮৭৫</span><span class="stat-label">সামবেদ মন্ত্র</span></div>
+          <div class="stat-cell"><span class="stat-num">৫৯৭৭</span><span class="stat-label">অথর্ববেদ মন্ত্র</span></div>
+          <div class="stat-cell"><span class="stat-num">২০৩৭৯</span><span class="stat-label">সর্বমোট মন্ত্র</span></div>
+        </div>
+      </div>
+
+      <div class="section fade-in" id="sec-rishi-devata">
+        <div class="section-head">
+          <div class="section-thread">ध</div>
+          <h2>মন্ত্রের ঋষি, দেবতা ছন্দ</h2>
+        </div>
+        <p>বেদের মন্ত্রগুলি গদ্য, পদ্য ও গানে প্রকাশিত। যজুঃ গদ্যে, ঋক্ পদ্যে, এবং সাম গানে প্রকাশিত—এজন্য বেদের আর এক নাম ❝ত্রয়ী❞। প্রত্যেকটি মন্ত্রের সহিত ঋষি, দেবতা, ছন্দ এবং স্বর উল্লিখিত হয়। যে যে ঋষি যে যে মন্ত্রের অর্থ প্রকাশ করিয়া মানব জাতির মহা উপকার সাধন করিয়াছেন, সেই সেই ঋষির নাম, সেই সেই মন্ত্রের সহিত স্মরণ করা হয়। ঋষিগণ মন্ত্রের রচয়িতা ছিলেন না, তাঁহারা ছিলেন মন্ত্রের দ্রষ্টা। মন্ত্রগুলিতে ভিন্ন ভিন্ন বিষয় বর্ণিত হইয়াছে। যে মন্ত্রের যেটি মুখ্য বিষয় সে মন্ত্রের সেইটিই দেবতা। মন্ত্রের বর্ণিত বিষয়কে দেবতা বলে। মন্ত্রের সহিত দেবতার উল্লেখ থাকায় দৃষ্টি মাত্রেই মন্ত্রের মুখ্য বিষয়টি উপলব্ধি হয়। পাঠের সুবিধার জন্য মন্ত্রের সহিত ছন্দেরও উল্লেখ করা হয়। যে যে মন্ত্র, যে যে ছন্দে প্রকাশিত সেই সেই মন্ত্রে সেই সেই ছন্দ।</p>
+        <p>ছন্দ তিন প্রকারের— ছন্দ, অতিছন্দ ও বিছন্দ। এই তিনের প্রত্যেকটিতে ৭টি করিয়া ভেদ আছে। ছন্দ সাতটি, যথা—গায়ত্রী, উষ্ণিক্, অনুষ্টুপ, বৃহতী, পঙক্তি, ত্রিষ্টুপ ও জগতী। অতিছন্দও সাতটি। যথা—অতিজগতী, শক্করী, অতিশক্করী, অষ্টি, অত্যষ্টি, ধৃতি ও অতিধৃতি। বিছন্দও সাতটি, যথা—কৃতি, প্রকৃতি, আকৃতি, বিকৃতি, সংবৃতি, অতিকৃতি ও উৎকৃতি। এই ২১টি ছন্দের প্রত্যেকটিতে বিভিন্ন সংখ্যক অক্ষর যুক্ত থাকে। গায়ত্রীতে ২৪ অক্ষর, উষ্ণিকে ২৭ টি, অনুষ্টুপে ৩২ টি, বৃহতীতে ৩৬ টি, পঙক্তিতে ৪০ টি, ত্রিষ্টুপে ৪৪টি, জগতীতে ৪৮টি, অতিজগতীতে ৫২টি, শঞ্জরীতে ৫৬টি, অতিশক্করীতে ৬০টি, অষ্টিতে ৬৪টি, অত্যষ্টিতে ৬৮টি, ধৃতিতে ৭২টি, অতিধৃতিতে ৭৬টি, কৃতিতে ৮০ টি, প্রকৃতিতে ৮৪ টি. আকৃতিতে ৮৮টি, বিকৃতিতে ৯২টি, সংকৃতিতে ৯৬টি, অতিকৃতিতে ১০০টি এবং উৎকৃতিতে ১০০৪টি অক্ষর থাকে। এই ২১ ছন্দের মধ্যে কোনটিতে এক অক্ষর কম হইলে তাহাতে নিচৃৎ এবং এক অক্ষর বেশী হইলে ভুরিজ্ বিশেষণ যুক্ত হয়। এই ২১ ছন্দের আর্ষী, দৈবী, আসুরী, প্রাজাপত্যা, যাজুষী, সাম্নী, আর্চী ও ব্রাহ্মী ভেদে ৮ ভেদ এবং বিরাট, নিচৃৎ, শুদ্ধা, ভুরিজ ও স্বরাট ভেদে ৪ ভেদ হয়। অতিছন্দ ও বিছন্দেরও ভেদ হয়। এইভাবে নানা পদ যোজনা ও অক্ষর যোজনা দ্বারা এইসব ছন্দের নানা বিভেদ করা হইয়াছে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-bedanga">
+        <div class="section-head">
+          <div class="section-thread">६</div>
+          <h2>বেদাঙ্গ ও স্বর</h2>
+        </div>
+        <p>বেদান্তের অভ্যাস বেদার্থ বোধের সহায়তা করে। শিক্ষা, কল্প, ব্যাকরণ, নিরুক্ত, ছন্দ ও জ্যোতিষ এই ছয়টিকে বেদের ষড়ঙ্গ বলে। বর্ণ, স্বর, মাত্রা, বল ও সম—❝শিক্ষা❞ এই পাঁচটি বিষয়ের শিক্ষা দান করে। স্বর ও ব্যঞ্জন ভেদে বর্ণ দুই প্রকার। অ, আ, ক, খ প্রভৃতি বর্ণগুলি জ্ঞান অত্যাবশ্যক। প্রধানত স্বর ত্রিবিধ— উদাত্ত, অনুদাত্ত ও স্বরিৎ। উদাত্ত বিধানে উচ্চৈঃস্বরে, অনুদাত্ত বিধানে কোমল স্বরে, এবং স্বরিৎ বিধানে উদাত্ত ও অনুদাত্ত মধ্যবর্তী স্বরে উচ্চারণ করিতে হয়। স্বরিৎ উদাত্ত ও অনুদাত্তের মিলন স্বর ১৪ প্রকার। উদাত্ত, উদাত্ততর, অনুদাত্ত অনুদাত্ততর স্বরিৎ, স্বরিদুদাত্ত ও একশ্রুতি—এই সাতটি স্বর উদাত্ত ভেদে এবং ষড়ঙ্গ, ঋষভ, গান্ধার, মধ্যম পঞ্চম, ধৈবত ও নিষাদ—এই সাতটি স্বর ষড়ঙ্গ ভেদে বিধান করা হইয়াছে। ষড়ঙ্গ বিহিত সাতটি স্বরকে সংক্ষেপে ষ-ঋ-গ-ম-প-ধ-নি বলা হয়। উদাত্ত হইতে নিষাদ ও গান্ধার, অনুদাত্ত হইতে ঋষভ ও ধৈবত এবং স্বরিৎ হইতে ষড়জ, মধ্যম ও পঞ্চম স্বরের উৎপত্তি পরিকল্পনা করা হইয়াছে।</p>
+        <p>আমায়া সকলেই যাহা কিছু উচ্চারণ করি উদাত্ত, অনুদাত্ত বা স্বরিৎ বিধানে উচারণ করি। আয়াম অর্থাৎ অঙ্গ সকলকে রুদ্ধ করিয়া, দারুণ অর্থাৎ বাণীতে রুক্ষ করিয়া বা উচ্চৈঃস্বরে এবং অণ্বতা অর্থাৎ কণ্ঠকে কিছু রুদ্ধ করিয়া উদাত্ত স্বরের উচ্চারণ করা হয়। ❝অবর্ষ❞ অর্থাৎ গাত্রকে দোলায়মান করিয়া ❝মার্দব❞ অথাৎ স্বরের কোমলতা করিয়া এবং ❝উরুতা❞ অর্থাৎ কণ্ঠকে বিস্তৃত করিয়া অনুদাত্ত স্বরের উচ্চারণ করিতে হয়। উদাত্ত এবং অনুদাত্তের মিলনে উদাত্ত, স্বরিতের উৎপত্তি হয়। উচ্চ, নীচ, হ্রস্ব দীর্ঘ' ভেদেও স্বর উদাত্ততর, অনুদাত্ত, অনুদাত্ততর, স্বরিৎ, স্বরিতোদাত্ত ও একশ্রুতি—এই সাত প্রকারের হইয়া থাকে। স্বরিতেরও তিন ভেদ আছে—হ্রস্ব স্বরিৎ, দীর্ঘ স্বরিৎ ও দ্রুত স্বরিৎ। ষড়জ, ঋষভ, গান্ধার, মধ্যম, পঞ্চম, ধৈবত ও নিষাদ—এই সপ্ত স্বরকেই সংক্ষেপে ষ-ঋ-গ-ম-প-ধ-নি বলা হয়। সঙ্গীতে নিষাদ ও গান্ধার উদাত্তের লক্ষণে, ঋষভ ও ধৈবত অনুদাত্তের লক্ষণে ষড়জ, মধ্যম ও পঞ্চম স্বরিতের লক্ষণে প্রয়োগ করা হয়।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-swarchihno">
+        <div class="section-head">
+          <div class="section-thread">॑</div>
+          <h2>স্বরের চিহ্ন</h2>
+        </div>
+        <p>বেদ মন্ত্রের উদাত্ত, অনুদাত্ত ও স্বরিৎ ভেদ বুঝাইবার জন্য বৈদিক গ্রন্থ সমূহে কতকগুলি চিহ্ন প্রয়োগ করা হয়। উদাত্ত স্বরের সহিত কোনও চিহ্ন প্রযুক্ত হয় না। অনুদাত্ত বর্ণের নীচে শায়িত একটি রেখা প্রযুক্ত হয়। স্বরিতের উপরে লম্বমান একটি রেখা প্রযুক্ত হয়। মাত্রা তিন প্রকারের—হ্রস্ব, দীর্ঘ, প্লুত। প্লুত স্বর বুঝাইতে ৩ সংখ্যা ব্যবহৃত হয়।</p>
+        <p>ক॑, খ॒, গ, ঘ৩ — এখানে ক॑ উদাত্ত, খ॒ অনুদাত্ত, গ স্বরিত এবং ঘ৩ প্লুত স্বরিৎ। ❝নি❞ হ্রস্ব, ❝নী❞ দীর্ঘ এবং ❝নি৩❞ প্লুত। ক্রন্দনে ও গানে প্লুত স্বর ব্যবহৃত হয়। ইহাকে দীর্ঘ করিয়া উচ্চারণ করিতে হয়। স্বরের চিহ্ন সম্বন্ধে মতদ্বৈধ ও দৃষ্ট হয়। কেহ কেহ উদাত্ত বুঝাইতে বর্ণের উপরে লম্বমান রেখার, অনুদাত্ত বুঝাইতে বর্ণের নীচে শায়িত রেখার প্রয়োগ করেন এবং স্বরিতে কোনও রেখারই প্রয়োগ করেন না। কেহ কেহ স্বরিত বুঝাইতে বর্ণের নীচে একটি বক্র রেখারও প্রয়োগ করেন। কণ্ঠ দ্বরাই স্বরের উচ্চারণ করিতে হয় কিন্তু বৈদিক পণ্ডিতেরা কেহ কেহ স্বর পাঠের সংস্কারকে দৃঢ় করিবার জন্য অঙ্গ বিশেষের পরিচালনা করেন। ঋগ্বেদ, কৃষ্ণ যজুর্বেদ ও অথর্ববেদ পাঠ করিতে মস্তক পরিচালনা করা হয়— যেমন, মস্তককে নীচু করিয়া অনুদাত্ত, উঁচু করিয়া স্বরিৎ, এবং মস্তককে ঠিক রাখিয়া উদাত্ত। শুক্ল যজুর্বেদ পাঠ করিতে হস্তের অগ্রভাগ সঞ্চালন করা হয়। হস্তের অগ্রভাগ নামাইয়া অনুদাত্ত, উঠাইয়া উদাত্ত এবং দক্ষিণে বামে তির্যক সঞ্চালন করিয়া স্বরিৎ প্রকাশ করা হয়। ঋক্, যজু ও অথর্ববেদ সম্বন্ধেও এই ব্যবস্থা। সামবেদে ১, ২ ও ৩ সংখ্যা বর্ণের উপরে প্রয়োগ করা হয়। বর্ণের উপরে ১ উদাত্ত, ২ দ্বারা অনুদাত্ত এবং ৩ দ্বারা স্বরিৎ। কেহ ২ দ্বারা স্বরিৎ এবং ৩ ধারা অনুদাত্ত প্রকাশ করেন। ব্রাহ্মণ গ্রন্থের মধ্যে অন্যরূপ ব্যবস্থা অনুসৃত হয়। শুক্ল যজুর্বেদের ব্রাহ্মণের মধ্যেই স্বর উচ্চারিত হয়, চিহ্নাদিরও প্রয়োগ করা হয়। ঋক্, সাম ও অথর্ব বেদের ব্রাহ্মণের স্বর উচ্চারিত হয় না, চিহ্নাদিরও প্রয়োগ করা হয় না। কৃষ্ণ যজুর্বেদের ব্রাহ্মণে সংহিতার ন্যায়ই স্বরের উচ্চারণ হয় এবং চিহ্নাদির প্রয়োগ করা হয়। শুক্ল যজুর্বেদের শতপথ ব্রাহ্মণে বর্ণের নীচে অনুদাত্তবৎ শায়িত রেখা প্রয়োগ করিয়া উদাত্ত প্রকাশ করা হয়।</p>
+
+        <div class="accent-demo">
+          <div class="accent-demo-row">
+            <div class="accent-syll" data-type="udatta">ক<span class="tag">॑</span><span class="label">উদাত্ত</span></div>
+            <div class="accent-syll" data-type="anudatta">খ<span class="label">অনুদাত্ত</span></div>
+            <div class="accent-syll" data-type="svarita">গ<span class="tag">॒॑</span><span class="label">স্বরিত</span></div>
+            <div class="accent-syll" data-type="pluta">ঘ৩<span class="label">প্লুত</span></div>
+          </div>
+          <p class="accent-note">স্পর্শ করে দেখুন — প্রতিটি অক্ষরের উপরে বা নীচে যে চিহ্ন থাকে, তা-ই নির্দেশ করে স্বরের উচ্চতা: উদাত্তে চিহ্ন নাই, অনুদাত্তে নীচে রেখা, স্বরিতে উপরে রেখা, এবং প্লুতে সংখ্যা ৩।</p>
+        </div>
+
+        <p>বর্ণের উচ্চারণের মধ্যেও নানা পার্থক্য দৃষ্ট হয়। স্বরবর্ণের মধ্যস্থিত ❝ড❞-কে ❝ড়❞ এবং ❝ঢ❞-কে ❝ঢ়❞ উচ্চারণ করা হয়। অনুস্বারের ( ং) স্ট্রংচারণ নানাবিধ। এ স্বরকে কেহ কেহ অনুস্বারের পরে ❝ব❞(উয়) সংযোগ করিয়া উচ্চারণ করেন, কেহ কেহ ❝দীর্ঘ❞ অনুস্বারকে ❝ঁ❞ এইরূপ, হ্রস্ব অনুস্বারকে ং এইরূপ লিখিয়া থাকেন। কেহ কেহ বা বর্ণের উপরে ❝ঁ❞ চন্দ্রবিন্দু, দিয়া অনুস্বারের কার্য চালাইয়া থাকেন। দীর্ঘ অনুস্বারের উচ্চারণ ❝ব w❞ এইভাবেই করিয়া থাকেন। ❝য❞-এর উচ্চারণ কেহ কেহ ❝ইঅ❞ না করিয়া ❝জ❞ বৎ এবং ❝ষ❞ এর উচ্চারণ ❝খ❞ বৎ করিয়া থাকেন। সামবেদের উদাত্ত উচ্চারণে দক্ষিণ হস্তের বৃদ্ধাঙ্গুলিকে পৃথক রাখিয়া অন্য চারি অঙ্গুলিকে মিলিতভাবে খুলিয়া রাখা হয়। অনুদাত্ত উচ্চারণে বৃদ্ধাঙ্গুলির অগ্রভাগ তর্জনীর মধ্যপর্বে সংলগ্ন করা হয় এবং স্বরিৎ উচ্চারণে বৃদ্ধাঙ্গুলির মধ্যে পর্ব সংলগ্ন করা হয়। সামবেদে স্বরের সূক্ষ্ম তারতম্য বুঝাইতে আরও নানারূপে চিহ্ন প্রদত্ত হয়। অক্ষরের উপরে ❝র❞ থাকিলে বাম হস্তের কনিষ্ঠা, অনামিকা, মধ্যমা, তর্জনী, অঙ্গুষ্ঠ এক এক করিয়া তালু দেশে মুড়িয়া আনিতে হয়। ❝উ❞ অনুদাত্তের সঙ্গেই থাকে। তাহা প্রদর্শনের জন্য মধ্যমাঙ্গুলি মুড়িয়া অঙ্গুষ্ঠের মূলে আনা হয়। ❝ক❞ স্বরিতেরই সঙ্গে থাকে, ইহা প্রদর্শনের জন্য অঙ্গুষ্ঠে অগ্রভাগ দ্বারা মধ্যমার মূল ভাগ হইতে অগ্রভাগ পর্যন্ত স্পর্শ করিয়া লইতে হয়।</p>
+
+        <p>উদাত, অনুদাত্ত বা স্বরিতের ভেদ প্রদর্শন না করিয়া একটানা পড়িয়া যাওয়ার নামই ❝একশ্রুতি❞। যজ্ঞ কর্মে একশ্রুতি স্বরে বেদমন্ত্রের উচ্চারণ করিতে হয়। বেদ মন্ত্রের জপ করিতে ❝নুষ্থ❞ নামক বৈদিক স্তুতিতে এবং সামবেদে একশ্রুতি স্বরের ব্যবহার না করিয়া উদাত্ত, অনুদাত্ত, স্বরিতের ভেদ অনুসারে উচ্চারণ করিতে হয়।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-samagan">
+        <div class="section-head">
+          <div class="section-thread">♪</div>
+          <h2>সামগান</h2>
+        </div>
+        <p>সামগানে স্বর সম্বন্ধে বিশেষ জ্ঞানের প্রয়োজন আছে। উর, কণ্ঠ ও শির—এই তিন স্থান হইতে শব্দ উত্থিত হয়। উর স্থানকে প্রাতঃ সবন, কণ্ঠ স্থানকে মাধ্যন্দিন সবন এবং শিরস্থানকে তৃতীয় সবন মনে করিতে হইবে। এই তিন স্থানে সাত সাতটি স্বর বিচরণ করে। আমরা কর্ণ দ্বারা উহা শ্রবণ করিতে পারিনা। ৭ স্বর, ৩ গ্রাম, ২১ মূর্চ্ছনা ও ৪৯ প্রকার স্বর। ইহাকে স্বর মণ্ডল বলে। ষডজ, ঋষভ, গান্ধার, মধ্যম, পঞ্চম, ধৈবত ও নিষাদ—এ ৭টি স্বর। ষডজ, মধ্যম ও গান্ধার— এই তিনটি গ্রাম। ষডজ গ্রামে তান ১৪টি, মধ্যম গ্রামে ২০টি এবং গান্ধার গ্রামে তান ১৫টি। মূর্চ্ছনা তিন প্রকারের— ঋষি, পিতৃ ও দেব। নন্দী, বিশালা, সুমুখী, চিত্রা, চিত্রবতী, সুধা ও বলা— এই সাতটি দেবমূর্চ্ছনা। আপ্যায়নী, বিশ্বভুতা, চন্দা, হেমা, কপদিনী, মৈত্রী ও বার্হতী— এই সাতটি পিতৃ মূর্চ্ছনা। উত্তরমন্দ্রা, উদ্গাতা, অশ্বক্লান্তা, সৌবীরা হৃষ্যকা, উত্তরায়তা ও রজনী— এই সাতটি ঋষি মূর্চ্ছনা। গানের গুণ ১০টি— রক্ত, পূর্ণ, অলঙ্কৃত, প্রসন্ন, ব্যক্ত, বিকৃষ্ট, শুক্ষ্য, সম, সুকুমার ও মধুর। সঙ্গীত শাস্ত্রানুসারে সামবেদের মন্ত্রকে গানের আকারে রাখিয়া একই মন্ত্রের বিভিন্ন শব্দকে একাধিকবার প্রয়োগ করিয়া বহু দীর্ঘ করা হয়। ইহাকে গান সংহিতা বলে। সামগানে গান সংহিতারই প্রয়োগ হয়। গান সাহিত্য মন্ত্র সংহিতা হইতে সম্পূর্ণ পৃথক।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-pathprashali">
+        <div class="section-head">
+          <div class="section-thread">⌇</div>
+          <h2>বেদপাঠ প্রশালী</h2>
+        </div>
+        <p>বেদমন্ত্র কোনও রূপেই বিস্মৃত না হয় এবং ইহার মধ্যে কিছুই প্রক্ষিপ্ত না হইতে পারে এজন্য বেদপাঠের দুই প্রণালী আছে—❝নির্ভূজ❞ সংহিতা ও ❝পতৃণ❞ সাঁহতা। মন্ত্রটি যেরূপ আছে ঠিক সেইরূপ পাঠ করিলে তাহা নির্ভূজ সংহিতা। ❝অগ্নি মীডে পুরোহিতং যজ্ঞস্য পুরোহিতং দেবং ঋত্বিজম্❞— এই মন্ত্রটিকে ❝অগ্নি মীডে পুরোহিতং যজ্ঞস্য পুরোহিতং দেবং ঋত্বিজম্,❞ ঠিক এইরূপে অবিকৃতভাবে পাঠ করিলেই তাহাকে নির্ভূজ সংহিতা বলে। প্রতৃণ সংহিতার বহু ভেদ আছে। যেমন পদপাঠ, ক্রমপাঠ, জটাপাঠ, ধনপাঠ ইত্যাদি। সন্ধি ও বিরাম আদি বিচার করিয়া পাঠ করিলে তাহার নাম পদপাঠ; যেমন—❝অগ্নিং, ঈডে, পুরোহিতম্, যজ্ঞস্য, দেবম্, ঋত্বিজম্❞। ক্রমপাঠ এইরূপ যেমন—❝অগ্নিং ঈড়ে, ঈডে পুরোহিতম্, পুরোহিতং যজ্ঞস্য, যজ্ঞস্য দেবম্, দেবং ঋত্বিজম্।❞ জটাপাঠ এইরূপে যেমন—❝অগ্নিং ঈডে, ঈডে অগ্নিম্। অগ্নিং ঈডে, ঈডে পুরোহিতম্, পুরোহিতং ঈডে, ঈডে পুরোহিতম্। পুরোহিতং যজ্ঞস্য, যজ্ঞস্য পুরোহিতম্, পুরোহিতং যজ্ঞস্য, যজ্ঞস্য দেবম্, দেবং যজ্ঞস্য যজ্ঞস্য দেবম্, দেবং ঋত্বিজম্, ঋত্বিজম্ দেবম্, দেবং ঋত্বিজম।❞ ধনপাঠ এইরূপ যেমন —❝অগ্নিং ঈডে ঈডে অগ্নিম্, অগ্নিং ঈডে পুরোহিতম্; পুরোহিতং ঈডে অগ্নিম্। অগ্নিং ঈডে পুরোহিতম্; ঈডে পুরোহিতম্, পুরোহিতং ঈডে, ঈডে পুরোহিতম্ যজ্ঞস্য, যজ্ঞস্য পুরোহিতম্ ঈডে, ঈডে পুরোহিতং যজ্ঞস্য, পুরোহিতং যজ্ঞস্য, যজ্ঞস্য পুরোহিতং পুরোহিতং দেবম্, যজ্ঞস্য পুরোহিতম্, পুরোহিতং যজ্ঞস্য দেবম, যজ্ঞস্য দেবম্। দেবং যজ্ঞস্য, যজ্ঞস্য দেবং ঋত্বিজম্, ঋত্বিজম্ দেবং যজ্ঞস্য, যজ্ঞস্য দেবং ঋত্বিজম্ ইত্যাদি।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-bhashyakar">
+        <div class="section-head">
+          <div class="section-thread">✒</div>
+          <h2>বেদভাষ্য ও ভাষ্যকার</h2>
+        </div>
+        <p>বেদে তত্ত্ব ও রহস্যকে সুস্পষ্ট করিতেই বিভিন্ন ভাষ্যের সৃষ্টি হইয়াছে। স্মরণাতীত কাল হইতে কতজনে, কতভাবে বেদভাষ্য প্রণয়ন করিয়াছেন। ভাষ্যকারদের মধ্যে প্রাচীন কালের সায়ণাচার্য এবং বর্তমান যুগের দয়ানন্দ সরস্বতীই উচ্চস্থান অধিকার করিয়াছেন। সায়ণাচার্যের বেদভাষ্য পড়িলে জানা যায়, তিনি সংস্কৃত সাহিত্যের এক ধুরন্ধর পণ্ডিত ছিলেন। সায়ণাচার্য চতুর্দশ শতাব্দীতে বিজয়নগরের মহারাজার মন্ত্রীপদে আসীন ছিলেন। তাঁহার ভাষ্য পড়িলে মনে হয়, তিনি একাকী সমগ্র ভাষ্য প্রণয়ন করেন নাই। তাঁহার নেতৃত্বে অন্যান্য পণ্ডিতেরা ভাষ্য প্রণয়ন করিয়াছিলেন। মহর্ষি দয়ানন্দ সরস্বতী (১৮২৫-১৮৮৩ খৃঃ) বর্তমান যুগের সর্বশ্রেষ্ঠ বেদজ্ঞ পণ্ডিত। পণ্ডিত রোম্যাঁরলার মতে— ❝আচার্য শঙ্করের পর বেদের এতবড় পণ্ডিত ভারতে জন্মগ্রহণ করেন নাই।❞</p>
+      </div>
+
+      <div class="section fade-in" id="sec-rigbhashyakar">
+        <div class="section-head">
+          <div class="section-thread">ऋ</div>
+          <h2>ঋগ্বেদের ভাষ্যকার</h2>
+        </div>
+        <ol class="scholar-list">
+          <li><span class="scholar-num">১</span>স্কন্দস্বামী (৬৩০ খৃঃ)</li>
+          <li><span class="scholar-num">২</span>নারায়ণ (৬৩০ খৃঃ)</li>
+          <li><span class="scholar-num">৩</span>উগ্দীথ (৬৩০ খৃঃ)</li>
+          <li><span class="scholar-num">৪</span>হস্তামলক (৭০০ খৃঃ)</li>
+          <li><span class="scholar-num">৫</span>বেঙ্কট মাধব (খৃঃ দ্বাদশ শতাব্দীর মধ্যভাগ)</li>
+          <li><span class="scholar-num">৬</span>লক্ষ্মণ (খৃঃ দ্বাদশ শতাব্দীর প্রথমভাগ)</li>
+          <li><span class="scholar-num">৭</span>ধানুক বন্বা (খৃঃ ১৩শ শতাব্দী)</li>
+          <li><span class="scholar-num">৮</span>আনন্দতীর্থ (১১৯৮—১২৭৮ খৃঃ)</li>
+          <li><span class="scholar-num">৯</span>আত্মানন্দ (খৃঃ ১৩শ শতাব্দী)</li>
+          <li><span class="scholar-num">১০</span>সায়ণাচার্য (খৃঃ ১৪শ শতাব্দী)</li>
+          <li><span class="scholar-num">১১</span>রাবণ (খৃঃ ১৬শ শতাব্দী)</li>
+          <li><span class="scholar-num">১২</span>মুদ্গল (১৫শ শতাব্দী)</li>
+          <li><span class="scholar-num">১৩</span>চতুর্বেদ স্বামী (১৬শ শতাব্দী)</li>
+          <li><span class="scholar-num">১৪</span>দেবস্বামী ভট্টভাস্কর। উব্বট (১১শ শতাব্দী)</li>
+          <li><span class="scholar-num">১৫</span>হরদত্ত</li>
+          <li><span class="scholar-num">১৬</span>সুদর্শন সূরি</li>
+          <li><span class="scholar-num">১৭</span>দয়ানন্দ সরস্বতী (১৮২৫—১৮৮৩ খৃঃ)</li>
+        </ol>
+      </div>
+
+      <div class="section fade-in" id="sec-yajurbhashyakar">
+        <div class="section-head">
+          <div class="section-thread">य</div>
+          <h2>যজুর্বেদ ভাষ্যকার</h2>
+        </div>
+        <ol class="scholar-list">
+          <li><span class="scholar-num">১</span>শৌনক</li>
+          <li><span class="scholar-num">২</span>হরিস্বামী (৫৮১ খৃঃ)</li>
+          <li><span class="scholar-num">৩</span>উব্বট (১১শ শতাব্দী)</li>
+          <li><span class="scholar-num">৪</span>গৌরধর (১২৯৩ খৃঃ)</li>
+          <li><span class="scholar-num">৫</span>রাবণ (খৃঃ ১৬শ শতাব্দী)</li>
+          <li><span class="scholar-num">৬</span>মহীধর (খৃঃ ১৬শ গতাব্দী)</li>
+          <li><span class="scholar-num">৭</span>দয়ানন্দ সরস্বতী। (১৮২৫—১৮৮৩ খৃষ্টাব্দ)</li>
+        </ol>
+      </div>
+
+      <div class="section fade-in" id="sec-samabhashyakar">
+        <div class="section-head">
+          <div class="section-thread">सा</div>
+          <h2>সামবেদ ভাষ্যকার</h2>
+        </div>
+        <ol class="scholar-list">
+          <li><span class="scholar-num">১</span>গুণ বিষ্ণু (খৃঃ ১৩শ শতাব্দী)</li>
+          <li><span class="scholar-num">২</span>মাধব</li>
+          <li><span class="scholar-num">৩</span>ভরত স্বামী (খৃঃ ১৪শ শতাব্দী)</li>
+          <li><span class="scholar-num">৪</span>সায়ণাচার্য (খৃঃ ১৪শ শতাব্দী)</li>
+          <li><span class="scholar-num">৫</span>শোভাকর ভট্ট (খৃঃ ১৫শ শতাব্দী)</li>
+          <li><span class="scholar-num">৬</span>মহাবাহী</li>
+          <li><span class="scholar-num">৭</span>সূর্যদৈবজ্ঞ (খৃঃ ১৬শ শতাব্দী)</li>
+        </ol>
+      </div>
+
+      <div class="section fade-in" id="sec-atharvabhashyakar">
+        <div class="section-head">
+          <div class="section-thread">अ</div>
+          <h2>অথর্ববেদ ভাষ্যকার</h2>
+        </div>
+        <p>১। সায়ণাচার্য (খৃঃ ১৪শ শতাব্দী)। দয়ানন্দের পরে পণ্ডিত জয়দেব বিদ্যালংকার আজমীড় হইতে চতুর্বেদের ভাষ্য প্রণয়ন করিয়াছেন। মহামহোপাধ্যায় আর্যমুনি এবং পণ্ডিত শিবশংকর কাব্যতীর্থের বেদভাষ্য উচ্চ সম্মান লাভ করিয়াছে। পণ্ডিত সত্যব্রত সামশ্রমীর যজুর্বেদ ভাষ্য, তুলসীরাম স্বামী। সামবেদ ভাষ্য এবং পণ্ডিত ক্ষেমকরণের অথর্ববেদ ভাষ্য বর্তমানে আদৃত হইয়াছে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-anga">
+        <div class="section-head">
+          <div class="section-thread">६+६</div>
+          <h2>বেদের অঙ্গ, উপাঙ্গ, উপবেদ</h2>
+        </div>
+        <p>বেদার্থ জানিবার জন্য শিক্ষা, কল্প, ব্যাকরণ, নিরুক্ত, ছন্দ ও জ্যোতিষ এই ❝ষড়ঙ্গ❞ প্রবর্তিত হইয়াছে। ❝শিক্ষা❞ ছয় প্রকারের— শব্দ, শব্দাঘাত, শব্দাবয়ব, শব্দাবয়বাঘাত, স্বর মাধুর্য ও শব্দ সন্ধি। শিক্ষা গ্রন্থে এই সকল শিক্ষা দেওয়া হয়। শ্রৌত, গৃহ্য, ধর্ম ও শূল্ব— এই চারি সূত্রের নাম ❝কল্প❞। ইহাতে যজ্ঞ প্রয়োগ বিধি কল্পিত হইয়ছে বলিয়া ইহার নাম কল্প। আপস্তম্ব, বৌধায়ন, আশ্বলায়ন, প্রড়তি ঋষিরা সূত্রাকারে কল্পগ্রন্থ প্রণয়ন করিয়াছেন। শ্রৌতসূত্রে ধর্মানুষ্ঠান ও যজ্ঞ সম্বন্ধে বিধান। গৃহ্যসূত্রে গার্হস্থ্য বিধি, গর্ভাধান হইতে অন্ত্যেষ্টি এই ঘেড়শ সংস্কার ও পঞ্চমহাযজ্ঞের বিধান, ধর্মসূত্রে দায়ভাগ, শাসন বিধি কর্মবিধি ও চারিবর্ণের আচার বিচার এবং শূল্ব সূত্রে বেদীরচনা, অগ্নিকুণ্ড রচনাদি বর্ণিত আছে। শূল্ব সূত্রের সম্বন্ধ শ্রৌতসূত্রেরই সঙ্গে।</p>
+        <p>কর্মকাণ্ডের জন্য সূত্র গ্রন্থ রচিত হইয়াছে। ঋগ্বেদের আশ্বলায়ন ও সাংখ্যায়ন শ্রৌতসূত্র এবং ইহাদের উভয়ের গৃহ্য সূত্রও পাওয়া যায়। শৌনকের এক প্রাতিশাখ্য সূত্র আছে। যজুর্বেদের কঠ, মান্ব, লৌগাক্ষি, কাত্যায়ন, ভারদ্বাজ, আপস্তম্ব, হিরণ্যকেশী, বাধুল, বৈখানস, মৈত্রা বরুণী ও ছাগল শ্রৌতসূত্র পাওয়া যায়। গৃহ্যসূত্রও এতগুলিই আছে। শুক্ল যজুর্বেদের কাত্যায়ন ও বৈজপায় শ্রোতসূত্র, পারস্কর ও কাতীয় গৃহ্যসূত্র। কাত্যায়নের এক প্রতিশাখ্য আছে। সামবেদের পঞ্চবিংশ ব্রাহ্মণের এক শ্রৌতসূত্র ও গৃহ্যসূত্র আছে। দ্বিতীয়— লাট্যায়ন শ্রৌতসূত্র বা মশকসূত্র, তৃতীয়— দ্রাক্ষায়ণ শ্রৌতসূর, চতুর্থ— অনুপদ হতে,পঞ্চম—গোভিল কৃত পুষ্প সূত্র এবং তাণ্ডা লক্ষণ, উপগ্রন্থ, কল্পান্পদ, অনুস্তোত্র ও ক্ষুদ্র সূত্র আছে। ইহার গৃহ্যসূত্রের মধ্যে গোভিল গৃহ্যসূত্র; কাত্যায়ন কমদীপ, খদির গৃহ্যসূত্র ও পিতৃমেবসূত্র আছে। অথর্ববেদের কৌশিক, বৈতান, নক্ষত্র কল্প, অঙ্গিরস ও শান্তিকল্প সূত্র আছে।</p>
+        <p>যাহা দ্বারা ভাষায় সম্যক জ্ঞান লাভ হয় তাহার নাম ব্যাকরণ। পাণিনির অষ্টাধ্যায়ী ব্যাকরণই বর্তমানে একমাত্র বৈদিক ব্যাকরণ। মহর্ষি পতঞ্জলি ইহার উপর মহাভাষ্য নামে এক ভাষ্য রচনা করিয়াছিলেন। পাণিনির পূর্বেও বহু বৈদিক বৈয়াকরণ বিদ্যমান ছিলেন, তন্মধ্যে সাকল, সেনাকাশ, স্ফোটায়ন, গার্গ্যেয়, গালব, শত্রুবর্মন, ভারদ্বাজ, অপিশালী ও কাশ্যপের নাম উল্লেখযোগ্য। ইহাদের ব্যাকরণ হইতেই পাণিনি সূত্রাকারে অষ্টাধ্যায়ী প্রণয়ন করিয়াছিলেন।</p>
+        <p>নিরুক্তে বৈদিক শব্দ ও বাক্য সমূহের অর্থ সুস্পষ্ট করা হইয়াছে। যাস্কমুনি কৃত অতি প্রাচীন ও প্রসিদ্ধ নিরুক্ত গ্রন্থই বর্তমানে আদৃত হইতেছে। যাস্কের পূর্বেও কৌৎস, শাকপুণি, ঔর্ণনাভ ও স্থোলাস্টীরী প্রভৃতি নিরুক্তকার বিদ্যমান ছিলেন। যাস্ক খৃষ্টপূর্ব পঞ্চম শতাব্দীর লোক। নিঘণ্টু নিরুক্তের অঙ্গীভূত। নিঘণ্টু বেদের অর্থ প্রকাশক শব্দকোষ বা অভিধান মাত্র। দেবরাজ যজ্বা নিঘণ্টুর টীকা লিখিয়াছেন এবং দুর্গাচার্য নিরুক্তের বৃত্তি প্রণয়ন করিয়াছেন। ছন্দ সম্বন্ধে পূর্বেই বর্ণনা করা হইয়াছে। ❝জ্যোতিষ❞ গ্রন্থে আকাশস্থ জ্যোতিষ্কমণ্ডলীর গতিবিধি সম্পর্কে সম্যক জ্ঞান লাভ করা যায়। উপাঙ্গ ছয়টি। গৌতমের ন্যায়, কণাদের বৈশেষিক, কপিলের সাংখ্য, পতঞ্জলির বোগ, জৈমিনির পূর্ব মীমাংসা এবং ব্যাসদেবের ব্রহ্মসূত্র বা উত্তর মীমাংসা (বেদান্ত)। উপাঙ্গের তীক্ষ্ণ বিচার দ্বারা বেদের সিদ্ধান্ত প্রমাণিত হইয়াছে। উপবেদ চারি প্রকারের। ধনুর্বেদ বা যুদ্ধবিদ্যা, গন্ধর্ববেদ বা সঙ্গীত বিদ্যা, অর্থবেদ বা শিল্প বিদ্যা, আয়ুর্বেদ বা চিকিৎসা বিদ্যা।</p>
+        <p>বেদের ছয় উপাঙ্গের নাম ষড়দর্শন বা ষট্শাস্ত্র। জৈমিনী কৃত পূর্ব মীমাংসা সুত্রে কর্মকাণ্ডের বিধান, ধর্ম ও ধর্মী সম্বন্ধে বর্ণনা রহিয়াছে। ব্যাসদেব পূর্ব মীমাংসার ভাষ্য রচনা করিয়াছেন। গৌতমমুনি কণাদ কৃত বৈশেষিক সূত্রের প্রশস্ত পাদ ভাষ্য, বাৎসায়ন মুনি গৌতম কৃত ন্যায় সূত্রের ভাষ্য, ব্যাসদেব পতঞ্জলি কৃত যোগসূত্রের ভাষ্য, ভাগুরীমুনি কপিলকৃত সাংখ্যসূত্রের ভাষ্য এবং বৌধায়ন মুনি ব্যাস কৃত ব্রহ্মসূত্র উত্তর মীমাংসার ভাষ্য রচনা করিয়াছেন। ঈশ, কেন, কঠ, প্রশ্ন, মুণ্ডক, মাণ্ডুক্য, তৈত্তিরীয়, ঐতরেয়, শ্বেতাশ্বতর, ছান্দোগ্য ও বৃহদারণ্যক — এই ১১ খানি উপনিষদকে বেদান্ত বলে। ব্যাস ইহার সার সংকলন করিয়া সূত্রাকার ব্রহ্মসূত্র রচনা করিয়াছিলেন। এই জন্য ইহাকে বেদান্তদর্শন বলে। অনেকে উপনিষদকে সংহিতা, বেদের অংশ বলিয়া মনে করেন। কিন্তু ঈশোপনিষদ ব্যতীত অবশিষ্ট উপনিষদগুলি সকলই ব্রাহ্মণগ্রন্থের অংশ মাত্র।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-shakha">
+        <div class="section-head">
+          <div class="section-thread">शा</div>
+          <h2>বেদের শাখা</h2>
+        </div>
+        <p>পাণিনি ব্যাকরণের মহাভাষ্যে ঋষি পতঞ্জলি বেদের শাখা সম্বন্ধে লিখিয়াছেন—❝এক শতমধ্বর্ষুশাখাঃ সহস্র বর্ত্মা সামবেদঃ, এক বিংশতিধা বাহ্বুচাম্, নবাধাঽথর্বণো বেদঃ।❞ পস্পশাহ্নিক। অর্থাৎ যজুর্বেদের শাখা এক শত, সামবেদের এক হাজার, ঋগ্বেদের একুশ এবং অথর্ববেদের নয়।</p>
+        <p>পতঞ্জলির মতে বেদের মোট শাখা ১১৩০। মহর্ষি দয়ানন্দের মতে বেদের শাখা ১১ॐ২৭। বৃক্ষের শাখা যেমন বৃক্ষের অবয়ব ও অংশবিশেষ, বেদের শাখা বেদের সেরূপ অবতার বা অংশবিশেষ নহে। শাখা নদীকে যেমন নদীর অংশ বিশেষ মনে না করিয়া উহা হইতে পৃথক মনে করা হয়, বেদের শাখাও তদ্রুপ বেদের শাখা বেদ হইতে স্বতন্ত্র গ্রন্থ। রামায়ণের কাণ্ড ও মহাভারতের পর্ব স্বতন্ত্র গ্রন্থ নয়। বেদের শাখা সেরূপ নয়। তাহারা পরস্পর সাপেক্ষ ও অনুবদ্ধ নয়। সপ্তকাণ্ড মিলিয়া যেমন রামায়ণ, ১৮ পর্ব মিলিয়া যেমন মহাভারত; তেমন একুশ শাখা মিলিয়া ঋগ্বেদ নহে। একশত শাখা মিলিয়া যজুর্বেদ নহে, এক হাজার শাখা মিলিয়া সামবেদ নহে বা নয় শাখা মিলিয়া অথর্ববেদ নহে। বেদের কোনও একটি শাখা অপরটি হইতে ভিন্ন নিরপেক্ষ ও স্বতন্ত্র। ঋষিরা বেদাভ্যাস প্রণালী সুগম করিতেই পৃথক পৃথক শাখার সৃষ্টি করিয়াছিলেন। যতগুলি থাকিবে শাখা, ততগুলি থাকিবে ব্রাহ্মণ, ততগুলি থাকিবে শ্রৌতসূত্র এবং ততগুলি থাকিবে গৃহ্যসূত্র। বর্তমানে বহু শাখা লুপ্ত হইয়াছে। একুশটি শাখার মধ্যে বর্তমানে বাস্কল ও শাকল এই দুই শাখা পাওয়া যায়। অবশিষ্ট ১৯টি শাখা লুপ্ত হইয়াছে। শুক্ল যজুর্বেদের কাণ্ব ও মাধ্যন্দিন এই দুই শাখা এবং কৃষ্ণ যজুর্বেদের তৈত্তিরীয়, কঠী ও মৈত্রায়ণী এই তিন শাখা পাওয়া যায়। সামবেদের এক সহস্র শাখার মধ্যে মাত্র তিনটি পাওয়া যায়— কৌথুমী, জৈমিনীয়া ও রাণায়ণীয়া। যজ্ঞে বা ঈশ্বর উপাসনায় ভক্তেরা সামবেদ সংহিতার মন্ত্রগুলিকে গানের আকারে রাখিয়া গান করেন। এগুলিকে গান সংহিতা বলে। গান সংহিতার চারিভাগ গেয় উহা উহ্য ও আরণ্যক। অথর্ববেদের নয়টি শাখার মধ্যে মাত্র দুইটি পাওয়া যায়— পিপ্পলাদ ও শৌনক।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-bhashya-type">
+        <div class="section-head">
+          <div class="section-thread">≡</div>
+          <h2>বেদের ভাষ্য</h2>
+        </div>
+        <p>ভাষ্যকারেরা একভাবে বেদের ভাষ্য প্রণয়ন করেন নাই। বিভিন্ন ভাষ্যকার বিভিন্ন প্রণালীতে বেদের ভাষ্য প্রচার করিয়াছেন। ভাষাগুলিকে সাধারণত তিনভাগে বিভক্ত করা যায়—নৈরুক্তিক প্রণালী, ঐতিহাসিক প্রণালী এবং পৌরাণিক প্রণালী। নৈরুত্তিক প্রণালীকে প্রাচীনতম প্রণালী বলিতে হইবে, কারণ ইহা সৃষ্টির আদিকাল হইতে বৈদিক শব্দকোষ নিঘণ্টু পর্যন্ত প্রচলিত ছিল। ঐতিহাসিক প্রণালী ব্রাহ্মণগ্রন্থের সময় হইতে উৎপন্ন হইয়া সায়ণাদির সময় পর্যন্ত বর্তমান ছিল। পৌরাণিক প্রণালীকে প্রকৃতপক্ষে কোনও প্রণালী বলা যাইতে পারে না। অনেক বেদমন্ত্রের এক একটি শব্দ লইয়া তাহাতে কপোল কম্পিত ব্যাখ্যা প্রকাশ করিয়াছেন। ইহাকেই পৌরাণিক প্রণালী বলা যায়। প্রচলিত হিন্দু সমাজের পূজা অনুষ্ঠানে কতকগুলি বেদমন্ত্র যেভাবে প্রকাশিত হয় তাহা ঐতিহাসিক ভাষ্যকার সায়ণ-মহীধর প্রভৃতির বহু পরে গৃহীত হইয়াছে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-nirukta">
+        <div class="section-head">
+          <div class="section-thread">य</div>
+          <h2>নৈরুক্তিক ও ঐতিহাসিক প্রণালী — বৃত্র প্রসঙ্গ</h2>
+        </div>
+        <p>বেদার্থ প্রকাশ সম্বন্ধে নিরুক্তকার বলিতেছেন— ❝সাক্ষাৎকৃতধর্মাণ ঋষয়ো বভূবুঃ। তেঽবরেভ্যোঽসাক্ষাৎকৃতধর্মভ্য উপদেশেন মন্ত্রান্‌সংপ্রাদুঃ। উপদেশায় গ্লায়ন্তোঽবরে বিল্মগ্রহণায়েমং গ্রন্থং সমাম্রাসিষুঃ। বেদং চ বেদাঙ্গানি চ।❞(নিরুক্ত অঃ ১ খ ২০। ২। অর্থাৎ প্রথমতঃ এমন সব ঋষি জন্মিয়া ছিলেন যাঁহারা ধর্ম বিধায়ক মন্ত্রের ছিলেন দ্রষ্টা। যাঁহারা ধর্মের সাক্ষাৎকার লাভ করেন নাই এবং যাঁহারা যোগ্যতায়ও পশ্চাৎপদ ছিলেন তাঁহাদের নিকট ইহারা বেদমন্ত্রের উপদেশ দান করিয়াছিলেন। দ্বিতীয় শ্রেণীর ঋষিরা বেদমন্ত্রের উপদেশ দানে অসমর্থ ছিলেন। তাঁহারা বৈদিক শব্দের অর্থ প্রকাশের জন্যই নিঘণ্টু অর্থাৎ মূল বৈদিক কোষ, ব্রাহ্মণ এবং বেদাঙ্গ প্রণয়ন করিয়াছিলেন। প্রথম শ্রেণীর ঋষিরা যথাক্রমে নিঘণ্টু, ব্রাহ্মণ, বেদাঙ্গ প্রণয়ন করিয়াছেন। কেহ কেহ ব্রাহ্মণ গ্রন্থকেও বেদ মনে করেন। ব্রাহ্মণ গ্রন্থগুলি বেদ অর্থাৎ সংহিতা ভাগের ব্যাখ্যা। মূল গ্রন্থের টীকা বা ভাষ্য ও যেমন অনেক সময় মূল গ্রন্থের নামে পরিচিত হয়, ব্রাহ্মণ গ্রন্থগুলিও সেইরূপ অনেকের নিকট মূল গ্রন্থের নামে পরিচিত হইতেছে। ব্রাহ্মণ গ্রন্থে বেদমন্ত্রের মর্মার্থকে খণ্ড খণ্ড করিয়া ব্যাখ্যা করা হইয়াছে। প্রয়োজন বোধে উদাহরণের জন্য নানারূপে উপাখ্যান প্রদত্ত হইয়াছে বৈদিক শব্দকোষ পাঠ করিলে জানা যায়, ইহাতে প্রত্যেকটি শব্দ যৌগিক অর্থে প্রকাশিত হইয়াছে, ইহা ধাতুগত অর্থ ও ব্যুৎপত্তি মূলক নহে। নিঘণ্টুর বহু পরে ব্রাহ্মণ বা বেদ ব্যাখ্যা গ্রন্থ রচিত হয় এবং ব্রাহ্মণ গ্রন্থেই সর্বপ্রথম ইতিহাসের উল্লেখ দৃষ্ট হয়। ব্রাহ্মণ গ্রন্থের এই সব উপাখ্যানকে ভিত্তি করিয়াই অনেক বেদমন্ত্রের ঐতিহাসিক ব্যাখ্যা করিয়াছেন। নিঘণ্টুর নির্মাতা কশ্যপ ঋষি। যাস্কাচার্য নিঘণ্টুর ভাষ্য নিরুক্তে প্রণয়ন করেন। বেদ ভাষ্যের নৈরুক্তিক প্রণালী ও ঐতিহাসিক প্রণালী সম্বন্ধে নিরুক্তেই দৃষ্ট হয় — ❝তৎ কো বৃত্র মেঘ ইতি নিরুক্তা: স্বাষ্ট্রৌঽসুর ইত্যেতিহাসিকাঃ অপাং চ জ্যোতিষশ্চ মিশ্রীভাব কর্মণো বর্ষ কর্ম জাযতে তত্রোপ-মার্থেন যুদ্ধ বর্ণনা ভবন্তি❞ (নিরুক্ত অ২০ খ১৬।২)। এখানে নিরুক্তকার বেদের বৃত্র শব্দের অর্থ' লিখিয়াছেন। ❝বৃত্র❞ কাহাকে বলে? নৈরুত্তিক বেদ ভাষাকার ❝মেঘ❞কে বৃত্র বলেন এবং ঐতিহাসিক বেদ ভাষ্যকার অসুরকে বৃত্র বলেন। অনেকে বলেন— ❝বৃত্রের সহিত ইন্দ্রের তো স্পষ্ট সংগ্রামের বর্ণনা রহিয়াছে।❞ কিন্তু এখানে জল ও বিদ্যুতের মিলনে বৃষ্টির উৎপত্তি হয়—এই কথাটিই যুদ্ধের উপমায় বর্ণিত হইয়াছে। বেদমন্ত্রে উপমালংকারের দ্বারা অতি সরল উপায়ে জ্ঞান প্রকাশ করা হইয়াছে। কিন্তু ঐতিহাসিক ভাষ্যকারেরা উপমালংকারকে না বুঝিয়া তাহাকে বাস্তবিক ঘটনা মনে করিয়া তাহাতে ইতিহাস আরোপ করিয়াছেন ও নানারূপ অনর্থের সৃষ্টি করিয়াছেন।</p>
+        <p>পৌরাণিক ভাষ্য সম্বন্ধেও একই কথা। পৌরাণিক ভাষ্যকারেরা বেদ মন্ত্রের একটি শব্দকে গ্রহণ করিয়াই সম্পূর্ণ মন্ত্রের অর্থের দিকে না তাকাইয়া তাহার অভিপ্রায় প্রকাশ করিয়াছেন। বেদমন্ত্রের দুই একটি শব্দকে গ্রহণ করিয়াই নানারূপ পৌরাণিক উপাখ্যানের সৃষ্টি হইয়াছে। সে সব উপাখ্যান বহুল প্রচার লাভ করিলেও তাহা অলীক ও কাম্পনিক মাত্র। বেদ ভাষ্যের যথার্থতা জানিবার কয়েকটি উপায় আছে। প্রথমতঃ—বেদভাষ্য সংস্কৃত শব্দকোষ অনুযায়ী হইবে। দ্বিতীয়তঃ— ইহা সংস্কৃত ব্যাকরণ অনুসারে হইবে। তৃতীয়তঃ—ইহা যুক্তি বা তর্ক সঙ্গত হইবে। চতুর্থতঃ—ইহা ঋষিদের বিচার সম্মত হইবে। পঞ্চমত— কর্মকাণ্ডের মন্ত্রগুলির যাহা মর্ম তাহার অনুকুল কর্ম্মের সেই সেই মন্ত্রের বিনিয়োগ হইবে। বেদভাষ্যে এই কয়েকটি নিয়ম রক্ষিত হইলেই তাহা প্রকৃত ও উৎকৃষ্ট বেদভাষ্য।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-misuse1">
+        <div class="section-head">
+          <div class="section-thread">⚠</div>
+          <h2>পৌরাণিক অপব্যাখ্যার দৃষ্টান্ত — ❝প্রেত❞ শব্দ</h2>
+        </div>
+        <p>বর্তমান হিন্দু সমাজে কেদ মন্ত্রের পৌরাণিক ভাষ্যই গৃহীত হইতেছে। অনেকের ধারণা মহীধর ও উবটাদি মধ্যযুগের ঐতিহাসিক ভাষ্যকারদের প্রণালী অনুসারেই প্রচলিত হিন্দু সমাজ সব বেদার্থ গ্রহণ করিয়াছে কিছু তাহাও ভ্রান্তি মাত্র। মহীধর উব্বটাদি নৈরুক্তিক ভাষ্যকে যেমন অতিক্রম করিয়াছেন; পৌরাণিক হিন্দুসমাজও তেমনই মহীধর উবটাদিকে উপেক্ষা করিয়াছে। দুই একটি দৃষ্টান্ত দিলেই ইহা বোধগম্য হইবে। যজুর্বেদের ১৭শ অধ্যায়ের ৪৬ সংখ্যক মন্ত্রটি এইরূপ—</p>
+        <div class="verse-block">
+          <p>​প্রেতা॑ জয॑তা নর॒ঽইন্দ্রো॑ বঃ॒ শর্ম॑ যচ্ছতু।</p>
+          <p>উ॒গ্রা বঃ॑ সন্তু বা॒হবো॑ঽনাধৃ॒ষ্যা যথাস॑থ॥</p>
+          <span class="verse-cite">যজুর্বেদ ১৭।৪৬</span>
+        </div>
+        <p>ঐতিহাসিক বেদ ভাষ্যকার মহীধর এই মন্ত্রের অর্থ' করিতেছেন—</p>
+        <p>❝যোদ্ধৃ দেবত্যামুষ্টূভ্ যোদ্ধৃন স্তৌতি নরোঽস্মদীযা যোদ্ধারঃ। যুষং প্রেতপরসৈস্ন্যং প্রতি প্রকর্ষেণ গচ্ছত ততো জয়তা বিজযংপ্রাপ্নুত। দ্বচে হস্তিপ্তঃ (পা ৬।০।১৩৭) ইতি জযতা ইতত্র দীর্ঘঃ।❞ অর্থাৎ এই মন্ত্রের যোদ্ধা দেবতা, এখানে যোদ্ধাদের স্তুতি করা হইয়াছে। অনুষ্টুপ ছন্দ। হে (নরঃ) মনু্ষ্যগণ! অর্থাৎ যোদ্ধৃগণ! তোমরা (প্রেত) বিপক্ষ সৈন্যদের প্রতি দ্রুত গতিতে অগ্রসর হও, তাহাদের উপর (জয়ত) বিজয় লাভ কর। অষ্টাধ্যায়ীর সূত্র অনুসারে প্রেত শব্দ (প্র+ই ধাতু গমন অর্থে) ❝প্রেতা❞ ও ❝জযত❞ শব্দে ❝জযতা❞ হইয়াছে।</p>
+        <p>উবট এই মন্ত্রের ভাষ্য করিতেছেন—❝হে নরঃ মনুষ্যঃ প্রেত গচ্ছত জষত চ❞ অর্থাৎ (হে নরঃ) মনুষ্য! (প্রেত) যাও এবং জয় লাভ করা।</p>
+        <p>মহর্ষি দয়ানন্দ এই মন্ত্রের ভাষ্য করিতেছেন— ❝(প্রইত) শত্রুন্, প্রাপ্নুত। অত্র দ্বেচেহ তস্তিঙঃ ইতি দীর্ঘঃ (জযত) বিজযধ্বয্। অত্রান্যেষামপি দৃশ্যত ইতি দীর্ঘ (নরঃ) নায়ক।❞ অর্থাং হে (নরঃ) অনেক প্রকারের কর্ম্মকৌশল দাতা মনুষ্য। তোমরা শত্রুগণকে প্রাপ্ত হও এবং তাহাদিগকে জয় কর। সংস্কৃতে যে সব ধাতুর অর্থ যাওয়া সেই সব ধাতুর অর্থই প্রাপ্ত হওয়া। এই জন্যই দয়ানন্দ জানার স্থলে প্রাপ্ত হওয়া লিখিয়াছেন।</p>
+        <p>যজুর্বেদের উল্লিখিত মন্ত্রের উত্তরে মহীধর, উবট ও দয়ানন্দ প্রেত শব্দের অর্থ করিয়াছেন শীঘ্র যাও, কিন্তু পৌরাণিকেরা এই মন্ত্রের ❝প্রেত❞ শব্দ টুকরাটি লইয়া এক মহা অনর্থের সৃষ্টি করিযাছেন। তাঁহারা প্রেত শব্দে বুঝিয়াছেন মৃত মনুষ্যে প্রাণ এবং এই মন্ত্রের দ্বারা তাঁহার মতে প্রাণীকে আহবান করেন। অন্ত্যেষ্টি পদ্ধতির প্রেত বলি প্রয়োগে তাঁহার ব্যবস্থা রাখিয়াছেন—</p>
+        <p>❝মধ্যে কলশে বিষ্ণু। রূপি প্রেত রাজায নমঃ বিষ্ণরূপি প্রেত রাজন্ আবাহবামি স্থাপযামী। তো প্রেতরাজ ইহাগচ্ছেহতিষ্ঠ। এবং সর্ব্বত্র। ততঃ পূর্ব্বাদি ক্রেমেণ ওম্ প্রেতাজযতা নর ইন্দ্রো বঃ শৰ্ম্ম যচ্ছতু। উগ্রাবঃ সন্ত বাহবোঽনাধৃযুস্যা যথাঽসখ প্রেতায় নমঃ প্রেতম্ আবহযামী তো প্রেত ত্বং ইহাগচ্ছে হতিষ্ঠ।❞ অর্থাৎ মধ্যস্থিত কলসীতে বিষ্ণুরূপী প্রেতরাজকে নমস্কার। বিষ্ণুরূপী প্রেতরাজকে নমস্কার। বিষ্ণুরূপ প্রেতরাজকে আমি আহ্বান করিতেছি এবং স্থাপন করিতেছি। হে প্রেতরাজ। এখানে আগমন কর এখানে অবস্থান কর। এই ভাবে সর্বত্র পাঠ করিবে। ওম্ প্রেতা জযতা নর ইত্যাদি। প্রেতকে নমস্কার। প্রেতকে আমি আহহ্বান করিতেছি। হে প্রেত। এখানে আগমন কর এবং অবস্থান কর।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-misuse2">
+        <div class="section-head">
+          <div class="section-thread">⚠</div>
+          <h2>পৌরাণিক অপব্যাখ্যার দৃষ্টান্ত — তিঙ্, উপগ্রহ ও আরও</h2>
+        </div>
+        <p>(২) তিঙ্ অর্থাৎ বেদে ধাতুর রূপও পরিবর্তিত হইতে পারে।</p>
+        <p>(৩) উপগ্রহ অর্থাৎ বেদে আত্মনেপদ ধাতুর পরস্মৈপদ এবং পরম্মৈপদ ধাতুর আত্মনেপদ হইতে পারে।</p>
+        <p>(৪) লিঙ্গ অর্থাৎ স্ত্রীলিঙ্গের পুংলিঙ্গ, পুংলিঙ্গের স্ত্রীলিঙ্গ, স্ত্রী ও পুংলিঙ্গের, নপুংসক লিঙ্গ এবং নপুংসক লিঙ্গের পুং বা শ্রীলিঙ্গ হইতে পারে।</p>
+        <p>(৫) পুরুষ অর্থাৎ বেদে পুরুষের পরিবর্তন হইতে পারে। উত্তম পুরুষ, মধ্যম পুরষ ও প্রথম পুরুষের যে কোন একটি যে কোন স্থানে পরিবর্তিত হইতে পারে।</p>
+        <p>(৬) কাল অর্থাৎ বেদে বর্তমান, অতীত ও ভবিষ্যৎ কালেরও পরিবর্তন হইতে পারে। দৃষ্টান্ত স্বরূপ— ❝ন দাধার পৃথিবীম্❞ বেদের এই মন্ত্রাংশটিকে ঈশ্বর পৃথিবীকে ধারণ করিয়াছেন এইরূপে দুই কালেই বুঝিতে পারা যায়।</p>
+        <p>(৭) হল্, অর্থাং বেদে ব্যঞ্জন বর্ণের যে কোনও একটির স্থলে অন্যটি হইতে পারে। যেমন দ স্থানে ধ, ক স্থানে প হইতে পারে।</p>
+        <p>(৮) অচ্, অর্থাৎ বেদে স্বরবর্ণের যে কোনও একটির স্থলে অন্যটি হইতে পারে।</p>
+        <p>(৯) স্বর অর্থাৎ বেদে উদাত্ত ও স্বরিতের তো উচ্চারণ পরিবর্তিত হইতে পারে।</p>
+        <p>(১০) কর্ত্তৃ ও ষঙ্ প্রত্যয়ের শেষ কৃদন্ত তদ্ধিতাদি ও অন্যান্য বহুস্থানেই বেদে পরিবর্তন ঘটিয়া থাকে। বৈদিক ব্যাকরণের শধ্যে একটি সূত্র বিচার করিলেই বুঝিতে পারা যাইবে যে বেদে অক্ষর পর্যন্তও পরিবর্তিত হয়। বেদে কোন মন্ত্রের বা শব্দের কি তাৎপর্য, স্বচ্ছ হৃদয় ঋষিরা সমাধি যোগে যাহা বুঝিতে পারিয়াছিলেন তাহা সর্ব সাধারণের নিকট সুস্পষ্ট হইয়া রহিয়াছে। অনেক সময় দেখা যায় যে বেদমন্ত্র অতি সরল ও সুবোধ্য কিন্তু ভাষ্যকারদের পাণ্ডিত্যের জটিলতা প্রকাশ হইতে দেয়না। ভাষ্যকারদের প্রতিযোগিতায় বেদ সাধারণের নিকট নিরস ও দূরধিগম্য হইয়াছে। সংস্কৃত ভাষার সাধারণ জ্ঞান থাকিলে অষ্টাধ্যায়ী নিরুক্তের সাহায্যে, বেদের রহস্য অনেকেই বুঝিতে পারিবেন— তাহাতে সন্দেহ নাই। যে কোন বিদেশী ভাষার সহিত তুলনায় বৈদিক ভাষা কঠিন নহে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-vedicbhasha">
+        <div class="section-head">
+          <div class="section-thread">भा</div>
+          <h2>বৈদিক ভাষা</h2>
+        </div>
+        <p>সংস্কৃত ভাষা দুই প্রকারের— বৈদিক সংস্কৃত ও লৌকিক সংস্কৃত। পুরাণ উপপুরাণ সাহিত্য স্মৃতি কাব্যাদি যে সব গ্রন্থ সচরাচর দৃষ্ট হয় তাহা লৌকিক ভাষায় লিখিত। বেদের ভাষার নাম বৈদিক ভাষা। বৈদিক ও লৌকিক ভাষার ব্যাকরণের নিয়মাবলী একরূপ নয়। এই জন্য লৌকিক ভাষার জ্ঞান লাত করিয়াও বৈদিক ভাষা সম্যক বুঝিবার উপায় নাই। যাস্ক প্রণীত নিরুক্ত গ্রন্থে লৌকিক ও বৈদিক উভয় ভাষাই দৃষ্ট হয় এজন্য পণ্ডিতেরা এই সিদ্ধান্তে পৌঁছিয়াছেন যে সৃষ্টির আদি হইতে নিরুক্ত গ্রন্থের পূর্ব পর্যন্ত যত গ্রন্থ দৃষ্ট হয় সকলেরই ভাষা বৈদিক এবং নিরক্ত হইতে আজ পর্যন্ত যত গ্রন্থ লিখিত হইয়াছে সে সকলেরই ভাষা লৌকিক। নিরুক্ত লৌকিক সংস্কৃত ভাষার সর্বপ্রথম গ্রন্থ। মহর্ষি পাণিনির অষ্টাধ্যায়ী পড়িলেই আমরা জানিতে পারি যে, ভাষা দুই প্রকারের—বৈদিক ও লৌকিক। একই অষ্টাধ্যায়ী পাঠ করিলে আমরা লৌকিক ও বৈদিক উভয় ভাষার ব্যাকরণের নিয়মাবলী জানিতে পারি। বৈদিক ব্যাকরণের নিয়মে যাহা শুদ্ধ লৌকিক ব্যাকরণের নিয়মে তাহা অশুদ্ধ হইতে পারে। লৌকিক ব্যাকরণের জ্ঞান দ্বারা বেদের ভাষ্য করা অসম্ভব, এজন্য বৈদিক ব্যাকরণের শরণাপন্ন হইতে হয়। বৈদিক ব্যাকরণের নিয়মাবলীতে বহু বিষয়ের বৈশিষ্ট্য লক্ষিত হয়। অষ্টাধ্যায়ীর একটি সূত্র— ব্যত্যযোলছলম —এই সূত্রটি সর্বাধিক প্রসিদ্ধ ও প্রয়োজনীয়। সূত্রটির অর্থ—❝বেদে শব্দাদির পরিবর্তন হয়, কখনও বিকল্পে হয় এবং কখনও বা হয় না।❞ সাধারণ দৃষ্টিতে কখনও কখনও প্রাকৃতিক জগতে কখনও কখনও নিয়ম ও শৃঙ্খলা লক্ষিত হয় না কিন্তু যাঁহারা বিশেষজ্ঞ ও তীক্ষ্ণ দৃষ্টিসম্পন্ন তাঁহারা প্রাকৃতিক জগতের সেই অনিয়ম ও বিশৃঙ্খলা দেখিয়া থাকেন। বৈদিক ব্যাকরণের নিয়মের মধ্যে অনিয়ম দেখা সাধারণ দৃষ্টিতে খুবই স্বাভাবিক। পতঞ্জলি অষ্টাধ্যায়ী সূত্রের মহাভাষ্য রচনা করিয়াছেন। ইহাতে তিনি একটি কারিকা বা শ্লোক লিখিয়াছেন। সিদ্ধান্ত কৌমুদীতেও ইহার উল্লেখ রহিয়াছে। শ্লোকটি এইরূপ—</p>
+        <div class="verse-block">
+          <p>❝সুপ্তিঙ্ উপগ্রহ লিঙ্গরাণাং কাল হলচ্ স্বর কর্ত্তৃযঙ্ আং চ। ব্যত্যবমিচ্ছতি শাস্ত্র কৃদেবাং সোহপি চ সিধ্যতি বাহুলাকেন।❞</p>
+          <span class="verse-cite">পতঞ্জলি, মহাভাষ্য কারিকা</span>
+        </div>
+        <p>অর্থাৎ বেদশাস্ত্র সুপ্, তিঙ্, উপগ্রহ, লিঙ্গ, নর, কাল, হল, অচ্, স্বর, কর্ত্তৃ, যঙ্, ব্যবহারে ইচ্ছা হইলে ব্যতয় হইতে পারে।</p>
+        <p>(১) সুপ্ অর্থাৎ কারকে ও সম্বন্ধে পরিবর্তন হইতে পারে। দৃষ্টান্ত স্বরূপ বলা যাইতে পারে লৌকিক সংস্কৃত ব্যাকরণে ❝অগ্নি❞ কর্ত্তৃকারক, অন্যান্য কারকে বা সম্বন্ধে ইহার রূপ পরিবর্তিত হয় কিন্তু বৈদিক ভাষায় ❝অগ্নি❞ পদ অগ্নিকে, অগ্নি দ্বারা, অগ্নি হইতে, অগ্নির, অগ্নিতেও হে অগ্নে— সব অর্থেই প্রবৃত্ত হইতে পারে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-misuse3">
+        <div class="section-head">
+          <div class="section-thread">⚠</div>
+          <h2>পৌরাণিক অপব্যাখ্যার দৃষ্টান্ত — দধিক্রাব্ণ, পঞ্চনদী ও পুরুষসূক্ত</h2>
+        </div>
+        <p>যজুর্বেদের ২৩ অধ্যায়ের ৩২ সংখ্যক মন্ত্র এইরূপ—</p>
+        <div class="verse-block">
+          <p>দধিক্রাব্ণো॑ঽঅকারিষং জি॒ষ্ণোরশ্ব॑স্য বা॒জিনঃ॑।</p>
+          <p>সু॒র॒ভি নো॒ মুখা॑ কর॒ৎপ্র ণ॒ঽআযূঁ॑ষি তারিষৎ॥</p>
+          <span class="verse-cite">যজুর্বেদ ২৩।৩২</span>
+        </div>
+        <p>যজুর্বেদের ৩৪ অধ্যায়ের ১১ সংখ্যক মন্ত্রটি এইরূপ—</p>
+        <div class="verse-block">
+          <p>পঞ্চ॑ ন॒দ্যঃ সর॑স্বতী॒মপি॑ যন্তি॒ সস্রৌ॑তসঃ।</p>
+          <p>সর॑স্বতী॒ তু প॑ঞ্চ॒ধা সো দে॒শেঽভ॑বৎ স॒রিৎ॥</p>
+          <span class="verse-cite">যজুর্বেদ ৩৪।১১</span>
+        </div>
+        <p>প্রথম মন্ত্রটিতে রাজার কর্তব্য সমপর্কে উক্ত হইয়াছে এবং দ্বিতীয় মন্ত্রটীতে বলা হইয়াছে— নদীর তুল্য (সস্রৌতসঃ) প্রবহমান (পঞ্চনদ্য) জ্ঞানেন্দ্রিয়ের বৃষ্টি (সরস্বতীম্) বিজ্ঞান যুক্ত বাণীকে যেরূপ প্রাপ্ত হয়, সেইরূপ (সরিৎ) চলমান (সরস্বতী) বাণীও (দেশে) স্বীয় নিবাস স্থানে (পঞ্চধা) পঞ্চ জ্ঞানেন্দ্রিয়ের শব্দাদি পঞ্চ বিষয়ের প্রতিপাদন করিয়া পঞ্চ প্রকারের হয়।</p>
+        <p>মহীধর প্রথমে মদ্যের ❝দধি❞ শব্দের অর্থ করিতেছেন— ❝দধাদিদ্বারযতি নরমিতি দধি।❞ যাহা মনুষ্যকে ধারণ করে তাহাই দধি। উবট ও দধিকে ধারণ কর্তা অর্থ প্রয়োগ করিয়াছেন, দয়ানন্দের ভাষ্যে ❝দধীক্রাব্ণঃ যো দধীন্ পোষকান্ ধারকান❞ অর্থাৎ যে ধারণ পোষণকে প্রাপ্ত হয় —এইরূপ লিখিত হইয়াছে। দ্বিতীয় মন্ত্রের ❝পঞ্চনদ্য❞ শব্দের অর্থ মহীধর ও উবটের মতে পঞ্চনদী, দয়ানন্দের মতে জ্ঞানেন্দ্রিয়রূপ পঞ্চনদী। কিন্তু পৌরাণিকেরা এই ❝দধি❞ ও ❝পঞ্চ❞ শব্দে বুঝিয়াছেন দধি ও পঞ্চ গব্য। তাঁহারা প্রথম মন্ত্র পাঠ করিয়া পঞ্চগব্য অর্থাৎ দধি, দুগ্ধ, ঘৃত, গোমূত্র ও গোময় দ্বারা মূর্তিকে স্নান করাইয়া থাকেন। তাঁহারা প্রতিষ্ঠা ময়ূখ গ্রন্থে প্রমাণ লিখিয়া রাখিয়াছেন ❝দেবাষার্ঘ্যং সমর্প্য স্থাপষেৎ তদ্যধা পঞ্চনদ্য ইতি পঞ্চ গব্যেন দধীক্রাব্ণ, ইতি দধ্না❞ অর্থাৎ দেবতাকে পূজা দ্রব্য সমর্পণ করিয়া সম্মান করাইবে। পঞ্চনদ্য ইত্যাদি মন্ত্র পড়িয়া পঞ্চ গব্য দ্বারা এবং দধি ক্রাক্ণ ইত্যাদি মন্ত্র পড়িয়া দধি দ্বারা স্নান করাইবে।</p>
+        <p>যজুর্বেদের ৩১ অধ্যায়ের প্রথম মন্ত্রটি এইরূপ —</p>
+        <div class="verse-block">
+          <p>স॒হস্র॑শীর্ষা॒ পুরু॑ষঃ স॒হস্রা॒ক্ষঃ স॒হস্র॑পাৎ।</p>
+          <p>স ভূমি॑ং স॒র্বত॑ স্পৃ॒ত্বাঽত্য॑তিষ্ঠদ্দশাঙ্গু॒লম্॥</p>
+          <span class="verse-cite">যজুর্বেদ ৩১।১ (পুরুষসূক্ত)</span>
+        </div>
+        <p>অর্থাৎ যাঁহার মধ্যে প্রাণীসমূহের সহস্র সহস্র মস্তক, সহস্র সহয় নেত্র এবং অসংখ্য চরণ রহিয়াছে। এইরূপ সর্বত্র পরিপূর্ণ ব্যাপক জগদীশ্বর সর্বদেশে ভূগোলে সর্বত্র ব্যাপক থাকিয়া পঞ্চ স্থূল ভূত, পঞ্চ সূক্ষ্ম ভূত এই দশ যাহার অবয়ব সেই সমন্ত জগৎকে অতিক্রম করিয়া বিরাজমান। মনটেীতে পরমাত্মার সর্বব্যাপকত্ব ও বিরাটত্ব ঘোষিত হইয়াছে কিন্তু পৌরাণিকেরা এই মন্ত্রটি পাঠ করিয়া নারায়ণ শিলাকে স্নান করাইযা থাকেন। পৌরাণিকদের হাতে পড়িয়া বেদ মন্ত্রের এইরূপে অনর্থ ঘটিয়াছে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-samaveda">
+        <div class="section-head">
+          <div class="section-thread">सा</div>
+          <h2>সামবেদ সংহিতা</h2>
+        </div>
+        <p>সামবেদের মোট মন্ম সংখ্য ১৮৭৫। সামবেদ তিনভাগে বিভক্ত— পূর্বার্চিক, মহানাম্নী আর্চিক ও উত্তরার্চিক। পূর্বার্চিক চারিভাগে বিভক্ত — আগ্নেয় কাণ্ড, ঐন্দ্রকাণ্ড, পবমান কাণ্ড ও আরণ্যকাণ্ড। এই চারিকাণ্ডও আবার প্রপাঠকে বিভক্ত। প্রকারণে সায়ণাচার্য পূর্বার্চিককে পাঁচ অধ্যায়ে বিভাগ করিয়াছেন। প্রত্যেক প্রপাঠকে অর্ধপ্রপাঠক ও দশতি আছে। অধ্যায়গুলি খণ্ড দ্বারা বিভক্ত। এই গ্রন্থে অনাবশ্যক বোধে অর্ধপ্রপাঠক রাখা হয় নাই। উত্তরার্চিকে ২১ অধ্যায় ও ৯ প্রপাঠক। এই প্রপাঠকগুলিতে অর্ধপ্রপাঠকগুলিতে দশতি নাই সুক্ত আছে। পূর্বার্চিকে গ্রাম গেয় গান ও আরণ্যক গান এই দুই বিভাগ। গ্রাম গেয় গান জনসাধারণের জন্য এবং আরণ্যক গান পরিব্রাজক বানপ্রস্থ মুমুক্ষু সাধকদের জন্য। মহানাম্নী আর্চিকে শক্করী ছন্দকে উপসর্গ পদের সহিত রাখা হয়। ইহার গানের রীতি পৃথক। উত্তরার্চিকে উহ গান ও উহ্য গানের বিধান। ইহাতে একটি মন্ত্রের স্থলে ৩, ৪, ৫, ৬ ঋক্ মিলিয়া এক একটা গান গঠিত হইয়াছে। গানের সময় ঋকের অক্ষরে বিকার, বিশ্লেষ, বিকর্ষণ, অভ্যাস, বিরাম এবং স্তোম আদি রাখা হয় কিন্তু সাম সংহিতার সাধারণ পাঠ কালে ইহার কিছুই রাখা হয় না। সাম মন্ত্রগুলিকে সংগীত শাস্ত্রানুসারে গানের আকারে রাখা হয়। গান সংহিতা মন্ত্র সংহিতা হইতে পৃথক।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-samashakha">
+        <div class="section-head">
+          <div class="section-thread">शा</div>
+          <h2>সামবেদের শাখা</h2>
+        </div>
+        <p>শাখা ভেবে সংহিতার ভেদ হয় না। সংহিতার অধ্যয়ন ও অধ্যাপন সুগম করিতেই বিভিন্ন শাখার সৃষ্টি করা হইয়াছে। সামবেদের শাখা ভেদ সম্বন্ধে অথর্ববেদ পরিশিষ্টের চরণব্যুহ প্রকরণে ও বিষ্ণুপুরাণে কিছু কিছু বিবরণ পাওয়া যায়। চরণব্যুহের মতে, (১)❝অত্র সামবেদস্য শাখা সহস্রমাসীদ্। অনধ্যাযেবধীযানাঃ সর্বেতে শক্রেণ বিনিহতাঃ।❞ (প্রবিলীনাঃ) অর্থাৎ সামবেদের সহস্র শাখা ছিল। লোকে অনধ্যয়নের দিনেও পাঠ করিত বালিয়া ইন্দ্র সে সব বিনাশ করিয়া দিয়াছেন। (২) ❝তত্র কেচিদ্বশিষ্টাঃ প্রচরস্তি। তদ্ যথা—রাণায়ণীয়াং, সাদ্যমুগ্রাং কলাপাঃ, মহাকলাপাঃ, কৌথুমাঃ, লাঙ্গলিকাশ্চেতিঃ। কৌথুমানং ষডভেদাঃ ভবন্তি। তদ্ যথা— সারায়ণীয়াঃ, প্রাচীনস্তৈজসাঃ বাতরায়ণীয়াঃ, বৈতধৃতাঃ, প্রাচীনস্তৈজসা, অনিষ্টকাশ্চেতি।❞ অর্থা শাখা কিছু কিছু অবশিষ্ট ছিল, যেমন রাণায়ণীষ, সাদ্যমুগ্র কলাপ মহাকলাপ, কৌথুম ও লাঙ্গলিক। ইহাদের মধ্যে কৌথুমের ছয় ভাগ— নারায়ণীয়, বাতরাণীয়, বৈতধৃত, প্রাচীন, তৈজস ও অনিষ্টক চরণব্যুহের মতে সহস্র শাখার অধিকাংশ শাখাকেই ইন্দ্র বিনাশ করিয়াছিল। লোকে অনধ্যয়নের দিনেও ইহা পড়িত—এই ছিল অপরাধ। গুরুর এক নাম ইন্দ্র। কেহ কেহ অনুমান করেন ছায়েবা সাম সংহিতাকে সংগীত উপকরণ জ্ঞানে আমোদ প্রমোদে মত্ত হইয়াছিল। তাই গুরুরা ইহার অধ্যয়ন বন্ধ করিয়াছিলেন।</p>
+        <p>বিষ্ণু পুরাণের মতে—</p>
+        <div class="verse-block">
+          <p>সাম বেদতরোঃ শাখা ব্যাস শিষ্যাঃ স জৈমিনিঃ।</p>
+          <p>ক্রমেণ মেন মৈত্রেয় বিভেদ শূণূ তন্ময়।।</p>
+          <p>সুমন্তুস্তস্য পুত্রোঽভূদ সুকমাঽস্যাপ্যভূৎ সুত।</p>
+          <p>অধীত বস্তাবেকৈকাং সংহিতাং তৌ মহামুনী।।</p>
+          <p>সাহস্রব সংহিতা ভেদং সুকর্ম তৎসুত স্তুতঃ।</p>
+          <p>চকার তং চ সচ্ছিষ্যৌ জগৃহ্রাতে মহাব্ররতৌ।</p>
+          <p>হিরণ্য নাভিঃ কৌশল্যঃ পৌষাঞ্জিশ্চ দ্বৈজোত্তমঃ।</p>
+          <p>উদীচ্যাং সামগা শিবায়ঃ তস্য পঞ্চশতাঃ স্মৃতাঃ।।</p>
+          <p>হিরণ্যানাভাত্তাবত্য সংহিতা বৈদ্বিজোত্তম।</p>
+          <p>গৃহীতন্তেহপি চোচ্যন্তে পণ্ডিতৈ প্রাচ্যা সমাগমাঃ।</p>
+          <p>লোকাক্ষি কুথুমিশ্চৈব কুষীদিলঙ্গলিস্তথা।</p>
+          <p>পৌষ্যঞ্জিশিষ্যান্তদ্ভেদঃ সংহিতা বহুলীকৃতাঃ।।</p>
+          <p>হিরণ্যনাভ শিষ্যশ্চ চতুর্বিংশতি সংহিতাঃ।</p>
+          <p>প্রোবাচ কৃতিনামসৌ শিষ্যোভ্যঃ সুমহামতিঃ।</p>
+          <p>তৈশ্চাপি সামবেদোঽসৌ শাখাভি বহুলীকৃতঃ।</p>
+          <span class="verse-cite">বিষ্ণুপুরাণ</span>
+        </div>
+        <p>ভাবার্থ—ব্যাসদেবের শিষ্য জৈমিনি এই ভাবে শাখা ভেদ করিয়াছেন। তাঁহার পরে সুমন্তু, সমন্তুর পুত্র সুকর্ম। তাঁহারা উভয়ে এক এক সংহিতা অধ্যয়ন করিয়াছিলেন। সুকর্ম সংহিতার সহস্র ভেদ করিয়াছিলেন। তাঁহার দুই শিষ্য— হিরণ্যনাভি কৌশল্য ও পৌষ্যাঞ্জি। লোকক্ষি, কুথুমি, কুষীদি ও লাঙ্গলি পৌষ্যাঞ্জির শিষ্য ছিলেন। তাঁহাদিগকে উদীচ্য সামগ বলিত। হিরণ্যনাভের পাঁচশত শিষ্য ছিল, তাঁহাদিগকে প্রাচ্য সামগ বলিত, হিরণ্যনাভের এক শিষ্য ছিলেন ❝কৃতি❞। তিনি নিজ শিষ্যদিগকে ২৪টি সংহিতার উপদেশ দান করিয়াছিলেন। তাঁহার শিষ্য প্রশিষ্যেরাও সামবেদের বহু শাখা ভেদ করিয়াছিলেন। বেদের যে কোন একটি শাখা অপরটি হইতে ভিন্ন, নিরপেক্ষ ও স্বতন্ত্র। ঋষিরা বেদ অভ্যাস প্রণালী সুগম করিতেই পৃথক্ পৃথক্ শাখার সৃষ্টি করিয়াছিলেন। যতগুলি শাখা থাকিবে ততগুলি থাকিবে আরণ্যক, ততগুলি থাকিবে ব্রাহ্মণ, ততগুলি ধাকিলে উপনিষদ, ততগুলি থাকিবে শ্রৌতসূত্র এবং গৃহ্যসূত্র। বহু শাখা বর্তমানে লুপ্ত হইয়াছে এবং বহু শাখার অংশ বিশেষ বর্তমান রহিয়াছে। সামবেদের এক সহস্র শাখার মধ্যে এখন মাত্র তিন শাখা, পাওয়া যায় কৌথুমী, জৈমিনীয়া ও রাণায়ণীয়া।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-nirghantu">
+        <div class="section-head">
+          <div class="section-thread">को</div>
+          <h2>নির্ঘণ্টু ও দয়ানন্দের ভাষ্য — ❝নমঃ শ্বভ্যঃ❞ প্রসঙ্গ</h2>
+        </div>
+        <p>বেদের শব্দ জ্ঞান না থাকিলে শুধু লৌকিক শব্দ কোষের সাহায্যে মন্ত্রার্থ বুঝিবার উপায় নাই। লৌকিক ব্যাকরণ ও বৈদিক ব্যাকরণ কেন পৃথক, লৌকিক শব্দকোষ এবং বৈদিক শব্দকোষও তেমন পৃথক। লৌকিক সংস্কৃতের জন্য যেমন অমরকোষ, বৈদিক সংস্কৃতের জন্য তেমন নির্ঘণ্টু। নিঘণ্টুর রচয়িতা কশ্যপ। যাস্ক নিরুক্ত নাম দিয়া নির্ঘণ্টুর টীকা লিখিয়া নির্ঘন্টুর বহুল প্রচার করিয়াছিলেন, এজন্য নির্ঘন্টু ও নিরুক্ত উভয়ই যাস্কের নামে চলিতেছে। লৌকিক শব্দকোষের সাহায্যে বেদভাষ্য করিতে গিয়া বহু অনর্থের সৃষ্টি হইয়াছে। যজুর্বেদের ১৬ অধ্যায়ের ২৮ মন্ত্রের প্রথম অংশ হইতেছে—❝নম্য শ্বভ্যঃ❞। এই বাক্যটি লৌকিক শব্দকোষ অনুসারে অর্থ প্রকাশ করিবে ❝কুকুরকে নমস্কার।❞ যজুর্বেদের ভাষ্যকার লৌকিক শব্দকোষ অবলম্বনে ইহার ভাষ্য করিতে গিয়া যেন মুস্কিলেই পড়িয়াছিলেন। কেমন করিয়া বেদে কুকুরের নমস্কারের বিধান রাখা হইয়াছে— তাঁহার মনে এই সন্দেহ হওয়ায় তিনি কুকুরকে ভৈরবের মূর্তি কল্পনা করিয়া ভাষ্য করিলেন—❝শ্বানঃ কুক্কুরান্তদ্রুপেভ্যো নমঃ❞ ইতি নমস্কার মন্ত্রাঃ অর্থাৎ কুকুররূপী যে ভগবান তাঁহাকে নমস্কার। স্বামী দয়ানন্দ এই মন্ত্রের ভাষ্য করিয়াছেন—(শ্বভ্যঃ) কুকুরকে (নমঃ) অন্ন দিবে। বৈদিক শব্দকোষ নির্ঘণ্টুর সহিত যাঁহাদের পরিচয় নাই তাঁহারা দয়ানন্দ ভাষ্যকে অসঙ্গত মনে করিবেন, কেননা ❝নমঃ❞ অর্থে ❝অন্ন❞ ইহা তাঁহারা শুনেন নাই। কিন্তু বৈদিক শব্দকোষ নিঘন্টু, শুনিলেই তাঁহারা দেখিতে পাইবেন ❝নমঃ❞ শব্দের এক অর্থ ❝অন্ন❞। মহীধর লৌকিক শব্দকোয অমরকোষের সাহায্য লইয়াছেন এবং দয়ানন্দ বৈদিক শব্দকোষ নির্ঘণ্টুর সাহায্য লইয়াছেন। ❝নমঃ❞ অর্থে' ❝অন্ন❞ জানিলে মহীধর কুকুরকে রুদ্ররূপ দিয়া নমস্কার করিতেন না।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-urvashi">
+        <div class="section-head">
+          <div class="section-thread">उ</div>
+          <h2>উর্বশী-পুরুরবা প্রসঙ্গ ও স্বধিতে মন্ত্র</h2>
+        </div>
+        <p>যজুর্বেদের পঞ্চম অধ্যায়ের দ্বিতীয় মন্ত্র আছে— অপ্নের্জমিত্রমসি যবুণৌস্থ উর্বশ্য স্যাষুরসিপুবুরবা অসি নৃপস্যঽভোগায়াধন্তাচ্ছেতে তদ্বৎ ত্বমধোঽবস্থিতাসীত্যর্থ—হে উত্তরাবণে ত্বং পুরুরবা অসি যথা পুরুরবা নৃপ উর্বশ্যা অভিমুখ উপরি বর্ততে তথা ত্বমগীত্যর্থঃ। অর্থাৎ ❝হে নীচের অরণি (যজ্ঞকাষ্ঠ) তুমি উর্বশী হও। উর্বশী যেরূপ পুরুরবা রাজার ভোগের জন্য নীচে শয়ন করে সেইরূপ তুমি ও নীচে অবস্থিত রহিয়াছ। হে উপরের অরণি (যজ্ঞ কাষ্ঠ) তুমি পুরুরবা হও। যেমন পরুরবা রাজা উর্বশীর সম্মুখে উপরে গাকে তদ্রূপ তুমি থাক। মম্বোর এই অর্থ।❞ মহীধর লৌকিক কোষ অবলম্বনে মন্ত্রটিকে এইরূপে ঐতিহাসিক ব্যাখ্যা করিয়াছেন। এইরূপে ব্যাখ্যায় কতগুলি দোষ ঘটে। প্রথমতঃ— বৈদিক কোষানুসারে ইহার ভাষ্য করা হয় নাই। দ্বিতীয়তঃ— কোন পবিত্র ধর্মগ্রন্থের নামে এইরূপ অশ্লীল উক্তির প্রচার করা সেই ধর্মগ্রন্থের অপমান করা মাত্র। তৃতীয়তঃ— যদি ঐতিহাসিক পুরুরবা ও উর্বশীর কথা বেদে উল্লেখিত হয় তবে বুঝিতে হইবে, বেদ পুরুরবা ও উর্বশীর পরে রচিত হইয়াছে সূতরাং ইহা সৃষ্টি রচনার আদি হইতে ঈশ্বরীয় জ্ঞান হইতে পারে না।</p>
+        <p>মহর্ষি দয়ানন্দ এই মন্ত্রের ভাষ্য বৈদিক কোষ নির্ঘণ্টু অনুসারে করিয়াছেন। নির্ঘণ্টু গ্রন্থের চতুর্থ অধ্যায় ২য় পাদে ৪৭ সংখ্যক শব্দেই উর্বশী এবং ৫ম অধ্যায় ৪র্থ পাদের ৩ সংখ্যক শব্দই পুরুরবা নিঘুণ্টর টীকাকার উর্বশী শব্দের অর্থ করিতেছেন—❝উর্বশী উর্ব ভাশ্নতে। নিরুক্ত অ৫, খ৪৬, বি ২। অর্থাৎ যাহা অনেককে সর্ব্ব প্রকার ব্যাপ্ত করে বা প্রাপ্ত হয়। পুরুরবা তাহার নাম যাহা পুরু অর্থাৎ বহু রব করে। উর্বশী যজ্ঞের নাম। যজ্ঞ বহু সুখ দ্বারা ব্যাস্ত হয় পুরুরবার নামও যজ্ঞ। যজ্ঞে বহু শব্দ করা হয়। যজ্ঞে নানাবিধ শাস্ত্র উপদেশ করা হয় বলিয়া তাহার নাম পুরুরবা। যেখানে যজ্ঞ সম্বন্ধে নানাবিধ উপদেশ প্রদান করা হইয়াছে সেখানে অশ্লীল বাক্যে প্রচার করা কোন রকমেই সঙ্গত হইতে পারে না।</p>
+        <p>মন্ত্রের অর্থের অনুকুল না হইলেও নানা অনর্থের সৃষ্টি হয়। যজুর্বেদের ষষ্ঠ অধ্যায় ১৫শ মন্ত্রে আছে—❝স্বধিতেমৈনংহিংসীঃ।❞ মহীধর কাত্যায়ণ সূত্রের প্রমাণ দিয়া অর্থ করিতেছেন—❝স্বধিত ইতি প্রজ্ঞাতষাজিনিধায় (কাত্যায়ণ ৬/৬/৯)। মহীধর—❝অসিধারাং নিধায তুষ্ণীং সতৃণমুদরত্বং চ ছিন্দ্যাদিতি সূত্রার্থঃ। এনং পশুংস্বধিতে যাহিংসীঃ।❞ অর্থাৎ স্বাধিতে, মৈনং হিংসী— ইহা পড়িয়া চিহ্নিত তরবারীকে শাণিত করিয়া চুপে চুপে তৃণ দ্বারা পূর্ণ উদর পশুর পেটের চর্ম ছেদন করিবে। ইহাই কাত্যায়ণ সূত্রের অর্থ। মন্ত্রের অর্থ—হে পরশু। এই পশুকে হত্যা করিও না। এখানে মন্ত্রের অর্থ— হত্যা করিও না এবং এই মন্ত্রকে পড়িয়া মহীধর কাত্যায়ণ সূত্রের বিনিয়োগ দিয়া অর্থ করিতেছেন— হত্যা কর। স্বামী দয়ানন্দ উক্ত মন্ত্রের অর্থ করিতেছেন এইরূপ—অস্য বিদ্বাংসো দেবতাঃ। (স্বধিতে) স্বেযাত্মীযেষু ধিতিঃ পোষণং যস্যাঃ তৎ সম্বুদ্ধৌ (মা নিষেধে এনম) পূর্বোক্তম (হিংসাঃ) কুশিক্ষষা লালনেন বা মা বিনিশষেঃ।❞ হে (স্বধিতে) প্রশস্তাধ্যাপক। তুমি কুমারী শিষ্যকে অনুচিত তাড়না করিও না। এখানে মন্ত্রের বিষয় বা দেবতা বিদ্বান্। এজন্য এ মন্ত্রের অর্থ—❝বিদ্বানদের সম্বন্ধেই করিতে হইবে। বেদমন্ত্রের বিনিয়োগ না বুঝিয়া ভাষ্যকারেরা বেদের নামে মানব জাতির কিরুপ সর্বনাশ করিয়াছে নিম্নলিখিত দুই একটা দৃষ্টান্তে সম্যক বুঝিতে পারা যাইবে।</p>
+        <p>কাত্যায়ণ সূত্র অনুসারে একটি বিনিয়োগ এইরূপে— পুরুষাশ্বগোঽব্যজনা লভ্যাজেন যাগং কৃত্বা পঞ্চানাং শিরাংসি ঘৃতাক্তানি সংস্থাপ্য তেষাং কবন্ধাৎ যজ্ঞশেষং চ মৃদুক্তে তডগ্নাদি জলেপ্রাস্যেৎ উত্থার্থাকিষ্টুকার্থং চ মৃদুং জলে চ তৎ এবাদেযম্। মনুষ্য, ঘোড়া, গো, মেষ, ছাগ— এই পঞ্চ প্রাণীর মস্তক ঘৃতসিক্ত করিরা রাখিয়া তাহাদের অবশিষ্ট দেহকেও যজ্ঞাবশিষ্ট দ্রব্যকে জলাশয়াদির মৃত্তিকা মিশ্রিত জলে নিক্ষেপ করিবে, তাহা দ্বারা (যজ্ঞের) উখ ও ইষ্টক প্রস্তুত করিতে হইবে। মহীধর মনুষ্য ও গোহত্যা করিবার বিধান কাত্যায়নের বিনিয়োগ অনুসারেই দিয়াছেন। শুধু তাহাই নয়— যজুর্বেদের ২৩ অধ্যায়ের ২০ মন্ত্রের বিনিয়োগ কাত্যায়ন শ্রৌতসূত্র এইরূপ আছে—❝অশ্ব শিশ্নযুপস্থে কুরুতে বৃয বাঞ্জীতি❞ (কাত্যায়ন শ্রৌতসূত্র অ ২০, কণ্ডিকা ৬, সূত্র ১৬)—এই সূত্রের অর্থ মহীধর উক্ত মন্ত্রের ভাষ্য করিতে গিয়া এইরূপ লিখিতেছেন— ❝মহিষী স্বয়মেবাশ্ব শিশ্নমাকৃষ্য স্বযোনৌ স্বাগযতি❞ অর্থাৎ বৃষ বাজী ইত্যাদি মন্ত্র পড়িয়া রাণী (যজমানের স্ত্রী) স্বয়ং অশ্বের ...কে নিজ ...ইন্দ্রিয়ে স্থাপন করিবে পরে অশের হত্যা ও তাহার মাংস দ্বারা হোমের ব্যবস্থা করা হইয়াছে।</p>
+      </div>
+
+      <div class="section fade-in" id="sec-closing">
+        <div class="section-head">
+          <div class="section-thread">ॐ</div>
+          <h2>উপসংহার — ত্রয়ী বিদ্যা</h2>
+        </div>
+        <p>বেদের নামে এইরূপ বহু অম্লীল ও বীভৎস ব্যাপারের প্রচার বেদ বিরোধী বামমার্গীরা এক সময় দেশে প্রচার করিয়াছিলেন। জনসাধারণ চিরদিনই বেদ প্রামাণিক ধর্মগ্রন্থ বলিয়া শ্রদ্ধা করিয়া আসিতেছে। যদি কোন নূতন মতের প্রবর্তন করিতে হয় তবে বেদের নামে করিলে সহজ সাধ্য হইবে। ইহা বামমার্গীরাও বুঝিয়াছেন বৈদিক কর্মকাণ্ডের নামে এখন এইরূপে অবৈদিক ক্রিয়াকলাপে দেশ পূর্ণ হইয়া উঠিয়াছিল তখনই নাস্তিক দর্শন প্রণেতা চার্বাক প্রচার করিয়াছিলেন— ভ্রযস্তে বদকর্তারঃ ভণ্ড ধূর্ত নিশাচরাঃ অর্থাৎ ভণ্ড ধূর্ত এবং নিশাচর এই তিন রূপ ব্যক্তিই বেদের কর্তা। বহু যুগের বহু মলিন্য বেদের নামে দেশে চালিয়া আসিতেছে। গৌতম বুদ্ধও এই সব ক্রিয়াকলাপে বিরক্ত হইয়াছিলেন। শঙ্করাচার্য্য এই সব মালিন্য অপসারিত করিয়া স্বচ্ছ শুদ্ধ পবিত্র বৈদিক ধর্ম্মের প্রচার করিতে ইচ্ছা করিয়াছিলেন কিন্তু কার্যক্ষেত্রে তিনি প্রচ্ছন্ন বৌদ্ধ মতই প্রচার করিয়াছিলেন। বহু শতাব্দী পর মহর্ষি দয়ানন্দ তান্ত্রিক ও বামমারূগীদের ভাষ্যে মলিনতা হইতে বেদকে উদ্ধার করিয়াছিলেন। তাঁহার ভাষ্য প্রাচীনকালের নিঘণ্টু ও নিরুক্তের উপর প্রতিষ্ঠিত। বেদে কর্ম, জ্ঞান ও উপাসনার সামঞ্জস্য রক্ষিত হইয়াছে। কর্ম, জ্ঞান বা উপাসনার যে কোন একটি উপেক্ষিত হইলেই যে মোক্ষলাভ সুদূর পরাহত তাহা মহর্ষি দয়ানন্দের বেদভাষ্য পড়িলে বা প্রাচীন ভাষ্যকারদের ভাষ্য পড়িলেই জানা যায়। ঋগ্বেদে জ্ঞানকাণ্ডের বিধান, যজুর্বেদে কর্মকাণ্ডের বিধান এবং সামবেদে উপাসনাকাণ্ডের বিধান। অথচ বেদকে কোন গুরুর নিকট না পড়িয়া বিজ্ঞান চর্চার জন্যই বিহিত। এই জন্যই বেদের এক নাম ❝ত্রয়ী❞। বেদের জ্ঞান, কৰ্ম্ম ও উপাসনা— এই ত্রিবিদ্যা সাধনের উপরই দেশ, সমাজ ও ব্যক্তির উন্নতি এবং বিশ্বের কল্যাণ নির্ভর করে।</p>
+      </div>
+
+    </article>
+
+    <div class="closing">
+      <div class="closing-mark">ॐ</div>
+      <p>"সর্বজ্ঞানযুক্ত শাস্ত্র নির্মাণ করাও অপরের সাধ্যাতীত — অর্থাৎ বেদ পরমেশ্বরোক্ত, এবং সকলেরই বেদানুকূলে আচরণ করা কর্তব্য।"</p>
+      <div class="closing-sig">— বেদ-পরিচয়, পণ্ডিত শ্রীদীনবন্ধু বেদশাস্ত্রী</div>
+    </div>
+
+    <footer class="site-footer">
+      বেদ-পরিচয় · মূল প্রকাশ ১৪০৫ বঙ্গাব্দ, আর্য সমাজ কলিকাতা · ডিজিটাল পাঠ — কণ্ব-৩৪ আর্কাইভের জন্য প্রস্তুত
+    </footer>
+  </main>
+</div>
+
+<div class="totop" id="totop" aria-label="উপরে যান">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+
+<script>
+// ---------- Progress thread ----------
+const progressBar = document.getElementById('thread-progress');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrollPct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progressBar.style.width = scrollPct + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+// ---------- Hero accent marks animation ----------
+window.addEventListener('load', () => {
+  setTimeout(()=>document.getElementById('mark-u').classList.add('show'), 400);
+  setTimeout(()=>document.getElementById('mark-a').classList.add('show'), 900);
+  setTimeout(()=>document.getElementById('mark-s').classList.add('show'), 1400);
+});
+
+// ---------- Mobile sidebar toggle ----------
+const sidebar = document.getElementById('sidebar');
+const mobileToggle = document.getElementById('mobileToggle');
+const backdrop = document.getElementById('sidebarBackdrop');
+function closeSidebar(){
+  sidebar.classList.remove('open');
+  backdrop.classList.remove('show');
+}
+mobileToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  backdrop.classList.toggle('show');
+});
+backdrop.addEventListener('click', closeSidebar);
+
+// ---------- TOC smooth scroll + active state ----------
+const tocItems = document.querySelectorAll('.toc-item');
+tocItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(item.dataset.target);
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    closeSidebar();
+  });
+});
+
+const allSections = [...document.querySelectorAll('.toc-item')].map(i => document.getElementById(i.dataset.target)).filter(Boolean);
+function updateActiveTOC(){
+  let currentId = allSections[0] ? allSections[0].id : null;
+  for(const sec of allSections){
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 140){ currentId = sec.id; }
+  }
+  tocItems.forEach(item => {
+    item.classList.toggle('active', item.dataset.target === currentId);
+  });
+}
+document.addEventListener('scroll', updateActiveTOC, {passive:true});
+updateActiveTOC();
+
+// ---------- Back to top ----------
+const totop = document.getElementById('totop');
+document.addEventListener('scroll', () => {
+  totop.classList.toggle('show', window.scrollY > 600);
+}, {passive:true});
+totop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+// ---------- Fade-in on scroll ----------
+const fadeEls = document.querySelectorAll('.fade-in');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
+fadeEls.forEach(el => io.observe(el));
+
+// ---------- Live Bengali search ----------
+const searchInput = document.getElementById('searchInput');
+const searchCount = document.getElementById('search-count');
+const allArticleSections = document.querySelectorAll('.article .section');
+let originalHTML = new Map();
+allArticleSections.forEach(sec => originalHTML.set(sec, sec.innerHTML));
+
+function clearHighlights(){
+  allArticleSections.forEach(sec => {
+    sec.innerHTML = originalHTML.get(sec);
+    sec.classList.remove('search-hidden');
+  });
+}
+
+function escapeRegex(str){
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim();
+  clearHighlights();
+  if(!q){
+    searchCount.textContent = '';
+    return;
+  }
+  let matchCount = 0;
+  let sectionsWithMatch = 0;
+  const re = new RegExp(escapeRegex(q), 'gi');
+  allArticleSections.forEach(sec => {
+    const text = originalHTML.get(sec);
+    if(re.test(text)){
+      sectionsWithMatch++;
+      // highlight only inside <p> tags' text content, naive but effective for this content
+      const temp = document.createElement('div');
+      temp.innerHTML = text;
+      temp.querySelectorAll('p, li').forEach(node => {
+        const re2 = new RegExp(escapeRegex(q), 'gi');
+        if(re2.test(node.textContent)){
+          node.innerHTML = node.innerHTML.replace(new RegExp(escapeRegex(q), 'gi'), m => {
+            matchCount++;
+            return '<span class="hit">' + m + '</span>';
+          });
+        }
+      });
+      sec.innerHTML = temp.innerHTML;
+      sec.classList.remove('search-hidden');
+    } else {
+      sec.classList.add('search-hidden');
+    }
+  });
+  searchCount.textContent = matchCount > 0
+    ? `${matchCount} বার মিলেছে, ${sectionsWithMatch} অনুচ্ছেদে`
+    : 'কোনো মিল পাওয়া যায়নি';
+});
+
+// ---------- Accent demo interactivity (just a gentle pulse on click, already styled via CSS) ----------
+document.querySelectorAll('.accent-syll').forEach(el => {
+  el.addEventListener('click', () => {
+    el.style.transform = 'scale(1.15)';
+    setTimeout(()=> el.style.transform = 'scale(1)', 220);
+  });
+});
+</script>
+</body>
+</html>

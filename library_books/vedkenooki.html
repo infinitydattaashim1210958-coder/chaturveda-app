@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বেদ — কেন এবং কি? | অধ্যাপক রাজেন্দ্র জিজ্ঞাসু</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0b0805;
+  --panel:#150f0a;
+  --panel-2:#1c140d;
+  --line: rgba(232,184,75,.16);
+  --line-strong: rgba(232,184,75,.32);
+  --ink:#f2e6d3;
+  --ink-dim:#c7b298;
+  --ink-faint:#8f7c64;
+  --ember:#ff7a1a;
+  --ember-soft: rgba(255,122,26,.35);
+  --gold:#e8b84b;
+  --gold-soft: rgba(232,184,75,.22);
+  --deep-red:#7a2c17;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, rgba(255,122,26,.10), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(232,184,75,.07), transparent 55%),
+    var(--void);
+  color:var(--ink);
+  font-family:'Noto Serif Bengali','Tiro Bangla',serif;
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+}
+
+::selection{ background: var(--ember-soft); color:#fff; }
+
+#progress{
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:linear-gradient(90deg,var(--deep-red),var(--ember),var(--gold));
+  z-index:9999; transition:width .1s linear;
+}
+
+.topbar{
+  position:sticky; top:0; z-index:500;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 5vw;
+  background:rgba(11,8,5,.82);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .brand{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Tiro Bangla', serif;
+  color:var(--gold);
+  font-size:1.05rem;
+  letter-spacing:.5px;
+  text-decoration:none;
+}
+.brand .flame-mini{ width:16px; height:20px; display:inline-block; }
+.topbar nav a{
+  color:var(--ink-dim);
+  text-decoration:none;
+  font-size:.85rem;
+  margin-left:22px;
+  letter-spacing:.4px;
+  border-bottom:1px solid transparent;
+  transition:.2s;
+}
+.topbar nav a:hover{ color:var(--gold); border-color:var(--gold-soft); }
+
+.hero{
+  position:relative;
+  padding:9vh 6vw 8vh;
+  text-align:center;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(232,184,75,.035) 39px),
+    repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(232,184,75,.035) 39px);
+  pointer-events:none;
+}
+.om-mark{
+  font-family:'Tiro Bangla', serif;
+  color: var(--gold);
+  opacity:.85;
+  font-size:1rem;
+  letter-spacing:6px;
+  margin-bottom: 26px;
+}
+
+.diya-wrap{ position:relative; width:120px; height:170px; margin:0 auto 18px; }
+.flame{
+  position:absolute; left:50%; top:6px; transform:translateX(-50%);
+  width:26px; height:46px;
+  background:radial-gradient(ellipse at 50% 80%, #fff6d8 0%, var(--gold) 28%, var(--ember) 62%, var(--deep-red) 100%);
+  border-radius:50% 50% 50% 50% / 65% 65% 35% 35%;
+  filter: drop-shadow(0 0 18px var(--ember)) drop-shadow(0 0 34px rgba(255,122,26,.5));
+  animation: flicker 2.6s ease-in-out infinite;
+  transform-origin:50% 100%;
+}
+@keyframes flicker{
+  0%,100%{ transform:translateX(-50%) scaleY(1) rotate(0deg); }
+  25%{ transform:translateX(-50%) scaleY(1.07) rotate(-2deg); }
+  50%{ transform:translateX(-50%) scaleY(.95) rotate(1.5deg); }
+  75%{ transform:translateX(-50%) scaleY(1.04) rotate(-1deg); }
+}
+.wick{ position:absolute; left:50%; top:44px; transform:translateX(-50%); width:3px; height:10px; background:#2a1a10; border-radius:2px;}
+.diya-bowl{
+  position:absolute; left:50%; bottom:38px; transform:translateX(-50%);
+  width:110px; height:34px;
+  background:linear-gradient(180deg, var(--gold), #8a5a1c 70%, #4c3210);
+  border-radius:0 0 55px 55px / 0 0 40px 40px;
+  box-shadow: inset 0 -6px 10px rgba(0,0,0,.4), 0 8px 24px rgba(255,122,26,.18);
+}
+.diya-bowl::before{
+  content:""; position:absolute; left:8px; right:8px; top:-6px; height:12px;
+  background:linear-gradient(180deg,#3a2410,#1c1006);
+  border-radius:50%;
+}
+.diya-base{
+  position:absolute; left:50%; bottom:22px; transform:translateX(-50%);
+  width:44px; height:20px; background:linear-gradient(180deg,#5c3c14,#241505);
+  clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+}
+.rays{ position:absolute; inset:0; }
+.ray{
+  position:absolute; left:50%; top:26px; width:1px; height:60px;
+  background:linear-gradient(180deg, rgba(232,184,75,.55), transparent);
+  transform-origin:50% 0%;
+  animation: rayfade 3.4s ease-in-out infinite;
+}
+@keyframes rayfade{ 0%,100%{opacity:.15;} 50%{opacity:.6;} }
+
+.kicker{
+  color:var(--ink-faint);
+  letter-spacing:3px;
+  font-size:.72rem;
+  text-transform:uppercase;
+  font-family:'Cormorant Garamond',serif;
+  margin-bottom:14px;
+}
+h1.title{
+  font-family:'Tiro Bangla', serif;
+  font-weight:700;
+  font-size:clamp(2.3rem, 6vw, 4.4rem);
+  margin:0 0 18px;
+  color:var(--ink);
+  text-shadow:0 0 40px rgba(255,122,26,.18);
+  line-height:1.25;
+}
+h1.title .accent{ color:var(--ember); }
+.subtitle{
+  max-width:640px; margin:0 auto 34px;
+  color:var(--ink-dim); font-size:1.05rem;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+}
+.byline{
+  display:inline-flex; flex-direction:column; gap:4px;
+  border-top:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong);
+  padding:16px 30px;
+  font-size:.92rem;
+  color:var(--ink-dim);
+}
+.byline b{ color:var(--gold); font-weight:600; }
+
+.meta-wrap{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1px; background:var(--line);
+  max-width:1000px; margin:56px auto 0;
+  border:1px solid var(--line);
+}
+.meta-card{
+  background:var(--panel);
+  padding:26px 24px;
+}
+.meta-card h3{
+  margin:0 0 10px; font-size:.78rem; letter-spacing:2px;
+  text-transform:uppercase; color:var(--gold); font-family:'Cormorant Garamond',serif; font-weight:600;
+}
+.meta-card p{ margin:0; color:var(--ink-dim); font-size:.92rem; line-height:1.7;}
+
+.wrap{ max-width:880px; margin:0 auto; padding:0 6vw; }
+.divider{
+  display:flex; align-items:center; gap:14px;
+  color:var(--gold); margin:70px 0 34px;
+}
+.divider .line{ flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--line-strong), transparent);}
+.divider .diamond{ width:8px;height:8px; background:var(--ember); transform:rotate(45deg); box-shadow:0 0 10px var(--ember);}
+.section-label{
+  text-align:center; font-family:'Cormorant Garamond', serif; letter-spacing:4px;
+  text-transform:uppercase; font-size:.8rem; color:var(--ink-faint); margin:8px 0 2px;
+}
+
+.prose-block{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:38px 6vw;
+  position:relative;
+}
+.prose-block h2{
+  font-family:'Tiro Bangla', serif; color:var(--gold);
+  font-size:1.5rem; margin:0 0 22px; text-align:center;
+  letter-spacing:1px;
+}
+.prose-block h2 small{ display:block; color:var(--ink-faint); font-size:.75rem; letter-spacing:3px; margin-top:6px; text-transform:uppercase; font-family:'Cormorant Garamond',serif;}
+.prose-block p{ color:var(--ink-dim); margin:0 0 18px; font-size:1.02rem; }
+.prose-block p:first-of-type::first-letter{
+  font-family:'Tiro Bangla',serif;
+  color:var(--ember);
+  font-size:3.1rem; float:left; line-height:.8; padding:8px 10px 0 0;
+}
+
+.toc-shell{
+  margin:64px auto 0; max-width:880px;
+  border:1px solid var(--line-strong);
+  background:linear-gradient(180deg, rgba(232,184,75,.05), transparent 40%), var(--panel);
+  padding:10px 0 6px;
+}
+.toc-shell .toc-title-row{
+  text-align:center; padding:26px 20px 8px;
+}
+.toc-shell .toc-title-row .toc-om{ color:var(--gold); letter-spacing:4px; font-size:.75rem; text-transform:uppercase; font-family:'Cormorant Garamond',serif;}
+.toc-shell .toc-title-row h2{
+  font-family:'Tiro Bangla',serif; margin:8px 0 0; font-size:1.7rem; color:var(--ink);
+}
+ol.toc-list{
+  list-style:none; margin:18px 0 0; padding:0 0 18px;
+  columns: 2; column-gap:0;
+}
+ol.toc-list li{ break-inside:avoid; border-top:1px solid var(--line); }
+ol.toc-list a{
+  display:flex; align-items:baseline; gap:14px;
+  padding:13px 26px; text-decoration:none; color:var(--ink-dim);
+  transition:.18s;
+}
+ol.toc-list a:hover{ background:rgba(255,122,26,.07); color:var(--ink); }
+.toc-num{
+  font-family:'Cormorant Garamond',serif; color:var(--ember); font-weight:600;
+  font-size:.85rem; min-width:22px;
+}
+.toc-title{ font-size:.98rem; }
+
+@media (max-width: 720px){
+  ol.toc-list{ columns:1; }
+}
+
+.chapter{
+  margin:0 auto; max-width:800px; padding:64px 6vw 10px;
+  scroll-margin-top:90px;
+  border-top:1px solid var(--line);
+}
+.chapter:first-of-type{ border-top:none; }
+.chapter-head{
+  display:flex; align-items:center; gap:18px; margin-bottom:26px;
+}
+.chapter-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem; color:var(--void);
+  background:linear-gradient(135deg,var(--gold),var(--ember));
+  min-width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700;
+  box-shadow:0 0 22px rgba(255,122,26,.35);
+}
+.chapter-head h2{
+  font-family:'Tiro Bangla', serif;
+  font-size:clamp(1.3rem,3vw,1.7rem);
+  color:var(--ink); margin:0; letter-spacing:.3px;
+  border-bottom:1px solid var(--line-strong);
+  padding-bottom:14px; flex:1;
+}
+.chapter-body p{ color:var(--ink-dim); margin:0 0 20px; font-size:1.04rem; text-align:justify;}
+.chapter-body strong{ color:var(--ink); font-weight:700; }
+.chapter-body em{ color:var(--gold); font-style:italic; }
+.chapter-body p.verse{
+  text-align:center; color:var(--gold);
+  font-family:'Tiro Bangla', serif;
+  font-size:1.12rem;
+  border-left:2px solid var(--ember);
+  border-right:2px solid var(--ember);
+  padding:14px 26px; margin:26px auto; max-width:560px;
+  background:rgba(255,122,26,.05);
+}
+
+.essay-open{
+  max-width:800px; margin:0 auto; padding:0 6vw 10px;
+}
+.essay-open .chapter-head h2{ font-size:clamp(1.6rem,4vw,2.1rem); text-align:center; border-bottom:none;}
+.essay-open .chapter-head{ justify-content:center; }
+.essay-open .chapter-num{ display:none; }
+
+.totop{
+  position:fixed; right:22px; bottom:22px; z-index:400;
+  width:46px; height:46px; border-radius:50%;
+  background:var(--panel-2); border:1px solid var(--line-strong);
+  color:var(--gold); display:flex; align-items:center; justify-content:center;
+  text-decoration:none; font-size:1.1rem;
+  opacity:0; pointer-events:none; transition:.25s;
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+.totop.show{ opacity:1; pointer-events:auto; }
+
+.colophon{
+  text-align:center; max-width:800px; margin:80px auto 40px; padding:0 6vw;
+}
+.colophon .glyph{ color:var(--gold); font-size:1.4rem; letter-spacing:10px; margin-bottom:14px;}
+.colophon p{ color:var(--ink-faint); font-size:.85rem; letter-spacing:1px; }
+
+@media (max-width: 640px){
+  .topbar nav{ display:none; }
+  .hero{ padding:8vh 6vw 6vh; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="topbar">
+  <a class="brand" href="#top">
+    <svg class="flame-mini" viewBox="0 0 16 20"><path d="M8 0c2 4-3 5-3 9a3 3 0 0 0 6 0c0-2-1-3-1-3s2 2 2 5a4 4 0 1 1-8 0C4 6 6 4 8 0z" fill="#e8b84b"/></svg>
+    বেদ — কেন ও কী
+  </a>
+  <nav>
+    <a href="#toc">সূচিপত্র</a>
+    <a href="#preface">প্রাক-কথন</a>
+    <a href="#sec-01">মূল প্রবন্ধ</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="om-mark">॥ ও৩ম্ ॥</div>
+
+  <div class="diya-wrap" aria-hidden="true">
+    <div class="rays">
+      <div class="ray" style="left:50%; transform:rotate(-40deg);"></div>
+      <div class="ray" style="left:50%; transform:rotate(-20deg); animation-delay:.4s;"></div>
+      <div class="ray" style="left:50%; transform:rotate(0deg); animation-delay:.8s;"></div>
+      <div class="ray" style="left:50%; transform:rotate(20deg); animation-delay:1.2s;"></div>
+      <div class="ray" style="left:50%; transform:rotate(40deg); animation-delay:1.6s;"></div>
+    </div>
+    <div class="flame"></div>
+    <div class="wick"></div>
+    <div class="diya-bowl"></div>
+    <div class="diya-base"></div>
+  </div>
+
+  <div class="kicker">দীয়া বলে অন্ধেরা জাঈ · বেদ পাঠ মতি পাপাঁ খাই</div>
+  <h1 class="title">বেদ<span class="accent">—</span> কেন এবং কি?</h1>
+  <p class="subtitle">যাঁরা ঈশ্বরীয় জ্ঞানের উৎস, বেদের প্রাচীনতা এবং তার সর্বজনীন সত্যকে জানতে চান, তাঁদের জন্য একটি প্রামাণ্য আলোচনা — পূর্ব ও পশ্চিমের বিদ্বানদের সাক্ষ্য সহ।</p>
+
+  <div class="byline">
+    <span><b>লেখক</b> — অধ্যাপক রাজেন্দ্র জিজ্ঞাসু (পাঞ্জাব)</span>
+    <span><b>বঙ্গানুবাদ</b> — পণ্ডিত বাসুদেব শাস্ত্রী (জয়পুর), সংরক্ষক, আর্য্য সমাজ সাহসপুর, বাঁকুড়া · মোবাইলঃ ০৯৮২৮৫৭১২১৯</span>
+  </div>
+
+  <div class="meta-wrap">
+    <div class="meta-card">
+      <h3>প্রকাশক</h3>
+      <p>বেদাচার্য্য ডঃ বেদপ্রিয় শাস্ত্রী<br>গ্রাম— হাজীচক্, পোঃ—কেশপুর<br>জেলা— পঃ মেদিনীপুর<br>মো:—০৯২০৪৪২৮৯৮০</p>
+    </div>
+    <div class="meta-card">
+      <h3>প্রকাশকাল</h3>
+      <p>পৌষ ১৪১৯ বঙ্গাব্দ<br>ডিসেম্বর ২০১২ খ্রীষ্টাব্দ</p>
+    </div>
+    <div class="meta-card">
+      <h3>পুস্তক প্রাপ্তি স্থান</h3>
+      <p>আর্য্য সমাজ সাহসপুর, বাঁকুড়া<br>মূল্যঃ ১০ টাকা</p>
+    </div>
+    <div class="meta-card">
+      <h3>মুদ্রণ</h3>
+      <p>মহাপ্রভু প্রিন্টাস<br>কালনা, বর্ধমান</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <div class="divider"><span class="line"></span><span class="diamond"></span><span class="line"></span></div>
+  <div class="om-mark" style="margin-bottom:6px;">ওম্</div>
+  <div class="section-label">লেখক পরিচিতি</div>
+  <div class="prose-block" id="bio">
+    <h2>রাজেন্দ্র জিজ্ঞাসু<small>Author Introduction</small></h2>
+    <p>শতাধিক পুস্তকের প্রণেতা প্রফেসর রাজেন্দ্র 'জিজ্ঞাসু'র জন্ম সন্ ১৯৩২-এ গ্রাম—মালোমহে, জেলা—সিয়ালকোট (পশ্চিম পাঞ্জব)-এ হয়েছে। তাঁর বাবা শ্রীজীবনমলজী গ্রামের মধ্যে প্রথম আর্য্য সমাজী ছিলেন। লেখন-কলার অংকুরণ সপ্তম শ্রেণীতে পড়ার সময়ই হয়েছিল। রক্তসাক্ষী পণ্ডিত সেখরামজীর জীবন এবং বলিদানে প্রেরণা পেয়ে তিনি কলম ধরেছিলেন। শ্রী পণ্ডিত গঙ্গাপ্রসাদ উপাধ্যায়জী ইত্যাদি অনেক মহাপুরুষদের আশীর্বাদ এবং প্রোৎসাহনে সাহিত্য-সেবাতে যেভাবে অগ্রগতি করেছেন তা থেকে তিনি পিছনে ঘুরে দেখেন নি।</p>
+<p>তাঁর অনেক মৌলিক কৃতির অনুবাদ দেশের অন্যান্য ভাষাতেও হয়েছে। অনেক-অনেক বার ছেপেছে। এশিয়া মহাদ্বীপে সর্বাধিক মৌলিক জীবনী লেখার রেকর্ড তাঁর রয়েছে। সন্ ১৯৫৮-তে গুরুদ্বারা সিগারেট কেসের মিথ্যা অভিযোগে অমানুষিক যাতনার রেকর্ড তাঁর নামেই রয়েছে। গঙ্গা-জ্ঞান-সাগর বৃহৎ গ্রন্থমালাটিকে চার ভাগে প্রকাশিত করে তিনি সাহিত্য জগৎকে একটি অমূল্য অবদানে সমৃদ্ধ করে দিয়েছেন। মালেশিয়ার মতো কট্টরপন্থী ইসলামী দেশের একটি গ্রন্থেও তাঁর জীবন-পরিচয় ছেপেছে। পশ্চিমের জগতেও তাঁর সাহিত্যিক উপলব্ধির খুব চর্চা রয়েছে।</p>
+<p>A.B.I (আমেরিকা)-র মতো বিশ্বখ্যাত সংস্থা তাঁকে CONSULTING EDITOR রূপ চয়ন করেছেন।</p>
+  </div>
+
+  <div class="divider"><span class="line"></span><span class="diamond"></span><span class="line"></span></div>
+  <div class="section-label">Preface</div>
+  <div class="prose-block" id="preface">
+    <h2>প্রাক-কথন</h2>
+    <p>বিগত সওয়া একশত বছরে ঈশ্বরীয় জ্ঞানের আবশ্যকতা, তার আবির্ভাব এবং বেদের মহত্ত্বের উপর দেশ-বিদেশে অনেক কিছু লেখা হয়েছে। মহর্ষি দয়ানন্দের আগমনের পূর্বে পশ্চিম দেশীয় (খ্রীষ্টান) লেখকগণের দ্বারা বেদের নিন্দা করার জন্য লিখিত সাহিত্যের যেন বন্যা এসে গিয়েছিল। পশ্চিমের অন্ধানুকরণ এবং দাসত্বের হীন মনোবৃত্তির ইংরেজি পঠিত ভারতীয় বাবুরত্তি বেদের উপহাস করতে কম করেনি।</p>
+<p>ভারতীয় নেতা এবং পন্ডিত এই পশ্চিমদেশীয় সাহিত্যের বন্যাকে অবরোধ করার সাহস করতে পারে নাই। রাজা রামমোহন রায়ের মতো মহাপুরুষ বেদ পর্যন্ত পৌঁছাতেই পারেন নাই। তিনি উপনিষদকেই বেদ বলে ভেবে নিয়েছিলেন। মহর্ষি দয়ানন্দের জন্ম-জন্মান্তরের সুপ্ত সাধনা জেগে উঠল। তিনি কার্যক্ষেত্রে পদার্পন করলেন। তিনি বিশ্বের সব বেদ-বিরোধীদের শাস্ত্রার্থ-সংগ্রামে আবাহন করলেন। তিনি বেদোদ্ধারের জন্য অনেক দুঃখ-কষ্ট সহ্য করলেন। তিনি নিজের প্রিয় জীবন পর্যন্তও বেদের উপর সমর্পন করলেন।</p>
+<p>মহর্ষি দয়ানন্দের অদ্বিতীয় শিষ্য পণ্ডিত গুরুদত্তজী পশ্চিমদেশীয় বিচার সমূহের এই বিনাশকারী বন্যাকে অবরোধ করার জন্য একটি ঐতিহাসিক কার্য করলেন। এই কাজটিকে একটি বৌদ্ধিক চমৎকারই বলা উচিৎ যে মাত্র পৌনে ছাব্বিশ বছর বয়সে এই মনীষী (GENIUS) তাঁর অলৌকিক প্রতিভার দ্বারায় তখনকার পশ্চিমী লেখকদেরকে ঝাঁকুনি দিয়ে রেখে দিয়েছিলেন। তাঁর পরে আর্য বিদ্বানেরা বেদের মহিমা এবং মর্মের উপর বহু কিছু লিখেছেন।</p>
+<p>আর্য সমাজের শাস্ত্রার্থ, মহারথীরা বিধর্মীদের বেদ-মহিমা স্বীকার করানোর ব্যাপারে বিশেষ সফলতা প্রাপ্ত করেছেন। কবিরত্ন ❝প্রকাশ❞জীর এই নিম্ন পঙক্তিগুলি আর্য শাস্ত্রার্থ মহারথীদের এই উপলব্ধির সংকেত করছে—</p>
+<p class="verse"><strong>করতে যে হমেশা চীখ চীখ অপমান জো পাবন বেদোঁ কা।</strong></p>
+<p class="verse"><strong>সির উনকা বেদোঁ কে আগে ঝুকওয়া দিয়া ঋষি দয়ানন্দনে।।</strong></p>
+<p>অর্থাৎ যাঁরা চিল্লিয়ে চিল্লিয়ে পবিত্র বেদের অপমান সব সময় করতো, তাঁদের মাথাকে বেদের আগে ঝুকিয়ে দিয়েছিলেন ঋষি দয়ানন্দ। বেদোদ্ধার এবং বেদপ্রচারের আন্দোলনে এইসব শাস্ত্রার্থ মহারথীদের যোগদান স্বর্ণাক্ষরে লেখার যোগ্য।</p>
+<p>বেদের উপর যে প্রহার করা হয়েছে সেইসব প্রত্যেক প্রহারের উত্তর দিতে যেসব সাহিত্যিক এবং বিদ্বানেরা নিরন্তর কলম উঠিয়েছেন এবং নিজের জীবনকে আহত করে দিয়েছেন—তাঁদেরকে শত শত নমন। এই ধরনের পুণ্যাত্মাদের মধ্যে বিশেষরূপে উল্লেখনীয় হলেন স্বামী দর্শনানন্দজী, পণ্ডিত শিবশংকরজী, স্বামী বেদানন্দজী, ডাঃ বালকৃষ্ণজী, পণ্ডিত চমূপতিজী, পণ্ডিত ব্রহ্মদত্তজী জিজ্ঞাসু, মাস্টার লক্ষণ জী, মেহেতা জৈমিনিজী, পণ্ডিত গঙ্গাপ্রসাদ জী চীফ জজ, পণ্ডিত গঙ্গাপ্রসাদ উপাধ্যায়, পণ্ডিত ধর্মদেবজী, পণ্ডিত বুদ্ধদেবজী বিদ্যালংকার, স্বামী সত্যপ্রকাশজী, পণ্ডিত যুধিষ্ঠির জী মীমাংসক প্রমুখ। সন ১৯৫২-র কাছাকাছি পণ্ডিত ধর্মদেবজী লিখিত ট্যাক্ট ❝GLORY OF THE VEDAS❞ পড়ে আমি খুবই প্রভাবিত হই। শ্রী পন্ডিত গঙ্গাপ্রসাদ উপাধ্যায় কৃত ❝❞THE VEDAS—HOLY SCRIPTURES OF ARYANS❞ বইটিও ছিল অত্যন্ত বিচার-উত্তেজক এবং পঠনীয়। উক্ত সাহিত্য পড়ার পর মন চাইতো যে আমিও বেদ মহিমার উপর কিছু লিখি।</p>
+<p>পূজ্য উপাধ্যায়জীও একবার আমাকে এই ধরনের পুস্তক লেখার আদেশ দিয়েছিলেন। ওঁনার জীবনকালে তো আমি ঐ কার্যটি করতে পারিনি। বর্তমানে তাঁর মনোকামনা পূর্ণ করাতে আমি সন্তোষ লাভ করছি। ফারসীতে বলা হয়—❝দের আয়দ দুরুস্ত আয়দ❞ (অর্থাৎ দেরী হোক্ কিন্তু কাজটা যেন ভালো হয়)। বিলম্ব তো ৪০ বছর হয়ে গেল পরন্তু এই বিলম্বেও বড় লাভ হয়েছে।</p>
+<p>আনন্দের কথা হলো যে স্ত্রী বেদভূষণজী নগরোটা বগবাঁ-র (হিমাচল প্রদেশ) প্রবল প্রেরণার ফলস্বরূপ একটি অনেক পুরানো উৎকট ইচ্ছা মূর্তরূপ নিচ্ছে। এই পুস্তিকার প্রসার এবং প্রকাশনের জন্য শ্রী মদনলাল আর্যকে ধন্যবাদ দেওয়া তো একটি লোকাচারই হবে। আমি আশা করছি যে সব রকমের পাঠক এই পুস্তিকা থেকে লাভ প্রাপ্ত করবেন। এই পুস্তিকা জন উপযোগী তো বটেই, সাথে সাথে বিদ্বানন্দের জন্যও এতে পর্যাপ্ত নূতন সামগ্রী রয়েছে।</p>
+<p>রক্তসাক্ষী পণ্ডিত লেখরামের অমূল্য বিচারকে আর্য সমাজ ❝না শোনার মত❞ করে দিয়েছে। সংস্থাগুলির ঝঞ্ঝাটে ফেঁসে যাওয়া এই সমাজ সাহিত্যিক ক্ষেত্রে পশ্চাৎপদ হয়ে গেছে। আর্য সমাজে যে যে ঠোস এবং উত্তম সাহিত্য প্রকাশিত হয়েছে তাঁর শ্রেয় ব্যক্তিগণকেই প্রাপ্ত হচ্ছে। সংগঠনকে নয়। পণ্ডিত গুরুদত্ত, মহাত্মা মুনশীরাম, পণ্ডিত লেখরাম, স্বামী দর্শনানন্দ, স্বামী বেদানন্দজী বহু কিছু লিখেছেন তো তার কারন হলো তাঁদের ব্যক্তিগত প্রয়াস ছিল। কলা প্রেসের কারণে উপ্যাধ্যায়জীর হাজার হাজার পৃষ্ঠা ছাপানো হতে পেরেছে। নিজের সাহিত্যের প্রকাশনের ব্যবস্থার দুঃসাহস উঠিয়েই আমি নিজের সাহিত্যিক শতক করতে পেরেছি। অনেক কিছু করে নিয়েছি—</p>
+<p>বহুত নিকলে মেরে অরমান লেকিন ফিরভী কম নিকলে। </p>
+<p>অর্থাৎ অনেক কিছু বের করার ইচ্ছা থাকা সত্ত্বেও কমই বের হয়েছে।</p>
+<p>এখনও অনেক কিছু করার ইচ্ছা। অনেক স্বপ্ন দেখে রেখেছি। দেখুন, আগে আগে কি হয়। যে সব বন্ধুদের বা প্রেমী পাঠকদের বৈদিক সাহিত্যের প্রসারে আমাকে বর্তমান পর্যন্ত প্রত্যক্ষ বা পরোক্ষরূপে সহযোগ প্রাপ্ত হচ্ছে, আমি হৃদয় দিয়ে তাঁদের প্রতি কৃতজ্ঞতা প্রকট করছি। এই পুস্তিকার লেখন এবং মুদ্রণে পাঠক ন্যূনতা-তো অবশ্যই দৃষ্টিগোচর করবেন। গুণীজনদের পরামর্শে আমি পরের সংস্করণে সংশোধন করে দেব।</p>
+<p>আমি পূর্ণ বিশ্বাসের সাথে বলব যে এই পুস্তিকার মধ্যে আমি এমন অনেক ধরনের নূতন তথ্য-সামগ্রী এবং প্রমাণ দিয়েছি যা গত যাঠ বছরে অন্য অন্য কোনো পুস্তকে দেওয়া হয়নি। আমি পিসে যাওয়াকে পিসি না। মৌলানা শাহাবুদ্দিন লিখিত মালয়ালম পুস্তক ❝বেদ-দর্শনম্❞, শ্রী আনোয়ার শেখ কৃত Vediccivilisation, তাঁর সম্পূর্ণ উর্দু সাহিত্য তথা শ্রী স্টিফেন ন্যাপ (Stephen Knaap) কৃত ❝The Secret Teaching of the Vedas❞—ইত্যাদির উপর আমাদের নজর পড়েছে। পুস্তকের আকার ঐ সব সাহিত্যের প্রমাণ দেওয়াতে আমার কাছে বাধক হয়ে গেছে। </p>
+<p>পন্ডিত লেখরাম বলিদান পর্ব</p>
+<p>৬ই মার্চ, সন ২০০৫</p>
+<p>বিনীতঃ-</p>
+<p>রাজেন্দ্র জিজ্ঞাসু</p>
+<p>কবিতা কুঞ্জ/ বেদ সদন,</p>
+<p>অবোহর, পাঞ্জাব ১৫২১১৬</p>
+    <p style="margin-top:30px; text-align:right; color:var(--ink-faint); font-size:.92rem;">
+      পন্ডিত লেখরাম বলিদান পর্ব · ৬ই মার্চ, সন ২০০৫<br>
+      বিনীতঃ- <b style="color:var(--gold);">রাজেন্দ্র জিজ্ঞাসু</b><br>
+      কবিতা কুঞ্জ/ বেদ সদন, অবোহর, পাঞ্জাব ১৫২১১৬
+    </p>
+  </div>
+
+  <div class="toc-shell" id="toc">
+    <div class="toc-title-row">
+      <div class="toc-om">Table of Contents</div>
+      <h2>সূচিপত্র</h2>
+    </div>
+    <ol class="toc-list">
+      <li><a href="#sec-02"><span class="toc-num">01</span><span class="toc-title">প্রভুকী দেন নি?</span></a></li>
+<li><a href="#sec-03"><span class="toc-num">02</span><span class="toc-title">জ্ঞানচক্ষু কী দেন নি?</span></a></li>
+<li><a href="#sec-04"><span class="toc-num">03</span><span class="toc-title">রচনাকে স্বীকার না করা</span></a></li>
+<li><a href="#sec-05"><span class="toc-num">04</span><span class="toc-title">সবাই মানে</span></a></li>
+<li><a href="#sec-06"><span class="toc-num">05</span><span class="toc-title">সর্বোৎকৃষ্টই বাঁচবে</span></a></li>
+<li><a href="#sec-07"><span class="toc-num">06</span><span class="toc-title">একটি হাস্যাস্পদ কথন</span></a></li>
+<li><a href="#sec-08"><span class="toc-num">07</span><span class="toc-title">বিজ্ঞানের নিয়ম কি ঘসে গেছে?</span></a></li>
+<li><a href="#sec-09"><span class="toc-num">08</span><span class="toc-title">কখনও বেদই সারা সংসারের ধর্ম ছিল</span></a></li>
+<li><a href="#sec-10"><span class="toc-num">09</span><span class="toc-title">না মিশ্রণ না অপসারণ</span></a></li>
+<li><a href="#sec-11"><span class="toc-num">10</span><span class="toc-title">বেদের উপর প্রশ্ন</span></a></li>
+<li><a href="#sec-12"><span class="toc-num">11</span><span class="toc-title">সমস্ত যোনির সব মডেল (Model) পুরাতন</span></a></li>
+<li><a href="#sec-13"><span class="toc-num">12</span><span class="toc-title">সূর্যের কাট নাই, বিদ্যুতের কাট হয় (লোডশেডিং)</span></a></li>
+<li><a href="#sec-14"><span class="toc-num">13</span><span class="toc-title">ঈশ্বরীয় নিয়ম ঘষে যায় নি</span></a></li>
+<li><a href="#sec-15"><span class="toc-num">14</span><span class="toc-title">কোন নূতন নিয়ম সৃজন করেছে?</span></a></li>
+<li><a href="#sec-16"><span class="toc-num">15</span><span class="toc-title">বেদ বিষয়ক একটি বিচিত্র বিচার</span></a></li>
+<li><a href="#sec-17"><span class="toc-num">16</span><span class="toc-title">বেদে কি আছে?</span></a></li>
+<li><a href="#sec-18"><span class="toc-num">17</span><span class="toc-title">সুখ, শান্তি এবং সমৃদ্ধির একমেব মার্গ</span></a></li>
+<li><a href="#sec-19"><span class="toc-num">18</span><span class="toc-title">বৈদিক প্রার্থনা</span></a></li>
+<li><a href="#sec-20"><span class="toc-num">19</span><span class="toc-title">বেদের ভাষা</span></a></li>
+<li><a href="#sec-21"><span class="toc-num">20</span><span class="toc-title">পশুপ্রেমী মহাপুরুষ</span></a></li>
+<li><a href="#sec-22"><span class="toc-num">21</span><span class="toc-title">রোগী সংসার এবং বেদ</span></a></li>
+<li><a href="#sec-23"><span class="toc-num">22</span><span class="toc-title">বেদের প্রার্থনা এবং পুরুষার্থ দর্শন</span></a></li>
+<li><a href="#sec-24"><span class="toc-num">23</span><span class="toc-title">বেদে কৃষি, ব্যাপার এবং উদ্যোগ শিল্প</span></a></li>
+<li><a href="#sec-25"><span class="toc-num">24</span><span class="toc-title">বেদের জয় জয়কার</span></a></li>
+<li><a href="#sec-26"><span class="toc-num">25</span><span class="toc-title">বেদে কী নাই?</span></a></li>
+<li><a href="#sec-27"><span class="toc-num">26</span><span class="toc-title">বিধান বিনা ন্যায়ব্যবস্থা কি ভাবে?</span></a></li>
+    </ol>
+  </div>
+
+</div>
+
+<div class="divider" style="max-width:880px; margin:70px auto 0;"><span class="line"></span><span class="diamond"></span><span class="line"></span></div>
+
+<article class="essay-open" id="sec-01">
+  <div class="chapter-head">
+    <span class="chapter-num">·</span>
+    <h2>বেদ— কেন? এবং কি?</h2>
+  </div>
+  <div class="chapter-body">
+    <p>সংসারের সেইসব জাতি এবং সমুদায় যাঁরা সৃষ্টিকর্তার সত্তাতে বিশ্বাস করে, তাঁদের সবাই এও মানে যে সৃষ্টিকর্তা প্রভু হলেন করুণাসাগর, দয়ালু এবং কৃপালু। সৃষ্টির রচনা কেমনভাবে হয়েছে? কেন হয়েছে? কবে হয়েছে? কার জন্য সৃষ্টি রচন করা হয়েছে? এইসব প্রশ্নসমূহের উত্তর সবাই পৃথক পৃথক দিক না কেন এবং সৃষ্টি রচয়িতার স্বরূপ সম্বন্ধে সবাইয়ের মান্যতা একই ধরনের নাই বা হোক পরন্তু সমস্ত আস্তিক জগৎ এ বিষয়ে একমত যে যিনি জগতের রচনা করেছেন তিনি জীবের ভালোর জন্যই সব কিছু করেছেন, দিয়েছেন।</p>
+  </div>
+</article>
+
+
+      <section class="chapter" id="sec-02">
+        <div class="chapter-head">
+          <span class="chapter-num">01</span>
+          <h2>প্রভুকী দেন নি?</h2>
+        </div>
+        <div class="chapter-body">
+<p>যে কোন মতে আস্থা রাখা আস্তিকের সাথে আপনি কথা বলে দেখুন। সবাই একস্বরে বলবে যে পরমেশ্বর মানুষের সর্বাঙ্গীন কল্যাণের জন্য সব কিছু দিয়েছেন। জল, বায়ু, গাছপালা, বনস্পতি, ফুল, ফল, অন্ন, ধন, ধাতু, সূর্য, চন্দ্র, অগ্নি, পবন...........।. জীবসমূহের উপযোগ, প্রয়োগের জন্য সব কিছু দেওয়া হয়েছে। প্রভুর নিয়ম হলো বড় বিচিত্র। মনুষ্য সৃষ্টির নিয়ম তো এই যে আবশ্যকতা প্রথমে হয়, আবিস্কার পরে হয়। পরন্তু পরমাত্মার সৃষ্টি নিয়ম এর বিপরীত। প্রভু প্রথমে আবিষ্কার করেন পরে আবশ্যকতা উৎপন্ন হয়। চোখের পূর্বে সূর্য তৈরি করেছেন। পিপাসার পূর্বে জল তৈরি হয়েছিল। প্রাণীর উৎপত্তির পূর্বে ধরতী তৈরি হয়েছিল। ক্ষুধার জ্বালায় প্রাণীদেরকে রোদন করতে হয়নি। অন্ন, বনস্পতি, ফল, ফুল আগে থেকেই বিদ্যমান ছিল। বায়ু প্রথম থেকেই ছিল। শ্বাস-প্রশ্বাস নেওয়া প্রাণী পরে জন্মেছে। সন্তানের জন্ম হওয়াতেই মায়ের স্তনে দুধ বইতে থাকে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-03">
+        <div class="chapter-head">
+          <span class="chapter-num">02</span>
+          <h2>জ্ঞানচক্ষু কী দেন নি?</h2>
+        </div>
+        <div class="chapter-body">
+<p>এখন বিচারনীয় প্রশ্ন হোল যে প্রভু মনুষ্যকে বুদ্ধিও তো দিয়েছেন। মনুষ্যের মধ্যে জানার জিজ্ঞাসা (INSTINCT OF CURIOSITY) সর্বদাই রয়েছে। দয়ানিধি পরমেশ্বর তাহলে কি মনুষ্যকে বুদ্ধির জন্য জ্ঞান প্রদান করেন নি? মানুষ্যের জিজ্ঞাসাকে শান্ত করার জন্যও সৃষ্টি রচনার সময় অর্থাৎ আদি সৃষ্টিতেই ঈশ্বরীয় জ্ঞানের আবির্ভাব হওয়া উচিৎ। এই সত্যকে স্বীকার করা, না করা, হঠ এবং দুরাগ্রহের পরিচয় দেওয়া অশোভনীয়। এই ধরনের চিন্তা-ভাবনা মানব বুদ্ধির তিরস্কারই।</p>
+<p>অন্য আর একটি দিকেও আপনারা ভাবুন। পরমেশ্বর মনুষ্যকে এতকিছু দিয়েছেন যে প্রভু-দত্ত পদার্থগুলিকে আমরা গণনাও করতে পারবো না। অনেক কিছু দেওয়ার সাথে বুদ্ধিও দিয়েছেন। বুদ্ধিকে জ্ঞান চাই। অতএব আপনি ভাবুন যে এটা কোথাকার ন্যায় হবে যে পরমাত্মা জগতে অসংখ্যক পদার্থ দিয়ে তার উপযোগ, প্রয়োগের বিধিবিধান মানুষকে না দিবেন। আপনি দেখবেন যে যখন কোনো কোম্পানী এক নূতন মেশিন তৈরি করে বাজারে নিয়ে আসে তখন মেশিনের বিক্রির সময় গ্রাহককে প্রয়োগ বিধি পুস্তিকা (Instruction Book) ও সাথে সাথে দেওয়া হয়। একবার আমি একটি মেশিন নিয়েছিলাম। প্রয়োগ বিধি নেওয়া ভুলে গিয়েছিলাম। আমার কাছে অনেক বড় সংকট দেখা দিল। ফলতঃ আমার যা হানি হয়েছিল, এখানে যদি তার বর্ণনা করি তাহলে পাঠক আমার বুদ্ধির উপর হাসতে থাকবে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-04">
+        <div class="chapter-head">
+          <span class="chapter-num">03</span>
+          <h2>রচনাকে স্বীকার না করা</h2>
+        </div>
+        <div class="chapter-body">
+<p>যাঁরা সৃষ্টির আদিতে ঈশ্বরীয় জ্ঞানের আবির্ভাবকে স্বীকার করে না তাঁরাও দয়ালু, কৃপালু প্রভুর সর্বজ্ঞতাকে উপহাস করে বেড়ায়। বন্ধুগণ! রচনাকে তো মানবো কিন্তু এই রচনা কার (প্রভুর কাব্যকে, জ্ঞানকে) কে মানবো না এও ঘোর নাস্তিকতা। যখনই কোনো রেলগাড়ী চালানো হয় সাথে সাথেই সময় সারণী (Time Table) ও ছেপে যায়। গাড়ী চালানোর মাস-মাস পরে বা বছর বছর পরে রেলওয়ের টাইম টেবিলের ঘোষণার কোনো অর্থই হয় না।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-05">
+        <div class="chapter-head">
+          <span class="chapter-num">04</span>
+          <h2>সবাই মানে</h2>
+        </div>
+        <div class="chapter-body">
+<p>অনাদিকাল থেকে আমাদের ঋষি মুনি এবং সংসারের বিচারক, সুধারক এটি মেনে আসছেন যে পরমদেব পরমেশ্বর সৃষ্টির আদিতে চার ঋষির হৃদয় গুহাতে (CAVE LIKE HEARTS OF THE SEERS) তাঁর নিত্য অনাদি জ্ঞান বেদের প্রকাশ করেছেন। বাইবেল এবং কুরান-ও নিস্তেজ স্বরে, নীরব স্বরে এই সত্যকে স্বীকার করছে। এর প্রমাণ আমি পরে দিচ্ছি।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-06">
+        <div class="chapter-head">
+          <span class="chapter-num">05</span>
+          <h2>সর্বোৎকৃষ্টই বাঁচবে</h2>
+        </div>
+        <div class="chapter-body">
+<p>ডার্বিন জগতের সামনে তাঁর বিকাশ মতকে রেখেছেন। এই বিকাশবাদের মান্যতানুসারে সংসারে সর্বোৎকৃষ্টই বাঁচবে, বাঁচতে পারে, বেঁচে আছে। (SURVIVAL OF THE FITTEST) আমি এখানে বিকাশ মত এবং বিকাশবাদীদের সর্বোৎকৃষ্টের বেঁচে থাকার মান্যতার উপর কিছু না বলে এটাই বলবো যে সমস্ত সংসারের আস্তিক এবং নাস্তিক লোক তাঁরা যাই কিছু মানুক না কেন তাঁরা এই কথার উপর একমত যে বেদ সংসারের পুস্তকালয়ে প্রাচীনতম গ্রন্থ। বেদের থেকে পুরানো পুস্তক আজ পর্যন্ত কোথাও পাওয়া যায়নি। ইংরেজ রাজত্বের সময়ে ভারতে সরকার দ্বারা পোষিত, প্রচারিত পশ্চিমদেশীয় বিদ্বানেরা বৈদিক ধর্ম এবং দর্শনের অবমূল্যায়ন করেছে, বেদমন্ত্রের অর্থকে অনর্থ করেছে, বৈদিক বিচারধারাকে ভীষণভাবে পরিহাস করেছে পরন্তু সরকারের এইসব বেতনভোগী স্কলারদিগকে মানতে হয়েছে, লিখতে হয়েছে যে বেদই হচ্ছে সংসারের প্রাচীনতম গ্রন্থ।</p>
+<p>এখন বিচারশীল সজ্জনদের কাছে এইটি বলতে চাই যে Survival of the fittest (সর্বোৎকৃষ্টই বেঁচে থাকবে)-র বিকাশবাদী মান্যতাকে এখানে বেদের উপর লাগু করুন এবং পূর্বাগ্রহ মুক্ত হয়ে এটি ঘোষণা করার সাহস করুন যে সর্বোৎকৃষ্ট হওয়ার কারণেই বেদ আজ পর্যন্ত সুরক্ষিত রয়েছে। বেদের রক্ষক তপস্বী বিদ্বানেরা বেদের এক একটি মন্ত্র, এক এক অক্ষর এবং এক এক মাত্রাকে মুখস্থ করে বেদের রক্ষা করেছেন।</p>
+<p>পণ্ডিত গঙ্গাপ্রসাদজী উপাধ্যায় বলেছেন— এই দীর্ঘকালীন সৃষ্টির ইতিহাসে শতশত মতান্তর এবং ধর্মশাস্ত্র হয়েছে এবং শেষ হয়ে গেছে। করাল কালের থাপ্পড়েও বেদের বেঁচে থাকা এটি প্রমাণিত করছে যে প্রকৃতি বেদের রক্ষা করে। ❝যেমনভাবে শতশত তুফানের ফলে বড় বড় মনুষ্য নির্মিত দীপক নিভে যায়, সূর্যকে নেভাতে পারে না, সেইরকম হচ্ছে বেদও❞। সৃষ্টির ইতিহাস সামান্য কিছু শতাব্দীর নয় কোটি কোটি বছরের। এতবড় দীর্ঘ সময়ে সংসারে কত উত্থান-পতন হয়েছে। সংসারে অনেক পরিবর্তন হয়েছে। বেদ আজও সুরক্ষিত। এই তথ্যটি বেদের উপযোগিতা এবং যোগ্যতাকে প্রমাণিত করছে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-07">
+        <div class="chapter-head">
+          <span class="chapter-num">06</span>
+          <h2>একটি হাস্যাস্পদ কথন</h2>
+        </div>
+        <div class="chapter-body">
+<p>চার অক্ষর পড়া কিছু লোককে এইরকম বলতে শোনা গেছে যে আজ এত পুরানো বেদের কথা বলা এইরকম, যেরকম বায়ুযানের যুগে গরুর গাড়ির কথা বলা। দিল্লীর বিজ্ঞান ভবনে মুসলমানদের এক কার্যক্রমে একজন মৌলানা এই কথা বড় শ্রুতিমধুর শব্দে বড় জোর দিয়ে বলেন তথা কোরানকে ঈশ্বরের নবীনতম এবং অন্তিম বিধান বলে ব্যক্ত করেন। এই কথা শুনতে তো অনেক বড় কথা মনে হয় পরন্তু এতে কোনো সারতত্ত্ব নেই। এটি এক সস্তা মত (Cheap Opinion)। কেবল পুরাতন হওয়াতেই কোনো বস্তু বা পদার্থ অনুপযোগী বা বেকার হয় না। বিজ্ঞান বলছে যে সূর্য পৃথিবীর থেকেও পুরাতন। জলছাড়া কি কেউ বাঁচতে পারে? বিনা পবন সংসার ক্ষণভরও চলতে পারে না। এসব তো গরুর গাড়ীর যুগে থেকেও পুরানো।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-08">
+        <div class="chapter-head">
+          <span class="chapter-num">07</span>
+          <h2>বিজ্ঞানের নিয়ম কি ঘসে গেছে?</h2>
+        </div>
+        <div class="chapter-body">
+<p>সৃষ্টির যে সমস্ত নিয়মকে বিজ্ঞানীরা <em>Eternal</em> এবং <em>Universal</em>—অর্থাৎ নিত্য, অনাদি এবং সার্বভৌমিক—বলেন বা মনে করেন, তা আজ পর্যন্ত ঘসে যায়নি। এই নিয়ম প্রথম থেকেই চলে আসছে। গরুর গাড়ির যুগ থেকেও পুরোনো; কিন্তু এর কোনো <em>substitute</em> (বিকল্প)-এর স্থান নিতে পারে এমন কোনো নতুন নিয়ম তৈরি হতে পারেনি। না, কখনও তৈরি হবেও না। এদের ছাড়া বিশ্ব চলতে পারে না। এইভাবে প্রাচীনতম অনাদি বেদজ্ঞানের দ্বারাই বিশ্বকল্যাণ সম্ভব।</p>
+<p>আজ সংসারে খ্রিষ্টান এবং মুসলমান মতকে স্বীকার করা মানুষের সংখ্যা কোটি কোটি। আমি পূর্বে সংকেত দিয়ে রেখেছি যে এইসব মতের গ্রন্থও এই সত্যের সাক্ষ্য দেয় যে পরমাত্মা সৃষ্টির আদিতে মানবকে তাঁর জ্ঞান প্রদান করেছেন এবং কখনও সমস্ত বিশ্বে একটিই ধর্ম এবং একটিই ভাষা ছিল। সেই একটিই ধর্ম কোনটি?</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-09">
+        <div class="chapter-head">
+          <span class="chapter-num">08</span>
+          <h2>কখনও বেদই সারা সংসারের ধর্ম ছিল</h2>
+        </div>
+        <div class="chapter-body">
+<p>যখন আর অন্য কোনো মতই ছিল না, তখন যে ধর্মগ্রন্থ ছিল, সেইটিই ছিল সমস্ত বিশ্বের ধর্ম। বেদ হলো প্রাচীনতম—এতেই স্বতঃসিদ্ধ যে সারা সংসার কখনও বেদানুযায়ী ছিল। বাইবেলে পাওয়া যায়—<strong>“In the beginning was the Word”</strong> (দ্রষ্টব্য: <em>New Testament</em>, John-1, Verse-1)। অর্থাৎ সৃষ্টির আদিতে প্রভুর শব্দ ছিল। স্মরণে রাখুন যে ভারতে তো বেদের প্রমাণকে <strong>শব্দপ্রমাণ</strong>ই বলা হয়েছে। বাইবেলের এই আয়াতে <strong>Word</strong> শব্দ তিনবার ব্যবহৃত হয়েছে এবং তিনবারই <strong>W</strong> অক্ষরকে <strong>capital</strong>-এ লেখা হয়েছে। এ থেকে সিদ্ধ হয় যে এটি হলো ব্যক্তিবাচক সংজ্ঞা। বাইবেলই সাক্ষ্য দেয় যে কখনও বিশ্বের একটিই ভাষা ছিল।</p>
+<p>“And the whole earth was of one language and of one speech” (দ্রষ্টব্য: <em>Old Testament</em>, Genesis-11, Verse-1)। অর্থাৎ সমস্ত বিশ্বে একই ভাষা ছিল, একই বাণীর সর্বত্র ব্যবহার ছিল।</p>
+<p>কোরআনকে যাঁরা মানেন, তাঁরা সত্যিকারের কোরআনকে মানুন বা না মানুন, তাতে কিছু আসে যায় না; কিন্তু কোরআনও উচ্চস্বরে বলে—প্রথমে তো (সব) লোকেদের একটিই মত ছিল (দ্রষ্টব্য: কোরআনের ভাষ্য <em>ফতহ-উল-হামিদ</em>, মঞ্জিল-১, পৃষ্ঠা-৫৫)। সৃষ্টির একটিই ধর্ম ছিল। এই প্রমাণ কোরআনের একটি প্রামাণিক ভাষ্য থেকে দেওয়া হলো।</p>
+<p>মৌলানা সৈয়দ মঞ্জুর আহমেদ আগাজী <strong>“বৈদিক ধর্ম এবং ইসলাম”</strong> পুস্তকের ভূমিকায় লিখেছেন—“বৈদিক ধর্মের আবির্ভাব তথা বেদের বিদ্যমানতা হলো প্রাক্-ঐতিহাসিক যুগের ঘটনা।” মাননীয় মৌলানাজি স্পষ্ট শব্দে বেদকে প্রাচীনতম জ্ঞানগ্রন্থ বলে স্বীকার করেছেন। এই পুস্তকের লেখক সৈয়দ অখলাক হুসেন তাঁর এই কৃতির প্রথম প্যারাতেই লিখেছেন যে “বেদ” শব্দই একে ঈশ্বরীয় বাণী সিদ্ধ করার জন্য পর্যাপ্ত। তিনি বেদকে মানবীয় প্রয়াস বা কল্পনার পরিণাম না মেনে ঈশ্বরকৃত বলেই স্বীকার করেছেন।</p>
+<p>তাঁর নিজের কথার সমর্থনে তিনি অলবেরুনীর প্রমাণ দিয়েছেন—“বেদের অর্থ হচ্ছে যার জ্ঞান নেই, যে বিষয়ের জ্ঞান নেই, তাকে জানা। হিন্দুদের মান্যতা হলো যে বেদ হচ্ছে প্রভুপ্রদত্ত জ্ঞান, যা ব্রহ্মের (পরমাত্মার) বাণী থেকে নিঃসৃত হয়েছে। এতে বিধি এবং নিষেধের জ্ঞান রয়েছে। হিন্দুরা বেদকে লিপিবদ্ধ করাকে উচিত বলে মনে করে না। এর কারণ হলো যে বেদ পাঠ স্বর এবং সঙ্গীতের সঙ্গে করতে হয়। লেখনী সঙ্গীতের লয় ব্যক্ত করতে অক্ষম। এমনিতেই লিখতে গেলে কিছু কমবেশি হয়েই যায়।”</p>
+<p>আমি অলবেরুনীর এই বক্তব্যের উপর কোনো টিপ্পনী করতে চাই না। এর সাথেই লেখক অষ্টাদশ শতাব্দীর একজন মুসলিম বিদ্বান মির্জা জানে জান মজহর শহীদজীর একটি ফার্সি কৃতি দিয়ে প্রমাণ দিয়েছেন। তার অনুবাদ এখানে উদ্ধৃত করা হচ্ছে—<br/>
+“ভারতীয়দের প্রাচীন গ্রন্থসমূহের দ্বারা এ জ্ঞাত হয় যে মানব-উৎপত্তির আদিতে মানবজীবনের শোধনের জন্য এবং মানবজীবনের ব্যবহার তথা কল্যাণের জন্য পরমদেব পরমেশ্বর তাঁর করুণার প্রকাশ করতে গিয়ে বেদ নামের গ্রন্থ প্রদান করেছেন। এদের সংখ্যা হলো চার। এতে বিধি এবং নিষেধের জ্ঞান বিদ্যমান।”</p>
+<p>উক্ত দুইজন মুসলিম বিদ্বানের মধ্যে এই কথার উপর মতৈক্য রয়েছে যে বেদের জ্ঞান সৃষ্টির আদিতে পরমেশ্বরের দ্বারা প্রাপ্ত হয়েছে।</p>
+<p>কোরআনের একজন অন্য ভাষ্যকার মৌলানা সনাউল্লা অমৃতসরী তাঁর কৃতি “তফসীরে সনাঈ”-তে বেদকে ঈশ্বরের বাণী বলে স্বীকার করেছেন। কোরআনের আর একজন ভাষ্যকার খাজা হসন নিজামীও একজন খ্যাতনামা মুসলিম বিদ্বান এবং লেখক। তিনি তাঁর “কৃষ্ণ কথা” কৃতিতে বেদকে পরমাত্মার দান বলে ব্যক্ত করেছেন।</p>
+<p>মুসলমানরা এখন কাদিয়ানি মির্জাইদেরকে কাফির ঘোষণা করে ইসলাম ধর্ম থেকে বহিষ্কৃত করেছে। এই মতের সংস্থাপক কখনও একটি খারাপ কবিতায় লিখেছিল—</p>
+<p class="verse"><strong>“নাস্তিক মত কে বেদ হ্যায় হামী (Agree)”</strong></p>
+<p>এই মির্জাই মৃত্যুকালে তাঁর একটি পুস্তিকায় (Booklet) লিখে যায়—আমরা পরমাত্মার ভয়ে বেদকে ঈশ্বরীয় বাণী স্বীকার করি।</p>
+<p>মুম্বাইয়ের একজন পারসি বিদ্বান তাঁর একটি গবেষণামূলক কৃতি <em><strong>“Philosophy of Zoroastrianism and Comparative Study of Religions”</strong></em> নামক পুস্তকে বেদের বিষয়ে লিখেছেন—<br/>
+“<em>The Veda is a book of knowledge and wisdom comprising the book of nature, the book of religion, the book of prayers, the book of morals and so on. The word Veda means wit, wisdom, knowledge, and truly the Veda is condensed wit, wisdom and knowledge.”</em></p>
+<p>অর্থাৎ বেদ হচ্ছে জ্ঞানের পুস্তক, যার মধ্যে প্রকৃতি, ধর্ম, প্রার্থনা, সদাচার ইত্যাদি বিষয়ক জ্ঞানসমূহ সম্মিলিত রয়েছে। বেদের অর্থ হলো জ্ঞান এবং বাস্তবে বেদ হলো সমস্ত জ্ঞান-বিজ্ঞানের তত্ত্ব। এই পুস্তকটি <em>Times of India</em>, মুম্বাই থেকে ১৯৪২ খ্রিষ্টাব্দে প্রকাশিত হয়েছিল। আমার দ্বারা সম্পাদিত পুস্তক “বৈদিক সুরভি” গ্রন্থে শ্রী পণ্ডিত ধর্মদেবজি বিদ্যামার্তণ্ডের লেখায় এই পুস্তকের উক্ত প্রমাণ দেওয়া হয়েছে।</p>
+<p>ফর্দন দাদাচানজি নামক এই বিদ্বান লেখক তাঁর উক্ত পুস্তকের এই পৃষ্ঠাতেই (সংখ্যা—১০০) ঋগ্বেদের প্রথম সূক্তের অনুবাদ দিয়ে লিখেছেন—<br/>
+“<em>Thus we see that Agni in the hymns means both fire as well as God.”</em></p>
+<p>অর্থাৎ এইভাবে আমরা দেখছি যে এখানে অগ্নি শব্দের অর্থ ভৌতিক অগ্নি এবং পরমেশ্বর—দুটিই। বিদ্বান লেখক আগে লিখেছেন—<br/>
+<em>“The Vedas teach nothing but monotheism of the purest kind.”</em></p>
+<p>অর্থাৎ বেদ কেবল শুদ্ধতম একেশ্বরবাদের শিক্ষাই প্রদান করে।</p>
+<p>লাহোর থেকে ১৯৪৫ সালে মোহাম্মদ অশরফজির পুস্তক “<em><strong>God, Soul and Universe in Science and Islam</strong></em>” প্রকাশিত হয়েছিল। তাতে তিনি লিখেছেন—<br/>
+“<em>Originally the conception of God among the Hindus was right when they believed Him to be one and omnipresent; but when they started dividing Him into different shapes according to different functions which they considered He performed, they strayed far from their original conception. The result was that many who were heroes in their lifetime were gradually turned into incarnations of God and idolatry increased. Many Hindus believe that all their sins are washed away by having a dip in the holy water of the Ganges. Thus it is seen that the great philosophical religion which conceived unity of God in the beginning brought in corruption and degradation of high ideas, when His attributes as the creator, the preserver and the destroyer were divided and allotted to different deities possessing separate entities in different forms.”</em></p>
+<p>উক্ত উদ্ধৃতির ভাব হলো যে শুরুতে হিন্দুদের ঈশ্বর বিষয়ক দৃষ্টিকোণ ঠিক ছিল। তারা প্রভুকে সর্বব্যাপী মানত। পরে তারা ঈশ্বরের ভিন্ন ভিন্ন কার্যকে ভিন্ন ভিন্ন দেবতা বা অবতারের মধ্যে বণ্টন করে দেয়। পরিণামস্বরূপ যে কেউ ব্যক্তি তাঁর জীবনকালে শূরবীর হয়েছেন, তাকেই অবতার বলে মানা শুরু হয়।</p>
+<p>গঙ্গায় ডুবে স্নান করলে পাপ ধোয়ার ধারণা হিন্দুদের মধ্যে জাগ্রত হলো। এইভাবে আমরা দেখছি যে এক প্রভুর সত্তায় বিশ্বাস করা মহান দার্শনিক ধর্ম পতনোন্মুখ হয়ে গেল। তাদের আস্থা ও বিশ্বাস বিকৃত এবং দূষিত হতে চলল। ঈশ্বরের তিনটি মুখ্য গুণ—জগতের কর্তা, ধর্তা এবং সংহর্তা—কে ভিন্ন ভিন্ন আকৃতিতে এবং দেবতায় বিভক্ত করে দেওয়া হলো।</p>
+<p>লেখক যা কিছু লিখেছেন তা সত্য। বৈদিক ধর্ম থেকে বিমুখ হয়ে হিন্দু সমাজ জল, বায়ু, অগ্নি, বর্ষা প্রভৃতির অধিপতি রূপে আলাদা আলাদা ভগবানের কল্পনা করে নিল। মনে করা হলো যে এই জগৎ এক পরমাত্মার বশে নয়; এর রচয়িতা একজন নয়, অনেক ভগবান এই সংসারের সঞ্চালন করছেন। এর থেকে আর কী বড় হাস্যস্পদ কথা হতে পারে! বেদ তো স্পষ্টরূপে একজনকেই জগতের সঞ্চালক বলে মানে। “পতিরেক আসীত”—এটি বেদের ঘোষণা যে এই বিশ্বের একজনই স্বামী। বেদে আরও বলা হয়েছে—“বিশ্বস্য মিষতো বশী” (ঋগ্বেদ ১০.১৯০.২)। এই সমস্ত সংসার সেই একই পরমপিতার বশে চলেছে; পৃথক পৃথক ভগবান জগতের ভিন্ন ভিন্ন কার্য করছেন না।</p>
+<p>ভারতীয় মত ও পন্থসমূহ সবাই কোনো না কোনো রূপে বৈদিক ধর্মকে স্বীকার করে। শ্রী গুরু নানক দেবজীর একটি বিখ্যাত রচনা হলো—</p>
+<p class="verse"><strong>দীয়া বলে অন্ধেরা জাঈ।</strong></p>
+<p class="verse"><strong>বেদ পাঠ মতি পাপাঁ খাই।।</strong></p>
+<p>অর্থাৎ দীপক জ্বললে যেমন অন্ধকার দূর হয়ে যায়, তেমনি বেদপাঠ করলে পাপমতি নষ্ট হয়ে যায়। গুরুবাণীতে বেদপাঠকে মুখ্য বলে মেনে নেওয়া হয়েছে। শ্রী গুরু অর্জুন দেবজী লিখেছেন—</p>
+<p class="verse"><strong>বেদ বখিয়ান করতে সাধুজন।</strong></p>
+<p class="verse"><strong>ভাগহীন সমঝত নহীঁ খল।।</strong></p>
+<p>অর্থাৎ পরোপকারী বিদ্বান সাধু-মহাত্মারা বেদোপদেশ দিচ্ছেন; কিন্তু ভাগ্যহীন মূর্খ ব্যক্তি তাঁর ব্যাখ্যান বা কথন বুঝতেই পারছে না। শ্রী গুরু গোবিন্দ সিংহজী যা বলেছেন, সেটাও শুনুন—</p>
+<p class="verse"><strong>পঢ়ে সামবেদং যজুর বেদ কথং।</strong></p>
+<p class="verse"><strong>রিগ বেদ পঠিয়ং ভাব হথং।</strong></p>
+<p class="verse"><strong>অথর্ব বেদ পঠিয়ং শুনে পাপ নঠিয়ং।</strong></p>
+<p><em><strong>(বিচিত্র নাটক, অধ্যায় চার</strong></em>)</p>
+<p>এখানে অন্তিম পংক্তিতে শ্রী গুরু গোবিন্দ সিংহজী শ্রী গুরু নানক দেবজীর কথাকেই পুনরায় ব্যক্ত করেছেন। উপরে আমরা শ্রী গুরু নানক দেবজীর বাণী দিয়েছি। বেদজ্ঞানের শ্রবণ এবং তার আচরণে পাপলীন মলিন মতিও নির্মল হয়ে যায়। এই কথাটিই এখানে গুরু গোবিন্দ সিংহজী লিখেছেন—অথর্ববেদের পাঠ করলে এবং শ্রবণ-মনন করলে পাপ দূরে পালিয়ে যায়। গুরুজী তাঁর বচনে চারটি বেদের মহিমাকে অভিব্যক্ত করেছেন। চার বেদ সত্য; চার বেদ প্রভু ওঁকারের বাণী—এ কথাই গুরুবাণী বলে এবং শোনায়। গুরুগ্রন্থের এই ঘোষণার আদর করেই মানুষ পাপ-তাপ থেকে মুক্তি পেতে পারে। বেদের মহিমার উপর অনেক কিছু লেখা যেতে পারে; কিন্তু আমি এখন পূর্বদেশীয় বিদ্বানদের প্রমাণ না দিয়ে কিছু পশ্চিমদেশীয় বিদ্বান লেখকদের বিচার তুলে ধরব।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-10">
+        <div class="chapter-head">
+          <span class="chapter-num">09</span>
+          <h2>না মিশ্রণ না অপসারণ</h2>
+        </div>
+        <div class="chapter-body">
+<p>বেদ অধ্যয়নে রুচি নেওয়া সজ্জনদের কাছে তথা সত্যকে জানার ইচ্ছা রাখা সব জ্ঞানপিপাসু জিজ্ঞাসুদের কাছে আমি পুনরায় জোর দিয়ে এটি বলতে চাই যে, যেমনভাবে সৌরমণ্ডলে প্রকাশপুঞ্জ সূর্যের আলোয় আজ পর্যন্ত কোনো প্রকার মিশ্রণ হতে পারেনি, ঠিক সেইভাবেই পরমেশ্বর প্রদত্ত জ্ঞানভানু বেদের মধ্যেও কোনো প্রকারের মিশ্রণ সম্ভব হয়ে উঠতে পারেনি।</p>
+<p>ধূর্ত এবং স্বার্থপর লোকেরা নিজেদের স্বার্থের জন্য এবং নিজের স্বামী-রাজাদের দুর্বলতাকে ধর্মানুকূল প্রমাণ করার জন্য অনেক ধর্মগ্রন্থে মিশ্রণ করে দিয়েছে। মিশ্রণ থেকে না রামায়ণ বেঁচে আছে, না মহাভারত টিকে আছে। ব্রাহ্মণগ্রন্থসমূহে এবং মনুস্মৃতিতেও প্রক্ষেপ করে একে দূষিত করে দেওয়া হয়েছে; কিন্তু বেদের মধ্যে না কিছু মিশ্রণ করতে পেরেছে, না কিছু অপসারিত করতে পেরেছে।</p>
+<p>প্রফেসর ম্যাক্সমুলারও এই সত্যকে খোলা হৃদয়ে স্বীকার করে লিখেছেন—<br/>
+“The texts of the Vedas have been handed down to us with such accuracy that there is hardly a various reading in the proper sense of the word or even an uncertain accent in the words of the Rigveda.”<br/>
+<strong>(<em>Origin of Religion</em>, Page 131)</strong></p>
+<p>অর্থাৎ বেদসংহিতাগুলি আমরা এত শুদ্ধরীতিতে প্রাপ্ত করেছি যে এতে কোথাও পাঠভেদ পাওয়া যায় না। সম্পূর্ণ ঋগ্বেদে একটি অক্ষরেরও পার্থক্য পাওয়া যায়নি।</p>
+<p>একজন পশ্চিমী বিদ্বান শ্রী W.D. Brown বড় সারগর্ভিত শব্দ দিয়ে <em><strong>“বেদ কি এবং বেদে কি আছে”</strong></em>-এর উপর আলোকপাত করেছেন—<br/>
+“The Vedic religion recognised but one God. It is a thoroughly scientific religion where religion and science meet hand in hand. Here theology is based upon science and philosophy.”</p>
+<p>অর্থাৎ, বৈদিক ধর্ম কেবলমাত্র একেশ্বরবাদকে মানে। এটি সম্পূর্ণ বৈজ্ঞানিক ধর্ম, যাতে ধর্ম এবং বিজ্ঞান হাত মিলিয়ে একসাথে চলে। বৈদিক সিদ্ধান্ত বিজ্ঞান এবং দর্শনের উপর আধারিত।</p>
+<p>থিলী নামক দার্শনিক দর্শনের ইতিহাসে লিখেছেন—<br/>
+“প্রাচীন জাতিসমূহের মধ্যে কেউই দেবমালার শ্রেণী থেকে আগে অগ্রসর হয়নি এবং সম্ভবতঃ ইউনানবাসীকে ছাড়া অন্য কোনো জাতি বাস্তবিক দর্শনশাস্ত্রকে জন্ম দেয়নি।”</p>
+<p>পরন্তু এটি হলো এক ভ্রান্ত বিচার। দর্শনশাস্ত্রের বিষয়ে লিখতে গিয়ে অন্য একজন দার্শনিক এটি উল্লেখ করেছেন যে, পশ্চিমের দেশে দেবগাথা থেকে দর্শনের জন্ম হয়েছে। এতো ঠিকই, কিন্তু ভারতে তো পৌরাণিক সাহিত্য (দেবগাথাসমূহ)-এর জন্ম দার্শনিক সাহিত্যের চিতার উপর হয়েছে। সুপ্রসিদ্ধ বৈদিক দার্শনিক শ্রী পণ্ডিত গঙ্গাপ্রসাদ উপাধ্যায় ঠিকই লিখেছেন—<br/>
+“ইউনানের দর্শনশাস্ত্রের জননী হলো সেখানকার দেবমালা; পরন্তু ভারতীয় দেবমালা দর্শনের চিতার উপর জন্ম নিয়েছে, এবং যখন-যখন ভারতীয় দর্শন পুনর্জন্ম গ্রহণ করেছে, তখন-তখন দেবমালার হ্রাস হতে গিয়েছে।”</p>
+<p>আমেরিকার প্রসিদ্ধ বিচারক থৌরী বেদ বিষয়ে নিজের উদ্দ্গার ও বিচার ব্যক্ত করতে গিয়ে লিখেছেন—<br/>
+“What extracts from the Vedas I have read, fell on me like the light of the higher and purer luminary which describes a loftier course through a purer stratum free from particulars; simple, universal, the Vedas contain a sensible account of God.”</p>
+<p>অর্থাৎ বেদের বিচারধারা হলো শ্রেষ্ঠতম। বেদে প্রকাশ আছে, বিজ্ঞান আছে। বেদ হলো সার্বজনিক, সার্বকালিক এবং সার্বভৌমিক। বেদে ঈশ্বরের সমীচীন, তর্কসঙ্গত বর্ণনা রয়েছে।</p>
+<p>বেদের উপর বহুদেবতাবাদ এবং প্রকৃতি পূজার দোষারোপ লাগানো হচ্ছে। এই দুষ্প্রচার ইংরেজ শাসনকালে বড় যোজনাবদ্ধ পদ্ধতিতে করা হয়েছে।</p>
+<p>দেশ স্বতন্ত্র হওয়ার পরেও বিদেশী ইতিহাসলেখকদের এই মত প্রচার খুবই বেশি হয়েছে। এইসব দুষ্প্রচারের আধার হলো <strong>পুরাণ</strong>। এই তথ্য জানার চেষ্টা করা হয়নি যে, পুরাণসমূহের রচনা বেদ, উপনিষদ এবং দর্শনের প্রচারের হ্রাসের অনেক পিছনে হয়েছে।</p>
+<p>ম্যাকডোনাল ঢোল পিটে পিটে বলতে লাগলেন যে ঋগ্বেদের অষ্টম মণ্ডল প্রথম এবং শেষ দুই মণ্ডলের রচনা পরে হয়েছে। এই ধরনের লোকদের জন্য এটি জেনে হতাশাজনক যে, ঋগ্বেদের প্রথম মণ্ডলের ১৬৪ নম্বর সূক্তের মন্ত্রসংখ্যা ৪৬-এ অত্যন্ত স্পষ্ট শব্দে একেশ্বরবাদের ঘোষণা করা হয়েছে। আজ সারা সংসার বেদের এই সূক্ত “<strong>একং সদ্বিপ্রা বহুধা বদন্তি</strong>”-কে জানে, মানে এবং নমন করে।</p>
+<p>এই মন্ত্রেই ইন্দ্র, মিত্র ইত্যাদি নামকে পরমাত্মার নাম হিসেবে প্রকাশ করা হয়েছে। বেদে একাধিকবার এসেছে—সেই হলো রুদ্র, সেই হলো মিত্র এবং সেই হলো বরুণ। শেষের দুই মণ্ডলে একেশ্বরবাদের পিছনে বৌদ্ধিক বিকাশ সিদ্ধ করার জন্যই ম্যাকডোনাল আদি এই গল্প বলেছিলেন; পরন্তু ঋগ্বেদের প্রথম মণ্ডলই এই ধারণাকে ধ্বংস করে রেখেছে।</p>
+<p>অথর্ববেদ বলছে যে, পরমাত্মা হলেন এক, এক এবং এক-ই। প্রভুর সংখ্যা দুই নয়, তিন নয়, চার নয়, পাঁচ নয়, ছয় নয়, সাত নয়, আট নয় এবং নয় নয়। প্রভু হলেন অমিশ্রিত।</p>
+<p>আমাদের স্মরণ রাখা উচিত যে কোরআন এবং বাইবেলে ঈশ্বরের গুণবাচক যত নাম রয়েছে, তা কোনো নূতন নয়। কোরআনে ঈশ্বরের মোট ৯৯টি নাম রয়েছে, যথা—দয়ালু, কৃপালু, ন্যায়কারী, স্রষ্টা, পালক ইত্যাদি। এই সব নাম প্রথমেই আর্য জাতিদের জ্ঞাত ছিল। বৈদিক সাহিত্যে প্রভুকে ন্যায়কারী, সুকৃত, দয়ালু, পিতা, মাতা, স্রষ্টা, সর্বশক্তিমান, সর্বজ্ঞ, সর্বব্যাপক, সর্বাধার বলা হয়েছে। অতএব, বেদের উপর বহুদেবতাবাদের দোষ কেবল সাম্রাজ্যবাদী হিতের রক্ষার জন্য লাগানো হয়েছিল। এটি ছিল ভারতীয়দেরকে ধর্মচ্যুত করার একটি কৌশল।</p>
+<p>ম্যাক্সমুলারের মতো সরকারী বেতনভোগী স্কলারকেও এটি স্বীকার করতে হয়েছে—<br/>
+❝There are hymns which assert the unity of the Divine as fearlessly as any passage of the Old Testament or the Koran. Thus the poet says that which is one, sages name it in various ways—they call it Agni, Yama, Matarishva etc.<em><strong>❞ [India what can it teach us]</strong></em></p>
+<p>ম্যাক্সমুলারকে উপরোক্ত শব্দে বেদের একেশ্বরবাদের সিদ্ধান্তকে স্বীকার করতে হয়েছিল। একেশ্বরবাদ বেদের-ই অবদান। এ কোরান বা বাইবেলের কোনো নবীন অন্বেষণ বা অবদান নয়। একেই বলে জাদু যা মাথার উপর চড়ে সব কিছু ব্যক্ত করে। বেদে এক থেকে অধিকবার পরমাত্মার জন্য 'এক' শব্দের প্রয়োগ করা হয়েছে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-11">
+        <div class="chapter-head">
+          <span class="chapter-num">10</span>
+          <h2>বেদের উপর প্রশ্ন</h2>
+        </div>
+        <div class="chapter-body">
+<p>বেদের অধ্যয়ন না করেই কিছু লোক ভাবনা-চিন্তা বিনাই একদম বলে থাকে যে বর্তমান যুগ হোল বিজ্ঞানের যুগ। কম্পিউটারের যুগ এসে গেছে। অতি প্রাচীন, যাকে অনাদি বলা হয়, সেই বেদকে আজকের যুগের পক্ষে কি করে কল্যাণকারী মেনে নেওয়া যেতে পারে? এই পরিবর্তনশীল সংসারে থাকা, খাওয়া, চাল-চলন, লোক ব্যবহার সব কিছুর নিয়ম বদলে গেছে—তা সত্ত্বেও বেদ জ্ঞানের আজ কি মহত্ত্ব রয়ে গেছে?</p>
+<p>এসব কথা শুনলে তো অত্যন্ত প্রভাবশালী মনে হয় পরস্তু এ হচ্ছে সস্তা মত (CHEAP OPINION)। এই ধরনের শংকা করা লোকেদেরকে একটুখানি জিজ্ঞাসা করে দেখুন যে সংসারে কাতর নিয়ম বদলেছে? কার বিধান বদলেছে? কার জ্ঞান বদলেছে? মানবীয় নিয়ম তো পরিবর্তিত হতেই থাকে। মানবীয় শাসকদের নিয়ম, বিধান বদলায়। মানবের জ্ঞান বদলায়। মানবের রচনা বদলায় এক কলাকৃতি বদলায়। মানবের কারীগরীতে সংশোধন এবং পরিবর্তন হয়। সংসদভবনে রাজনিয়মগুলিতে সংশোধন হতে থাকে। আবিষ্কারেও (INVENTIONS) সংশোধন সম্ভব। সাইকেল, গাড়ী, উড়োজাহাজ, জলজাহাজ, ঘর, ঘড়ির আকৃতি তো পরিবর্তিত হতেই থাকবে। কারণ এতসব মনুষ্য নির্মিত। অল্পজ্ঞ জীবের কৃতি দোষযুক্ত হতে পারে। অতঃ ভাষণশৈলী, লেখন-শৈলী, কবিতা শৈলী এবং কার্যশৈলীতে সংশোধন সম্ভব। কারণ জীবের অল্পজ্ঞতা।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-12">
+        <div class="chapter-head">
+          <span class="chapter-num">11</span>
+          <h2>সমস্ত যোনির সব মডেল (Model) পুরাতন</h2>
+        </div>
+        <div class="chapter-body">
+<p>সৃষ্টি-নিয়ম আজ পর্যন্ত একটিও বদলায় নি, না বদলাতে পারে, এবং না বদলাবে। কারণ এ সব নিয়ম সর্বজ্ঞ প্রভুর তৈরি করা। পরমাত্মার কোনো কৃতিই, কোনো মোডেল আজ পর্যন্ত বদলায় নি। মনুষ্য, পশু-পক্ষী, গাছপালা সব যেমনটি পূর্বকালে রচনা করা হয়েছিল, তৈরি করা হয়েছিল, আজও তেমনিই তৈরি হয়ে আসছে। কোনো যোনির লেশমাত্র পরিবর্তন হয়নি। কানে শোনা, নাকে সুঁঘা, মুখ দিয়ে খাওয়া, পায়ে চলা, মুখে বল্লা, সব কিছু পূর্বের মতই।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-13">
+        <div class="chapter-head">
+          <span class="chapter-num">12</span>
+          <h2>সূর্যের কাট নাই, বিদ্যুতের কাট হয় (লোডশেডিং)</h2>
+        </div>
+        <div class="chapter-body">
+<p>সূর্য, চন্দ্র এবং জল, বায়ু তথা অগ্নি সবার নিয়ম আজই সেইরকম, যেরকম সৃষ্টির আদিতে ছিল। আমাদের মোটরগাড়ী ওয়ার্কশপে যেতেই থাকে পরস্ত পরমাত্মার সূর্য, চাঁদকে কখনও ওয়ার্কশপে পাঠানো হয় না। আমাদের বিদ্যুৎ ফেল হয় এবং কাটও লাগে পরন্তু পরমাত্মার সূর্য এবং চন্দ্রের প্রকাশে কখনও কাট লেগেছে বলে দেখা যায় না। বিজ্ঞানের নিয়ম Discover খোঁজা তো হয় পরন্তু তৈরি করা যায় না। এ নিয়ম প্রথমেও ছিল, এখনও আছে, পরেও থাকবে। সেইজন্যই তো একস্বরে একে সব বৈজ্ঞানিক (বর্তমানের এবং পূর্বের) নিত্য এবং সার্বভৌমিক (Eternal, Universal) বলে মানে।</p>
+<p>আপনারা এমন একটাও উদাহরণ দিতে পারবেন না যাতে করে এ জানা যাবে যে অমুক বৈজ্ঞানিক নিয়ম দোষযুক্ত ছিল, অতঃ বদলে গেছে বা তাতে সংশোধন হয়েছে। পরমাত্মা হলেন পূর্ণ (Perfect)। তাঁর পূর্ণতার এইটাই প্রমাণ যে তাঁর রচনা নির্দোষ। প্রত্যেকটি কৃতি নিজে নিজেই দোষরহিত। জগতে দোষ বা অপূর্ণতা জীবের কৃতিতেই দেখা যাবে। ভূগোল শাস্ত্রের, খগোল শাস্ত্রের, রসায়ন শাস্ত্রের, গণিতের বা পদার্থবিদ্যার সব নিয়ম যেমনভাবে প্রথমে সত্য ছিল তেমনি আজও সত্য।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-14">
+        <div class="chapter-head">
+          <span class="chapter-num">13</span>
+          <h2>ঈশ্বরীয় নিয়ম ঘষে যায় নি</h2>
+        </div>
+        <div class="chapter-body">
+<p>ভৌতিক জগতের সব ঈশ্বরীয় নিয়ম পূর্ববতৎ সত্য, নির্দোষ এবং কল্যাণকারী। যবে থেকে সৃষ্টির উৎপত্তি হয়েছে এইসব নিয়ম তখন থেকেই কাজ করে যাবে তাহলে মানব কল্যানের, আত্মোন্নতির, বিশ্বশান্তির, লোক এবং পরলোকের সংশোধনের, পরিবার এবং সমাজের উন্নতির ঈশ্বরীয় নিয়ম যা বেদের রূপে সৃষ্টির আদিতে পরমাত্মা দিয়েছেন তা কি করে বদলাতে পারে? ঈশ্বরীয় নিয়ম কখনও ঘসে না বা জর্জর হয় না।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-15">
+        <div class="chapter-head">
+          <span class="chapter-num">14</span>
+          <h2>কোন নূতন নিয়ম সৃজন করেছে?</h2>
+        </div>
+        <div class="chapter-body">
+<p>বিশ্বকল্যাণের একটিও নিয়ম নূতন নয়। সংসারে উন্নতি অনেক হয়েছে। আমরা এও মানি, পরন্তু মনে রাখবেন ঈশ্বরীয় নিয়মকে ভাঙলে অবনতিও স্পষ্টভাবে দেখা যেতে পারে। গাছ, পর্বত, নদী, এলোপাথাড়ি কেটে কেটে মনুষ্য ঈশ্বরীয় নিয়মগুলিকে ভেঙে দেখে নিয়েছে। প্রাণীদের সংহার করে বায়ুমন্ডলকে চিৎকারে ভরে দিয়েছে। সারা সংসার শোকাকুল। উন্নতি কী হয়েছে? এখন পুনঃ মনুষ্যকে গাছপালার, পর্বত, নদীর তথার মূক প্রাণীদের রক্ষার চিন্তা বিব্রত করে তুলেছে। অনেক উন্নতি করা সত্ত্বেও সংসারের বড় বড় বিচারক, নেতা, বৈজ্ঞানিক এবং বুদ্ধিজীবী বিশ্বকল্যানের জন্য, পরিবার, সমাজ এবং ব্যক্তির জন্য একটিও এমন কোনো নূতন নিয়ম তৈরি করতে পারেনি, বলতে পারে নি যার বর্ণনা বেদে না আছে। পুরাণ, বাইবেল এবং কোরাণের দোহাই দেওয়া ব্যক্তিও জগতের জন্য হিতকারী কোনো নবীন শিক্ষা দিতে পারেনি। বিশ্বকল্যানের জন্য যে যে শিক্ষা আজ সংসারকে দেওয়া হচ্ছে—তাতে কোনো নূতন কিছু নাই। পুরুষার্থ, পরমার্থ, ধীরতা, বীরতা, সহনশীলতা, প্রেম, সংযম, দান-দয়া, উদারতা, সত্যভাষণ, প্রাতঃ জাগরণ, আত্ম-সংযম, উপকার, সদব্যবহার, শুদ্ধবায়ু সেবন, অন্ন-জলের শুদ্ধি, বাঁচো এবং বাঁচতে দাও এর মধ্যে নবীন কী এবং কোনটা প্রাচীন নয়? ঘৃণা এবং দ্বেষ থেকে বাঁচার উপদেশ আজও ততটাই সার্থক যতটা প্রথমে ছিল। কৃপণতা এবং শোষণ প্রথমেও ঘৃণিত কর্ম ছিল এবং আজও নিন্দনীয়। পরোপকার পূর্বেও প্রশংসনীয় ছিল এবং আজও এর মহত্ত্ব রয়েছে। মনুষ্যের প্রকৃতি পরিবর্তিত হয় নাই—সেইরকম যেমন পূর্বে ছিল। এই কারণে মানুষের সংশোধনের, উপকারের নিয়মও তাই থাকবে যা সৃষ্টির আরম্ভে বিধাতা তৈরি করেছেন, বলেছেন। এই নিয়ম অটল অটলই থাকবে। কোনও ঈশ্বরীয় নিয়ম আজ পর্যন্ত নিরস্ত হয় নি।</p>
+<p>সত্যের অন্বেষণ করা বা সত্যকে প্রেম করা বিচারশীল পাঠকদিগকে একটি নিবেদন করে আগে অগ্রসর হব যে যখন ইংরেজী ভাষার কবি ওয়ার্ডসওয়ার্থ, শেলী অথবা অন্য কেউ সাগরের, উষার, ফুলের প্রাকৃতিক সৌন্দর্যের বর্ণনা করে তখন ঐ সব কবিকে প্রাকৃতির (Nature) কবি বলে তার অত্যন্ত প্রশংসা করা হয়। পরন্তু যখন বেদের কোনো সুক্তে ঊষার, নদীসমূহের, সিন্ধুর, মেঘের, বর্ষার, বনের, বায়ুর, চন্দ্রের, সূর্যের বর্ণনা আসে তখন বৈদিক আর্যদের উপর ঈশ্বরেতর পূজার দোষ লাগানো হয়। দ্বিতীয় প্রকার মানদন্ড কেবলমাত্র অশোভনীয়-ই নয়, নিন্দনীয়ও বটে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-16">
+        <div class="chapter-head">
+          <span class="chapter-num">15</span>
+          <h2>বেদ বিষয়ক একটি বিচিত্র বিচার</h2>
+        </div>
+        <div class="chapter-body">
+<p>একবার বেরেলী (উ-প্র)-তে মুসলমান ভাইদের উৎসব ছিল। শাস্ত্রার্থের জন্য শ্রী পণ্ডিত রামচন্দ্রজী দেহেলবী সেখানে আমন্ত্রিত ছিলেন। মুসলমান তৌরেত, জবূর, ইঞ্জিল আদিকেও আকাশীয় পুস্তক (ঈশ্বরীয় জ্ঞান) মানে পরন্তু বর্তমানে ঐসবকে নিরস্ত বলে মেনে নেওয়া হয়। পণ্ডিতজী প্রতিপক্ষী মৌলানাকে স্বামী দর্শনানন্দেজীর একটি প্রশ্ন জিজ্ঞাসা করলেন। পন্ডিতজী বললেন—❝আল্লাহ তৌরতে কি ভুলে গিয়েছিলেন যে ইঞ্জিলকে আকাশ থেকে নামানো হল এবং ফের কোরানের পালা এসে গেল। এখন প্রশ্ন হলো এর পরে কি হবে? কি আসবে? যদি কোরানের কোনো ছেড়ে গেছে তাহলে?❞</p>
+<p>মৌলানা উত্তর দেওয়ার জন্য মুচকি হেঁসে উঠে বললেন—❝মনে হচ্ছে যে পন্ডিতজীর কোনো হাকিম-বৈদ্যের সাথে পালা কখনও পড়েনি। হাকিম লোক পেটরোগীদেরকে প্রথমে আমাশয় (পাকস্থলী)-কে নরম করার জন্য কোনো ঔষধ দেন। যখন পাকস্থলী নরম হয়ে যায় তখন পেট থেকে মল বের করার জন্য কোনো জুলাব (বিরেচক) দেওয়া হয়। ঠিক সেইরকম আল্লাহ পূর্বকালের মনুষ্যদের মধ্যে সত্যের বা একেশ্বরবাদের বিরুদ্ধ যত মল ছিল তাকে নরম করার জন্য কোরানের পূর্বে এইসব পুস্তক নামিয়েছেন এবং শেষে কোরান মজীদ নামিয়ে সমস্ত মলকে পূর্ণরূপে বের করে দিয়েছেন।❞ শুনলে মনে হবে যে মৌলানার উত্তর ছিল বেজোড় (পূর্ণ)।</p>
+<p>শ্রী পণ্ডিত রামচন্দ্র দেহেলবী এই উত্তরে মৌলানা মহোদয়কে বললেন—❝মৌলানা! আল্লাহর চিকিৎসাও হোল বড় বিচিত্র। যে সব লোকেদেরকে তৌরত, জবুর এবং ইঞ্জিল প্রদান করে পাকস্থলীকে নরম করা হয়েছে তাঁদেরকে কোরাণরূপী বিরেচক (জুলাব) দেওয়া হয়নি এবং আজ যাঁদেরকে এই বিরেচক দেওয়া হচ্ছে তাঁদের পাকস্থলীকে নরম করা হচ্ছে না। পেটের গন্ডগোল একজনকেই, অন্যের পাকস্থলীকে নরম করা হলো এবং বিরেচক তৃতীয় ব্যক্তিকে দেওয়া হলো।❞</p>
+<p>ইসলাম জীবকে অনাদি বলে স্বীকার করে না। পূর্ণজন্মকেও কাঠমুল্লারা ইসলামী শাস্ত্রের বিরুদ্ধ বলে থাকেন। অপবাদরূপে কিছু মুসলিম বিদ্বান্ জীব (SOUL) এবং প্রকৃতিকে (NATURE) অনাদি বলে মনে করেন। পুনর্জন্মের সিদ্ধান্তকেও মানেন পরন্তু প্রচলিত ইসলামের অনুসারে যাঁদের জন্য তৌরেত অবতরিত করা হয়েছিল, সেইসব জীব জবুর-র সময়ে ছিল না। ইঞ্জিল প্রাপ্ত করা জীবও নূতন সৃষ্টি করা হলো এবং কোরাণ যাঁদের জন্য অবতরিত করা হলো তাঁদের উৎপত্তিও নতুন। পূর্বে এও ছিল না।</p>
+<p>ইসলাম ঈশ্বরের গুণ, কর্ম এবং স্বভাবকে নিত্য বলে স্বীকার করে। জানি না নিত্য ঈশ্বরের নিত্য জ্ঞানের অবমূল্যায়ন করার জন্য এমন এমন যুক্তি দেওয়াতে কি লাভ হয় বা হবে। এর ফলে ঈশ্বরের মহিমা কম হয় এবং কোরানেরও মহিমা মণ্ডল হয় না। সৃষ্টির আদিতেই জ্ঞানের আর্বিভাব মেনে নিলে সব সমস্যার সমাধান হয়।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-17">
+        <div class="chapter-head">
+          <span class="chapter-num">16</span>
+          <h2>বেদে কি আছে?</h2>
+        </div>
+        <div class="chapter-body">
+<p>কিছু লোক জিজ্ঞাসা করে যে বেদে কি আছে? ঋষি উত্তর দিচ্ছেন যে বেদ হল সমস্ত ধর্মের মূল। মানব কল্যাণের জন্য প্রভু বেদের মধ্যে বীজরূপে সারা জ্ঞান চার ঋষির হৃদয় গুহাতে প্রকাশিত করে দিয়েছেন।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-18">
+        <div class="chapter-head">
+          <span class="chapter-num">17</span>
+          <h2>সুখ, শান্তি এবং সমৃদ্ধির একমেব মার্গ</h2>
+        </div>
+        <div class="chapter-body">
+<p>সমস্ত প্রাণী সুখ চায়। কেউই দুঃখ চায় না। মনুষ্য তো সুখ সমৃদ্ধিকে চায়ই। সুখ, সমৃদ্ধি এবং শান্তির একটিই মার্গ। অন্য কোনো দ্বিতীয় বিকল্প নাই। এই মার্গ ঋগ্বেদের অন্তিম সুক্তে পরমাত্মা মানবকে দেখিয়েছেন। এই সূক্ত ❝সংগঠন সূক্ত❞ নামে প্রসিদ্ধ। এই সূক্তের সাথে দেশ, কাল বা কোনো বর্গ বিশেষের সাথে কোনো সম্বন্ধ নাই। আজ সারা সংসারে যুদ্ধের ভয় ব্যাপ্ত হয়ে রয়েছে। এই সূক্তের প্রথম মন্ত্রে মনুষ্যের জন্য মানব হিতে ❝সমানো মন্ত্রাঃ❞ মিলে মিশে বিচার করার উপদেশ দেওয়া হয়েছে। এর জন্য ❝সমিতি সমানী❞-র আদেশও দেওয়া হয়েছে। মিলেমিশে বিচার তখনই হবে যখন সব জাতি এবং দেশের একটিই সমিতি হবে। সুখ, শান্তি এবং সমৃদ্ধির যে উপায় এই মন্ত্রে বলা হয়েছে—তাকে কে মিথ্যা করতে পারবে? আজ মিলেমিশে, মুখোমুখি বসে বিচার করার উপরেই প্রত্যেক সমস্যার সমাধান খোঁজার উপর জোর দেওয়া হচ্ছে।</p>
+<p>তারপর ❝সংগচ্ছধং❞— মিলেমিশে চলার, মিলেমিশে বলার, সংবাদ করার উপদেশ রয়েছে। এই Walk together এবং Talk together—ই হচ্ছে আদর্শ সংসারের স্বরূপ। এই সমান মন্ত্র, সমান সমিতির স্বাভাবিক ফল। পরের এক মন্ত্রে সমান হৃদয় এবং সমান মনের কথা বলা হয়েছে। উপরোক্ত যে নির্দেশ দেওয়া হয়েছে তদনুসার আচরণের সুখদায়ী পরিণাম হবে, মন এবং হৃদয়ের অনুকূলতা তথা একই রকমের ভাবনা।</p>
+<p>এই সূক্তে আর একটি মার্মিক শব্দ এসেছে —❝সুসহাসতি❞ অর্থ ভালোভাবে মিলেমিশে বসবাস করা। কখনও ভারত এবং চীন মিলে গিয়ে পঞ্চশীলের ঘোষণা করেছিল। তাতে একটি সিদ্ধান্ত ছিল সহ-অস্তিত্ব (Co-existence)। মিলেমিশে থাকা তো ভালো কথা পরন্তু এই শব্দে ভালোভাবে থাকার ভাবনা ব্যক্ত হয় না। সাথে সাথে থাকার জন্য পরস্পর সহযোগের আদেশ এই ❝সুসহাসতি❞ শব্দে দেওয়া হয়েছে। যেখানে পরস্পর সহযোগের ভাবনা হবে সেখানেই সুখ, সমৃদ্ধি এবং শান্তি হবে। ভালোভাবে জীবন ব্যতীত করার এইটিই একমাত্র মার্গ।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-19">
+        <div class="chapter-head">
+          <span class="chapter-num">18</span>
+          <h2>বৈদিক প্রার্থনা</h2>
+        </div>
+        <div class="chapter-body">
+<p>মানবের সর্বাঙ্গীন উন্নতির জন্য যা কিছু চাই, তার জন্য বেদে অনেক সুন্দর সুন্দর প্রার্থনা রয়েছে। মনুষ্য সবকিছু পেয়েও, সবকিছু নাশ করে ফেলে, হারিয়ে ফেলে কেবল বুদ্ধি না থাকার জন্য এবং কিছু না থাকার পরেও সবকিছু পেয়ে যায় কেবল নিজের উত্তম বুদ্ধির দ্বারা। বেদের প্রসিদ্ধ মন্ত্র গায়ত্রী মহামন্ত্র দিয়ে গুরু বিদ্যা আরম্ভ করে আসছেন। এই মন্ত্রে পরমেশ্বরের কাছ থেকে উত্তম নির্মল বুদ্ধির কামনা করা হয়েছে। এমন বুদ্ধির যাচনা করা হয়েছে যা সৎকর্মের দিকে প্রেরনা দেবে। সংসারের কোনো মত, পন্থ বা গ্রন্থে এমন প্রার্থনা পাওয়া যাবে না। (শেখ আনোয়ারের পুস্তক <em><strong>Vedic Civilisation</strong></em>-এ এই মন্ত্রের মহিমা পড়ুন। এই মন্ত্রে স্তুতি, প্রার্থনা এবং উপাসনা তিনটিই রয়েছে। এও একটি বিশেষতা)। এ কেবলমাত্র বেদের বিশেষতাই নয়, বিলক্ষণতাও বটে। অথর্ববেদের একটি মন্ত্রে বলা হয়েছে যে—হে বুদ্ধি! তুমি আমার কাছে সর্বপ্রথম অর্থাৎ আমার প্রথম প্রাথমিকতা।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-20">
+        <div class="chapter-head">
+          <span class="chapter-num">19</span>
+          <h2>বেদের ভাষা</h2>
+        </div>
+        <div class="chapter-body">
+<p>বেদের ভাষার অর্থগৌরব এবং সৌন্দর্য সংসারে সে নিজে নিজেই তাঁর উদাহরণ। এমনিতে তো সংসারের প্রত্যেক ভাষাতে একটি শব্দের জন্য অন্য অন্য পর্যায়বাচী শব্দও প্রাপ্ত হয় এবং এমন অনেক শব্দ রয়েছে যার অনেক অর্থ হয়। ফার্সী ভাষার মহান কবি শেখ সাদীর একটি পদ্য উল্লেখনীয়:— </p>
+<p class="verse"><strong>সাদিয়া দরী দয়ার তু মর্দে মুসাফরী।</strong></p>
+<p class="verse"><strong>বা কস সুখন ন গোঈ কি গুজরাতিয়া জনন্দ।।</strong></p>
+<p>প্রথম পংক্তির অর্থ —হে সাদী! তুই হচ্ছিস এখানকার যাত্রী। দ্বিতীয় পংক্তির দুইটি অর্থ— প্রথমতঃ তুই কারো সাথে কথা বলবি না; নাহলে গুজরাটী লোকেরা তোকে পিটবে। দ্বিতীয়তঃ— কাউকে বলবি না যে গুজরাটীরা হোল মেয়ে মানুষ। পরন্তু বেদের এক একটি শব্দ যৌগিক। বেদে এক একটি শব্দের অনেক অনেক অর্থ বা সমানার্থক শব্দ হওয়ার কারনে বৈদিক মন্ত্রের অর্থগৌরব, সৌন্দর্য তথা গাম্ভীর্য অদ্ভুত। এঁর থেকে বেদ মন্ত্রের গূঢ় ভাবকে দেখে ব্যক্তি আশ্চর্যচকিত হয়ে যায়। ঋগ্বেদে এসেছে—</p>
+<p class="verse"><strong>সূর্যচন্দ্রমসৌ ধাতা যথা পূর্বমকল্পযৎ।</strong></p>
+<p>অর্থাৎ পরমাত্মা যেমনভাবে এই সৃষ্টিতে সূর্যচন্দ্রকে সৃষ্টি করেছেন, ঠিক তেমনিভাবে পূর্ব সৃষ্টিতেও এইরকম সূর্যচন্দ্রকে তৈরি করে এসেছেন। এখানে যথাপূর্ব (Cyclic order) শব্দে সৃষ্টি রচনার সিদ্ধান্তকে তো রাখাই হয়েছে—ঈশ্বরের নিয়মসমূহের অটলতার সিদ্ধান্তকেও প্রস্তুত করা হয়েছে। অন্যান্য মত পন্থায় ঈশ্বরের নিয়মের পরিবর্তন, চমৎকার হওয়া ইত্যাদি নিজের মত বা গ্রন্থের মহিমার প্রমাণ মেনে আসছে। ঋগ্বেদেই অন্য জায়গায় বলা হয়েছে যে বিধাতা সৃষ্টিকে নিয়মের মধ্যে সাজিয়েছেন। এটি বেদের অদ্ভূত অবদান। বন্ধুগণ! একটুখানি বিচার করুন— যদি জগৎ নিয়মবন্ধ না হোত তাহলে বিজ্ঞান (Science) কোথায় টিকতো? ❝Perhaps lawlessness would have gone more aginst the theistic conception than the existence of law❞—অর্থাৎ নিয়মবদ্ধতার জায়গায় অনিয়ম আস্তিকতার অধিক বিপরীত হয়।</p>
+<p>জগতে সর্বত্র ব্যবস্থা রয়েছে এবং প্রত্যেক বস্তু তথা পদার্থের এবং ক্রিয়ার কিছু প্রয়োজন রয়েছে। ব্যবস্থা দিয়ে নিয়মের মহত্ত্বকে জানা যায়। বেদে বারংবার অটল তথা সত্য নিয়মের গুণগান দৃষ্টিগোচর হয়। এ বেদের মহান অবদান।</p>
+<p>উক্ত মন্ত্রে ❝যথাপূর্বম্❞-র সাথে ঈশ্বরের জন্য ❝ধাতা❞ শব্দের প্রয়োগ করা হয়েছে। এই শব্দে গাগরের (কলশী) মধ্যে সাগরকে ঢুকিয়ে দেওয়া হয়েছে। এর জন্য কোনো ভাষাতেই কোনো শব্দ নেই। ধাতার অর্থ বিধাতা, Creator রচয়িতা তো বটেই, এর অন্য আর একটি অর্থ ধারণ করা শক্তি। ঈশ্বর জগতের রচনা, পালন তথা সংহার করেন। তিনি ধারণ করার কারণেই তো তিনটি কার্য করতে পারেন। প্রভু যদি সর্বব্যাপক না হন তাহলে না তো সৃষ্টি রচনা করতে পারেন, না পালন করতে পারেন, না সংসারকে চালাতে পারেন এবং না সংহার করতে পারেন। সৃষ্টিতে প্রতিক্ষণ কিছু তৈরি হচ্ছে এবং কিছুর পরিবর্তন হচ্ছে।</p>
+<p>ঈশ্বর হলেন সর্বব্যাপক। তিনি হলেন ধাতা, তাইতো সহজ রীতিতে এইরকম হচ্ছে। ঈশ্বর সর্বজ্ঞ তথা সর্বশক্তিমানও এই কারণে। ধাতা হওয়ার ফলেই তিনি হলেন সর্বাধার। পাঠকবৃন্দ! দেখলেন তো। বেদের একটি শব্দেই কতখানি গূঢ় অথচ সহজরীতিতে বোঝার দার্শনিকভাব পরমাত্মা ভাবনা ভরে দিয়েছেন।</p>
+<p>এখানে প্রসঙ্গ বশে এও চর্চা করে দিই যে ইংরেজদের শাসনকালের ইতিহাসে তথা অন্য গ্রন্থেও বেদকে ❝গড়রিদের গীত❞ (ভেড়া চরানো লোকেদের গীত) বলার একটা ফ্যাশন চলেছিল। বেদের অবমূল্যায়নের জন্য তথা হিন্দুরা বেদকে ঘৃণা করার জন্যই এসব শব্দের সৃজন হয়েছিল। এটা ঠিক যে প্রাণীজগতের প্রতি, বনস্পতির প্রতি, সূর্য, চন্দ্র, ঊষার এবং সাগরের তরঙ্গ পর্যন্তের প্রতি ভালোবাসা রাখা আর্যগণ সব বেদ মন্ত্রের গান গাইতো। আমাদের পশুপালকও বেদঋচার গান গাইতো। পশুপালক যদি বেদঋচার গান গায় তাহলে কি এতে বেদঋচার গৌরব হ্রাস হবে?</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-21">
+        <div class="chapter-head">
+          <span class="chapter-num">20</span>
+          <h2>পশুপ্রেমী মহাপুরুষ</h2>
+        </div>
+        <div class="chapter-body">
+<p>হজরত মোহম্মদ বিড়ালকেও ভালোবাসতেন। তাঁকে উটওয়ালা বলা হোত। হজরত ঈসাকে কি ভেড়াওয়ালা বলা হোত না? তিনি কি পশুদেরকে ভালোবাসতেন না? আমাদের যোগেশ্বর কৃষ্ণ আদি সব মহাপুরুষ গোপালক ছিলেন। শ্রী গুরু নানক দেবজী মহিষ চরাতেন। কোরান এবং বাইবেলের আয়তকে কি এজন্য হীনদৃষ্টিতে দেখা যাবে? এই কারণে গীতা বা গুরুবাণীর মহিমা কি কম হতে পারে? বেদকে (Primitive) আদিম লোকেদের কাব্য বলে অভিহিত করার কি অর্থ? বেদ প্রত্যেক যুগের জন্য, তেমনই যেমনটি সৃষ্টির অন্য নিয়ম বা বিজ্ঞান প্রত্যেক যুগের জন্য। এই প্রসঙ্গে অন্য আর একটি বিষয়ের উপর বিচার করা আবশ্যক।</p>
+<p>যে সব মুসলমান ভাই পূর্বের আসমানী পুস্তক (তৌরত, ইঞ্জিল) কে বাতিল হওয়া স্বীকার করে এবং এরকম বলে যে আল্লাহ এবারে কোরনের সুরক্ষার গ্যারান্টি দিয়েছেন এবং দায়িত্বও নিয়েছেন। এখন কোরানে কিছু কম হবে না, কিছু বাড়বে না, কিছু পরিবর্তন হবে না। প্রলয় পর্যন্ত এই নিয়মই (কোরান) চলতে থাকবে। এই প্রকার চিন্তাভাবনা রাখা সজ্জনদেরকে আমরা জিজ্ঞাসা করছি যে সময়ের সাথে সাথে আল্লাহই বদলে গেছে বা তাঁর গুণ, কর্ম, স্বভাব বদলে গেছে? যখন সে পূর্ব গ্রন্থকেই বাতিল করে দিয়েছে এবং তাঁর রক্ষা করতে পারেনি তাহলে বর্তমানে কি গ্যারেন্টি যে কোরাণ-কেও একদিন বাতিল করে দেবে না?</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-22">
+        <div class="chapter-head">
+          <span class="chapter-num">21</span>
+          <h2>রোগী সংসার এবং বেদ</h2>
+        </div>
+        <div class="chapter-body">
+<p>আজ সংসারের বিকাশশীল দেশও ক্যান্সার, সুগার, হৃদরোগ এবং রক্তচাপ ইত্যাদি রোগের কারনে আতঙ্কিত। অথর্ববেদের বহ্মচর্য সূক্তের ২৬টি মন্ত্রে দশবার ❝তপ❞ শব্দ এসেছে। এই সূক্তেই শ্রম, তপ, মেখলা এবং সমিধা—এগুলি বিদ্যার্থীর চার অলংকার বলে বলা হয়েছে। আজ বৈজ্ঞানিকরা এক স্বরে বলছেন যে শ্রমবিহীন এবং তপরহিত থাকা-খাওয়াই ঘাতক রোগের মুখ্য কারণ। যে অথর্ববেদকে পশ্চিমদেশীয় লেখকেরা জাদু-টোনার গ্রন্থ বলে তিরস্কার করেছে, সেই বেদেই তপ এবং শ্রমের এই মহিমার কথা বলা হয়েছে। তপস্বী এবং শ্রমশীলই বেঁচে থাকার অধিকার রাখে। অথর্ব শব্দের অর্থ অকম্প (Unshakable)। আদিম মনুষ্য (Primitive) কি কোনো গ্রন্থের এইরকম মার্মিক নামকরণ করতে পারে? কদাপি নয়। এতো সর্বজ্ঞ প্রভুর দান।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-23">
+        <div class="chapter-head">
+          <span class="chapter-num">22</span>
+          <h2>বেদের প্রার্থনা এবং পুরুষার্থ দর্শন</h2>
+        </div>
+        <div class="chapter-body">
+<p>সংসারে আস্তিক লোক ঈশ্বরের কাছে প্রার্থনা করে। প্রার্থনা দ্বারা সব লোক ঈশ্বরের কাছ থেকে কিছু না কিছু চায়। লোকেরা প্রার্থনার অর্থ—প্রভুর কাছ থেকে কিছু মেগে নেওয়া বা চাওয়া এই অর্থ, ভেবে রেখেছে।</p>
+<p>বেদানুসারে প্রার্থনা প্রতিজ্ঞার সমানার্থবাচক শব্দ। অর্থাৎ প্রার্থনার পূর্বে পুরুষার্থ করা আবশ্যক। হাজার হাজার বছর পরে ঋষি দয়ানন্দ এমন একজন বিচারক এবং ধর্মাচার্য এলেন যিনি ❝পূজা❞ শব্দকে ❝পুরুষার্থের❞ সাথে মিলন করালেন। অন্যথা অন্ধবিশ্বাসী লোকেরা ঈশ্বরের কাছ থেকে কিছু চাওয়াকেই প্রার্থনার নাম দিয়ে রেখেছিল। পরমাত্মার কাছ থেকে কি চাওয়া উচিৎ, কি না চাওয়া উচিৎ—তা ভক্তকে জানা উচিৎ।</p>
+<p>অথর্ববেদের একটি প্রসিদ্ধ মন্ত্র ❝স্তুতা ময়া বরদা বেদমাতা❞-তে অতি সুন্দর বৈজ্ঞানিক পদ্ধতিতে এর উপর আলোকপাত করা হয়েছে। ঈশ্বরের কাছ থেকে ১) পুরুষার্থ, গতি, উর্জা, ২) আয়ু, ৩) প্রাণ, ৪) প্রজা (সন্তান), ৫) পশু, ৬) কীর্তি, ৭) ধনসম্পদ, ৮) ব্রহ্মবাস (Spiritual Vigour) এবং মোক্ষের কামনা এই মন্ত্রে করা হয়েছে।</p>
+<p>আপনারা বিচার করে দেখুন। এর পরেও মানুষকে আর কি চাই? পাওয়ার জন্য আর কিছুই বাকী নাই।</p>
+<p>যজুর্বেদের প্রথম মন্ত্রেও ঈশ্বরের কাছ থেকে উর্জার প্রার্থনা করা হয়েছে। কর্মন্যতার উপর বল দেওয়া হচ্ছে বেদের মৌলিকতা এবং বিশেষতা। সংসারের লোক রামভরসা অর্থাৎ কিছু না করাকে আস্তিকতা এবং ভক্তি বলে ব্যাখ্যা করে—লোক একনাগাড়ে বলতে থাকে—</p>
+<p class="verse"><strong>অজগর করেন চাকরি, পঞ্জী করে না কাম।</strong></p>
+<p>এটি সত্য নয় যে পাখী কাজ করে না। আপনারা চেতন সংসারের কথা তো ছেড়েই দিন। সম্পূর্ণ জড় জগৎও গতি করে। তাই তো যজুর্বেদের ৪০ অধ্যায়ের প্রথম মন্ত্রে সংসারকে ❝জগৎ❞ বলা হয়েছে। সব গ্রহ উপগ্রহ গতি করে চলেছে। ঈশ্বরের অস্তিত্বের সব থেকে বড় প্রমাণ যে তিনি গতি প্রদান করেন। প্রফেসর বিষ্ণু দয়ালজী ঠিকই লিখেছেন যে যদি ❝জগৎ❞ শব্দ বাইবেলে আসতো তাহলে গ্যালিলিওকে অসহ্য যন্ত্রনা ভূগতে হোত না। অকর্মন্যতার শিক্ষা দেওয়া ব্যক্তিকেও ❝হিম্মতে মর্দাঁ মদদে খুদা❞ (God helps those who help themselves) প্রভু তার সহায়তা করে যে নিজের সহায়তা নিজে স্বয়ং করে—একে জানতে হয়, মানতে হয়।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-24">
+        <div class="chapter-head">
+          <span class="chapter-num">23</span>
+          <h2>বেদে কৃষি, ব্যাপার এবং উদ্যোগ শিল্প</h2>
+        </div>
+        <div class="chapter-body">
+<p>বেদে কৃষিকে প্রমুখ এবং পবিত্র ব্যাপার বলে বলা হয়েছে। কৃষক ঈশ্বরের সব থেকে বড় নিয়ম ❝কর্মফল❞ সিদ্ধান্তের উপর অটুট বিশ্বাস রাখে। যেমন বীজ বুনবে তেমনটি কাটবে। অতঃ যেমন করবে তেমন ভরবে— এই অটল নিয়ম হোল ঈশ্বরীয় বিধানের জীবন। কৃষকের সম্পূর্ণ কার্য্য-ব্যবহার এই অটল নিয়মেরই তো ব্যাখ্যা। এই নিয়মের উল্লংঘন থেকেই ভ্রষ্টাচার, ঘুষ, জমাখোরী (Hording) এবং কালোবাজারী এইরকম পাপকর্ম হয়ে থাকে।</p>
+<p>বেদে ❝মধু বাতা ঋতায়তে❞ আদি মন্ত্রগুলিতে জল, বায়ু, নদীগুলিকে কল্যাণকারী হওয়ার কামনা করা হয়েছে। বেদের শান্তি পাঠ পড়ুন। ধরতীকে স্বর্গধাম করার প্রোগ্রাম দেওয়া হয়েছে। অন্তরিক্ষের অনুসন্ধান কর্তাদেরকে, বৈজ্ঞানিকদেরকে কোথাও আকাশে তো স্বর্গ (Heaven) দেখা দেয়নি। ধরতীর উপরেই স্বর্গ নামানোর প্রোগ্রাম এবং প্ল্যান (যোজনা) বৈদিক শান্তিপাঠে রয়েছে। মানব মনে, পৃথিবীতে, আকাশে, অন্তরিক্ষে, দ্যুলোকে, ঔষধিতে, বনস্পতিতে, সাগর-তরঙ্গে, পর্বত-জল-স্থল সবদিকে শান্তির নিবাস হোক। একাঙ্গী শান্তি দিয়ে শান্তি সম্ভব নয়। এইরকম পূর্ণ প্রার্থনা আর কোন গ্রন্থে আছে? এই একটি মন্ত্রের সাথেই তুলনা করে কেউ বলুন তো!</p>
+<p>বেদে নিবৃত্তি এবং প্রবৃত্তি দুইটিরই মহত্ত্বকে দেখানো হয়েছে। দুইয়েরই সমন্বয় বলা হয়েছে। শরীর নির্মাণ, জীবন নির্মাণ, শিষ্য, গুরু, রাজা, প্রজা, গৃহস্থ, ব্যক্তি, সমাজ, রাষ্ট্র, বিবেকশীল, শ্রমশীল, ডাক্তার, বৈদ্য সবার উন্নতি এবং কল্যানের বিধান পাওয়া যায়। কার কি কর্তব্য তা বেদে দেওয়া আছে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-25">
+        <div class="chapter-head">
+          <span class="chapter-num">24</span>
+          <h2>বেদের জয় জয়কার</h2>
+        </div>
+        <div class="chapter-body">
+<p>সৃষ্টি-রচনা অভাব থেকে হয়নি। অনাদি জীবসমূহের জন্য অনাদি প্রকৃতি দিয়ে রচয়িতা এই জগতের রচনা করেছেন। Matter can neither be created nor it may be destroyed—প্রকৃতিকে না তো উৎপন্ন করা যেতে পারে, না নষ্ট করা যেতে পারে। বিজ্ঞানের এই ঘোষণা বৈদিক ধর্মের জয়কার, জয়ঘোষ। উপাদান কারণ (Material cause) ছাড়া সৃষ্টির রচনার কথা সৃষ্টি-নিয়ম সহ্য করতে পারে না। পণ্ডিত গঙ্গা প্রসাদ উপাধ্যায়জীর এই কথাটি যথার্থ।</p>
+<p>আমরা পুনরায় বলব যে বেদে কোথাও জাদু-টোনা, ভূত-প্রেত, বহুদেবতাবাদ, সুরাপান, মাংসাহারের বিধান নাই। এসব কথা, এসব গল্প বেদের উপর আঘাত করার জন্য বেতনভোগী বেদভাষ্যকারেরা রচনা করেছে। ঐসব ভাষ্যকার ভারতীয় অথবা অভারতীয় শাসকদের চাকর ছিল। শাসকবর্গকে প্রসন্ন করার জন্য, পাপী পেটের জন্য এঁরা বেদের অর্থকে অনর্থ করেছে। ঋষি দয়ানন্দ আজীবন কারও চাকরি করেন নি। ঊনবিংশ শতাব্দীর বেশ কিছু ধার্মিক নেতা যেমন স্যার সৈয়দ আহমেদ খাঁ, রাজা রামমোহন রায় সরকারের চাকরি করতেন। সেই ঋষি ঈশ্বরের প্রেমপাত্র ছিলেন। তিনি শ্রদ্ধার সাথে, পূর্ণ হৃদয়ের সাথে তাঁর নিজের প্রীতম প্রভুর অমর বেদবাণীর ঠিক ঠিক অর্থ করে মানবমাত্রের অতীব উপকার করেছেন। তাঁর বেদভাষ্যের এইটিই বিলক্ষণতা এবং বিশেষতা এই যে তিনি ঈশ্বরের দিশা নির্দেশে বেদ ভাষ্য করেছেন। এই কার্যে তার (Guide) মার্গদর্শক ছিলেন সর্বজ্ঞ প্রভু। তাঁর আর অন্য কোনো (Boss) মালিক অথবা অন্নদাতা ছিল না।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-26">
+        <div class="chapter-head">
+          <span class="chapter-num">25</span>
+          <h2>বেদে কী নাই?</h2>
+        </div>
+        <div class="chapter-body">
+<p>এই পুস্তকের সমাপ্তি করতে গিয়ে আমরা ❝বেদে কী নাই❞—এই সম্বন্ধে খ্যাতনামা মুসলমান মৌলানা ডাক্তার গুলাম জৈলানির পুস্তক ❝এক ইসলাম❞-র প্রমাণ দেওয়া আবশ্যক এবং উপযোগী বলে মনে করছি।</p>
+<p>❝বেদে মূর্তিপূজার কোনো কোথাও উল্লেখ নাই। আদি থেকে অন্ত পর্যন্ত কেবলমাত্র এক পরমাত্মার উপাসনার আদেশ দেওয়া আছে। কেননা পণ্ডিতের (পৌরাণিক, ব্রাহ্মণ) মানসিকতা ভীষণভাবে বিকৃত হয়ে গিয়েছিল। এজন্য আদর এবং উপাসনার মধ্যে কোনো পার্থক্যই থেকে ছিল না। অতঃ সে পরমেশ্বর এবং মহাত্মা গান্ধী দুইয়ের সামনে নতমস্তক হয়ে ঝুঁকে যায়। সে কৃষ্ণের মূর্তি এবং সম্রাট আকবরের চরণে চুমা খায়। তাকে হিমালয়ের উপরে প্রভুর সিংহাসন দেখা দেয়।❞ (মুসলমানদেরকে আল্লাহর সিংহাসন সপ্তম আকাশে দেখা যায়) সে বিদ্যুতের আওয়াজ এবং ঝড়ের আওয়াজে দেবতাদের ভয়াবহ আওয়াজকে শুনতে পায়।</p>
+<p>সে সর্পের ফণাতে এবং ময়ূরের নৃত্যে ঈশ্বরকে মগ্ন হতে দেখা দেয়। এবং এইজন্য সে পবিত্র বেদের এক একটি অক্ষরে এক একটি নূতন ভগবানকে খুঁজে বেড়ায়। বুঝতে পারি না যে কেবল এক পরমাত্মাতে ব্রাহ্মণের সন্তুষ্টি কেন হয় না? যখন সে জানে যে, এই সৃষ্টি, সাগর, পর্বত, কোটি কোটি সূর্য, চন্দ্র একই পরমাত্মার রচনা। সেই প্রভুর শক্তির অনুমান করা কঠিন। তাঁর কাছে সমস্ত প্রকারের দানের অসংখ্য ভাণ্ডার রয়েছে। বায়ুকে সেই চালায়। বর্ষা সেই বর্ষণ করে। ভূমি থেকে অন্ন, ধন সেই সৃষ্টি করে।</p>
+<p>এতে কোনোই সংশয় নেই যে—❝বেদে ঈশ্বরের গুণবাচক নাম যথা ব্রহ্মা (মহান), মহাদেব (বড় দেব), বিষ্ণু (রক্ষক) ইত্যাদি এবং দেবতাদের (দেবদূত) বর্ণনা রয়েছে। পরন্তু অনেক ভগবানের কোথাও নিশান পর্যন্তও পাওয়া যায় না।❞</p>
+<p class="verse"><strong>(দ্রষ্টব্য: এক ইসলাম: উর্দু পুস্তক লেখক ডাঃ গুলাম জৈলানী; পৃষ্টা ১৭৪-১৭৫)।</strong></p>
+<p>এহচ্ছে ঋষি দয়ানন্দের কৃপার ফল যে ইসলামের এক প্রখ্যাত প্রবক্তা এবং বিদ্বান্ লেখক এই প্রকারে বেদের মধ্যে একেশ্বরবাদ এবং এক ঈশোপসনার সিদ্ধান্তকে খোলা হৃদয়ে স্বীকার করেছেন।</p>
+<p>ইনিই ডাঃ গুলাম জেলানী তাঁর নিজের পুস্তকে আগে তিনটি মহত্ত্বপূর্ণ প্রমাণ দিয়েছেন। মার্শম্যান বলেছেন—❝বেদের মুখ্য সিদ্ধান্ত হোল এক ঈশের উপাসনা। এতে ঈশ্বরেতর অন্য কোনো সত্তার পূজার উল্লেখ নাই। এতে সন্দেহ নাই যে, যত্র তত্র দেবসমূহের বর্ণনা প্রাপ্ত হয় পরন্তু এতে সংসারের গুপ্ত শক্তিসমূহই অভিপ্রেত। দুঃখের কথা হলো যে, হিন্দু জাতি বেদের শিক্ষা থেকে বহু দূরে চলে গিয়েছে।❞ (মার্শিয়ান হিস্ট্রী, পেজ-১)।</p>
+<p>অন্য একজন লেখক কালব্রুক লিখেছেন—❝বেদে অনেক ভগবানের পূজার কোথাও বর্ণনা নাই।❞ (এশিয়ার ঐতিহাসিক খোঁজ, পেজ-৩৮৫)</p>
+<p>প্রফেসার উইলসন মহোদয় বলেছেন—❝বেদে প্রতিমা পূজন এবং প্রতিমা তৈরি করা সিদ্ধ হয় না।❞ (অক্সফোর্ড থেকে প্রকাশিত উইলসনের ভাষণ, পেজ-১৪)।</p>
+<p>কিছু পশ্চিমদেশীয় খ্রীষ্টান লেখক ঋগ্বেদকে যীশুর দুই হাজার বছর আগে বলে আসছে, কেউ বেদের রচনাকাল তিন হাজার বছর পূর্বে এবং বেশকিছু যীশু থেকে সাড়ে তিন হাজার বছর পূর্বে হয়েছে বলে রাগ গেয়ে যাচ্ছে। শ্রী পণ্ডিত ভগবৎ দত্তজী বলতেন—আমাদেরকে উক্ত বক্তব্যে খারাপ ভাবা উচিৎ নয়। এঁরা তো সৃষ্টির আয়ুকেই ছয় হাজার বর্ষ বলে স্বীকার করে। এ তো এঁদের বাহাদুরী যে বেদকে এঁরা যীশুর সাড়ে তিন হাজার বৎসর পূর্বের পুরাতন গ্রন্থ মেনে নিয়েছে। এঁরা সৃষ্টি তৈরি হয়েছে পাঁচ হাজার বর্ষ বলে মানে এবং আমরা পাঁচ হাজার বর্ষ থেকে বিকৃত বলে মানি। এঁদের চিন্তার (কি বেদ সাড়ে পাঁচ হাজার বর্ষ পুরানো) অভিপ্রায় তো ঠিকই যে বেদের আবির্ভাব সৃষ্টির আরম্ভেই হয়েছে। আনন্দের বিষয় যে এখন এসব লোক বেদে জাদু-টোনা, ভূত-প্রেতের পরিবর্তে যীশু, মোহম্মদ আদি নিজেদের মহাপুরুষদিগকে, দেবদূতগণকে দেখতে লেগেছে।</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="sec-27">
+        <div class="chapter-head">
+          <span class="chapter-num">26</span>
+          <h2>বিধান বিনা ন্যায়ব্যবস্থা কি ভাবে?</h2>
+        </div>
+        <div class="chapter-body">
+<p>এটি তো সবার কাছে স্পষ্ট করা হয়েছে যে, সৃষ্টির নিয়ম অটল। পরমাত্মার নিয়ম ঘসে না, মিটে না, বদলায় না, কম হয় না, বেশী হয় না। আর একটি কথা বিচারণীয় যে খ্রীষ্টান এবং মুসলমান সবাই ঈশ্বরকে ন্যায়কারী মানে। সেই প্রভু সদাই পাপ এবং পুণ্যের দুঃখ এবং সুখরূপে ফল দেন। সেই পরমাত্মা পূর্বেও ন্যায় প্রদান করতেন এবং আজও। কোনো নিয়মকে ভাঙলে এবং পরমাত্মার আজ্ঞার অবহেলনা করলেই তো দন্ড দেওয়া হয়। নিয়ম, ব্যবস্থা এবং আদেশ না বলে তো কাউকে পাপী বলে দন্ডিত করা যেতে পারে না। বাইবেল তথা কোরাণে পূর্বেও প্রভু ন্যায় দিতেন, দন্ড দিতেন। নিজের জ্ঞান, বিধান এবং ব্যবস্থা বিনা বলেই কি তিনি মনুষ্যদিগকে দন্ড দিয়ে চলেছেন? বিধি বিশেষজ্ঞ কেউই, কোনো ব্যক্তিই একে মানবে না। এথেকে এইটি সিদ্ধ হয় যে, পরমাত্মার বিধান বেদ সৃষ্টির আদিতেই আবির্ভূত হয়েছে। সৃষ্টির আদিতেই এই ব্যবস্থা লাগু করা হয়েছে। বিধান লাগু করার পরেই কাউকে দোষী নিরূপিত করা যেতে পারে; অন্যথা নয়।</p>
+<p>——————</p>
+        </div>
+      </section>
+
+<div class="colophon">
+  <div class="glyph">॥ ও৩ম্ ॥</div>
+  <p>সমাপ্ত — সত্যম্ বদ । ধর্মম্ চর ।</p>
+</div>
+
+<a href="#top" class="totop" id="totop" aria-label="উপরে যান">&#8593;</a>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    bar.style.width = pct + '%';
+    document.getElementById('totop').classList.toggle('show', h.scrollTop > 600);
+  });
+</script>
+
+<!-- =========================================
+     CONTENT PROTECTION LAYER
+     ========================================= -->
+
+<style>
+/* Disable text selection */
+body{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+/* Allow input/search boxes */
+input, textarea, select{
+    -webkit-user-select:text !important;
+    -moz-user-select:text !important;
+    -ms-user-select:text !important;
+    user-select:text !important;
+}
+
+/* DevTools Warning Overlay */
+#security-overlay{
+    position:fixed;
+    inset:0;
+    background:#000;
+    color:#fff;
+    z-index:999999999;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+    font-family:Arial,sans-serif;
+}
+
+#security-overlay h1{
+    color:#ff6600;
+}
+
+/* Print protection */
+@media print{
+
+    body *{
+        display:none !important;
+    }
+
+    body::before{
+        content:"Printing of this content is prohibited. © All Rights Reserved.";
+        display:block !important;
+        font-size:24px;
+        padding:50px;
+        text-align:center;
+    }
+}
+</style>
+
+<div id="security-overlay">
+    <div>
+        <h1>ACCESS RESTRICTED</h1>
+        <p>
+            Developer tools detected.<br>
+            This content is protected by copyright.
+        </p>
+    </div>
+</div>
+
+<script>
+(function(){
+
+/* Right Click Block */
+document.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+});
+
+/* Copy/Cut/Paste/Drag */
+['copy','cut','dragstart'].forEach(function(evt){
+    document.addEventListener(evt,function(e){
+        e.preventDefault();
+    });
+});
+
+/* Keyboard Protection */
+document.addEventListener('keydown',function(e){
+
+    const key = e.key.toLowerCase();
+
+    if(
+        key === 'f12' ||
+
+        (e.ctrlKey && ['u','s','p','a','c'].includes(key)) ||
+
+        (e.metaKey && ['u','s','p','a','c'].includes(key)) ||
+
+        (e.ctrlKey && e.shiftKey &&
+            ['i','j','c'].includes(key)) ||
+
+        (e.metaKey && e.shiftKey &&
+            ['i','j','c'].includes(key))
+    ){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+});
+
+/* DevTools Detection */
+const overlay = document.getElementById('security-overlay');
+
+setInterval(function(){
+
+    let threshold = 160;
+
+    if(
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold
+    ){
+        overlay.style.display='flex';
+    }else{
+        overlay.style.display='none';
+    }
+
+},1000);
+
+/* Anti iframe Embedding */
+if(window.self !== window.top){
+
+    document.documentElement.innerHTML='';
+
+    document.body.innerHTML='';
+
+    document.body.style.display='none';
+
+    throw new Error("Embedding blocked");
+}
+
+/* Reader Mode Deterrence */
+document.querySelectorAll('article').forEach(function(el){
+    el.setAttribute('data-protected','true');
+});
+
+/* Disable text selection by mouse */
+document.addEventListener('selectstart',function(e){
+
+    if(
+        !e.target.closest('input, textarea')
+    ){
+        e.preventDefault();
+    }
+
+});
+
+/* Disable double click selection */
+document.addEventListener('dblclick',function(e){
+    e.preventDefault();
+});
+
+})();
+</script>
+  <script>
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+document.addEventListener("copy",e=>e.preventDefault());
+
+document.addEventListener("cut",e=>e.preventDefault());
+
+document.addEventListener("dragstart",e=>e.preventDefault());
+
+document.addEventListener("keydown",function(e){
+
+let k=e.key.toLowerCase();
+
+if(
+k==="f12" ||
+(e.ctrlKey && ["u","s","p","a","c"].includes(k)) ||
+(e.ctrlKey && e.shiftKey && ["i","j","c"].includes(k))
+){
+e.preventDefault();
+}
+});
+
+if(window.self!==window.top){
+document.body.innerHTML="";
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.copyright-box{
+    font-family:'Poppins',sans-serif;
+    max-width:900px;
+    margin:40px auto;
+    padding:40px;
+    border-radius:24px;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#0f172a);
+    position:relative;
+    overflow:hidden;
+    color:#fff;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.copyright-box::before{
+    content:'';
+    position:absolute;
+    width:250px;
+    height:250px;
+    background:rgba(59,130,246,.25);
+    border-radius:50%;
+    top:-120px;
+    right:-80px;
+    filter:blur(60px);
+}
+
+.copyright-box::after{
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:rgba(168,85,247,.25);
+    border-radius:50%;
+    bottom:-120px;
+    left:-80px;
+    filter:blur(60px);
+}
+
+.copyright-content{
+    position:relative;
+    z-index:2;
+}
+
+.copyright-content h3{
+    font-size:2rem;
+    margin-bottom:15px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.copyright-content p{
+    max-width:650px;
+    margin:auto;
+    line-height:1.8;
+    color:#dbeafe;
+    font-size:1rem;
+}
+
+.company-info{
+    margin-top:30px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:18px;
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(12px);
+    transition:.4s ease;
+}
+
+.company-info:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(59,130,246,.25);
+}
+
+.company-info h4{
+    margin:0;
+    font-size:1.4rem;
+    color:#60a5fa;
+}
+
+.company-info span{
+    display:block;
+    margin-top:10px;
+    font-size:1.1rem;
+    font-weight:600;
+}
+
+.company-info small{
+    display:block;
+    margin-top:5px;
+    color:#cbd5e1;
+    letter-spacing:1px;
+}
+
+.glow-line{
+    width:120px;
+    height:4px;
+    margin:25px auto 0;
+    border-radius:50px;
+    background:linear-gradient(90deg,#3b82f6,#a855f7,#06b6d4);
+    animation:glow 3s infinite linear;
+}
+
+@keyframes glow{
+    0%{filter:brightness(1);}
+    50%{filter:brightness(1.8);}
+    100%{filter:brightness(1);}
+}
+</style>
+ <footer class="arya-footer">
+
+    <div class="mantra mantra1">कृण्वन्तो विश्वमार्यम्</div>
+    <div class="mantra mantra2">ओ३म्</div>
+    <div class="mantra mantra3">सत्यं वद । धर्मं चर ।</div>
+
+    <div class="fire-container">
+        <div class="flame flame1"></div>
+        <div class="flame flame2"></div>
+        <div class="flame flame3"></div>
+    </div>
+
+    <div class="glass-card">
+
+        <div class="om-symbol">ओ३म्</div>
+
+        <h2>आर्य समाज</h2>
+
+        <div class="vedic-line"></div>
+
+        <p class="motto">
+            कृण्वन्तो विश्वमार्यम्
+        </p>
+
+        <p class="copyright">
+            © 2026 All Rights Reserved<br>
+            All Copyrights Preserved.
+        </p>
+
+        <div class="separator"></div>
+
+        <p class="company">
+            Developed & Maintained By
+            <span>Death Note IT Solutions</span>
+        </p>
+
+        <p class="founder">
+            Ashim Datta<br>
+            Founder & CEO
+        </p>
+
+        <p class="dedication">
+            Dedicated to the propagation of Vedic Truth,
+            Rational Spirituality and Universal Brotherhood
+            as envisioned by Maharshi Dayanand Saraswati.
+        </p>
+
+    </div>
+
+</footer>
+
+<style>
+
+/* ===== AUTO THEME ===== */
+
+:root{
+    --bg:#fff8ef;
+    --card:rgba(255,255,255,.35);
+    --text:#111827;
+    --accent:#ff6a00;
+    --accent2:#ffb300;
+}
+
+@media (prefers-color-scheme: dark){
+
+:root{
+    --bg:#080808;
+    --card:rgba(255,255,255,.08);
+    --text:#f8fafc;
+    --accent:#ff7a00;
+    --accent2:#ffbf00;
+}
+
+}
+
+.arya-footer{
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+    135deg,
+    var(--bg),
+    rgba(255,153,0,.08));
+
+    padding:90px 20px;
+
+    text-align:center;
+
+    color:var(--text);
+
+    border-top:4px solid var(--accent);
+
+    font-family:
+    "Noto Serif",
+    serif;
+}
+
+/* ===== GLASS CARD ===== */
+
+.glass-card{
+
+    max-width:850px;
+
+    margin:auto;
+
+    backdrop-filter:blur(18px);
+background:var(--card);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    border-radius:28px;
+
+    padding:50px 30px;
+
+    box-shadow:
+    0 8px 32px rgba(0,0,0,.15);
+
+    position:relative;
+
+    z-index:10;
+}
+
+/* ===== OM ===== */
+
+.om-symbol{
+
+    font-size:5rem;
+
+    color:var(--accent);
+
+    animation:
+    glow 3s infinite ease-in-out;
+
+    cursor:pointer;
+}
+
+@keyframes glow{
+
+0%,100%{
+transform:scale(1);
+text-shadow:0 0 10px #ff9900;
+}
+
+50%{
+transform:scale(1.08);
+text-shadow:
+0 0 25px #ff9900,
+0 0 45px #ffcc00;
+}
+
+}
+
+/* ===== FIRE ===== */
+
+.fire-container{
+
+position:absolute;
+
+left:50%;
+
+bottom:30px;
+
+transform:translateX(-50%);
+
+width:150px;
+
+height:140px;
+
+z-index:2;
+}
+
+.flame{
+
+position:absolute;
+
+bottom:0;
+
+border-radius:50% 50% 20% 20%;
+
+animation:flicker 2s infinite;
+}
+
+.flame1{
+width:60px;
+height:110px;
+background:#ff4500;
+left:45px;
+}
+
+.flame2{
+width:40px;
+height:80px;
+background:#ffae00;
+left:25px;
+animation-delay:.3s;
+}
+
+.flame3{
+width:40px;
+height:80px;
+background:#ffd000;
+left:85px;
+animation-delay:.6s;
+}
+
+@keyframes flicker{
+
+0%,100%{
+transform:scaleY(1);
+}
+
+50%{
+transform:scaleY(1.25)
+rotate(3deg);
+}
+
+}
+
+/* ===== FLOATING MANTRAS ===== */
+
+.mantra{
+
+position:absolute;
+
+font-size:.95rem;
+
+opacity:.12;
+
+font-weight:bold;
+
+animation:float 15s linear infinite;
+
+pointer-events:none;
+}
+
+.mantra1{
+top:15%;
+left:5%;
+}
+
+.mantra2{
+top:30%;
+right:8%;
+}
+
+.mantra3{
+bottom:25%;
+left:10%;
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-25px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+/* ===== TEXT ===== */
+
+h2{
+
+color:var(--accent);
+
+letter-spacing:2px;
+
+margin-top:10px;
+}
+
+.vedic-line{
+
+width:140px;
+
+height:3px;
+
+background:linear-gradient(
+to right,
+transparent,
+var(--accent),
+transparent);
+
+margin:20px auto;
+}
+
+.motto{
+
+font-size:1.2rem;
+
+font-weight:bold;
+
+color:var(--accent);
+}
+
+.copyright{
+
+margin-top:25px;
+
+line-height:1.9;
+}
+
+.separator{
+
+width:100px;
+
+height:1px;
+
+background:var(--accent);
+
+margin:25px auto;
+}
+
+.company span{
+
+font-weight:700;
+
+color:var(--accent);
+}
+
+.founder{
+
+margin-top:12px;
+
+font-weight:600;
+}
+
+.dedication{
+
+margin-top:25px;
+
+font-style:italic;
+
+opacity:.85;
+
+max-width:650px;
+
+margin-left:auto;
+margin-right:auto;
+}
+
+@media(max-width:768px){
+
+.om-symbol{
+font-size:3.8rem;
+}
+
+.glass-card{
+padding:35px 20px;
+}
+
+.motto{
+font-size:1rem;
+}
+
+}
+
+</style>
+
+</body>
+</html>

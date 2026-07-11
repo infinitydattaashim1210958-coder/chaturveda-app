@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>আর্য্যদের আদি দেশ — স্বামী বিদ্যানন্দ সরস্বতী</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Tiro+Bangla&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Palette grounded in the book's own rhetorical structure:
+   claim (colonial allegation) vs counter-claim (Vedic rebuttal)
+   ============================================================ */
+:root{
+  --ink:        #0E0E12;   /* base background, near-black indigo */
+  --ink-soft:   #16161D;   /* panel background */
+  --ink-raised: #1D1D26;   /* card background */
+  --line:       #2B2B36;   /* hairline borders */
+  --parchment:  #C9A66B;   /* aged sandstone — citations, gold accents */
+  --parchment-dim: #8B7449;
+  --bone:       #E9E3D4;   /* primary text on dark */
+  --bone-dim:   #A8A398;   /* secondary text */
+  --claim-red:  #8B3A3A;   /* colonial-era claim / allegation */
+  --claim-red-bg: rgba(139,58,58,0.10);
+  --claim-red-line: rgba(139,58,58,0.45);
+  --rebut-green:#7A8450;   /* Vedic rebuttal / counter-evidence */
+  --rebut-green-bg: rgba(122,132,80,0.10);
+  --rebut-green-line: rgba(122,132,80,0.45);
+
+  --serif-bn:   'Noto Serif Bengali', 'Tiro Bangla', serif;
+  --mantra-bn:  'Tiro Bangla', 'Noto Serif Bengali', serif;
+  --serif-en:   'Spectral', serif;
+  --mono:       'JetBrains Mono', monospace;
+
+  --max-w: 760px;
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--serif-bn);
+  line-height: 1.85;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+::selection{ background: var(--parchment); color: var(--ink); }
+
+a{ color: var(--parchment); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+:focus-visible{
+  outline: 2px solid var(--parchment);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* texture: faint root-vein background, very subtle */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 8%, rgba(201,166,107,0.05), transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(122,132,80,0.04), transparent 40%);
+}
+
+/* ============================================================
+   LAYOUT SHELL
+   ============================================================ */
+.shell{
+  display: block;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 921px){
+  .shell{
+    display: grid;
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+/* ============================================================
+   SIDEBAR
+   Mobile-first: off-canvas fixed panel by default, hidden via
+   transform. Promoted to a sticky inline column only at desktop
+   widths. Written this way so it degrades safely even if this
+   page is embedded inside another site's wrapper (e.g. a blog
+   platform) that might not pass through host viewport sizing.
+   ============================================================ */
+.sidebar{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: 78vw;
+  max-width: 320px;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--ink-soft);
+  border-left: 1px solid var(--line);
+  padding: 28px 22px 40px;
+  z-index: 999;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+}
+.sidebar.open{ transform: translateX(0); }
+.sidebar::-webkit-scrollbar{ width: 6px; }
+.sidebar::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 3px; }
+
+@media (min-width: 921px){
+  .sidebar{
+    position: sticky;
+    top: 0;
+    left: auto;
+    right: auto;
+    width: auto;
+    max-width: none;
+    border-left: none;
+    border-right: 1px solid var(--line);
+    transform: none;
+    box-shadow: none;
+    z-index: 20;
+  }
+}
+
+.sidebar-brand{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.sidebar-brand svg{ width: 30px; height: 30px; flex-shrink:0; }
+.sidebar-brand-text{
+  font-family: var(--serif-en);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--bone-dim);
+  text-transform: uppercase;
+}
+.sidebar-brand-text strong{
+  display:block;
+  font-family: var(--serif-bn);
+  font-size: 16px;
+  color: var(--parchment);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.search-box{
+  position: relative;
+  margin-bottom: 22px;
+}
+.search-box input{
+  width: 100%;
+  background: var(--ink-raised);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  padding: 10px 14px 10px 36px;
+  border-radius: 8px;
+  font-family: var(--serif-bn);
+  font-size: 14.5px;
+}
+.search-box input::placeholder{ color: var(--bone-dim); }
+.search-box input:focus{ outline: none; border-color: var(--parchment-dim); }
+.search-box svg{
+  position: absolute;
+  left: 11px; top: 50%;
+  transform: translateY(-50%);
+  width: 15px; height: 15px;
+  stroke: var(--bone-dim);
+  pointer-events: none;
+}
+#search-count{
+  font-size: 12px;
+  color: var(--bone-dim);
+  margin-top: 6px;
+  font-family: var(--serif-en);
+  min-height: 14px;
+}
+#search-count.has-results{ color: var(--parchment); }
+
+.nav-label{
+  font-family: var(--serif-en);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin: 18px 0 8px;
+  opacity: 0.7;
+}
+.nav-list{ list-style:none; margin:0; padding:0; }
+.nav-list li{ margin-bottom: 2px; }
+.nav-list a{
+  display:block;
+  color: var(--bone-dim);
+  font-size: 14.5px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  text-decoration:none;
+  line-height: 1.5;
+}
+.nav-list a:hover{ background: var(--ink-raised); color: var(--bone); }
+.nav-list a.active{
+  background: var(--ink-raised);
+  color: var(--parchment);
+  border-left-color: var(--parchment);
+}
+.nav-list .sub{ padding-left: 18px; font-size: 13.5px; }
+
+.sidebar-foot{
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--serif-en);
+  font-size: 11.5px;
+  color: var(--bone-dim);
+  line-height: 1.6;
+}
+
+/* mobile toggle — visible by default (mobile-first), hidden at desktop width */
+.mobile-bar{
+  display:flex;
+  position: sticky;
+  top:0;
+  z-index: 30;
+  background: rgba(14,14,18,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 18px;
+  align-items:center;
+  justify-content: space-between;
+}
+.mobile-bar-title{
+  font-size: 14px;
+  color: var(--parchment);
+  font-weight: 600;
+}
+#nav-toggle{
+  background: var(--ink-raised);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.scrim{
+  display:none;
+  position: fixed; inset:0;
+  background: rgba(0,0,0,0.5);
+  z-index: 998;
+}
+.scrim.show{ display:block; }
+
+@media (min-width: 921px){
+  .mobile-bar{ display:none; }
+}
+
+/* ============================================================
+   MAIN COLUMN
+   ============================================================ */
+.main{ position: relative; z-index: 1; min-width: 0; }
+
+/* ---------- HERO ---------- */
+.hero{
+  position: relative;
+  padding: 88px 32px 64px;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 800px 420px at 50% -10%, rgba(201,166,107,0.10), transparent 60%);
+}
+.hero-inner{
+  max-width: var(--max-w);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.hero-svg-wrap{
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
+.hero-eyebrow{
+  font-family: var(--serif-en);
+  font-size: 12.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  margin-bottom: 16px;
+}
+.hero-title{
+  font-family: var(--serif-bn);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  line-height: 1.25;
+  color: var(--bone);
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+.hero-title em{
+  display:block;
+  font-style: normal;
+  color: var(--parchment);
+  font-size: 0.55em;
+  font-weight: 500;
+  margin-top: 10px;
+  letter-spacing: 0.01em;
+}
+.hero-sub{
+  font-family: var(--serif-bn);
+  font-size: 16.5px;
+  color: var(--bone-dim);
+  max-width: 520px;
+  margin: 0 auto 28px;
+  line-height: 1.8;
+}
+.hero-meta{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content:center;
+  margin-bottom: 8px;
+}
+.meta-chip{
+  font-family: var(--serif-en);
+  font-size: 12.5px;
+  color: var(--bone-dim);
+  border: 1px solid var(--line);
+  background: var(--ink-raised);
+  padding: 6px 13px;
+  border-radius: 999px;
+}
+.meta-chip strong{ color: var(--bone); font-weight: 500; }
+
+/* root-vein decorative line, animated draw-in */
+.root-path{
+  stroke: var(--parchment-dim);
+  stroke-width: 1.4;
+  fill: none;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: draw 2.6s ease-out forwards;
+  opacity: 0.85;
+}
+.root-path.alt{ stroke: var(--rebut-green); opacity: 0.55; animation-delay: .25s;}
+.root-path.alt2{ stroke: var(--claim-red); opacity: 0.4; animation-delay: .5s;}
+@keyframes draw{ to{ stroke-dashoffset: 0; } }
+.root-dot{
+  fill: var(--parchment);
+  animation: fadein 1s ease-out 2.2s forwards;
+  opacity:0;
+}
+@keyframes fadein{ to{ opacity:1; } }
+
+/* ---------- ARTICLE PROSE ---------- */
+.article{
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 56px 28px 120px;
+}
+
+.section{ margin-bottom: 56px; scroll-margin-top: 24px; }
+
+.section-title{
+  font-family: var(--serif-bn);
+  font-weight: 700;
+  font-size: 1.55rem;
+  color: var(--parchment);
+  margin: 0 0 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.section-title .num{
+  font-family: var(--serif-en);
+  font-size: 0.85rem;
+  color: var(--bone-dim);
+  font-weight: 400;
+}
+
+p.prose{
+  margin: 0 0 22px;
+  color: var(--bone);
+  font-size: 1.02rem;
+  line-height: 1.95;
+  text-align: justify;
+  hyphens: auto;
+}
+p.prose:first-of-type::first-letter{
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--parchment);
+  float: left;
+  line-height: 0.85;
+  padding-right: 8px;
+  padding-top: 4px;
+}
+
+p.center{ text-align:center; }
+p.tight{ margin-bottom: 6px; }
+
+strong{ color: var(--parchment); font-weight: 600; }
+
+mark.hl{
+  background: rgba(201,166,107,0.35);
+  color: var(--bone);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* ---------- MANTRA / SLOKA BLOCK ---------- */
+.mantra{
+  position: relative;
+  background: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--parchment);
+  border-radius: 6px;
+  padding: 22px 24px 20px;
+  margin: 26px 0;
+}
+.mantra-text{
+  font-family: var(--mantra-bn);
+  font-size: 1.12rem;
+  line-height: 2.05;
+  color: var(--parchment);
+  text-align: center;
+  margin: 0;
+}
+.mantra-cite{
+  display:block;
+  text-align: right;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--bone-dim);
+  margin-top: 12px;
+}
+
+/* ---------- ENGLISH SOURCE QUOTE ---------- */
+blockquote.src{
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--bone-dim);
+  background: var(--ink-raised);
+  border-left: 3px solid var(--line);
+  border-radius: 6px;
+  margin: 22px 0;
+  padding: 16px 20px;
+}
+blockquote.src cite{
+  display:block;
+  margin-top: 10px;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--parchment-dim);
+}
+
+/* ---------- DEBATE-STAGE: signature component ----------
+   Encodes the book's own argumentative structure:
+   colonial CLAIM (left, red) vs Vedic REBUTTAL (right, green)
+   ----------------------------------------------------------- */
+.debate{
+  display: grid;
+  gap: 2px;
+  margin: 30px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.debate-row{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--line);
+}
+@media (min-width: 680px){
+  .debate-row.two-col{ grid-template-columns: 1fr 1fr; }
+}
+.debate-cell{
+  background: var(--ink-soft);
+  padding: 18px 20px;
+  position: relative;
+}
+.debate-cell.claim{
+  background: var(--claim-red-bg);
+  border-top: 2px solid var(--claim-red-line);
+}
+.debate-cell.rebut{
+  background: var(--rebut-green-bg);
+  border-top: 2px solid var(--rebut-green-line);
+}
+.debate-label{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-family: var(--serif-en);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.debate-label.claim{ color: #C97B7B; }
+.debate-label.rebut{ color: #A6B07E; }
+.debate-label svg{ width:13px; height:13px; }
+.debate-cell p{
+  font-family: var(--serif-bn);
+  font-size: 0.97rem;
+  line-height: 1.8;
+  color: var(--bone);
+  margin: 0;
+  text-align: left;
+}
+.debate-cell .en{
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--bone-dim);
+  margin-top: 8px;
+}
+
+/* ---------- footnote ---------- */
+.footnote{
+  font-family: var(--serif-en);
+  font-size: 0.85rem;
+  color: var(--bone-dim);
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+  margin: 18px 0 26px;
+}
+.footnote .fn-num{ color: var(--parchment-dim); margin-right: 4px; }
+
+/* ---------- divider ---------- */
+.ornament{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 14px;
+  margin: 48px 0;
+  color: var(--line);
+}
+.ornament span{ flex:1; height:1px; background: var(--line); }
+.ornament svg{ width:18px; height:18px; flex-shrink:0; color: var(--parchment-dim); }
+
+/* ---------- title / colophon card ---------- */
+.colophon{
+  background: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px 26px;
+  margin: 0 0 8px;
+  text-align: center;
+}
+.colophon-title{
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--parchment);
+  margin: 0 0 4px;
+}
+.colophon-sub{ color: var(--bone-dim); font-size: 0.95rem; margin: 2px 0; }
+.colophon-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 22px;
+  text-align: left;
+  font-size: 0.88rem;
+}
+@media (max-width: 480px){ .colophon-grid{ grid-template-columns: 1fr; } }
+.colophon-grid dt{
+  font-family: var(--serif-en);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-bottom: 2px;
+}
+.colophon-grid dd{ margin: 0 0 10px; color: var(--bone); }
+
+/* ---------- author bio card ---------- */
+.bio-card{
+  display:flex;
+  gap: 18px;
+  background: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 18px;
+}
+.bio-avatar{
+  flex-shrink:0;
+  width: 56px; height:56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--parchment-dim), var(--rebut-green));
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--serif-bn);
+  font-weight:700;
+  color: var(--ink);
+  font-size: 1.3rem;
+}
+.bio-name{ font-weight:600; color: var(--parchment); margin-bottom: 4px; font-size: 1.02rem; }
+.bio-role{ font-family: var(--serif-en); font-size:12px; color: var(--bone-dim); margin-bottom: 10px; letter-spacing:0.03em;}
+.bio-card p{ margin:0; font-size: 0.93rem; color: var(--bone-dim); line-height:1.75; text-align:left; }
+
+/* ---------- signature ---------- */
+.signature{
+  text-align: right;
+  font-style: italic;
+  color: var(--parchment-dim);
+  margin: -8px 0 24px;
+  font-size: 0.95rem;
+}
+
+/* ---------- footer ---------- */
+.site-footer{
+  border-top: 1px solid var(--line);
+  padding: 40px 28px 60px;
+  text-align:center;
+  color: var(--bone-dim);
+  font-family: var(--serif-en);
+  font-size: 12.5px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.site-footer .om{ font-size: 1.4rem; color: var(--parchment-dim); margin-bottom: 10px; }
+
+/* ---------- back to top ---------- */
+#to-top{
+  position: fixed;
+  bottom: 26px; right: 26px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--ink-raised);
+  border: 1px solid var(--line);
+  color: var(--parchment);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 25;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+#to-top.show{ opacity:1; pointer-events:auto; }
+#to-top:hover{ transform: translateY(-3px); }
+
+/* ---------- progress bar ---------- */
+#progress{
+  position: fixed;
+  top:0; left:0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--rebut-green), var(--parchment), var(--claim-red));
+  width:0%;
+  z-index: 40;
+  transition: width 0.1s;
+}
+
+/* ---------- search highlight + protection ---------- */
+.search-hidden{ display:none !important; }
+mark.search-match{ background: var(--parchment); color: var(--ink); border-radius:2px; padding:0 1px; }
+
+body{
+  -webkit-touch-callout: none;
+}
+.article, .hero{
+  -webkit-user-select: text;
+  user-select: text;
+}
+.no-select{ -webkit-user-select:none; user-select:none; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div class="mobile-bar">
+  <span class="mobile-bar-title">আর্য্যদের আদি দেশ</span>
+  <button id="nav-toggle" aria-label="মেনু খুলুন">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="shell">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <svg viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="#C9A66B" stroke-width="1.4"/>
+        <path d="M20 8 L20 22 M20 22 L13 32 M20 22 L27 32 M20 22 L20 33" stroke="#C9A66B" stroke-width="1.3" fill="none"/>
+        <circle cx="20" cy="8" r="2.4" fill="#C9A66B"/>
+      </svg>
+      <div class="sidebar-brand-text">monograph · ১৯৮৭<strong>আর্য্যদের আদি দেশ</strong></div>
+    </div>
+
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="search-input" placeholder="লেখায় খুঁজুন…" autocomplete="off">
+      <div id="search-count"></div>
+    </div>
+
+    <div class="nav-label">সূচনা</div>
+    <ul class="nav-list">
+      <li><a href="#title-page" data-nav>শিরোনাম পত্র</a></li>
+      <li><a href="#author" data-nav>গ্রন্থকার পরিচয়</a></li>
+      <li><a href="#translator-note" data-nav>অনুবাদকের প্রতিবেদন</a></li>
+      <li><a href="#preface" data-nav>আর্য্যা আর্য্যাবর্ত্তীয়াঃ</a></li>
+    </ul>
+
+    <div class="nav-label">মূল প্রবন্ধ</div>
+    <ul class="nav-list">
+      <li><a href="#main-essay" data-nav>আর্য্যদের আদি দেশ</a></li>
+      <li><a href="#colonial-design" data-nav class="sub">ইংরেজ শাসনের কূটনীতি</a></li>
+      <li><a href="#max-muller" data-nav class="sub">ম্যাক্সমূলার ও মিশনারি প্রয়াস</a></li>
+      <li><a href="#tilak" data-nav class="sub">লোকমান্য তিলকের মত</a></li>
+      <li><a href="#vedey-itihas" data-nav>বেদে ইতিহাস</a></li>
+      <li><a href="#geographic" data-nav class="sub">ভৌগোলিক সংকেত বিচার</a></li>
+      <li><a href="#mohenjodaro" data-nav class="sub">মহেঞ্জোদাড়ো ও হরপ্পা</a></li>
+      <li><a href="#indian-scholars" data-nav class="sub">ভারতীয় বিদ্বানদের সাক্ষ্য</a></li>
+      <li><a href="#arya-dasyu" data-nav>আর্য্য ও দস্যু</a></li>
+      <li><a href="#arya-usage" data-nav>বৈদিক বাঙ্‌ময়ে 'আর্য্য' শব্দের প্রয়োগ</a></li>
+      <li><a href="#dasyu-usage" data-nav>দস্যু শব্দের প্রয়োগ</a></li>
+    </ul>
+
+    <div class="sidebar-foot">
+      স্বামী বিদ্যানন্দ সরস্বতী প্রণীত · আচার্য্য প্রিয়দর্শন অনুবাদিত<br>
+      বিচার প্রকাশন, কলিকাতা
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main" id="main-content">
+
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-svg-wrap">
+          <svg viewBox="0 0 520 220" width="100%" height="auto">
+            <!-- central trunk -->
+            <path class="root-path" d="M260 14 L260 90" />
+            <!-- root system spreading downward & outward: indigeneity motif -->
+            <path class="root-path" d="M260 90 C 230 110, 210 110, 170 140 C 140 162, 110 168, 70 190" />
+            <path class="root-path alt" d="M260 90 C 290 110, 310 110, 350 140 C 380 162, 410 168, 450 190" />
+            <path class="root-path alt2" d="M260 90 C 245 120, 230 150, 215 200" />
+            <path class="root-path alt2" d="M260 90 C 275 120, 290 150, 305 200" />
+            <path class="root-path" d="M260 90 C 260 130, 260 165, 260 205" />
+            <path class="root-path alt" d="M170 140 C 150 152, 130 158, 105 172" />
+            <path class="root-path alt2" d="M350 140 C 370 152, 390 158, 415 172" />
+            <circle class="root-dot" cx="260" cy="14" r="5"/>
+            <circle class="root-dot" cx="70" cy="190" r="2.6"/>
+            <circle class="root-dot" cx="450" cy="190" r="2.6"/>
+            <circle class="root-dot" cx="215" cy="200" r="2.2"/>
+            <circle class="root-dot" cx="305" cy="200" r="2.2"/>
+            <circle class="root-dot" cx="260" cy="205" r="2.6"/>
+          </svg>
+        </div>
+
+        <div class="hero-eyebrow">ভারতের আদি ইতিহাস বিচার</div>
+        <h1 class="hero-title">আর্য্যদের আদি দেশ<em>একটি ঐতিহাসিক ও বৈদিক বিচার</em></h1>
+        <p class="hero-sub">
+          আর্য্য আক্রমণ তত্ত্বের ইতিহাস-পুনর্বিচার — বেদ, পুরাতত্ত্ব ও সমকালীন সাক্ষ্যের আলোকে রচিত একটি প্রামাণ্য প্রবন্ধ।
+        </p>
+        <div class="hero-meta">
+          <span class="meta-chip">রচয়িতা — <strong>স্বামী বিদ্যানন্দ সরস্বতী</strong></span>
+          <span class="meta-chip">অনুবাদ — <strong>আচার্য্য প্রিয়দর্শন</strong></span>
+          <span class="meta-chip">প্রথম প্রকাশ — <strong>১৩৯৪ বঙ্গাব্দ / ১৯৮৭</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <article class="article" id="article-root">
+
+      <!-- ============ TITLE PAGE ============ -->
+      <section class="section" id="title-page">
+        <div class="colophon">
+          <p class="colophon-title">আর্য্যদের আদি দেশ</p>
+          <p class="colophon-sub">স্বামী বিদ্যানন্দ সরস্বতী প্রণীত</p>
+          <p class="colophon-sub">বিচার প্রকাশন</p>
+          <p class="colophon-sub">১৯, বালিগঞ্জ সারক্যুলর রোড</p>
+          <p class="colophon-sub">কলিকাতা-১৯</p>
+
+          <dl class="colophon-grid">
+            <div>
+              <dt>প্রকাশক</dt>
+              <dd>বিচার প্রকাশন</dd>
+              <dt>অনুবাদক</dt>
+              <dd>আচার্য্য প্রিয়দর্শন<br>আর্য্য সমাজ কলিকাতা</dd>
+            </div>
+            <div>
+              <dt>প্রথমাবৃত্তি</dt>
+              <dd>১৩৯৪ বঙ্গাব্দ<br>২০০০০: ১৯৮৭ খৃষ্টাব্দ</dd>
+              <dt>মূল্য</dt>
+              <dd>দুই টাকা</dd>
+            </div>
+          </dl>
+
+          <dl class="colophon-grid">
+            <div>
+              <dt>মুদ্রক</dt>
+              <dd>প্রতাপরঞ্জন রায়<br>রামকৃষ্ণ প্রেস</dd>
+            </div>
+            <div>
+              <dt>মুদ্রণস্থান</dt>
+              <dd>১৭, রামধন মিত্র লেন,<br>কলিকাতা-৭০০০০৪</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <div class="ornament"><span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span></span></div>
+
+      <!-- ============ AUTHOR ============ -->
+      <section class="section" id="author">
+        <h2 class="section-title">গ্রন্থকার পরিচয়</h2>
+        <div class="bio-card">
+          <div class="bio-avatar">বি</div>
+          <div>
+            <div class="bio-name">স্বামী বিদ্যানন্দ সরস্বতী</div>
+            <div class="bio-role">বৈদিক সিদ্ধান্তের মর্মজ্ঞ বিদ্বান · যশস্বী লেখক · কুশল প্রবক্তা</div>
+          </div>
+        </div>
+        <p class="prose">স্বামী বিদ্যানন্দ সরস্বতী বৈদিক সিদ্ধান্তের মর্মজ্ঞ বিদ্বান, যশস্বী লেখক এবং কুশল প্রবক্তা। সংস্কৃত বাঙ্ময়, বৈদিক, জৈন, তথা বৌদ্ধ আচাৰ্য্য কর্তৃক প্রতিষ্ঠিত সূত্রাত্মক দর্শন শাস্ত্রের পরষ্পরাগত ধারাবাহিকতার প্রতিনিধিত্ব করিবার শ্রেয় স্বামী বিদ্যানন্দ সরস্বতী মহারাজের প্রাপ্য। তাঁহার বিষয় প্রতিপাদন করিবার নিজস্ব ধারা ও বৈশিষ্ট্য আছে। পূর্বাশ্রমের প্রিন্সিপল শ্রীলক্ষ্মী দত্ত দিক্ষীত, বর্তমানে প্রখ্যাত স্বামী বিদ্যানন্দজী মহারাজ, পঞ্চাশৎ বর্ষকাল পর্যন্ত শিক্ষাক্ষেত্রে অধ্যাপনায় কাটাইয়াছেন, বিংশ বর্ষকাল তিনি ডিগ্রী তথা পোস্ট গ্র্যাজুয়েট কলেজের আচাৰ্য্য পদ অলঙ্কত করিয়া সগৌরবে উক্ত পদে প্রতিষ্ঠিত ছিলেন। তাঁহার যোগ্যতা এবং সেবার পরিপ্রেক্ষিতে ভারতের রাষ্ট্রপতি তাঁহাকে পাজার বিশ্ববিদ্যালয়ের প্রতিষ্ঠিত সদস্যরূপে মনোনীত করিয়াছিলেন। স্বামীজী মহারাজ কিছুকাল গুরুকুল বিশ্ববিদ্যালয় বৃন্দাবনের আচার্য্য পদও অলংকৃত করিয়াছিলেন। এতদ্ব্যতীত তিনি কয়েক বৎসর পর্য্যন্ত গুরুকূল কাংড়ী বিশ্ববিদ্যালয়ের বিদ্যাসভা তথা অন্যান্য উচ্চ পর্যায়ের সমিতি প্রভৃতির সদস্য ছিলেন।</p>
+        <p class="prose">পাঞ্জাব, হরিয়ানা এবং দিল্লীর বহু সামাজিক, সাংস্কৃতিক শৈক্ষণিক তথা সেবামূলক সান্তা সমূয়ের সহিত তাঁহার নিবীড় সম্বন্ধ ছিল। বর্তমানে তিনি মডেল টাউন (ডা., ১৪/১৬) দিল্লীতে নিবাস করিতেছেন।</p>
+        <p class="signature">— গজানন্দ আর্য</p>
+      </section>
+
+      <div class="ornament"><span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span></span></div>
+
+      <!-- ============ TRANSLATOR'S NOTE ============ -->
+      <section class="section" id="translator-note">
+        <h2 class="section-title">অনুবাদকের প্রতিবেদন</h2>
+        <p class="prose">❝আর্য্যদের আদি দেশ❞ গ্রন্থটির অত্যন্ত প্রয়োজন ছিল। স্বামী বিদ্যানন্দ সরস্বতী মহারাজ উপযুক্ত সময়ে গ্রন্থটি প্রকাশ করে সমাজের অশেষ কল্যাণ করেছেন। এই তথ্যবহুল গ্রন্থটি আকারে ক্ষুদ্র হলেও আর্য্যদের উপযোগী।</p>
+        <p class="prose">স্বামিজী মহারাজের ইচ্ছা ছিল গ্রন্থটির বঙ্গ ভাষায় অনূদিত হয়ে বঙ্গের সর্বত্র প্রচারিত হোক। কেননা মূল গ্রন্থটি ❝ভাষায়❞ লিখিত। স্বামিজীর এই আকাঙ্ক্ষাটিকে পূর্ণ করলেন, বেদ প্রচারররী শ্রীগজানন্দ আৰ্য্য। বঙ্গের আর্য্য নরনারী এজন্য চিরকৃতজ্ঞ থাকবে।</p>
+        <p class="signature">— আচার্য্য প্রিয়দর্শন</p>
+      </section>
+
+      <div class="ornament"><span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span></span></div>
+
+      <!-- ============ PREFACE: আর্য্যা আর্য্যাবর্ত্তীয়াঃ ============ -->
+      <section class="section" id="preface">
+        <h2 class="section-title">আর্য্যা আর্য্যাবর্ত্তীয়াঃ</h2>
+
+        <p class="prose">বেদে বর্ণিত আর্য ও দস্যু শব্দ গুণবাচক, ইহা জাতিবাচক নহে। পাশ্চাত্য বিদ্বান ব্যক্তিদের এই দুইটি শব্দের বাস্তবিক অর্থজ্ঞান জানা না থাকায় অথবা ইচ্ছাকৃত রূপে টায়ার ইহা প্রমাণ করিবার প্রয়াস করিয়াছেন যে, আর্য্য নামে অভিহিত মনুষ্যগণ ভারতের মূল নিবাসী নহে। ভারতের মূল নিবাসী, বা এই দেশের বাস্তবিক অধিকারী তাহারাই, আজকাল যাহাদের আদিবাসী বা অনগ্রসর জাতি নামে প্রচার করা হইতেছে। এতাদৃশ কল্পনা, আমাদের হেয় প্রতিপন্ন করিবার এবং নিজেদের মধ্যে কলহ বিবাদে লিপ্ত থাকিবার জন্য করা হইয়াছে। তাহারা বেদ মন্ত্র সমূহের কাল্পনিক অর্থ বাচার করিয়া বলিয়াছে যে, আর্য্যরা কেবল আদিবাসীদের সহিতই কলহ বিবাদ করিত না, তাহাদের নিজেদের মধ্যেও যুদ্ধ বিগ্রহ করিত। দাক্ষিণাত্যবাসীর মনে উত্তর ভারতীয়দের প্রতি ঘৃণা সৃষ্টি করিবার জন্য তাহারা ইহাও প্রমাণ করিবার প্রয়াস করিয়াছে যে, উত্তর ভারতীয় আর্য্যগণ বিদেশী আক্রমণকারী, তাহারা বহির্ভারত হইতে আসিয়া এদেশের মূল নিবাসীদের প্রতি বহুবিধ অত্যাচার ও নিপীড়নের সাহায্যে বিজয়ী হইয়া বলপূর্বক এদেশ অধিকার করিয়াছে।</p>
+
+        <p class="prose">পাশ্চাত্য বিদ্বান ব্যক্তিদের মতে আর্য্যরা ঋগ্বেদের ন্যায় মহান (এবং নির্বিবাদ রূপে বিশ্বের সর্ব প্রথম গ্রন্থ রচনা করিয়াছে। কিন্তু তাহারা তো নিজেদের মহান বিজয়ের বর্ণনা মহান গ্রন্থখানির কোথাও লিপিবদ্ধ করে নাই। যদি কবি রামায়ণে লঙ্কা বিজয়ের ঘটনা এবং মহাভারতে পাণ্ডবদের মহান বিজয়ের উল্লেখ করিতে পারে, তাহা হইলে বেদে তাহাদের উল্লেখ নাই কেন? ইহা দ্বারা স্পষ্ট প্রতীত হয় যে, আর্য্যরা বাহির হইতে আসে নাই এবং এদেশের তথাকথিত পূর্ব অধিবাসী দ্রাবিড়দেরও এদেশ হইতে বহিষ্কার করা হয় নাই। ইহা পাশ্চাত্যবাসীর এক কূটনৈতিক চাল ছাড়া আর কিছুই নহে।</p>
+
+        <p class="prose">বাস্তবিক পক্ষে ভারতের পবিত্র ভূমিতে সর্বপ্রথম আর্য্যদেরই পদার্পণ ঘটে, এবং আদি কাল হইতে অর্থাৎ ১৯৭২৯৪৯০৮৬ বৎসর হইতে এখানে তাহারা বসবাস করিয়া আসিতেছে। সত্য বলিতে কি, ইংরেজ-রাজত্বকে সুদৃঢ় এবং ভারতীয় সংস্কৃতির মূলচ্ছেদ তথ্য ইহাকে খৃষ্টান-মুসলমান প্রধান দেশে পরিণত করিবার ইহা একটি সুচিন্তিত চক্রান্ত মাত্র। আমরা আজও নিজেদের এই চক্রান্ত হইতে রক্ষা করিতে পারিতেছিনা। এই চক্রান্তের পরিণাম স্বরূপ প্রথমেই হিন্দু-মুসলমানদের মধ্যে উৎপন্ন বিদ্বেষের কারণে পাকিস্তানের জন্মলাভ, এবং আজ উত্তরে খালিস্তানের বিভীষিকা মূর্তমান, আর পূর্ব প্রান্তে ঈশাইস্লাম ও গোর্খাল্যান্ড প্রভৃতির সঙ্কট মাথার উপর আবর্তিত। অপর দিকে, অর্থাৎ দাক্ষিণাত্যে কথায় কথায় বিচ্ছিন্নতাবাদী চিন্তাধারা বিস্তৃতি লাভ করিতেছে।</p>
+
+        <p class="prose">এই সমস্ত নোংরা চিন্তাধারার মূলে আছে আর্য্যদের বিদেশী আক্রমণকারী বলিয়া মিথ্যা ও ঘৃণ্য প্রচার। এতাদৃশ চিন্তাধারাকে প্রবল রূপে প্রত্যাখ্যান করা প্রয়োজন। আমার অনুরোধে স্বামী বিজ্ঞানন্দ সরস্বতী মহারাজ বাস্তব রূপটি জনসমাজে তুলিয়া ধরিবার প্রয়াস করিয়াছেন। ইহার মূল্যাঙ্কন করা পাঠকবর্গের অধীন।</p>
+
+        <div class="colophon-grid" style="margin-top:28px; text-align:center;">
+          <div>
+            <dt>—</dt>
+            <dd>দয়ানন্দ মঠ<br>দীননগর (পাঞ্জাব)</dd>
+          </div>
+          <div>
+            <dt>—</dt>
+            <dd>সর্বানন্দ সরস্বতী<br>অধ্যক্ষ, বৈদিক যতি মণ্ডল</dd>
+          </div>
+        </div>
+      </section>
+
+      <div class="ornament">
+        <span></span>
+        <span style="flex:0; font-family:var(--mantra-bn); color:var(--parchment); font-size:1.3rem; letter-spacing:0.15em;">।। ওম্ ।।</span>
+        <span></span>
+      </div>
+
+      <!-- ============ MAIN ESSAY ============ -->
+      <section class="section" id="main-essay">
+        <h2 class="section-title">আর্য্যদের আদি দেশ</h2>
+
+        <p class="prose">আমরা অতীতকে ভিত্তি করিয়াই ভবিষ্যতের আশায় বাঁচিয়া থাকি। অতএব যদি কাহারও ভবিষ্যৎ নষ্ট করিতে হয়, তাহা হইলে তাহার অতীতকে মুছিয়া ফেলিতে পারিলে সেই কাজটি অনায়াসেই হইতে পারে। ইহাও সত্য যে, অতীতকে সর্বতোভাবে কিন্তু তাহার বাস্তবিক স্বরূপকে বিকৃত মুছিয়া ফেলাও সম্ভব নহে। আকারে উপস্থাপিত করিয়া তাহার প্রতি ঘৃণা উৎপন্ন করা সম্ভব। ভারতে ইংরেজদের আগমনের প্রয়োজন ছিল এ দেশের উপর রাজত্ব করা এবং খৃষ্টান মতের প্রচার ও প্রসার দ্বারা নিজেদের অস্তিত্বকে চিরস্থায়ী করা। ইহা করিতে হইলে এ দেশের নিবাসীদের মধ্যে বিভেদ সৃষ্টি করা প্রয়োজন। এই অভিসন্ধিকে মূর্ত করিবার জন্ম তাহারা এদেশের কতিপয় মূল নিবাসীর অবস্থিতির এবং বিদেশাগত এখানের (আদি) মূল নিবাসীদের প্রতি আক্রমণ ও তাহাদের পরাজিত করিয়া দেশ অধিকার করিবার ভাবনার জন্মদান করা আবশ্যক মনে করিল। ঐভাবে প্রচার করাও হইল। বিভেদের এই বীজরোপণ করিবার পরিণাম হইল—আজ আমাদের দেশের ছোট ছোট পাঠশালা হইতে আরম্ভ করিয়া বিশ্ববিজ্ঞালয় পর্য্যন্ত ইহাই পড়ান এবং শিক্ষা দেওয়া হইতেছে যে, এদেশের মূল নিবাসী— কোল, ভীল, সাঁওতাল, দ্রাবিড় আদি। কালান্তরে ইরান আদি দেশ হইতে কিছু (আৰ্য্য) মানুষ ভারতে আসিয়া এদেশের মূল নিবাসাদের হত্যা করিয়া, কিছু মানুষকে বন্দী করিয়া নিজেদের সেবায় দাস রূপে নিযুক্ত করিল। আর কিছু মানুষ ভয়ে ভীত হইয়া দক্ষিণে পলায়ন করিয়া সেখানে বসতি স্থাপন করিল।</p>
+
+        <p class="prose">এখানে আমি দিল্লীর স্কুল সমূহে ষষ্ঠ শ্রেণীর পাঠ্য— ❝প্রাচীন ভারত❞ নামক পুস্তকের কিছু অংশের উল্লেখ করিতেছি। পাঠ্য বিষয়বস্তুর শীর্ষক দেওয়া হইয়াছে, ❝বৈদিক যুগের জীবন❞। সেখানে উল্লেখ করা হইয়াছে,—</p>
+
+        <blockquote class="src">❝প্রথম প্রথম যখন আর্য্যরা ভারতে পদার্পণ করে, তখন তাহাদের এ দেশের পূর্ব নিবাসীদের সহিত যুদ্ধ করিতে হইয়াছিল। আর্য্যরা তাহাদের দস্যু বা দাস বলিত। আৰ্য্যরা ছিল গৌরবর্ণের আর দস্যুরা কৃষ্ণবর্ণের এবং থ্যাবড়া নাকের। দস্যুরা আর্য্যদের দেবতাদের পূজা করিত না। তাহারা যে ভাষায় কথাবার্তা বলিত, আৰ্য্যরা তাহা বুঝিত না। আর্য্যরা সংস্কৃত ভাষায় কথা বলিত। আর্য্যরা দস্যুদের যুদ্ধে পরাজিত করিয়া তাহাদের সহিত সহৃদয়তার ব্যবহার করিত না। তাহারা অনেক দস্যুদের দাস করিয়া রাখিত। দস্যুদের সকলকে আর্য্যদের সেবা করিতে হইত। তাহাদের সকলকে কঠোর ও নীচ কর্মও করিতে হইত।❞
+          <cite>— ❝প্রাচীন ভারত❞, ষষ্ঠ শ্রেণীর পাঠ্যপুস্তক, দিল্লী</cite>
+        </blockquote>
+
+        <p class="prose">বিভেদের এই বীজারোপণ কাৰ্য্য একদিকে যেরূপ উত্তর ও দক্ষিণে ভেদ সৃষ্টি করিয়াছিল, অপরদিকে সবর্ণ-অসবর্ণ, জন জাতি, অনুসূচিত জনজাতি, পরিগণিত জাতি আদি নাম দিয়া জনসাধারণের মধ্যে পরস্পর বিরোধ, ঘৃণা ও বিদ্বেষ বিস্তার লাভ করিতেছিল। আজ ভারতবর্ষের একতা বা অখণ্ডতা তথা উহার বহুবিধ সমস্যার সমাধানে সর্বাপেক্ষা মহান অন্তরায় হইল আর্য্যদের বিদেশী আখ্যায় আখ্যায়িত করিবার মিথ্যা প্রচার।</p>
+
+        <p class="prose">আশ্চর্য্য এবং পরিতাপের বিষয় এই যে, ভারতের স্বাধীনতার চল্লিশ বৎসর কাল অতীত হইলে কি হইবে, আমরা অদ্যাপি এই সমস্ত মিথ্যা অপবাদের বোঝা মাথায় লইয়া স্বাধীন ভারতে বাস করিতেছি। ইহার দুষ্পরিণাম আমাদের সম্মুখে নানারূপে আত্মপ্রকাশ করিতেছে। আজ আমাদের নামে প্রচার করা হইতেছে, ❝দুই শত বৎসর পূর্বে আগমনকারী ইংরেজরা যদি বিদেশী বা বহিরাগত হয়, তিন সহস্র বৎসর পূর্বে আগমনকারী আর্য্যরা কেন বিদেশী হইবে না? দেশকে সেইদিন স্বাধীন বলা হইবে, যেদিন ইংরেজদের ন্যায় আর্য্যরাও (অনুমান ৬০ কোটি) বহিরাগত আক্রমণকারী রূপে এই দেশ হইতে বহিষ্কৃত হইবে এবং দেশের শাসন ভার আদিবাসী নামক এই দেশের মূল নিবাসীর হাতে আসিবে।❞</p>
+
+        <p class="prose">মুসলমান ও খৃষ্টানদের পক্ষ হইতে প্রচার করা হইতেছে যে, এই দেশের নিবাসীদের মধ্য হইতে যাহারা মুসলমান ও খৃষ্টান হইয়াছে তাহাদের অধিকাংশই নীচ জাতি, অনুসূচিত-জাতি তথা জনজাতি, গিরিজন আদি জাতির। কেননা, এই সমস্ত শ্রেণীর মানুষই ভারতের মূল নিবাসী, অতএব যাহারা হিন্দু হইতে মুসলমান বা খৃষ্টান হইয়াছে তাহারাই এই দেশের প্রকৃত অধিকারী, অবশিষ্ট সকলে বিদেশী। ইংরেজ চলিয়া গিয়াছে, কিন্তু ভারতের প্রতি সর্বপ্রথম আক্রমণকারী আর্য্যদের সর্বপ্রথম বিতাড়িত করা উচিত। এই প্রসঙ্গে ❝Muslim India❞-র ২৭ মার্চ, ১৯৮৫ সংখ্যায় প্রকাশিত বক্তব্য দ্রষ্টব্য-</p>
+
+        <blockquote class="src">❝This land (India) belongs to those who are its original inhabitants and hence its rightful owners. It is they who built the Harappa and Mohenjodaro, the World's most ancient Civilisation Most of India's Muslims and Christians are converts from those sons of the soil. They are either Dalits or tribals. In all foreign invasions, it is these people who defended India. They (Aryans) don't belong to India and hence don't love India They are foreigners, the enemy within. As Aryans, they are also India's first foreigners. If Muslims and Christians are foreigners and must get out of India, as India's first foreigners, the Aryans are duty bound to get out first. Those who came first must leave first.❞
+          <cite>— Muslim India, ২৭ মার্চ, ১৯৮৫</cite>
+        </blockquote>
+
+        <p class="prose">৪ঠা সেপ্টেম্বর, ১৯৭৭ সালে সংসদে রাষ্ট্রপতি দ্বারা মনোনীত সদস্য ফ্রাঙ্ক এন্টনী দাবী জানাইয়া ছিলেন— Sanskrit should be deleted from the 8th schedule of the constitution becouse it is a foreign language brought to this Country by foreign invaders, the Aryans. (Indian Express, 5. 9. '77)। অর্থাৎ সংবিধানের অষ্টম পরিশিষ্টে পরিগণিত ভারতীয় ভাষা সমূহের তালিকা হইতে সংস্কৃত বহিষ্কার করা উচিত। কেননা, ইহা বিদেশী আক্রমণকারী আর্য্যদের দ্বারা আনীত হওয়ায় ইহা বিদেশী ভাষা। সন ১৯৭৮-এর প্রারম্ভে ভারতের প্রথম উপগ্রহ অন্তরিক্ষে প্রেরণ করা হয়। উপগ্রহটির নাম ভারতের প্রাচীন বৈজ্ঞানিক আর্য্যভট্টের নামানুসারে রাখা হইয়াছিল। এই উপলক্ষ্যে ২৩শে ফেব্রুয়ারী ১৯৭৮ সালে দ্রমুকের (দ্রবিড় মুনেত্র কষগম) প্রতিনিধি শ্রীলক্ষ্মণন রাজ্য সভায় দাবী জানাইয়াছিলেন যে, ভারতীয় উপগ্রহের নাম ❝আর্যভট্ট❞ তাবা উচিত ছিল না, কেননা, ইহা বিদেশী নাম। কয়েক বৎসর পূর্বে তামিলনাড়ুর সলেম নামক নগরে মর্য্যাদা পুরুষোত্তম রাম আর্য্য বলিয়া তাঁহার মূর্ত্তির গলায় জুতার হার পরাইয়া ঝাঁটা পেটা করিতে করিতে বাজারে শোভাযাত্রা বাহির করা হইয়াছিল।</p>
+
+        <p class="prose">ঋষি ক্রান্তদর্শী। সর্বপ্রথম ঋষি দয়ানন্দ এই ভ্রান্ত ধারণার বিরুদ্ধে উদ্ঘোষ করিয়াছিলেন, ❝ভারতীয় কোনও সংস্কৃত গ্রন্থে অথবা ইতিহাসে এরূপ কোনও উল্লেখ নাই যে, আর্য্যরা ইরান হইতে আসিয়াছিল এবং এদেশের অরণ্যবাসীদের সহিত সংগ্রাম করিয়া বিজয় লাভ করে তাহাদের সকলকে দেশ হইতে তাড়াইয় দিয়া এ দেশের রাজা হয়। অতএব বিদেশীদের লিখিত বিষয় কেন স্বীকার করা হইবে?❞</p>
+
+      </section>
+
+      <!-- ===== sub: colonial design ===== -->
+      <section class="section" id="colonial-design">
+        <h2 class="section-title"><span class="num">২.১</span> ইংরেজ শাসনের কূটনীতি</h2>
+
+        <p class="prose">এই কথাই নিরপেক্ষ পাশ্চাত্য বিদ্বান্ ম্যুর বলেন—</p>
+
+        <blockquote class="src">❝I must however begin with candid admission that, so far I know, none of the Sanskrit books, not even the most ancient, contains any distinct reference or allusion to the foreign origin of the Aryans There is no evidence or indication in the Rigveda of the words Dasa, Dasyu, Asura etc, having been used for non-Aryans or original inhabitants of India.❞
+          <cite>— Muir, Original Sanskrit Texts, Vol. II</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ ❝ইহা নিশ্চিত যে, কোনও সংস্কৃত গ্রন্থে, সে যত প্রাচীনই হউক না কেন, আর্য্যদের বিদ্বেষ মূলক আচরণ করিবার কোনও উল্লেখ পাওয়া যায় না। ঋগ্বেদে যে দাশ, দস্য এবং অম্লর নামের উল্লেখ আছে, সেগুলি অনার্য্য মূলক অর্থাৎ আদিম জাতিদের উদ্দেশ্যে প্রযুক্ত হইয়াছে-এরূপ কোনও প্রমাণ বা ইঙ্গিত পাওয়া যায় না।❞</p>
+
+        <p class="prose">বিশ্ববিখ্যাত ঐতিহাসিক এলফিন্টনের বক্তব্য অনুসারেও ঋষি দয়ানন্দের মান্যতার পুষ্টিই হয়। তিনি লিখিয়াছেন—</p>
+
+        <blockquote class="src">❝Neither the code of Manu nor in the Vedas, nor in any book which is older than the code of Manu, is there any allusion to the Aryan prior residence in any country out side India.❞
+          <cite>— Elphinstone, History of India, Vol. 1</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ মনুস্মৃতি, বেদ এবং মনুস্মৃতি অপেক্ষা প্রাচীন অন্য কোনও গ্রন্থে আর্য্যদের বহির্ভারত হইতে আগমনের কোনও উল্লেখ নাই।</p>
+
+        <p class="prose">আর্য্যরা ভারতের বাহির হইতে আসিয়াছিল এবং ভারতের মূল নিবাসী কোল, প্রবিড়, ভাঁল, সাঁওতাল প্রভৃতি ইহারাই যে এখানের আদিবাসী এই বিচারটি সর্বপ্রথম ❝Cambridge History of India❞ গ্রন্থে প্রকাশিত হয়। ইহার পর এই দুরভিসন্ধিটিকে প্রচার করিবার জন্ম বারাণসী ও লাহোরে কেন্দ্র স্থাপন করা হয়। বারাণসীতে T. H. Griphil-কে বারাণসী কলেজের প্রিন্সিপল, এবং লাহোরে ওরিয়েন্টল কলেজের প্রিন্সিপল পদে এ. সী. বুলারকে নিযুক্ত করা হয়। এই কলেজ সমূহে সংস্কৃত ভাষায় এম. এ. উত্তীর্ণ ছাত্রদের (বিশেষ করিয়া ব্রাহ্মণ) উচ্চতম ছাত্রবৃত্তি দিয়া OXFORD-এ পাঠান হইত। সেখান হইতে শিক্ষা লাভ করিয়া স্বদেশে প্রত্যাবর্তনকারীদের সকলকে যেখানে সেখানে প্রিন্সিপল অথবা প্রথম শ্রেণীর অধ্যাপকরূপে নিযুক্ত করা হইত। লাহোর, বারাণসী এবং অক্সফোর্ডেও তাহাদের নির্ধারিত পাঠ্যক্রম থাকিত।</p>
+
+        <p class="prose">ইংরেজেরা ইহাও অনুভব করিয়াছিল যে, যতদিন না ভারত হইতে বৈদিক ধর্মের মূলকে উৎখাত করা হইবে, ততদিন তাহাদের উদ্দেশ্য পূর্ণ হইবে না। এই কারণেই বৈদিক সাহিত্যকে বিকৃত করা আবশ্যক। এই উদ্দেশ্যকে সিদ্ধ করিবার জন্ম কর্ণেল বোডন নামক এক ব্যক্তি অক্সফোর্ড বিশ্ববিদ্যালয়কে বেশ মোটা রকমের টাকা দেয়। ইহা সত্য যে, বিদেশী বিদ্বান ব্যক্তিরা ভারতীয় না হইলেও সংস্কৃত সাহিত্যে বিশেষ করিয়া বৈদিক সাহিত্যে অনুকরণীয় উদ্যোগ করিয়াছে। পরন্তু জাতীয় পক্ষপাতিত্ব তথা শাস্ত্র বিষয়ে তাহাদের গভীর জ্ঞান না থাকায় তাহারা বৈদিক সাহিত্যকে যথার্থ রূপে উপস্থাপিত করিতে পারে নাই। বিদেশীরা যে ধ্যেয়কে সম্মুখে রাখিয়া আমাদের সাহিত্যের রহস্য উদ্ঘাটনে পরিশ্রম করিয়াছে উহার পরিচয় মোনিয়র উলিয়মস্ নিজ সংস্কৃত ইংলিশ ডিকশনারীর (সংস্কৃত ইংরেজী অভিধান) ভূমিকায় নিম্নলিখিত বাক্যেই পাওয়া যায়।</p>
+
+        <blockquote class="src">❝That the special object of his munificent bequest was to promote the translation of the scriptures into English so as to enable his countrymen to proceed in the conversion of the natives of India to the Christion Religion.❞
+        </blockquote>
+
+        <p class="prose">ইহার ভাবার্থ এই যে, বোডন সাহেবের ট্রাস্ট দ্বারা সংস্কৃত গ্রন্থসমূহের ইংরেজী অনুবাদ ভারতীয়দের খৃষ্টান করিবার পক্ষে আপন দেশবাসীদের সাহায্য করিবার জড় করা হইতেছে। এই কথাটি মোনিয়র উলিয়মস্ নিজ পুস্তক ❝The Study of Sanskrist in relation to missonary work in India❞(1861)-তে লেখা আছে,</p>
+
+        <blockquote class="src">❝When the walls of the might fortress of Hinduism are encircled, underminded and finally stormed by the soldiers of the cross. The victory of christianity must be signal and complete.❞
+        </blockquote>
+
+        <p class="prose">ইহার 'ভাবার্থ এই যে, মোনিয়র উলিয়নসের সমস্ত পরিশ্রম হিন্দুত্বকে নষ্ট করিয়া খৃষ্টানী পতাকা উড্ডীয়নের জন্যই এই প্রয়াস।</p>
+      </section>
+
+      <!-- ===== sub: max muller ===== -->
+      <section class="section" id="max-muller">
+        <h2 class="section-title"><span class="num">২.২</span> ম্যাক্সমূলার ও মিশনারি প্রয়াস</h2>
+
+        <p class="prose">পাশ্চাত্য সংস্কৃত ভাষাভিজ্ঞ বিদ্বান ব্যক্তিদের মধ্যে লর্ড মেকলে দ্বারা নিযুক্ত প্রফেসর ম্যাক্সমূলরের নাম সর্বাগ্রে গণ্য। তাঁহার বৈদিক অনুসন্ধান তথা অনুবাদকর্মে নিজেকে নিযুক্ত করিবার উদ্দেশ্য কি ছিল, একথা তিনি স্বীয় পত্নীর নামে লিখিত এক পত্রে পরিষ্কার ব্যক্ত করিয়াছেন।</p>
+
+        <blockquote class="src">❝This edition of mine and the translation of the Vedas will here after tell to a great extent on the fate of India. It is the root of their religion and to show them what the root is. I feel sure, is the only way of uprooting all that has sprung from it during the last three thousand years.❞
+          <cite>— Life and Letters of Frederick Maxmueller, Vol. I, Chap. XX, P. 34</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ আমার এই সংস্করণ তথা বেদ-এর অনুবাদ ভারতের ভাগ্যকে দীর্ঘকাল পর্যন্ত প্রভাবিত করিবে। ইহা তাহাদের ধর্মের মূল। তাহাদের ইহাও দেখাইতে হইবে যে, এই মূলটি কি প্রকারের। বিগত তিন সহস্র বৎসরে ইহার দ্বারা উৎপন্ন ভাবী সমস্ত বিষয়কে মূল সহিত উচ্ছেদ করিবার একমাত্র উপায়।</p>
+
+        <p class="prose">ভারত সচিবের ❝Secretary of State for India❞ নামক ১৬ সেপ্টেম্বর ১৮৬৮ লিখিত নিজ পত্রে ম্যাক্সমুলার প্রকাশ করিয়াছেন—</p>
+
+        <blockquote class="src">❝The ancient religion of India is doomed. Now, if Christianity does not step in whose fault will it be?❞
+          <cite>— Ibid, Vol. I, Chap. XVI, P. 378</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ ভারতের প্রাচীন ধর্ম এবার নষ্টপ্রায়। এ সময় যদি খৃষ্টানরা তাহার স্থান অধিকার না করে, তাহা হইলে ইহার জন্য দায়ী কে হইবে?</p>
+
+        <p class="prose">ম্যাক্সমুলারের প্রয়াসকে প্রশংসা করিয়া তাহার এক ঘনিষ্ট মিত্র মিঃ ঈ. বী. পুসে এক পত্রে তাঁহাকে লিখিতেছেন—</p>
+
+        <blockquote class="src">❝Your work will make a new era in the efforts for the conversion of India.❞
+        </blockquote>
+
+        <p class="prose">অর্থাৎ আপনার কার্য্য ভারতীয়দের খৃষ্টান করিবার প্রয়াসে নব যুগ আনিয়া দিবে।</p>
+
+        <p class="prose">এই ভাবে ইংরেজদের এবং ইংরেজি শিক্ষার উদ্দেশ্য হইল ভারতীয়দের মধ্যে তাহাদের প্রাচীন সাহিত্য, ইতিহাস, সংস্কৃতি ও সভ্যতার প্রতি অশ্রদ্ধা ও ঘৃণা সৃষ্টি করা। বেদ সম্বন্ধে যে দৃষ্টিভঙ্গি তিনি প্রস্তুত করিয়াছেন উহার দ্বারা তিনি বেদকে মেষপালকদের গীত বা অরণ্যবাসীদের আবোলতাবোল কথা প্রমাণ করা ব্যতীতও নিজেদের মধ্যে বিবাদ সৃষ্টি এবং দেশের ঐক্য ও অখণ্ডতাকে আঘাত করিবার পক্ষে ইহা সফল প্রয়াস বলিতে হইবে। তাঁহার যোজনা ক্রম প্রয়াসের পরিণাম এই হইল যে, ভারতীয় বিদ্বান ব্যক্তিরাও ধীরে ধীরে তাহাদের রঙে নিজেদের রাঙাইতে আরম্ভ করিলেন এবং পাশ্চাত্য বিচারধারার প্রচারেও সহায়ক প্রমাণিত হইল। এই অবস্থার মধ্যে পড়িয়া ভারতীয়রাও ইংরেজদের অভিপ্সিত কর্ম মত ইংরেজদের সেই গান গাহিতে আরম্ভ করিল। লোকমান্য বালগঙ্গাধর তিলকের ন্যায় মনীষী এবং মহান দেশভক্ত; তিনিও এই ভ্রান্ত প্রচারের মধ্যে জড়াইয়া পড়িলেন। তিনিও আর্য্যদের বিদেশী আক্রমণকারী এবং তাহাদের সকলকে উত্তর মেরু হইতে আগত আগমনকারী বলিয়া প্রচার করিতে লাগিলেন। তাঁহার মতে আজ হইতে প্রায় দশ সহস্র বৎসর পূর্বে উত্তর মেরুতে তুষার বন্ধা সৃষ্টি হয়। সেকারণ আর্য্যরা সেখান হইতে পলায়ন করিয়া য়ুরোপ, মধ্য এশিয়া, ইরান ও ভারতে আসিয়া বসবাস আরম্ভ করে।</p>
+      </section>
+
+      <!-- ===== sub: tilak ===== -->
+      <section class="section" id="tilak">
+        <h2 class="section-title"><span class="num">২.৩</span> লোকমান্য তিলকের মত</h2>
+
+        <p class="prose">এই প্রশ্ন লইয়া বাঙলার প্রসিদ্ধ বিদ্বান্ উমেশচন্দ্র বিদ্যারত্ন মহাশয় বালগঙ্গাধর তিলকের নিবাসস্থল পুনায় উপস্থিত হন। বিদ্যারত্ন মহাশয় তিনি তাঁহার সাক্ষাৎকারের বিবরণ প্রদান কালে স্বীয় পুস্তক ❝মানবের আদি জন্মভূমি❞ (পৃষ্ঠা ১২৪) গ্রন্থে লিখিতেছেন—</p>
+
+        <blockquote class="src" style="font-family: var(--serif-bn); font-style: normal;">❝আমি গত বৎসর তিলক মহোদয়ের আতিথ্য গ্রহণ করিয়াছিলাম। তাঁহার সহিত এ বিষয়ে আমার ক্রমাগত পাঁচ দিন বহু সংলাপ হইয়াছিল। তিনি আমাকে তাঁহার দ্বিতল গৃহে বসাইয়া সরল হৃদয়ে বলিয়াছেন যে, আমি মূল বেদ অধ্যয়ন করি নাই, আমি সাহেবদিগের অনুবাদ পাঠ করিয়াছি।❞
+          <cite>— উমেশচন্দ্র বিদ্যারত্ন, মানবের আদি জন্মভূমি, পৃ. ১২৪</cite>
+        </blockquote>
+
+        <p class="prose">উত্তরী ধ্রুব বিষয়ক স্বীয় মান্যতা সম্বন্ধে তিলক মহোদয় লিখিয়াছেন—</p>
+
+        <blockquote class="src">❝It is clear that Soma Juice was extracted and purified at night in the Arctic.❞</blockquote>
+
+        <p class="prose">অর্থাৎ উত্তরী ধ্রুবে (সুমেরু) রাত্রিকালে সোমরস নিষ্কাষণ করা হইত। ইহার বিরোধীতা করিয়া নারায়ণ ভবানী পাওগী স্বীয় গ্রন্থ ❝আর্যাবর্ত্তাঁতীল আৰ্য্যাঁ জন্মভূমি❞ গ্রন্থে লিখিয়াছেন—❝কিন্তু উত্তরীধ্রুবে তো সোমলতা জন্মায় না, সোমলতা তো হিমালয়ের এক ভাগ মুঞ্জবান পর্বতে জন্মায়।</p>
+
+        <p class="prose">তিলক মহোদয় বলেন, আর্য্যরা উত্তরীধ্রুব হইতে ইরান ও ইরান হইতে ভারতে উপস্থিত হয়। কিন্তু ইরানের বিদ্যালয়সমূহে পড়ান হয় যে, আর্য্যরা ভারত হইতে আসিয়া ইরানে নিবাস স্থান স্থাপন করিয়াছিল।</p>
+
+        <div class="mantra">
+          <p class="mantra-text" style="font-family: var(--serif-en); direction: rtl; font-size: 1.05rem; line-height: 2.1;">چند هزار سال پیش از زمانِ ما، جمایی از بزرگانِ نژادِ آریا از کوه‌های قفقاز گذشته بر سرزمینى که امروز مسکنِ ماست قدم نهادند.<br><br>و چون آب و هوای این سرزمین را موافقِ طبعِ خود یافتند، در اینجا مسکن گزیدند و آن را به نامِ خویش ایران خواندند.</p>
+        </div>
+
+        <p class="prose">❝চন্দ হজার সাল পেশ অজ জমানা মাজীরা বুজুর্গী অজ নিজাদ আর্যা অজ কোহহায় কয়া কাজ গুজিশ্ তঃ বরসর জমীঁনে কি ইমরোজ মস্কনে মাস্ত কদম নিহাদন্দ। ব চূঁ' আবো হবায ঈঁ সর জমীরা মুআফিক তৰ'অ খুদ যায়াতন্দ দরীঁ জা মস্কনে গুজীদন্দ ব আঁরা বনাম খেশ ঈরাণ খ্যাদন্দ।❞</p>
+
+        <p class="footnote">(জুগরাফিয়া পঞ্জ কিতঅ বনাম তদরীস দরসাল পংজুম দৰতদাই সফা ৭৮, কালম ১, মতৰ অ দরসনহি তিহরান, সন, হিজরী ১৩০৯, সীন অৰ্ ৰল ব চহারম অজতর্ফ বিজারত মুআরিয়া ব শরশুদঃ।) (দ্রষ্টব্য)<br>
+        "পঞ্চম শ্রেণির ভূগোল বই, পৃষ্ঠা ৭৮, কলাম ১ অনুযায়ী। প্রকাশস্থান মত তেহরান শহর, হিজরি ১৩০৯ সালে, শিক্ষা মন্ত্রণালয়ের চতুর্থ সংস্করণে পুনঃমূল্যায়ন ও প্রকাশিত।"</p>
+
+        <p class="prose">ইহার তাৎপর্য্য এই যে, কয়েক সহস্র বৎসর পূর্বে আর্য্যরা হিমালয় হইতে অবতরণ করিয়া আসে এবং তত্রস্থ জলবায়ুকে অনুকূল দেখিয়া ইরাণে নিবাস করিতে থাকে। এই উদ্ধরণ দ্বারা স্বামী দয়ানন্দ বর্ণিত তিব্বতে মানবের প্রথম সৃষ্টি হওয়া এবং সেখান হইতে আর্য্যদের এদিক ওদিক ছড়াইয়া পড়া বিষয়ক মতের সমর্থন পাওয়া যায়। ইরাণের বাদশাহ সর্বদা নিজের নামের সহিত ❝আর্যমেহর❞ উপাধি লাগাইতেন। ফারসী ভাষায় সূর্য্যকে বলা হয় ❝মেহর❞। ইরাণবাসী নিজেদের সূর্য্যবংশীয় ❝আর্য❞ বলিয়া স্বীকার করে। ধার্মিক মতান্ধতার কারণ ধীরে ধীরে এই ভাবনার পরিবর্তন ঘটিতেছে।</p>
+
+        <p class="prose">রাজনৈতিক দৃষ্টিতে স্বাধীন হইবার পরেও পাশ্চাত্যবাসীদের মানসপুত্র সমূহের চোখে তাহাদের প্রদত্ত চশমা পূর্বে যেরূপ ছিল, আজও তাহাদের সেই দৃষ্টিভঙ্গীর পরিবর্তন হয় নাই। ভারতীয় সংস্কৃতির মহান সমর্থক কে. এম. মুন্সী, স্বীয় ❝লোপামুদ্রা'❞ গ্রন্থে প্রাচীন আর্য্যদের সম্বন্ধে লিখিয়াছেন—</p>
+
+        <blockquote class="src" style="font-family: var(--serif-bn); font-style: normal;">❝ইহাদের ভাষায় জাঙ্গলভাব ছিল। ইহারা মাংসও খাইত, এমন কি গরুর মাংসও খাইত। গোমাংস ভক্ষণকারীকে বহু মান্তস্পদ ❝অতিথিগ্ব❞ উপাধিতে ভূষিত করা হইত। ঋষিরা সোমরস পান করিয়া মত্ততায় জ্ঞানহারা হইয়া থাকিত এবং লোভ ও ক্রোধ প্রদর্শন করিত। তাহারা অত্যধিক জুয়া খেলিত। সর্ব সাধারণ মদ খাইয়া নেশা করিত। ঋষিরা যুদ্ধক্ষেত্রে সহস্র সহস্র সংখ্যায় সংহার করিত, রূপ লাবণ্যময়ী নারীদের আকৃষ্ট করিবার জন্য মন্ত্র রচনা করিত। কুমারী গর্ভজাত শিশু অধম ও পতিত বলিয়া স্বীকৃত হইত না। কতিপয় ঋষির পিতৃ পরিচয়ই ছিল না। আর্য্যরা নেকড়ে বাঘের  ন্যায় লোভী ছিল। বীভৎসতা অথবা অশ্লীলতার কোনও আচার-বিচার তাহাদের ছিল না। আত্মা সম্বন্ধে তাহাদের কোন জ্ঞানই ছিল না। ঈশ্বর সম্বন্ধে না ছিল কোনও কল্পনা, আর না ছিল কোন মান্যতা। স্বদেশ সম্বন্ধে তাহাদের কোনও ধারণাই ছিল না। দস্যুরা ভারতবর্ষের মূল নিবাসী ছিল, তাহারা শিবলিঙ্গ পুজা করিত।❞
+          <cite>— কে. এম. মুন্সী, লোপামুদ্রা</cite>
+        </blockquote>
+
+        <p class="prose">পুস্তকটির ভূমিকাতেও শ্রীমুন্শী মহাশয় লিখিয়াছেন যে, তিনি তাঁহার পুস্তকে যাহা কিছু লিখিয়াছেন উহা ঋগ্বেদের উপর ভিত্তি করিয়া লিখিয়াছেন। আমি লেখক মহোদয়কে পত্র লিখিয়া এ সম্বন্ধে জানিতে ইচ্ছা প্রকাশ করিলে, তিনি ২রা ফেব্রুয়ারী ১৯৫০ সালে পত্রোত্তরে লেখেন—</p>
+
+        <blockquote class="src">❝I believe the Vedas to have been composed by human beings in the very early stage of our culture and my attempt in this book has been to create an atmosphere which I find in the Vedas as translated by Western Scholars and as given in Dr. Keith's Vedic Index. I have accepted their views of life and conditions in those times.❞</blockquote>
+
+        <p class="prose">অর্থাৎ আমি বেদকে স্বীয় সংস্কৃতির প্রারম্ভিককালে মনুষ্য দ্বারা রচিত বলিয়া মানি। আমি আমার পুস্তকে যাহা কিছু লিখিয়াছি, উহার আধার পাশ্চাত্য বিদ্বান, বিশেষতঃ ডাঃ কীথের বেদের অনুবাদ হইতে উহা গ্রহণ করিয়াছি। আমি সেকালের মানবের জীবন ধারা ও আচারব্যবহার বিষয়ে তাঁহাকে প্রমাণ বলিয়া স্বীকার করি।</p>
+
+        <p class="prose">সায়ণাচার্য্য ও তাঁহার অনুগামী পাশ্চাত্য তথা ভারতীয় বিদ্বানদের নৈরুক্ত প্রক্রিয়াকে উপেক্ষা করিয়া, লৌকিক সংস্কৃতের আধারে বেদার্থ করিবার দুষ্পরিণাম হইল আমরা অসভ্য। আমরা সভ্য জগতের সম্মুখে মুখ দেখাইবার যোগ্য রহিলাম না। মন্ত্রের যৌগিক অর্থ গ্রহণ না করিয়া রূঢ় অর্থের উপর ভিত্তি করিয়া তাহারা বেদকে মনোরঞ্জক গল্পকাহিনীর সিন্দুক প্রস্তুত করিয়াছে। এইভাবে আমাদের মস্তিষ্করূপী ভূমির উপর অশ্রদ্ধারূপী প্রস্তরের এই বেদী প্রস্তুত হইল।</p>
+      </section>
+
+      <!-- ============ বেদে ইতিহাস ============ -->
+      <section class="section" id="vedey-itihas">
+        <h2 class="section-title">বেদে ইতিহাস</h2>
+
+        <p class="prose">বেদ ত্রিকালাবাধিত, অতএব বেদের অন্তঃসাক্ষীর ভিত্তিতে কোনও ইতিহাস বিষয়ক নির্ণয় করা সম্ভব নহে। এ কারণ বেদের সন্দর্ভকে দেখিয়া তাহা হইতে যদি তুই একটি শব্দ দ্বারা কোনও কিছু নির্ণয় করিবার প্রয়াস করা যায়, উহা কোনও মতেই যুক্তিযুক্ত হইতে পারে না। লোকমান্য তিলক বেদোক্ত কতিপয় নক্ষত্রের বিশেষ অবস্থিতির উপর ভিত্তি করিয়া বেদের উৎপত্তি-কাল নির্ণয় করিয়াছেন। তিনি তাঁহার ওরিয়ন (orion) গ্রন্থে লিখিয়াছেন যে, ঋয়েদের ১০ম মণ্ডলের ৮৬ সংখ্যক সূক্তে বসন্ত সম্পাতের আবির্ভাব মৃগশিরা নক্ষত্রে হইবার বর্ণনা আছে। মৃগশিরা নক্ষত্র বর্তমান উত্তর ভাদ্রপদা হইতে ৬ষ্ঠ নক্ষত্র পূর্বে আছে। এক নক্ষত্র হইতে অন্ত নক্ষত্রে যাইতে বসন্ত সম্পাতের ৯৬০ বৎসর লাগে। এই হিসাবে মুগ শিরা নক্ষত্রে বসন্ত সম্পাত, আজ হইতে প্রায় ৬০০০ বৎসর (৯৬০×৬) পূর্বেও হয়ত হইয়াছিল। ইহাই এই সূক্তোক্ত বেদের রচনা কালের কারণ। আপাততঃ এই যুক্তি যথার্থই প্রতীত হইতেছে। পরন্ত যদি একটু গভীর ভাবে বিচার করা যায় তাহ্য হইলে ইহার নিঃসারতা পরিষ্কার হইয়া যাইবে।</p>
+
+        <p class="prose">নক্ষত্রের মোট সংখ্যা সাতাশটি। এইভাবে প্রত্যেক ২৫৯২০ (৯৬০×২৭) বৎসরের পর বসন্ত সম্পাত ক্রান্তি বৃত্তে ঘুরিয়া পুনরায় সে স্বীয় পূর্ব স্থানে আসিবে। যদি খৃষ্টের জন্মের প্রায় ৬০০০ বৎসর পূর্বে বসন্ত সম্পাত মৃগশিরা নক্ষত্রে থাকিত, তাহা হইলে উহার প্রায় ২৬০০০ বৎসর পূর্বে অর্থাৎ আজ হইতে প্রায় ৩২০০০ বৎসর পূর্বেও সেই নক্ষত্রে থাকিত। উহা অপেক্ষা ও পূর্বে ২৬০০০ বৎসর পূর্বে বসন্ত সম্পাত মৃগশিরা নক্ষত্রে আসিত। সৃষ্টির প্রায় দুই অর্ধ বৎসর<sup>১</sup> স্থিতি কালে হয়ত কয়েকবার এই স্থিতি আসিয়া থাকিবে। সোমবার প্রত্যেক সাত দিন পর পর খুরিয়া ফিরিয়া আসে। এমতাবস্থায় মাত্র সোমবার বলিলে আজ হইতে এক সপ্তাহ পূর্বেকার সোমবারই বা স্বীকার করিব কেন? এক মাস, এক বৎসর অথবা শত বর্ষ পূর্বের সোমবারই বা স্বীকার করিব না কেন? বেদে বর্ণিত এই নক্ষত্রের স্থিতি আজ হইতে ৬০০০ বৎসর পূর্বেরই, উহার পূর্বের নহে—ইহার পক্ষে কোনও নিশ্চয়াত্মক হেতু নাই। আজ হইতে প্রায় ২০ হাজার বৎসর পরে (২৬০০০-৬০০০) বসন্ত সম্পাত পুনরায় মৃগশিরা নক্ষত্রে হইবে।</p>
+
+        <p class="footnote"><span class="fn-num">১.</span> Scientists (Prof. Nagi and Prof. Zumberg of the University of Arizona) have found traces of ancient life and matter dating back to 2,300 million years. The discovery was made in rocks found in Transaval area of South Africa. 320 K. M. north of Johansberg—The Tribune 13th July 1975.</p>
+
+        <p class="prose">যদি তাহাই হয়, তাহা হইলে উহার দ্বারা পাঁচ শত বৎসর পরে যে সমস্ত বিদ্বান জন্ম লইবেন, তাঁহারা এই যুক্তির উপর ভিত্তি করিয়া বেদকে তাঁহারা নিজের জন্মের কেবল ৫০০ বৎসর পূর্বেরই সিদ্ধ করিবে। বাস্তবিক পক্ষে ইতিবৃত্তাত্মক রূপে বেদে কোনও প্রকারের ঐতিহাসিক বা ভৌগলিক সংকেত না থাকায় এইরূপ যাবতীয় মত কেবল কল্পনার উপর ভিত্তি করিয়াই গড়িয়া উঠিয়াছে।</p>
+
+        <p class="prose">ঐতিহাসিকের দল ভৌগলিক নাম পৃথক পৃথক পাঠ করিয়া বেদে ইতিহাস আছে এইরূপ ভ্রম সৃষ্টি করিরার যতই চেষ্টা করুক না কেন, যদি উহাতে বিষয়ান্তর্গত পূর্বাপর পরস্পর সম্বন্ধ যুক্ত করিয়া সামঞ্জস্য রক্ষা না করা হয়, তাহা হইলে তথ্যের বিপরীত অর্থ হইয়া তথাকথিত ঐতিহাসিকতার বিলোপ তৎকালই হইবে। নিজের প্রতিজ্ঞাকে পরিষ্কার করিবার জন্ম কয়েকটি উদাহরণ উপস্থিত করিতেছি—</p>
+
+        <p class="prose tight"><strong>১।</strong> অথর্ববেদে (১৩/৩/২৬) এক মন্ত্র আছে—</p>
+        <p class="prose">❝কৃষ্ণাযাঃ পুত্রো অর্জুনঃ❞। এই মন্ত্রে কৃষ্ণার (দ্রৌপদীর) পুত্র অর্জুন এ কথা বলা হইয়াছে। বাস্তবিক পক্ষে বিচার করিলে এস্থলে পুত্র অর্জুন একথা না বলিয়া, বলা উচিত ছিল, কৃষ্ণা অর্থাৎ দ্রৌপদীর পতি অর্জুন। মহাভারতে এ কথার বর্ণনা আছে। এই পদের যদি যৌগিক অর্থ করা যায় তাহা হইলে ইহার বাস্তব রূপ ফুটিয়া উঠিবে।</p>
+
+        <p class="prose">শতপথ ব্রাহ্মণের মতে রাত্রির নাম ❝কৃষ্ণা❞ আর রাত্রি হইতে উৎপন্ন সূর্য্য বা দিনের নাম অর্জুন। ❝রাত্রির্বৈ কৃষ্ণা অসাবাদিত্যস্তস্যা বৎসোঽর্জুন❞। এইভাবে এস্থলে কৃষ্ণা শব্দের সহিত মহাভারতে বর্ণিত দ্রৌপদী এবং অর্জুন শব্দের সহিত মহাভারতে বর্ণিত অর্জুন গ্রাহ্য নহে।</p>
+
+        <p class="prose tight"><strong>২।</strong> ❝অহশ্চ কৃষ্ণমহরর্জুনং চ❞ (ঋগ্বেদ ৬/৯/১)</p>
+        <p class="prose">—এস্থলে কৃষ্ণ ও অর্জুন একই ব্যক্তির নাম। কিন্তু ঐতিহাসিক দৃষ্টিতে (মহাভারত) এ ছইজন পৃথক্ ব্যক্তি। বাস্তবিক পক্ষে এস্থলে কৃষ্ণ ও অর্জুন উভয় শব্দের অর্থ—দিন।</p>
+
+        <p class="prose tight"><strong>৩।</strong> যজুর্বেদে (২৩/১৮) অম্বা, অম্বিকা ও অম্বালিকা—</p>
+        <p class="prose">এই তিনটি নাম একসঙ্গে দেখিয়া বলা যাইতে পারে যে, ইহারা সেই কন্যা, ভীষ্ম যাহাদের উঠাইয়া আনিয়াছিল। কিন্তু এখানে তাহাদের বলা হইয়াছে কাম্পীলবাসিনী, আর মহাভারতে ইহাদের কাশীরাজের কন্যা বলা হইয়াছে। বাস্তবিক পক্ষে এই শব্দগুলি মাতা, পিতামহী ও প্রপিতামহীর বাচক, অথবা যজুর্বেদে ১২/৩৬ ও ৩০/৫৩ বর্ণিত বিষয় আয়ুর্বেদোক্ত ওষধিসমূহের নাম বলিয়া উল্লেখ করা হইয়াছে।</p>
+      </section>
+
+      <!-- ===== sub: geographic ===== -->
+      <section class="section" id="geographic">
+        <h2 class="section-title"><span class="num">৩.১</span> ভৌগোলিক সংকেত বিচার</h2>
+
+        <p class="prose">ভৌগলিক সংকেতদাতাদের শব্দ সম্বন্ধে এই পরিস্থিতি। যজুর্বেদের একটি মন্ত্র আছে—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">পঞ্চ॑ ন॒দ্যঃ সর॑স্বতী॒মপি॑ যন্তি॒ সস্রো॑তসঃ।<br>সর॑স্বতী॒ তু প॑ঞ্চ॒ধা সো দে॒শেঽভ॑বৎ স॒রিৎ ॥</p>
+          <cite class="mantra-cite">— যজুঃ ৩৪/১১</cite>
+        </div>
+
+        <p class="prose">এই মন্ত্রে পাঁচটি নদীর উল্লেখ থাকার এস্থলে পাঞ্জাব অর্থাৎ এক প্রদেশ বিশেষের নামের সংকেত করা হইয়াছে। একথা সকলেরই জানা আছে যে, পাঞ্জাবে সরস্বতী নামের কোনও নদী প্রবাহিত হয় না, আর পাঞ্জাবে যে পাঁচটি নদী আছে উহাদের মধ্যে সরস্বতী নদীর নাম পাওয়াও যায় না। বাস্তবিকপক্ষে এই মন্ত্রটিতে পঞ্চ জ্ঞানেন্দ্রিয় দ্বারা প্রাপ্ত জ্ঞান, অথবা মনের পঞ্চ বৃত্তির স্মৃতিতে প্রতিষ্ঠিত হইয়া বাণী দ্বারা বহুভাবে অভিব্যক্ত হইবার উল্লেখ আছে।</p>
+
+        <p class="prose">ঋগ্বেদের (১০/৭৫/৫) যে মন্ত্রের আধারে আর্য্যদের সপ্ত সিন্ধু (সাত নদী যুক্ত) দেশে বসবাস করিবার কল্পনা করা হয়। সেখানে সপ্ত নদীর পরিবর্তে দশ নদীর নাম দেওয়া হইয়াছে। পরবর্তী মন্ত্রে লক্ষ্ণৌর নিকটে প্রবহমানা গোমতী নদীর নামও পাওয়া যায়। মন্ত্রটি এইরূপ—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">ই॒মং মে॑ গঙ্গে যমুনে সরস্বতি॒ শুতু॑দ্রি॒ স্তোমং॑ সচতা॒ পরু॒ষ্ণ্যা ।<br>অ॒সি॒ক্ন্যা ম॑রুদ্বৃধে বি॒তস্ত॒যার্জী॑কীয়ে শৃণু॒হ্যা সু॒ষোম॑য়া ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ১০/৭৫/৫</cite>
+        </div>
+
+        <p class="prose">ভগীরথের গঙ্গা আনয়ণের বহু পূর্বে বেদের প্রাদুর্ভাব হইয়াছিল। গোমতী নদীর গণনা নবীন নদীসমূহের মধ্যে করা হইয়াছে। এই শব্দ সমূহকে নদীবাচক মানিয়া লইলে ইহাদের সঙ্গতিতে খাপ খায় না। ভৌগলিক বর্ণনার সহিত ইহাদের কোনও সম্বন্ধ নাই। বাস্তবিকপক্ষে এস্থলে আধ্যাত্মিক শ্রোতসমূহ এবং শরীবস্থ ইডা, পিঙ্গলা প্রভৃতি নাড়ীর বর্ণনা করা হইয়াছে কালান্তরে এই সমস্ত মন্ত্র হইতে শব্দ সংগ্রহ করিয়া নদী সমূহের নাম রাখা হইয়াকে। বেদ হইতে লোকে নাম আসিয়াছে, লোক হইতে বৈদিক শব্দ আসে নাই।</p>
+
+        <p class="prose">এই সমস্ত কথা লিখিবার অভিপ্রায় এইটুকু মাত্র যে, বেদে বর্ণিত শব্দসমূহের নাম আপাততঃ ঐতিহাসিক অথবা ভৌগলিক সংকেত করিবার জন্ম। উহার উপর ভিত্তি করিয়া আয্যদের বিদেশী বলিয়া অভিহিত করিবার কোনও যুক্তিযুক্ত কারণ নাই।</p>
+
+        <div class="debate">
+          <div class="debate-row two-col">
+            <div class="debate-cell claim">
+              <div class="debate-label claim">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                পাশ্চাত্য দাবি
+              </div>
+              <p>আর্য্যরা ইরান হইতে ভারতে আগমন করিয়া বসতি স্থাপন করিয়াছিল — পুরাতাত্ত্বিক ভিত্তিতে এ বিষয়ে ঘোষণা করা হইত।</p>
+            </div>
+            <div class="debate-cell rebut">
+              <div class="debate-label rebut">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                ইউনেস্কো সম্মেলনের সাক্ষ্য
+              </div>
+              <p>কয়েক বৎসর পূর্বে ইউনেস্কোর তত্ত্বাবধানে অনুষ্ঠিত এক অন্তরাষ্ট্রীয় সম্মেলনে ভারত সরকারের পক্ষে প্রতিনিধিত্বকারী সাত সদস্য বিশিষ্ট দলের সকলে সর্বসম্মতিক্রমে আর্য্যদের ইরান হইতে ভারতে আগমন করিয়া বসতি স্থাপনের ঘোরতর বিরোধ করেন। এই প্রসঙ্গে ❝হিন্দুস্তান টাইমসের❞ ৩১শে অক্টোবর ১৯৭৭ সংখ্যায় প্রকাশিত সেই বিবরণ অত্যন্ত মহত্বপূর্ণ।</p>
+              <blockquote class="src" style="margin-top:12px; margin-bottom:0;">❝There is no Conclusive evidence of Aryan inmigration in to India from out side, according to Indian historian linguists and archaeologists who participated in the international seminar in Dashambe the capital of Soviet Republic of Tajikistan. Dr. N. R. Banerjee, Director of National Museum and a member of the Indian deligation said that, Indian scholars made out this point at the seminar and the papers presented by them were very much appreciated the seminar was held under the aegies UNESCO to discus the problem of ethnie movement during the second millennium B C Ninety delegates from the Soviet Union, West Germany, Iran, Pakistan and India attended. The seven member Indian deligation was led by Prof. B. B. Lal Director of Advanced Studies it was pointed out by Indian scholars that the archaeological material associated with Aryans in different regions and periods in India did not show any links with the archaeological survioal of the Aryans in Afghanistan, Iran and Central Asia.❞
+                <cite>— হিন্দুস্তান টাইমস, ৩১ অক্টোবর ১৯৭৭</cite>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+
+        <p class="prose">ইহার তাৎপর্য্য এই যে, পুরাতত্ত্বের আধারে এ বিষয়ে এক প্রমাণ পাওয়া যাইবে না যদ্দ্বারা ইহা প্রমাণিত হইবে যে, আর্য্যরা বাহির অর্থাৎ ইরান, আফগানিস্থান অথবা মধ্য এশিয়া হইতে আগমন করিয়া ভারতকে বলপূর্বক অধিকার করিয়াছিল। ইহার পর আমরা এই দেশের দুইজন শিক্ষা মন্ত্রী শ্রীপ্রতাপচন্দ্র তথা শ্রীকৃষ্ণচন্দ্র পন্থ মহাশয়ের সহিত সাক্ষাৎ করিয়া আগ্রহ প্রকাশ করিয়াছিলাম যে, যখন সরকার পক্ষে নিযুক্ত বিদ্বান ব্যক্তিদের দ্বারা সমবেত কণ্ঠে আর্য্যদের বাহির হইতে ভারতে আগমন বিষয়ক ভ্রান্ত ধারণা প্রত্যাখ্যাত হইয়াছে, এমতাবস্থায় শিক্ষা মন্ত্রণালয় তথা গৃহমন্ত্রণালয়ের কর্তব্য হইবে এ বিষয়ে নিশ্চিত আদেশ জারী করিয়া ইতিহাস পুস্তক সরকারী নিদেশ ও সংবিধান প্রস্তুতি হইতে ❝আদিবাসী❞ শব্দ তথা আৰ্য্য এবং দ্রাবিড় আদিদের মধ্যে যে ভেদ বিষয়ক বিবরণ আছে সেগুলিকে নির্মমভাবে বহিষ্কার করা।</p>
+
+        <p class="prose">আমাদের নিকট এ বিষয়ে অকাট্য প্রমাণ আছে যে, আর্য্যরা এই দেশের মূল নিবাসী। শুধু ইহাই নহে আর্য্যদের পূর্বে যে এদেশে অন্য কোনও জাতি বাস করিত না ইহারও প্রমাণ আমাদের নিকট আছে।</p>
+
+        <p class="prose">এ দেশের সব প্রাচীন নাম আৰ্য্যাবর্ত। যে কোনও স্থানে মানুষ বাস করে, সেই ভূভাগকে কোনও না কোনও নামে অবশ্যই জানা যায়। আর্য্যদের আগমনের (?) পূর্বে যদি এখানে দ্রাবিড় আদি জাতির বাস ছিল ইহা স্বীকার করা যায়, তাহা হইলে তাহাদের ভাষা ও সাহিত্যে এ দেশের অন্য কোনও না কোনও নাম অবশ্যই পাওয়া যাইত। এবন্বিধ কোনও সংকেত না পাওয়ায় ইহা পরিষ্কার যে, আর্য্যরা এই দেশে আক্রমণ চালাইয়া ইহাকে অধিকার করিয়াছিল এ কথা সর্বথা কপোল কল্পিত। T. Burro-র ন্যায় বিশ্ব বিখ্যাত পুরাতত্ত্ববেত্তা লিখিয়াছেন—</p>
+
+        <blockquote class="src">❝The Aryan invasion of India is recorded in no written document and it can not yet be traced arcaeologically.❞
+          <cite>— Quoted from the Early Aryans, in Cultural History of India, ed. A. L. Basham, Clarendon Press Oxford, 1975</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ ভারতে আর্য্যদের আক্রমণকারীর স্বীকৃতির কোনও প্রমাণ নাই এবং এই কাল্পনিক ঘটনাকে কোনও পুরানন্তবিদদের সাহায্যে প্রমাণ করাও যাইবে না।</p>
+      </section>
+
+      <!-- ===== sub: mohenjodaro ===== -->
+      <section class="section" id="mohenjodaro">
+        <h2 class="section-title"><span class="num">৩.২</span> মহেঞ্জোদাড়ো ও হরপ্পা</h2>
+
+        <p class="prose">এ প্রসঙ্গে সিন্ধু উপত্যকার হরপ্পা তথা মহেঞ্জোদাড়োয় এই এই উদ্দেশ্যে অনুষ্ঠিত উৎখনন (Excavations) করিয়া যে সমস্ত সামগ্রী পাওয়া গিয়াছে এ সম্বন্ধে দাবী করা হইতেছে যে, ইহা এ দেশের প্রাচীনতম সংস্কৃতির নিদর্শন। ইহার পতনের পরেই এদেশে আর্য্যদের আগমন হইয়াছিল।</p>
+
+        <p class="prose">এ বিষয়ে আমরা, আমাদের পক্ষ হইতে কিছু না বলিয়া মহেঞ্জোদড়ো উৎখনন দ্বারা প্রাপ্ত এক শীলের (মুদ্রা) ফটোস্টেট প্রতিকৃতি দেওয়া হইতেছে, যাহা নিজেই নিজের কাহিনী বর্ণনা করিতেছে।</p>
+
+        <p class="footnote">Photostat of Plate No. CXII. Seal No. 387 from the excavations at Mohenjodaro.<br>(From Mohenjodaro and the Indus Civilization edited by Sir John Marshall, Cambridge, 1931.)</p>
+
+        <p class="prose">এই চিত্রে একটি বৃক্ষে দুইটি পাখি বসিয়া আছে দেখা যাইতেছে, উহাদের একজন ফল খাইতেছে, আর একজন কেবল দেখিতেছে। ঋগ্বেদের এক মন্ত্র এইরূপ—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">দ্বা সু॑প॒র্ণা স॒যুজা॑ সখা॑য়া সমা॒নং বৃ॒ক্ষং পরি॑ ষস্বজাতে।<br>তয়ো॑র॒ন্যঃ পিপ্প॑লং স্বা॒দ্বত্ত্যন॑শ্নন্ন॒ন্যো অ॒ভি চা॑কশীতি ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ১/১৬৪/২০</cite>
+        </div>
+
+        <p class="prose">এই মন্ত্রের তাৎপর্য্য এই যে, একটি (সংসার রূপী) বৃক্ষে দুইটি (প্রায় এক প্রকারের) পাখি বসিয়া আছে। তাহাদের মধ্যে একটি উহার আস্বাদ লইতেছে আর অপরটি আস্বাদ না লইয়া উহা নিরীক্ষণ করিতেছে।</p>
+
+        <p class="prose">ইহা পরিষ্কার যে, মহেঞ্জোদাড়োর খননে প্রাপ্ত চিত্রে যাহা কিছু দেখান হইয়াছে উহার আধার উপযুক্ত ঋগ্বেদের মন্ত্র। ইহা নির্বিবাদ সত্য যে, ঋগ্বেদ অপেক্ষা প্রাচীন কোনও গ্রন্থ নাই। শিল্পী দ্বারা অঙ্কিত চিত্র হইতে ঋগ্বেদের অস্তিত্ব প্রমাণিত হয় যে, মহেঞ্জোদাড়োর খননে এই চিত্র উপলব্ধ হওয়ায় বেদের (কমপক্ষে ঋগ্বেদের) তথা কথিত হরপ্পা সংস্কৃতির পূর্ববর্তী অবস্থিতি প্রমাণিত হয়। বেদ আর্য্যদের গ্রন্থ, এ কারণ সর্বপ্রথম আর্য্যদের অস্তিত্বের প্রমাণ পাওয়া যায়। পুরাতত্ত্ববিদদের সহিত সম্বন্ধযুক্ত আমার এক সহধ্যায়ী বন্ধুর বক্তব্য এই যে, ইহা হইতে পারে যে, হরপ্পা ও আর্য্য সংস্কৃতি সমকালীন। দুর্জনতোষ ন্যায়নুসারে যদি তাহাদের কথা স্বীকার করিয়াও লওয়া যায়, তথাপি আযাদের পূর্বের এখানে কাহারও অবস্থিতির কল্পনা তো মিথ্যা প্রমাণিত হয়।</p>
+
+        <p class="prose">এই প্রসঙ্গে ❝ইন্ডিয়ান এক্সপ্রেসে❞ (নয়া দিল্লী ৩. ৮.৮৫) প্রকাশিত এই বিবরণ অতান্ত মহত্ত্বপূর্ণ—</p>
+
+        <blockquote class="src">❝Mr. Vishnu Shridhar Vakankar, former Head of the Archaeology Department of Ujjain (Vikram) university, claimed here on Thursday that he had successfully made a break through in solving the mystery of the writing of the seals found in the Indus Valley Civilisation of Harrappa and Mohenjodaro. He claimed that the Indus Valley Civilisation script was original to India and its roots are found in the Aryan Civilisation.❞</blockquote>
+
+        <blockquote class="src">❝He challenged foreign claims that the Indus Valley Civilisation was non-Aryan by stating that recent results were based on computers.❞
+          <cite>— Indian Express, New Delhi, 3.8.1985</cite>
+        </blockquote>
+
+        <p class="prose">ডক্টর ওয়াকংকরের অপর এক বক্তব্য Times of India (Ahmedabad 22. 12.85) পত্রিকায় প্রকাশিত হয়। উহাতে তিনি লিখিয়াছেন-</p>
+
+        <blockquote class="src">❝His survay (conducted by 30 experts drawn from different diciplines like archacology, geology, history, folklore etc.) when completed might even drastically change the popular conception. among historious that Aryans invaded India from Central Asia etc.❞
+          <cite>— Times of India, Ahmedabad, 22.12.1985</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ উজ্জয়িনী বিশ্ববিদ্যালয়ের পুরাতত্ত্ব বিভাগের ভূতপূর্ব অধ্যক্ষ ডক্টর বিষ্ণু শ্রীধর ওয়াকংকর ৩০ জন বিশেষজ্ঞের সহযোগিতায় সিন্ধু উপত্যকার সহিত সম্বন্ধিত সামগ্রীর ২০ বৎসর কাল অধ্যয়ন করিয়া প্রমাণ করিয়াছেন যে, হরপ্পা সভ্যতার মূলে ছিল আৰ্য্য সভ্যতা, অর্থাৎ হরপ্পা সভ্যতা অপেক্ষা আৰ্য্য সভ্যতা অধিক প্রাচীন। তাঁহার মতে হরপ্পা সভ্যতা আর্য্য সভ্যতারই অঙ্গ। এই সার তথ্যটি তিনি কমপিউটারের সহায়তায় আবিষ্কার করিয়াছিলেন। ডক্টর ওয়াকংকরের ইহাও অভিমত যে, যখন উহার অনুসন্ধান কাৰ্য্য পূর্ণ হইবে তখন তিনি আৰ্য্যদের বিদেশী আক্রমণকারী হইবার স্বীকৃতি প্রমাণ করিতে পারিবেন। ডক্টর যাতহসিংহ ১৯৬০ খৃষ্টাব্দে সর্বপ্রথম সাফল্যের সহিত সিন্ধুলিপির পাঠ উদ্ধার করেন। সে সময় তিনি প্রায় আড়াই হাজার মুদ্রার পাঠ উদ্ধার করিয়াছিলেন। তিনি সেগুলিকে ভিত্তি করিয়া ❝রাজস্থান প্রাচ্য বিদ্যাপ্রতিষ্ঠান❞ যোধপুর হইতে প্রকাশিত ❝স্বাহা❞ পত্রিকার কয়েকটি প্রবন্ধ লিখিয়াছিলেন। ডক্টর যাতহসিংহের অনুসন্ধানের উপর ভিত্তি করিয়া ডঃ পদ্মধর পাঠক ❝হিন্দুস্থান টাইসে❞ তাঁহাকে সমর্থন করিয়া এক প্রবন্ধ প্রকাশ করেন। ইহার পর সেই পত্রিকাতেই কেম্ব্রিজের ডঃ অচিন ❝হিন্দুস্থান টাইমসের❞ সম্পাদকের নামে পত্র লিখিয়া তাঁহাকে সতর্ক করিয়া দিয়াছিলেন যে, ডঃ সিংহ মহাশয়ের অনুসন্ধান দ্বারা আর্য্য ও দ্রবিড় সভ্যতার মধ্যে কোনও পার্থক্যই থাকিবে না।</p>
+      </section>
+
+      <!-- ===== sub: indian scholars / six arguments ===== -->
+      <section class="section" id="indian-scholars">
+        <h2 class="section-title"><span class="num">৩.৩</span> ভারতীয় বিদ্বানদের সাক্ষ্য</h2>
+
+        <p class="prose">বহু ভারতীয় বিদ্বান আৰ্য্যরা যে মূল ভারতীয় একথা সমর্থন করিয়াছেন। তিনি যে সমস্ত যুক্তিতর্কের সাহায্যে স্বীয় মতের পুষ্টিসাধন করিয়াছেন, এস্থলে উহাদের দু-একটি উদাহরণ দিতেছি।</p>
+
+        <p class="prose tight"><strong>১।</strong> এক দেশ ত্যাগ করিয়া অপর দেশে গিয়া বসতি স্থাপনকারী জাতিদের মনে শতাব্দী কাল পর্যন্ত স্বীয় মূল স্থানের স্মৃতি জাগ্রত থাকে। ভারতে বসবাসকারী পার্শীদের আট শত বৎসর ব্যতীত হইলেও অদ্যাপি তাহাদের মূল স্থানের স্মৃতি মুছিয়া যায় নাই। প্রাচীন মিশর দেশবাসী তথা ফিনিসিয়নদের আপন মূল নিবাস স্থলের কথা; যথার্থ অবস্থিতির ঠিকানা না দিতে পারিলেও স্মরণ আছে, তাহারা দেশের কথা বিস্তৃত হয় নাই। তাহারা অদ্যাপি এই দেশকে তাহাদের দেশ বলিয়া প্রচার করিয়া আসিতেছে।</p>
+
+        <p class="prose tight"><strong>২।</strong> বৈদিক সাহিত্য প্রাচীনতম সাহিত্যের মধ্যে গণ্য। যদি আর্য্যরা বাহির হইতে আসিয়া এখানে বসতি স্থাপন করিত তাহা হইলে কারণ কি যে, তাহারা যেখান হইতেই আসুক না কেন, সেই দেশে তাহাদের সাহিত্য অদ্যাপি পাওয়া যায় না কেন? তাহারা যে স্থান হইতে আসিয়াছিল সেখানে তাহাদের কিছু নিদর্শন তো পাওয়া উচিত। যদি কেহ বলে যে, আর্য্যদের মস্তিস্কের বিকাশ ভারতে আসিয়া হইয়াছিল, উহাতেও কোন যুক্তি নাই। ইহা অপেক্ষা একথা বলা অধিক উপযুক্ত হইবে যে, ভারতে নিবাসকারী আর্য্যদের মধ্য হইতে কিছু সংখ্যক আর্য্য অন্য দেশে গিয়াছিল। তাহারা এরূপ সাধারণ স্তরের মানুষ ছিল, তাহাদের সাংস্কৃতিক বিকাশ সাধারণ স্তরের বলিলেও অত্যুক্তি হয় না। সে কারণ তাহারা যেখানে গিয়া বসবাস করিয়াছে সেখানে তাহারা তত্রস্থ নিবাসীদের উচ্চস্তরের সাহিত্য ও সংস্কৃতি দিতে পারে নাই।</p>
+
+        <p class="prose tight"><strong>৩।</strong> ঋগ্বেদে উপলব্ধ ভৌগলিক সংকেত হইতে ইহাই প্রতীত হয় যে, আর্য্যরা মূলতঃ পাঞ্জাবের আশেপাশের নিবাসী ছিল।</p>
+
+        <p class="prose tight"><strong>৪।</strong> য়ুরোপের কোনও ভাষায় আর্য্য শব্দের কোনও বিকৃত রূপ পাওয়া যায় না। যদি সেখানের কোথাও আর্য্যদের মূল নিবাস স্থান হইত, তাহা হইলে তাহাদের ভাষায় আর্য্যদের ভাষার ছিটে ফোঁটা কোনও শব্দ অবশ্যই পাওয়া যাইত।</p>
+
+        <p class="prose tight"><strong>৫।</strong> ভারতে প্রচলিত ❝অনারী❞ (আনাড়ী) শব্দ যে ঐতিহাসিক ইহা নিসেন্দেহ। এই শব্দটি ❝অনার্য্য❞ শব্দের অপভ্রংশ মাত্র। যেরূপ ❝আর্য্য❞ শব্দ সজ্জন এবং শিক্ষিতদের উদ্দেশ্যে প্রযুক্ত হয়, সেইরূপ অনার্য্য শব্দ বিকৃত হইয়া মূর্খ, স্বল্পবোধ ব্যক্তিদের উদ্দেশে আনাড়ী বা অনারী রূপে বলা হয়।</p>
+
+        <p class="prose"><strong>৬।</strong> সংস্কৃত সমস্ত ভাষার উৎস। দক্ষিণ ভারতের (যেখানের নিবাসীদের, আর্য্যদের ভারতে আগমনের পূর্বে এখানের মূল নিবাসী বলা হয়) ভাষাতেও ৭৫ হইতে ৯০ শতাংশ শব্দ সংস্কৃত। যদি সংস্কৃত ভাষা বহিরাগত আৰ্য্যদের ভাষা হয়, তাহা হইলে তাহাদের ভারতে আগমনের বহু পূর্বে বসবাসকারী এখানের মূল নিবাসীদের ভাষায় ৭৫ হইতে ৯০ শতাংশ সংস্কৃত শব্দ কোথা হইতে আসিল?</p>
+      </section>
+
+      <!-- ============ আৰ্য্য ও দস্যু ============ -->
+      <section class="section" id="arya-dasyu">
+        <h2 class="section-title">আৰ্য্য ও দস্যু</h2>
+
+        <p class="prose">পাশ্চাত্যাভিমানী বিদেশী তথা তদনুযায়ী ভারতীয় লেখকদের মতে ঋগ্বেদে আৰ্য্য তথা দাস বা দস্যু শব্দ পৃথক্ পৃথক্ জাতির বোধক। তাহাদের বক্তব্য এই যে, আর্য্যরা ভারতের মূল নিবাসী ছিল না। ভারতের আদিবাসী, বেদে যাহাদের দাস বা দস্যু নামে অভিহিত করা হইয়াছে<sup>১</sup> তাহারা কোল, দ্রবিড়, সাঁওতাল, ভীল আদি।</p>
+
+        <p class="footnote"><span class="fn-num">১.</span> The Aryan invaders or immigrants found in India two groups of people one of which they named as Dasas or Dasyus and the other as Nishadas. — R. C. Mazumder, Vedic Age, Page 156</p>
+
+        <p class="prose">ইহারাই ছিল ভারতের মূল নিবাসী। আর্য্যদের ধর্ম, সভ্যতা, আদিবাসী জাতিদের রঙ-রূপ, আকৃতি, ভাষা প্রভৃতি ভিন্ন ভিন্ন। বর্ণ বা রং ছিল কালো, তাহাদের নাসিকা চ্যাপ্টা, এবং তাহারা শিশ্ন, অর্থাৎ লিঙ্গের পূজা করিত। আয্যদের সহিত তাহাদের সর্বদাই যুদ্ধ লাগিয়া থাকিত।</p>
+
+        <p class="prose">আর্য্যদের বৃদ্ধি প্রখর, শস্ত্রাস্ত্র ও উত্তম। এ কারণ তাহারা প্রারই আদিবাসীদের সহিত যুদ্ধ করিয়া বিজয়ী হইত এবং তাহাদের সকলকে দাস করিয়া রাখিত। এই সমস্ত মূল নিবাসীদের উদ্দেশে বেদে তাহাদের দাস তথা দস্যু শব্দের ন্যায় ঘৃণাবাচক শব্দ প্রয়োগ করা হইয়াছে। বৈদিক ধর্মকে ভ্রষ্ট এবং ইংরেজদের রাজ্যকে সুদৃঢ় করিবার জন্য এবং ভারতবাসীদের খৃষ্টান করিবার উদ্দেশ্যেই বিদেশী ইংরেজরা এইরূপ ভ্রান্তি ছড়াইয়াছে। ইহার পরিণাম স্বরূপ, জানি না এই দেশকে কত প্রকার বিপত্তির সম্মুখীন হইতে হইয়াছে। ব্যস্তবিক পক্ষে বেদে বর্ণিত আর্য্য ও দস্যু আদি শব্দ জাতিবাচক নহে, এগুলি গুণবাচক। কেহ কেহ জানিয়া শুনিয়া এবং কেহ কেহ বেদের মর্ম উপলব্ধি করিতে না পারিয়া এই সমস্ত শব্দের বিপরীত অর্থ করিয়া দেশকে বিচ্ছিন্নতার পথে ঠেলিয়া দিয়াছে।</p>
+
+        <p class="prose">সুপ্রসিদ্ধ দাক্ষিণাত্য বিদ্বান্ প্রিন্সিপল, পী. টি. শ্রীনিবাস আয়েঙ্গার তাঁহার ❝Dravidian Studies❞ গ্রন্থে লিখিয়াছেন—</p>
+
+        <blockquote class="src">❝The Aryas and Dasyus are referred to not as indicating different races. These words refer not to race but to cult. The Dasyus are without rites, fireless, non sacrificers, without prayers,without riks etc. Thus the difference between Aryas and Dasyus was not one of race but of cult.❞</blockquote>
+
+        <p class="prose">এইভাবে শ্রীআয়েঙ্গার মহোদয় আর্য্য ও দস্যুদের পার্থক্যকে জাতিরূপে স্বীকার না করিয়া তাহাদিগকে গুণ কর্ম স্বভাব অনুসারে স্বীকার করিয়াছেন। তাঁহার বক্তব্যের ভিত্তি ঋগ্বেদের এই মন্ত্রটি বলিয়া মনে হয়—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">অ॒ন্যব্র॑ত॒মমা॑নুষ॒ময়॑জ্বান॒মদে॑বয়ুম্ ।<br>অব॑ স্বঃ সখা॑ দুধুবীত॒ পর্ব॑তঃ সু॒ঘ্নায়॑ দস্যুং॒ পর্ব॑তঃ ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ৮/৭০/১১</cite>
+        </div>
+
+        <p class="prose">এস্থলে দস্যুর বিশেষণ (অনুব্রতম্) সত্য অহিংসা, পরোপকার আদি শুভ কর্মের বিরুদ্ধ সংকল্পকারী (অমানুষম্) মানবীয় ব্যবহারহান (অদেবযুম্) দিব্যগুণান্বিত বিদ্বান্ ব্যক্তিদের অনাকাঙ্ক্ষী ইত্যাদি বলা হইয়াছে। এই সমস্ত বিশেষণ দ্বারা কোনও জাতি বা শ্রোণী বিশেষের প্রতি বিদ্বেষের প্রতীতি বুঝায় না।</p>
+
+        <p class="prose">মাদ্রাজ বিশ্ববিদ্যালয়ের শ্রী বি. আর. রামচন্দ্র দীক্ষিতার গত ২৯-৩০শে নভেম্বর ১৯৪০ খৃষ্টাব্দে মাদ্রাজ বিশ্ববিদ্যালয়ে দুইটি মহত্ত্বপূর্ণ বক্তৃতা দিয়াছিলেন। সেই বক্তৃতা দুইটি ঐডেয়ার লাইব্রেরীর পক্ষ হইতে ১৯৪৭ সালে ❝Origin and Spread of the Tamils❞ নামক পুস্তকাকারে প্রকাশিত হইয়াছিল। শ্রীদীক্ষিতার লিখিতেছেন—</p>
+
+        <blockquote class="src">❝The fact is that the Dasyus were not non-Aryans. The theory that the Dasyus-Dravidians inhabited the Punjab and the Ganges vally at the time of the so called Aryan invasion of India and overcome by the latter, they fled South India and adopted it as their home cannot stand.❞
+          <cite>— Origin and Spread of the Tamils, V. R. Ramachandra Diksitar, P. 14</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ সত্য বলিতে কি, দস্যু (জাতি পার্থক্যের দৃষ্টিতে) আর্য্যেতর নহে। বাস্তবিক মত এই যে, দস্যু ও দ্রাবিড় ইহারা পাঞ্জাব ও গাঙ্গেয় উপত্যকায় বাস করিত, এবং তাহাদের উপর আর্য্যরা আক্রমণ আরম্ভ করিলে তাহারা পরাজিত হইয়া দক্ষিণ দিকে পলায়ন করে এবং তাহারা দক্ষিণ ভারতে নিজেদের বাসভূমি গড়িয়া তোলে-ইহা যুক্তিসঙ্গত নহে।</p>
+
+        <p class="prose">ম্যুর মহোদয়ও এই মতের প্রতিপাদন কালে লিখিয়াছেন—</p>
+
+        <blockquote class="src">❝I have gone over the name of Dasyus or Asuras mentioned in the Rigveda with the view of discovering whether any of them could be regarded as of non-Aryan or indigenous origin, but I have not observed that appeared to be of this character.❞
+          <cite>— Original Sanskrit Texts, Vol. II, p. 387</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ আমি ঋগ্বেদে বর্ণিত দস্যু অথবা অসুর নাম সম্বন্ধে এই দৃষ্টিভঙ্গী লইয়া বিচার করিয়াছি যে, তাহাদের মধ্যে কি কাহাকেও অনার্য্য বা মূল অধিবাসীদের মধ্যে উৎপন্ন স্বীকার করা যাইতেপারে? বাস্তবিক পক্ষে এরূপ কোনও নাম তো আমি খুঁজিয়া পাই নাই।</p>
+
+        <p class="prose">ঋগ্বেদে ৯ মণ্ডল, ৬৩ সূক্ত, ৫ মন্ত্রে বলা হইয়াছে—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">ইন্দ্রং॒ বর্ধ॑ন্তো অ॒প্তুর॑: কৃ॒ণ্বন্তো॒ বিশ্ব॒মার্য॑ম্ ।<br>অ॒প॒ঘ্নন্তো॒ অরা॑ব্ণঃ ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ৯/৬৩/৫</cite>
+        </div>
+
+        <p class="prose">পরমেশ্বরের আদেশ— তোমরা জ্ঞানৈশ্বর্য্য অথবা আত্মিক শক্তি বৃদ্ধি করিতে করিতে কর্মশীল, প্রমাদরহিত হইয়া দানহীনতার ভাব নাশ করিয়া-কার্পণ্য ত্যাগ করিয়া (বিশ্বম্ আর্যম্ কৃণ্বন্তঃ) বিশ্ব সংসারকে আর্য্য করো।</p>
+
+        <p class="prose">এই মন্ত্রে সকলকে আর্য্য করিবার প্রেরণা দেওয়া হইয়াছে। যদি আৰ্য্য ও দস্যু জন্মগতভাবে বা পরস্পরাগতভাবে হইত, তাহা হইলে তাহাদের সকলকে সংস্কার করিয়া কিভাবে আয্য করা যাইত? এই মন্ত্রটিকে বিচার করিলে ইহা পরিষ্কার প্রতীত হয় যে, আর্য্য করিতে হইলে কোনও বিশেষ গুণের বিকাশ সাধন প্রয়োজন। ইহার দ্বারা ইহা স্পষ্ট হইল যে, যাহাতে এই সমস্ত গুণ নাই অর্থাৎ যাহারা মূর্খ, আলস্যপরায়ণ ও কৃপণ বা অনুদার, তাহারা আর্য্য নহে, তাহারা দস্যু। ইহার তাৎপর্য্য এই যে, আর্য্য ও দস্যু শব্দ জাতিবাচক নহে ইহা গুণবাচক।</p>
+      </section>
+
+      <!-- ============ বৈদিক বাঙময়ে আর্য্য শব্দের প্রয়োগ ============ -->
+      <section class="section" id="arya-usage">
+        <h2 class="section-title">বৈদিক বাঙ্‌ময়ে 'আর্য্য' শব্দের প্রয়োগ</h2>
+
+        <div class="mantra">
+          <p class="mantra-text">বি জা॑নী॒হ্যার্যা॒ন্যে চ॒ দস্য॑বো ব॒র্হিষ্ম॑তে রন্ধয়া॒ শাস॑দব্র॒তান্।<br>শাকী॑ ভব॒ যজ॑মানস্য চোদিতা॒ বিশ্বেত্তা তে॑ সধ॒মাদে॑ষু চাকন ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ১/১৫১/৮</cite>
+        </div>
+
+        <p class="prose">এই মন্ত্রে 'আর্য্য' শব্দ দস্যুর বিলোম অর্থে প্রযুক্ত হইয়াছে এবং দস্যুদের পক্ষে বিশেষণ রূপে ❝অব্রত❞ শব্দের প্রয়োগ করা হইয়াছে। ইহা দ্বারা ❝আর্য্য❞ শব্দের অর্থ শ্রেষ্ঠ, উত্তম গুণযুক্ত পরোপকারী মানুষ বুঝায়।</p>
+
+        <p class="prose">বেদের যে যে স্থলে আৰ্য্য শব্দ প্রযুক্ত হইয়াছে, উহার অর্থ সর্বত্র শুভগুণান্বিত মন্থরা বাচক জানিতে হইবে।</p>
+
+        <p class="prose">অমরকোষ ২/৭/৩-এ উল্লেখ আছে—</p>
+        <div class="mantra">
+          <p class="mantra-text">মহাকুলকুলীনার্য সভ্যসজ্জন সাদরঃ।</p>
+        </div>
+        <p class="prose">এইভাবে আর্য্য শব্দ কুলীন, সজ্জন, সভ্য, সাধু প্রভৃতির পর্য্যায় বাচক শব্দ।</p>
+
+        <p class="prose">যোগবাসিষ্ঠ নির্বাণ পূঃ ১২৬/৫৪ তে বলা হইয়াছে—</p>
+        <div class="mantra">
+          <p class="mantra-text">কর্ত্তব্যমাচরন্ কামমকর্ত্তব্যমনাচরন্।<br>তিষ্ঠতি প্রকৃতাচারো ষঃ স আর্য্য ইতিস্মৃতঃ।</p>
+        </div>
+        <p class="prose">যে ব্যক্তি সদা সর্বদা কর্তব্য আচরণ করে, এবং অকর্তব্য কর্ম অর্থাৎ পাপ কর্ম হইতে দূরে থাকে, সে আর্য্য।</p>
+
+        <p class="prose">কোনও বিদ্বান ব্যক্তি নিম্নলিখিত আটটি গুণ সম্পন্ন মানুষের আধ্য সংজ্ঞা দিয়াছেন—</p>
+        <div class="mantra">
+          <p class="mantra-text">জ্ঞানী তুষ্টশ্চ দান্তশ্চ সত্যবাদী জিতেন্দ্রিয়ঃ।<br>দাতা দয়ালুর্নম্রশ্চ স্যাদার্যো হ্যাষ্টভির্ণৈঃ।।</p>
+        </div>
+        <p class="prose">অর্থাৎ যে ব্যক্তি জ্ঞানী, সদা সন্তুষ্টচিত্ত, মনঃসংযমকারী, সত্যবাদী, জিতেন্দ্রিয়, দাতা, দয়ালু ও নম্র সে আর্য্য।</p>
+
+        <p class="prose">মহাভারতে উল্লেখ আছে—</p>
+        <div class="mantra">
+          <p class="mantra-text">ন বৈরমুদ্দীপযতি প্রশান্তং ন দর্পমারোহতি নাস্তমেতি।<br>ন দুর্গতোহম্মীতি করোত্যকার্য তমার্যশীলং পরমাহুরার্যাঃ ।<br>ন স্বে সুখে বৈ কুরুতে প্রহর্য নান্যস্য দুঃখে ভবতি প্রহৃষ্টঃ।<br>দত্ত্বা ন পশ্চাৎ কুরুতেঽনুতাপং স কথ্যতে সৎপুরুষার্যশীলঃ।।</p>
+          <cite class="mantra-cite">— উদ্যোগ পর্ব ৩৫/১১৭-১১৮</cite>
+        </div>
+
+        <p class="prose">অর্থাৎ যে একবার শান্ত হইয়া পরে বৈরতা বৃদ্ধি করে না, যে অভিমান করে না, কদাপি নিরাশ হয় না, আপন সুখে অধিক প্রসন্নতা অনুভব করে না এবং অপরের দুঃখ দেখিয়া সুখী হয় না, দান দিয়া যে অনুতাপ করে না, সে আর্য্য।</p>
+
+        <p class="prose">এই সমস্ত গুণ ধারণকারী, সে, যে কোনও ব্যক্তি হউক না কেন, সে, যে কোনও দেশ, বংশ বা কূলে জন্মলাভ করুক না কেন, সে আর্য্য।</p>
+
+        <p class="prose">ভগবদ্গীতায় বর্ণনা আছে, যখন শ্রীকৃষ্ণ দেখিলেন যে, বীর অর্জুন মোহবশে ক্ষত্রিয় ধর্ম হইতে বিচ্যুত হইতেছে তখন তিনি অর্জুনের এতাদৃশ আচরণকে <strong>❝অনার্যজুষ্ট❞ (গীতা ২।২)</strong> বলিয়া তাহাকে তিরষ্কার করেন।</p>
+
+        <p class="prose">বাল্মীকি রামায়ণে রামের, সকলের প্রতি সমদৃষ্টি ও সর্বজনে চন্দ্রমার ন্যায় প্রিয়দর্শনকারী হওয়ায় তাঁহাকে ❝আর্য্য❞ বলা হইয়াছে-</p>
+        <div class="mantra">
+          <p class="mantra-text">আর্যঃ সর্বসমশ্চৈব সদৈব প্রিযদর্শনঃ।</p>
+          <cite class="mantra-cite">— বালকাণ্ড ১।১৬</cite>
+        </div>
+
+        <p class="prose"><strong>অযোধ্যা কান্ডে (১৩/৫)</strong> রামকে কৈকেয়ীর বনবাসে পাঠাইবার দাবী শুনিয়া তাহাকে রাজা দশরথ <strong>❝অনার্য্য❞</strong> বলিয়া সম্বোধিত করিয়াছিলেন। আবার স্বয়ং <strong>মহর্ষি বাল্মীকি ও (১৯/১৯ শ্লোকে)</strong> এই কারণেই তাহাকে <strong>❝অনার্য্য❞</strong> আখ্যা দিয়া তাহার নিন্দা করেন।</p>
+
+        <p class="prose">মহাত্মা বুদ্ধ ও সজ্জন ব্যক্তিদের উদ্দেশ্যে সাদা ❝আর্য্য❞ শব্দের প্রয়োগ করিয়া উহার লক্ষণ এরূপ করিয়াছেন।</p>
+
+        <div class="mantra">
+          <p class="mantra-text">ন তেন অরিয়ো হোড়ি যেন পাণানি হিংসতি।<br>অহিংসা সবপাণানং অরিষো তি পবুচ্চতি।</p>
+          <cite class="mantra-cite">— ধম্মপদ ২৭০</cite>
+        </div>
+
+        <p class="prose">অর্থাৎ প্রাণী হননকারীরা আর্য্য নহে। যে সর্বপ্রাণীর প্রতি অহিংসাভাব রক্ষাকারী সে ❝আর্য্য❞।</p>
+      </section>
+
+      <!-- ============ দস্যু শব্দের প্রয়োগ ============ -->
+      <section class="section" id="dasyu-usage">
+        <h2 class="section-title">দস্যু শব্দের প্রয়োগ</h2>
+
+        <p class="prose">❝আর্য্য❞ শব্দের ক্লায় ❝দস্যু❞ শব্দও গুণবাচক। এ কারণ সর্ব মহাভারতে দেশ ও কালে দস্যুর বিদ্যমানতা পাওয়া যায়।</p>
+
+        <p class="prose"><strong>শান্তিপর্ব ৬২/২৩-এ</strong> বলা হইয়াছে—</p>
+        <div class="mantra">
+          <p class="mantra-text">দৃশ্যন্তে মানুষে লোকে সর্ববর্ণেষু দস্যবঃ।<br>লিঙ্গান্তরে বর্ত্তমানা আশ্রমেষু চতুর্ষ্বপি।।</p>
+        </div>
+
+        <p class="prose">সকল প্রাণী ও বর্ণে, দস্যু স্বভাবের মানুষ থাকে। দস্যু শব্দের অর্থ ব্যুৎপত্তি ও তাহাদের গুণ কর্ম ও স্বভাবের উপর আশ্রিত হওয়ায় সমর্থন যোগ্য। ❝দস্যু উপক্ষষে❞ ধাতুর উত্তর যুচ্ প্রত্যয় যোগে দস্যু শব্দ সিদ্ধ হয়, নিরুক্তে (৭/২৩) ইহার ব্যুৎপত্তি এইভাবে আছে—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">দস্যুর্দস্যতেঃ ক্ষযার্থাদুপদস্যন্ত্যস্মিন্ রসা উপদাসযতি কর্মাণি।</p>
+        </div>
+
+        <p class="prose">সেই দস্যু, যে (অকর্মা) কর্মবিমুখ অথবা কুৎসিত কর্মা। যে শুভ কর্মহীন অথবা যে শুভ কর্মে বিঘ্ন সৃষ্টি করে।</p>
+
+        <p class="prose">ঋগ্বেদ ১০/২২/৮ মন্ত্রে দস্যুর লক্ষণ এইরূপ দেওয়া আছে।</p>
+
+        <div class="mantra">
+          <p class="mantra-text">অ॒ক॒র্মা দস্যু॑র॒ভি নো॑ অম॒ন্তু-র॒ন্যব্র॑তো॒ অমা॑নুষঃ ।<br>ত্বং তস্যা॑মিত্রহ॒ন্বধ॑র্দা॒সস্য॑ দম্ভয় ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ১০/২২/৮</cite>
+        </div>
+
+        <p class="prose">অর্থাৎ যে বিচার বিবেচনা করিয়া কর্তব্য করে না, যে অহিংসা, সত্য, দয়া প্রভৃতি ব্রত ধারণ না করিয়া উহার বিপরীত হিংসা, অসত্য, ক্রুরতা আদি আচরণ করে। বেদ এতাদৃশ অমানবীয় এবা অসামাজিক ব্যক্তিদেরই দশ্য নামে অভিহিত করিয়া তাহাদের বিনাশের উপর বল দিয়াছে—</p>
+
+        <p class="prose">ঋগ্বেদের এই মন্ত্রটি এ প্রসঙ্গে বিশেষ উল্লেখযোগ্য।</p>
+
+        <div class="mantra">
+          <p class="mantra-text">আ সং॒যত॑মিন্দ্র ণঃ স্ব॒স্তিং শ॑ত্রু॒তূর্যা॑য় বৃহ॒তীমমৃ॑ধ্রাম্।<br>যয়া॒ দাসা॒ন্যার্যা॑ণি বৃ॒ত্রা করো॑ বজ্রিন্ৎসু॒তুকা॒ নাহু॑ষাণি ॥</p>
+          <cite class="mantra-cite">— ঋগ্বেদ ৬/২২/১০</cite>
+        </div>
+
+        <p class="prose">এই মন্ত্রে ইন্দ্র বা রাজাকে বলা হইয়াছে যে, তুমি (বৃত্রাদাসান্যার্যাণিকরঃ) ধর্ম কর্মে বিঘ্ন সৃষ্টিকারী এবং উহাদের নাশকারী। দাসদের ও আর্য্য অর্থাৎ শ্রেষ্ঠ, সদাচারী করো। সায়ণাচার্য্য ইহার অর্থ করিয়া লিখিতেছেন—ইন্দ্রের কাৰ্য্য (দাসানি) <strong>❝কর্মহীনানি মনুষ্যজাতানি❞,</strong> কর্মহীন মনুষ্যকে (আৰ্য্যাণি) শ্রেষ্ঠ মনুষ্য করিতে হইবে। ইহা দ্বারা স্পষ্ট জানা যায় যে, আর্য্য ও দস্যু শব্দের মধ্যে যে পার্থক্য উহা কর্মের কারণ, জাতির কারণ নহে।</p>
+
+        <p class="prose">মনুস্মৃতি (১০/৪৫) বলে—</p>
+
+        <div class="mantra">
+          <p class="mantra-text">মুখ বাহুরুপজ্জানাং যা লোকে জাতযো বহিঃ।<br>ম্লেচ্ছবাচশ্চার্ষ বাচঃ সর্বে তে দস্যবঃ স্মৃতাঃ।</p>
+          <cite class="mantra-cite">— মনুস্মৃতি ১০/৪৫</cite>
+        </div>
+
+        <p class="prose">অর্থাৎ সংসারে ব্রাহ্মণাদি বর্ণ অপেক্ষা শ্রেষ্ঠ কর্ম না করিবার জন্ম যাহারা বহিষ্কৃত তাহারা যদি ম্লেচ্ছ ভাষা, বা আর্য্য ভাষাও বলে তাহারা সকলে দস্যু নামে অভিহিত হইবে। ইহা দ্বারা স্পষ্ট হইল যে, আর্য্যদের মধ্যেও যাহারা দুষ্ট প্রকৃতির তাহারাও দস্যু পদ বাচ্য।</p>
+
+        <p class="prose">মেকডলন লিখিয়াছেন—</p>
+        <blockquote class="src">❝The term Dasa, Dasyu properly the name of the dark aborgines.❞</blockquote>
+
+        <p class="prose">গ্রিফিথ ঋগ্বেদের ১/১০/১ টিপ্পনীতে লিখিতেছেন—</p>
+        <blockquote class="src">❝The dusky brood: The dark aborginies who opposed the Aryans.❞</blockquote>
+
+        <p class="prose">অর্থাৎ কৃষ্ণবর্ণের আদিবাসী;—যাহারা আৰ্য্যদের বিরুদ্ধাচরণ করিত; তাহাদের দাস বা দস্যু বলা হইত। ভারতের তথা কথিত আদিবাসীদের কৃষ্ণকায় প্রমাণ করিবার জন্য তিনি ঋগ্বেদের (১/১০১/১; ১/১৩০/৮; ২/২০/৭; ৪/১৬/১৩; ৬/৪৭/২১; ৭/৫/২) এই ছয়াট মন্ত্রের উচ্চারণ দিয়া প্রমাণ করিবার প্রয়াস করিয়াছেন যে, এই সমস্ত মন্ত্রে কৃষ্ণ শব্দ ব্যবহৃত হইয়াছে। বাস্তবিক পক্ষে এই সমস্ত মন্ত্রে যে কৃষ্ণ শব্দ প্রযুক্ত হইয়াছে উহা মনুষ্য বিশেষের জন্য নহে কিন্তু উহা বিভিন্ন প্রকারের মেঘের বর্ণনা। যথা—<strong>❝কৃষ্ণগর্ভা❞।</strong> স্কন্দস্বামী ইহার অর্থ করিয়াছেন—<strong>❝বৃষ্টিলক্ষণা আপ: কৃষ্ণগর্ভা❞; কৃষ্ণবর্ণস্য মেঘস্ত গর্ভভূতত্বাৎ।</strong> ঘন কালো মেঘকে ❝<strong>কৃষ্ণগর্ভাঃ❞</strong> বলা হইয়াছে। বেদে দস্যুদের তথা কথিত নেতা ইলিবীশ শম্বর, চুমুরি, খুনি, বর্চিন্ প্রভৃতি মেঘের বিভিন্ন প্রকার ভেদ বণিত হইয়াছে। এরূপ বহু মন্ত্র আছে যেস্থলে ইন্দ্রকে <strong>❝বৃত্রহা❞</strong> অর্থাৎ বৃত্র সংহারকারী বলা হইয়াছে। বেদে মেঘের নাম বৃত্র এবং উহাকে বিদীর্ণ করিয়া বর্ষণকারী হওয়ায় সূর্য্য অথবা বিদ্যুতের নাম ইন্দ্র। যাস্কাচার্য্য, আজ হইতে প্রায় পাঁচ হাজার বৎসর পূর্বে বেদার্থ দীপিকা নিরুক্ত রচনা করিয়া লিখিয়াছেন—</p>
+
+        <p class="prose"><strong>অপাং জ্যোতিষশ্চ মিশ্রীভাব কর্মণো বর্য কর্ম জাযতে।</strong> অর্থাৎ যুদ্ধ প্রতীতকারী এই বর্ণনা বর্ষার প্রক্রিয়ার সহিত সম্বন্ধযুক্ত। বেদের কাব্যাত্মক বর্ণনা ভঙ্গীকে না বুঝিবার জন্য পাশ্চাত্য পণ্ডিতের দল বেদে প্রযুক্ত শব্দ তথা মন্ত্রের কদর্থ করিয়া যাহা নহে তাহাই লিখিয়াছেন।</p>
+
+        <p class="prose">পাশ্চাত্য মতবাদীরা <strong>❝শিশ্নদেবাঃ❞</strong> পদকে গ্রহণ করিয়া ইহা প্রমাণ করিবার চেষ্টা করিয়াছেন যে, আদিবাসীরা শিশ্ন অর্থাৎ লিঙ্গপূজক ছিল। তাঁহাদের এরূপ অর্থ ভ্রমাত্মক। <strong>❝শিশ্নদেবাঃ❞</strong> পদের অর্থ-❝শিশ্নেণ উপস্থেন্দ্রিষেণ দীব্যন্তি ক্রীডন্তি ইতি শিশ্নদেবাঃ❞। অর্থাৎ কামী, ভোগপরায়ণ, ব্যভিচারী পুরুষকে বেদে <strong>❝শিশ্নদেবঃ❞</strong> বলা হইয়াছে। যাস্কাচার্য্য ঋগ্বেদের ৭/২১/৫ মন্ত্রের ব্যাখ্যা প্রসঙ্গে <strong>❝শিশ্নদেবাঃ❞</strong> পদের সরল অর্থ করিয়াছেন— ❝অব্রহ্মচর্যাঃ❞(নিরুক্ত ৪/১৯)। ঋগ্বেদে ৭/২১/৫ এবং ১০/৯৯/৩ এই দুই ❝শিশ্নদেব❞ পদ পাওয়া যায়। এই দুই মন্ত্রে প্রার্থনা করা হইয়াছে যে, জনপীড়ক, বঞ্চক, কুটিল তথা শিশ্নদেব = ব্যভিচারী। অর্থাৎ দুষ্টরা আমাদের যজ্ঞকর্মে = ধর্মকর্মে যেন বিঘ্ন সৃষ্টি না করে। এই মন্ত্র সমূহে পূজা প্রকরণ নাই। যে কোনও দেশ কাল তথ্য সমাজ সম্বন্ধিত বিষয়ী অথবা ব্যভিচারী পুরুষকে <strong>❝শিশ্নদেব❞</strong> নামে অভিহিত করা যাইতে পারে।</p>
+
+        <p class="prose">বেদে অরত, অনব্রত, অযজ্যু, অকর্মন, অমানুষ, অদেবযুঃ, কুসীদী ব্যক্তিদের; সে যে কোনও জাতি বা শ্রেণীর ব্যক্তি হোক না কেন, দস্যু বলা হইয়াছে। পাশ্চাত্য বিদ্বান ব্যক্তিরা রাজনীতিক কারণে ভারতীয়দের মধ্যে বিভেদ সৃষ্টি করিবার উদ্দেশ্যে বেদমন্ত্র ও বৈদিক শব্দসমূহে কল্পিত মন গড়া অর্থ করিয়াছেন।</p>
+
+        <p class="prose">বেনে ❝অনাসঃ❞ শব্দের প্রয়োগ পাওয়া যায়। ইহাকে দেখিয়া পাশ্চাত্যবাসী বিদ্বানেরা ইহার অর্থ করিলেন—যাহার ❝নাসিকা❞ নাই অর্থাৎ থ্যাবড়া নেকো। তাঁহাদের এরূপ কল্পনা নিরাধার। ❝নাস্❞ শব্দের অর্থ নাসিকা নহে, এরূপ অর্থ ভ্রমাত্মক। ❝নাস্❞ শব্দের অর্থ শব্দ করা। ❝ণাস্ শব্দে❞, এই ধাতু হইতে ❝নাসতে শব্দং করোতি নাঃ (নাস্) অর্থাৎ যে শব্দ করে, সে ❝নাস্❞। ❝ন শব্দং করোতি ইতি অনাস্❞—যে শব্দ করে না সে ❝অনাস্❞। ঋগ্বেদের যে মন্ত্রে (৫।২৯/১০) এই শব্দ প্রয়োগ করা হইয়াছে, সে স্থলে মেঘের প্রকরণ আছে। এই কারণে মেঘের বিশেষণ রূপে ইহা অর্থ—যে গর্জন করেনা = অগর্জনকারী মেঘ। ঘ্রাণেন্দ্রিয় রূপ নাসিকার সহিত, ❝অনাস্❞, সে খ্যাবড়ান বা অল্প যে কোনও প্রেকারের হউক না কেন, উহার সহিত কোনও সম্বন্ধ নাই।</p>
+
+        <p class="prose">দুর্ভাগ্যবশতঃ, প্রকারান্তরে—প্রাচীন ভারতের ইতিহাসকে নিমিত্তমাত্র খাড়া করিয়া বেদ ও বৈদিক যুগের আর্য্যদের যে সমস্ত চিত্র বর্তমান এবং ভবিষ্যৎ বংশধরদের সম্মুখে তুলিয়া ধরা হইতেছে, উহাকে পাঠ করিয়া ও শুনিয়া কাহারও হৃদয়ে আপন অতীতের প্রতি গৌরবের ভাবনা থাকিতে পারে না। বর্তমান সময়ে আমাদের শিক্ষা প্রতিষ্ঠান সমূহে যা কিছু পড়ান হইতেছে উহার সমস্তই Made in England। এই প্রবন্ধে আমরা ভারতের মহান বৈজ্ঞানিক, শিক্ষাশাস্ত্রী তথা বিশ্ববিদ্যালয় অনুদান আয়োগের (University Grants Commission) তৎকালীন অধ্যক্ষ ডক্টর দৌলত সিংহ কোঠারীর বক্তৃতার কিয়দংশ উদ্ধৃত করা উচিত মনে করি। কোঠারী মহোদয় তাঁহার ১৯৬৯ সালে দিল্লীতে অনুষ্ঠিত International Conference on Science and Technology-র সমারোহ উপলক্ষ্যে বক্তৃতা দান কালে বলিয়াছিলেন—</p>
+
+        <blockquote class="src">❝I regret that the centre of gravity of India's intellectual life was "out side India". We are influenced largely by what happens outside. Indian universities have been implanted from out-side and had not yet taken roots in the Country's soil. Indian thought enshrined in ancient Sanskrit books did not find a place in the coun-try's University education. The Country should rediscover its ancient heritage.❞
+          <cite>— The Tribune, dated 18.1.1969</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ দুঃখের বিষয় এই যে, দেশের বৌদ্ধিক জীবনের আকর্ষণ কেন্দ্রটি ভারতের বাহিরে। যাহা কিছু আবিষ্কার করা হয়, প্রায়ই আমরা উহার প্রভাবে আকৃষ্ট হই। ভারতীয় বিশ্ববিদ্যালয়রূপী বৃক্ষটি বাহির হইতে আনিয়া রোপণ করা হইয়াছে এবং উহার শিকড়টি আজ পর্যন্ত দেশের মাটিতে গজাইতে পারিল না। আমাদের প্রাচীন গ্রন্থ সমূহের মধ্যে সংস্কৃত ভাষা সুরক্ষিত ভাবে দেশের বিশ্ববিদ্যালয়ীয় শিক্ষার মধ্যে স্থান পাইল না। দেশকে তাহার নিজের প্রাচীন পরস্পরাকে আবিষ্কার করিতে হইবে।</p>
+
+        <p class="prose">পরন্ত ডক্টর কোঠারীর ন্যায় মনীষীর সতর্কবাণী উচ্চারিত হইলেও দেশে যাহা হইতেছে উহার পরিচয় ১৫ই ফেব্রুয়ারী ১৯৭৯ সালের দিল্লীতে অনুষ্ঠিত Indian History and Culture Society-র বার্ষিক অধিবেশন উপলক্ষ্যে প্রদত্ত বারাণসী বিশ্ববিদ্যালয়ের অধ্যাপক ডক্টর লল্লনজী গোপাল মহোদয়ের নিম্ন বক্তব্য উহার পুষ্টি করে।</p>
+
+        <blockquote class="src">❝Before the Communist party formed its government in China, it carried on for 20 years a systematic campaign of producing books interpreting every aspect of Chinese life in Marxist terms. The aim behind it was to prepare the people to accept the correctness of various phases. of man's history as described by Marx. A similar attempt is being made by historians here Dr. D. N. Jha who is Joint Secretary of Indian History Congress and his colleagues in Delhi University did not hide their marxist leaings and said that they would live to interpret historical events in Marxist terms.❞
+          <cite>— Indian Express, Feb. 14–15, 1979</cite>
+        </blockquote>
+
+        <p class="prose">অর্থাৎ চীনে সাম্যবাদী দলের সরকার গঠনের পূর্বে নিরন্তর কুড়ি বৎসর পর্যন্ত যোজনা বদ্ধ রূপে এই রূপ গ্রন্থ রচনা করিতে লাগিল যাহাতে চীনী জীবন যাপন প্রণালীর ব্যাখ্যা মার্কসের মতবাদ অনুসারে করা হইয়াছিল। ইহার উদ্দেশ্য ছিল সেখানকার জনতার মস্তিষ্ককে এভাবে প্রস্তুত করা যে, ভবিষ্যতে যখন সময় আসিবে তখন মানব ইতিহাসের সাম্যবাদী ব্যাখ্যা জনতার ধোলাই করা মস্তিষ্ক স্বীকার করিবে। ভারতেও ইতিহাসের বিদ্বান ব্যক্তিরা এই ভাবের গ্রন্থ রচনায় লাগিয়া আছেন। দিল্লী বিশ্ববিদ্যালয়ে ডঃ ডী. এন. ঝা (যিনি Indian History Congress সংস্থার সংযুক্ত সচিব) এবং তাঁহার সহযোগী আপন সাম্যবাদী দৃষ্টিভঙ্গীকে লুকাইয়া রাখেন নাই। তিনি পরিষ্কার ভাবে বলেন যে, তিনি ঐতিহাসিক ঘটনার ব্যাখ্যা মার্কসের স্বাকৃতি অনুসারে করিতে তৎপর আছেন।</p>
+
+        <p class="prose">তাৎপর্য্য এই যে, ভারতের ইতিহাসে এবার সাম্যবাদী রঙ লেপন করিবার কার্য্য চলিতেছে। অপরদিকে ভারত সরকার দ্বারা ভারতের ইতিহাসকে বিকৃত করা হইতেছে। রাজ্য সমূহের সহযোগিতায় কেন্দ্রীয় শিক্ষা মন্ত্রালয়ের তত্ত্বাবধানে পাঠ্যক্রম হইতে অবাঞ্ছনীয় পুস্তক সমূহ ছাঁটিয়া ফেলিবার যোজনা অনুসারে কাজ চলিতেছে। এবার রাষ্ট্রীয় পরিষদ ইতিহাস লিখিবার যে পরামর্শ দিয়াছে, যদি উহা প্রতিপালিত হয়, তাহা হইলে বিদ্যালয়ে পাঠ্য ইতিহাস কেবল নিরর্থকই হইবে না, কিন্তু সত্য সন্ধানের দিক দিয়া ইতিহাসের ভূমিকাই সন্দেহের আবর্তে আবদ্ধ হইয়া যাইবে। উদাহরণ স্বরূপ গুপ্ত শাসনকালের ভারতীয় ইতিহাসকে সুবর্ণময় যুগ বা ঔরঙ্গজেবকে ইসলামের ধ্বজাধারী বলা চলিবে না, মুসলিম শাসকদের বিদেশী বলা চলিবে না। এইরূপ কোনও কালাংশকে ❝স্বর্ণযুগ❞ বা অন্ধকারযুগ বলা মান্য হইবে না। যদি নবীন নির্দেশ প্রতিপালিত হয়, তাহা হইলে মহারাষ্ট্রের পাঠ্য পুস্তকে শিবাজীকে বিশেষ গৌরবের অধিকারী করা যাইবে না।</p>
+
+        <p class="footnote" style="text-align:right; border-top:none;">— নবভারত টাইমস, দিল্লী · ২৫।১/৮২</p>
+
+        <p class="prose">প্রথমে মুসলমানরা আমাদের ইতিহাসকে নষ্ট করিয়াছে, তাহার পর ইংরেজরা উহাকে বিকৃত করিয়াছে, এবার আর এক দিক হইতে সাম্যবাদীর দল, অন্যদিক হইতে ভারত সরকার মনগড়া কর্মে সংলগ্ন। যে তথ্যকে যথাতথ্য রূপে বিবৃত করা যায় তাহাকে ইতিহাস বলে, ইতি-হ-আস। কোনও কারণে সত্যকে ভাঙিয়া চুরিয়া গঠন করা হইলে উহা বৌদ্ধিক আত্মঘাত। কালান্তরে ইহা বুঝাও কঠিন হইবে যে, অতীত দিবসের ভারত কি ছিল আর আজ কি হইয়াছে এবং ভবিষ্যতে কি হইবে।</p>
+      </section>
+
+    </article>
+
+    <footer class="site-footer">
+      <div class="om">ॐ</div>
+      <p>আর্য্যদের আদি দেশ — স্বামী বিদ্যানন্দ সরস্বতী প্রণীত<br>
+      অনুবাদ: আচার্য্য প্রিয়দর্শন, আর্য্য সমাজ কলিকাতা<br>
+      বিচার প্রকাশন, কলিকাতা · প্রথম প্রকাশ ১৩৯৪ বঙ্গাব্দ / ১৯৮৭</p>
+    </footer>
+
+  </main>
+</div>
+
+<button id="to-top" aria-label="উপরে যান">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- mobile nav toggle ---------- */
+  var sidebar = document.getElementById('sidebar');
+  var toggle = document.getElementById('nav-toggle');
+  var scrim = document.getElementById('scrim');
+
+  function openNav(){ sidebar.classList.add('open'); scrim.classList.add('show'); }
+  function closeNav(){ sidebar.classList.remove('open'); scrim.classList.remove('show'); }
+
+  if (toggle){
+    toggle.addEventListener('click', function(){
+      sidebar.classList.contains('open') ? closeNav() : openNav();
+    });
+  }
+  if (scrim) scrim.addEventListener('click', closeNav);
+
+  var navLinks = document.querySelectorAll('[data-nav]');
+  navLinks.forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.innerWidth <= 920) closeNav();
+    });
+  });
+
+  /* ---------- scroll progress bar ---------- */
+  var progress = document.getElementById('progress');
+  function updateProgress(){
+    var h = document.documentElement;
+    var scrollTop = h.scrollTop || document.body.scrollTop;
+    var scrollHeight = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    var pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    progress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  /* ---------- back to top ---------- */
+  var toTop = document.getElementById('to-top');
+  function toggleToTop(){
+    if (window.scrollY > 600) toTop.classList.add('show');
+    else toTop.classList.remove('show');
+  }
+  window.addEventListener('scroll', toggleToTop, { passive: true });
+  toTop.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  toggleToTop();
+
+  /* ---------- scroll-spy for sidebar active link ---------- */
+  var sections = Array.from(document.querySelectorAll('.section[id]'));
+  var linkMap = {};
+  navLinks.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    linkMap[id] = a;
+  });
+
+  function onScrollSpy(){
+    var activeId = null;
+    var scrollPos = window.scrollY + 140;
+    for (var i = 0; i < sections.length; i++){
+      if (sections[i].offsetTop <= scrollPos) activeId = sections[i].id;
+    }
+    navLinks.forEach(function(a){ a.classList.remove('active'); });
+    if (activeId && linkMap[activeId]){
+      linkMap[activeId].classList.add('active');
+    }
+  }
+  window.addEventListener('scroll', onScrollSpy, { passive: true });
+  onScrollSpy();
+
+  /* ---------- in-page search ---------- */
+  var searchInput = document.getElementById('search-input');
+  var searchCount = document.getElementById('search-count');
+  var articleRoot = document.getElementById('article-root');
+  var originalHTML = null;
+
+  function clearHighlights(){
+    if (originalHTML !== null){
+      articleRoot.innerHTML = originalHTML;
+      originalHTML = null;
+    }
+  }
+
+  function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function runSearch(query){
+    if (!query || query.trim().length === 0){
+      clearHighlights();
+      searchCount.textContent = '';
+      searchCount.classList.remove('has-results');
+      return;
+    }
+    if (originalHTML === null){
+      originalHTML = articleRoot.innerHTML;
+    } else {
+      articleRoot.innerHTML = originalHTML;
+    }
+
+    var q = query.trim();
+    var re = new RegExp(escapeRegExp(q), 'gi');
+    var matchCount = 0;
+    var firstMatchEl = null;
+
+    var walker = document.createTreeWalker(articleRoot, NodeFilter.SHOW_TEXT, null, false);
+    var textNodes = [];
+    var node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue && re.test(node.nodeValue)) {
+        textNodes.push(node);
+      }
+      re.lastIndex = 0;
+    }
+
+    textNodes.forEach(function(tn){
+      var matches = tn.nodeValue.match(re);
+      if (!matches) return;
+      matchCount += matches.length;
+      var frag = document.createDocumentFragment();
+      var lastIndex = 0;
+      var text = tn.nodeValue;
+      var localRe = new RegExp(escapeRegExp(q), 'gi');
+      var m;
+      while ((m = localRe.exec(text)) !== null) {
+        frag.appendChild(document.createTextNode(text.slice(lastIndex, m.index)));
+        var mark = document.createElement('mark');
+        mark.className = 'search-match';
+        mark.textContent = m[0];
+        frag.appendChild(mark);
+        if (!firstMatchEl) firstMatchEl = mark;
+        lastIndex = m.index + m[0].length;
+      }
+      frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+      tn.parentNode.replaceChild(frag, tn);
+    });
+
+    if (matchCount > 0){
+      searchCount.textContent = matchCount + ' টি মিল পাওয়া গেছে';
+      searchCount.classList.add('has-results');
+      if (firstMatchEl){
+        firstMatchEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } else {
+      searchCount.textContent = 'কোনো মিল পাওয়া যায়নি';
+      searchCount.classList.remove('has-results');
+    }
+  }
+
+  var searchTimer = null;
+  if (searchInput){
+    searchInput.addEventListener('input', function(){
+      clearTimeout(searchTimer);
+      var val = searchInput.value;
+      searchTimer = setTimeout(function(){ runSearch(val); }, 250);
+    });
+  }
+
+  /* ---------- light content-protection ---------- */
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  document.addEventListener('copy', function(e){
+    var selection = document.getSelection().toString();
+    if (selection && selection.length > 0){
+      e.clipboardData.setData('text/plain', selection + '\n\n— আর্য্যদের আদি দেশ, স্বামী বিদ্যানন্দ সরস্বতী');
+      e.preventDefault();
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    var blocked = (e.ctrlKey || e.metaKey) && ['u','s'].includes(e.key.toLowerCase());
+    if (blocked) e.preventDefault();
+  });
+
+})();
+</script>
+
+</body>
+</html>
