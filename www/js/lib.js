@@ -145,13 +145,32 @@ async function downloadBook(book, onProgress) {
     let pdfBlob;
     try {
       pdfBlob = await renderToPdfBlob();
-    } catch (renderErr) {
-      // Common cause: an embedded image format html2canvas can't decode
-      // (e.g. WebP, or a broken/blocked cross-origin image). Retry with
-      // all images stripped so the text content still comes through.
+    } catch (renderErr1) {
+      // Layer 2: strip all images and any inline background-image styles,
+      // which is the most common cause of "Unsupported image type".
       onProgress && onProgress("ছবিতে সমস্যা হয়েছে — ছবি ছাড়া আবার চেষ্টা করা হচ্ছে…");
       container.querySelectorAll("img").forEach((img) => img.remove());
-      pdfBlob = await renderToPdfBlob();
+      container.querySelectorAll("*").forEach((el) => {
+        if (el.style && el.style.backgroundImage) el.style.backgroundImage = "none";
+      });
+      try {
+        pdfBlob = await renderToPdfBlob();
+      } catch (renderErr2) {
+        // Layer 3: guaranteed fallback — plain text PDF via jsPDF directly,
+        // bypassing html2canvas entirely so a download never fully fails.
+        onProgress && onProgress("সরল টেক্সট PDF হিসেবে তৈরি হচ্ছে…");
+        const jsPDF = window.jspdf ? window.jspdf.jsPDF : window.jsPDF;
+        const doc = new jsPDF({ unit: "mm", format: "a4" });
+        const plainText = container.innerText || container.textContent || "";
+        const lines = doc.splitTextToSize(plainText, 180);
+        let y = 15;
+        for (const line of lines) {
+          if (y > 280) { doc.addPage(); y = 15; }
+          doc.text(line, 15, y);
+          y += 6;
+        }
+        pdfBlob = doc.output("blob");
+      }
     }
 
     onProgress && onProgress("ফোনে সেভ হচ্ছে…");

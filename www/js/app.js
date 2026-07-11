@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v4.0-ondemand-packs-2026-07-10";
+const APP_BUILD_VERSION = "v4.1-fixes-2026-07-10";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -164,7 +164,10 @@ function renderLibraryList(books, manifest) {
       if (!entry) return;
       try {
         const uri = await window.VedaLibrary.getFileUri(entry.filename);
-        window.open(uri, "_system");
+        await window.Capacitor.Plugins.FileOpener.open({
+          filePath: uri,
+          contentType: "application/pdf",
+        });
       } catch (e) {
         alert("ফাইল খুলতে সমস্যা হয়েছে: " + (e.message || e));
       }

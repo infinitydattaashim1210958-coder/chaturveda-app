@@ -13,7 +13,7 @@
 
 const CORE_DB_NAME = "core";
 const PACK_RELEASE_BASE =
-  "https://github.com/infinitydattaashim1210958-coder/chaturveda-app/releases/download/bhashyas-v1/";
+  "https://raw.githubusercontent.com/infinitydattaashim1210958-coder/chaturveda-app/main/bhashya_packs/";
 const PACK_DIR = "bhashya_packs"; // subfolder within Directory.Data
 
 function sqlitePlugin() {
