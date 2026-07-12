@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v5.5-blobreader-2026-07-12";
+const APP_BUILD_VERSION = "v5.6-nativefilesrc-2026-07-12";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -178,20 +178,11 @@ async function screenLibraryReader(bookId) {
   }
 
   try {
-    const res = await window.Capacitor.Plugins.Filesystem.readFile({
-      path: entry.filename,
-      directory: "DATA",
-      encoding: "utf8",
-    });
-    const htmlContent = res.data || "";
-    if (!htmlContent.trim()) {
-      root.innerHTML = `<div class="empty">ফাইলটা খালি এসেছে। আবার ডাউনলোড করে দেখুন।</div>`;
-      return;
-    }
+    const uri = await window.VedaLibrary.getFileUri(entry.filename);
+    const playableSrc = window.Capacitor.convertFileSrc(uri);
+
     setTitle(entry.title || "বই পড়ুন");
-    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-    const blobUrl = URL.createObjectURL(blob);
-    root.innerHTML = `<iframe class="bookReaderFrame" src="${blobUrl}"></iframe>`;
+    root.innerHTML = `<iframe class="bookReaderFrame" src="${playableSrc}"></iframe>`;
   } catch (e) {
     root.innerHTML = `<div class="empty">বই খুলতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
   }
