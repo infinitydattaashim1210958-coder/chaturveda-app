@@ -7,247 +7,436 @@
 <title>Settings - Chaturveda</title>
 
 <style>
+
 body{
-    font-family: "Noto Sans Bengali", sans-serif;
-    background:#fafafa;
     margin:0;
-    color:#222;
+    font-family:
+    "Noto Sans Bengali",
+    sans-serif;
+    background:#faf7f0;
+    color:#33251a;
 }
 
 .header{
-    background:#8b4513;
-    color:white;
     padding:20px;
     font-size:24px;
     font-weight:bold;
+    background:linear-gradient(135deg,#d4a24c,#e8915c);
+    color:white;
 }
 
 .section{
+
     margin:15px;
+
     background:white;
-    border-radius:15px;
+
+    border-radius:18px;
+
     overflow:hidden;
-    box-shadow:0 2px 8px #ddd;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,.08);
+
 }
 
-.section h3{
+
+.sectionTitle{
+
     padding:15px;
-    margin:0;
-    background:#fff4e6;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    background:#f5ead7;
+
 }
+
+
 
 .item{
-    padding:15px;
-    border-top:1px solid #eee;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
+
+    padding:16px;
+
+    border-bottom:1px solid #eee;
+
+    text-decoration:none;
+
+    color:inherit;
+
+    gap:12px;
+
 }
 
-.item a{
-    text-decoration:none;
-    color:#333;
-    width:100%;
+
+.item:last-child{
+
+    border-bottom:none;
+
 }
+
+
+.icon{
+
+    font-size:22px;
+
+}
+
+
+
+.arrow{
+
+    margin-left:auto;
+
+    opacity:.5;
+
+}
+
+
 
 .footer{
+
     text-align:center;
-    padding:30px;
-    color:#777;
+
+    padding:30px 15px;
+
+    font-size:14px;
+
+    opacity:.7;
+
 }
+
+
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="header">
-⚙ Settings
+
+⚙️ Chaturveda Settings
+
 </div>
+
+
+
 
 
 <div class="section">
 
-<h3>📖 Reader</h3>
+<div class="sectionTitle">
+📖 Reader
+</div>
 
-<div class="item">
-<a href="reader-settings.html">
+
+<a class="item" href="reader-settings.html">
+<span class="icon">📖</span>
 Reader Preferences
+<span class="arrow">›</span>
 </a>
-</div>
 
-<div class="item">
-Font Size
-</div>
-
-<div class="item">
-Font Family
-</div>
-
-<div class="item">
-Theme (Light / Dark / Auto)
-</div>
-
-<div class="item">
-Line Height
-</div>
-
-<div class="item">
-Page Margin
-</div>
-
-<div class="item">
-Justify Text
-</div>
-
-<div class="item">
-Keep Screen Awake
-</div>
 
 </div>
+
+
+
+
 
 
 
 <div class="section">
 
-<h3>📚 Library</h3>
 
-<div class="item">Downloaded Books</div>
-<div class="item">Reading History</div>
-<div class="item">Bookmarks</div>
-<div class="item">Favorites</div>
-<div class="item">Clear Cache</div>
-<div class="item">Storage Usage</div>
-
+<div class="sectionTitle">
+📚 Library
 </div>
 
 
 
-<div class="section">
-
-<h3>🌐 Language</h3>
-
-<div class="item">App Language</div>
-<div class="item">Script (বাংলা / Devanagari / English)</div>
-<div class="item">Sanskrit Transliteration</div>
-
-</div>
-
-
-
-<div class="section">
-
-<h3>🔔 Notifications</h3>
-
-<div class="item">App Updates</div>
-<div class="item">New Books</div>
-<div class="item">Reading Reminder</div>
-
-</div>
-
-
-
-<div class="section">
-
-<h3>🛡 Privacy & Legal</h3>
-
-<div class="item">
-<a href="privacy-policy.html">
-📖 Privacy Policy
+<a class="item" href="library-settings.html">
+<span class="icon">📚</span>
+Library Settings
+<span class="arrow">›</span>
 </a>
+
+
 </div>
 
-<div class="item">
-<a href="terms.html">
-📄 Terms & Conditions
+
+
+
+
+
+
+<div class="section">
+
+
+<div class="sectionTitle">
+🌐 Language
+</div>
+
+
+
+<a class="item" href="language-settings.html">
+<span class="icon">🌐</span>
+Language Settings
+<span class="arrow">›</span>
 </a>
+
+
 </div>
 
-<div class="item">
-<a href="disclaimer.html">
-⚖ Disclaimer
+
+
+
+
+
+
+
+<div class="section">
+
+
+<div class="sectionTitle">
+🔔 Notifications
+</div>
+
+
+
+<a class="item" href="notification-settings.html">
+<span class="icon">🔔</span>
+Notification Settings
+<span class="arrow">›</span>
 </a>
+
+
 </div>
 
-<div class="item">
-<a href="licenses.html">
-📜 Open Source Licenses
+
+
+
+
+
+
+
+<div class="section">
+
+
+<div class="sectionTitle">
+🔍 Search
+</div>
+
+
+
+<a class="item" href="search-settings.html">
+<span class="icon">🔍</span>
+Search Settings
+<span class="arrow">›</span>
 </a>
-</div>
+
 
 </div>
+
+
+
+
+
+
 
 
 
 <div class="section">
 
-<h3>💬 Support</h3>
 
-<div class="item">📧 Contact Us</div>
-<div class="item">💡 Send Feedback</div>
-<div class="item">🐞 Report a Bug</div>
-<div class="item">❓ Help & FAQ</div>
+<div class="sectionTitle">
+🛡 Privacy & Legal
+</div>
+
+
+
+<a class="item" href="privacy-policy.html">
+<span class="icon">📖</span>
+Privacy Policy
+<span class="arrow">›</span>
+</a>
+
+
+
+<a class="item" href="terms.html">
+<span class="icon">📄</span>
+Terms & Conditions
+<span class="arrow">›</span>
+</a>
+
+
+
+<a class="item" href="disclaimer.html">
+<span class="icon">⚖️</span>
+Disclaimer
+<span class="arrow">›</span>
+</a>
+
+
+
+<a class="item" href="licenses.html">
+<span class="icon">📜</span>
+Open Source Licenses
+<span class="arrow">›</span>
+</a>
+
 
 </div>
+
+
+
+
+
+
 
 
 
 <div class="section">
 
-<h3>⭐ About</h3>
 
-<div class="item">ℹ About Chaturveda</div>
-<div class="item">🧑‍💻 About Developer</div>
-<div class="item">🌟 Rate the App</div>
-<div class="item">📤 Share the App</div>
+<div class="sectionTitle">
+💬 Support
+</div>
+
+
+
+<a class="item" href="contact.html">
+
+<span class="icon">📧</span>
+
+Contact Us
+
+<span class="arrow">›</span>
+
+</a>
+
+
+
+<a class="item" href="feedback.html">
+
+<span class="icon">💡</span>
+
+Send Feedback
+
+<span class="arrow">›</span>
+
+</a>
+
+
+
+
+<a class="item" href="report-bug.html">
+
+<span class="icon">🐞</span>
+
+Report a Bug
+
+<span class="arrow">›</span>
+
+</a>
+
+
+
+
+<a class="item" href="faq.html">
+
+<span class="icon">❓</span>
+
+Help & FAQ
+
+<span class="arrow">›</span>
+
+</a>
+
 
 </div>
+
+
+
+
+
+
 
 
 
 <div class="section">
 
-<h3>📜 Information</h3>
 
-<div class="item">App Version</div>
-<div class="item">Build Number</div>
-<div class="item">Changelog</div>
+<div class="sectionTitle">
+⭐ About
+</div>
+
+
+
+<a class="item" href="about-chaturveda.html">
+
+<span class="icon">🕉</span>
+
+About Chaturveda
+
+<span class="arrow">›</span>
+
+</a>
+
 
 </div>
 
 
 
-<div class="section">
 
-<h3>🕉 About Chaturveda</h3>
 
-<div class="item">Mission</div>
-<div class="item">Vision</div>
-<div class="item">Sources of Vedic Texts</div>
-<div class="item">Copyright Information</div>
-
-</div>
 
 
 
 <div class="footer">
 
-<b>Chaturveda</b><br>
+
+<b>
+Chaturveda
+</b>
+
+
+<br>
+
 
 Version 1.0.0 (Build 1)
 
+
 <br><br>
 
-Developed by<br>
+
+Developed by
+
+<br>
+
 <b>Ashim Datta</b>
 
+
 <br><br>
 
-© 2026 Chaturveda<br>
+
+© 2026 Chaturveda
+
+<br>
+
 All Rights Reserved.
+
 
 </div>
 
 
+
 </body>
+
 </html>
