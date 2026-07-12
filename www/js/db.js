@@ -1,319 +1,1395 @@
 /**
- * db.js — SQLite access layer for the Chaturveda app (v3: on-demand bhashya packs).
+ * db.js — SQLite access layer for Chaturveda
  *
  * Architecture:
- *   - "core" database (bundled, small, ~25MB): vedas, mantras (Samhita text),
- *     scholars (names/metadata only — NO commentary text), scholar_fields,
- *     and a search_index over Sanskrit mantra text only.
- *   - Each scholar's actual commentary lives in a separate small SQLite file
- *     ("scholar_<id>.db"), downloaded on demand from GitHub Releases, stored
- *     in the app's private data directory, and opened as its own connection
- *     only when needed. Deleting a scholar's content just removes that file.
+ * - Core database:
+ *   core.db
+ *   Contains Vedas, Mantras, Scholars metadata,
+ *   scholar fields and search index.
+ *
+ * - Bhāṣya packs:
+ *   Downloaded on demand.
+ *   Stored in private app storage.
  */
 
+
 const CORE_DB_NAME = "core";
+
+
 const PACK_RELEASE_BASE =
   "https://raw.githubusercontent.com/infinitydattaashim1210958-coder/chaturveda-app/main/bhashya_packs/";
-const PACK_DIR = "bhashya_packs"; // subfolder within Directory.Data
+
+
+const PACK_DIR = "bhashya_packs";
+
+
+
+/**
+ * Capacitor plugins
+ */
 
 function sqlitePlugin() {
+
   return window.Capacitor.Plugins.CapacitorSQLite;
+
 }
+
+
 function fsPlugin() {
+
   return window.Capacitor.Plugins.Filesystem;
+
 }
+
+
+
+function directoryData() {
+
+  return window.Capacitor.Plugins.Filesystem.Directory.Data;
+
+}
+
+
+
+
+
+/**
+ * Initialize database
+ */
 
 async function initDB() {
-  const sqlite = sqlitePlugin();
-  const isDBExists = await sqlite.isDatabase({ database: CORE_DB_NAME });
-  if (!isDBExists.result) {
-    await sqlite.copyFromAssets({ overwrite: false });
-  }
-  await sqlite.createConnection({
-    database: CORE_DB_NAME,
-    encrypted: false,
-    mode: "no-encryption",
-    version: 1,
-    readonly: false,
-  });
-  await sqlite.open({ database: CORE_DB_NAME });
 
-  // Ensure the packs folder exists
+
+  const sqlite = sqlitePlugin();
+
+
+  // Required for Capacitor SQLite
   try {
-    await fsPlugin().mkdir({ path: PACK_DIR, directory: "DATA", recursive: true });
-  } catch (e) {
-    // already exists — fine
+
+    await sqlite.initWebStore();
+
+  } catch(e) {
+
+    console.log("SQLite WebStore already initialized");
+
   }
+
+
+
+  const dbExists = await sqlite.isDatabase({
+
+    database: CORE_DB_NAME
+
+  });
+
+
+
+  if (!dbExists.result) {
+
+
+    await sqlite.copyFromAssets({
+
+      overwrite: false
+
+    });
+
+
+  }
+
+
+
+  await sqlite.createConnection({
+
+    database: CORE_DB_NAME,
+
+    encrypted: false,
+
+    mode: "no-encryption",
+
+    version: 1,
+
+    readonly: false
+
+  });
+
+
+
+  await sqlite.open({
+
+    database: CORE_DB_NAME
+
+  });
+
+
+
+  // Create Bhāṣya directory
+
+  try {
+
+
+    await fsPlugin().mkdir({
+
+      path: PACK_DIR,
+
+      directory: directoryData(),
+
+      recursive: true
+
+    });
+
+
+  } catch(e) {
+
+
+    console.log("Pack directory exists");
+
+
+  }
+
+
 }
+
+
+
+
+
+
+
+/**
+ * Utility
+ */
+
 
 function rowsOf(result) {
-  return (result && result.values) ? result.values : [];
+
+
+  if(result && result.values) {
+
+    return result.values;
+
+  }
+
+
+  return [];
+
 }
 
-async function query(sql, params = [], database = CORE_DB_NAME) {
-  const res = await sqlitePlugin().query({ database, statement: sql, values: params });
-  return rowsOf(res);
+
+
+
+
+
+
+async function query(
+
+  sql,
+
+  params = [],
+
+  database = CORE_DB_NAME
+
+) {
+
+
+  const result = await sqlitePlugin().query({
+
+    database,
+
+    statement: sql,
+
+    values: params
+
+  });
+
+
+
+  return rowsOf(result);
+
+
 }
 
-// ---- Core (always-available) queries ----
+
+
+
+
+
+
+/**
+ * Core database queries
+ */
+
+
 
 async function getVedas() {
-  return query("SELECT * FROM vedas ORDER BY id");
+
+
+  return query(
+
+    "SELECT * FROM vedas ORDER BY id"
+
+  );
+
+
 }
+
+
+
 
 async function getVedaByCode(code) {
-  const rows = await query("SELECT * FROM vedas WHERE code=?", [code]);
+
+
+  const rows = await query(
+
+    "SELECT * FROM vedas WHERE code=?",
+
+    [code]
+
+  );
+
+
   return rows[0] || null;
+
+
 }
+
+
+
+
 
 async function getLevel1List(vedaId) {
+
+
   return query(
-    "SELECT DISTINCT level1 FROM mantras WHERE veda_id=? AND level1 IS NOT NULL ORDER BY level1",
+
+    `SELECT DISTINCT level1 
+     FROM mantras 
+     WHERE veda_id=? 
+     AND level1 IS NOT NULL 
+     ORDER BY level1`,
+
     [vedaId]
+
   );
+
+
 }
+
+
+
 
 async function getLevel2List(vedaId, level1) {
+
+
   return query(
-    "SELECT DISTINCT level2 FROM mantras WHERE veda_id=? AND level1=? AND level2 IS NOT NULL ORDER BY level2",
-    [vedaId, level1]
+
+    `SELECT DISTINCT level2
+     FROM mantras
+     WHERE veda_id=?
+     AND level1=?
+     AND level2 IS NOT NULL
+     ORDER BY level2`,
+
+    [
+
+      vedaId,
+
+      level1
+
+    ]
+
   );
+
+
 }
 
-async function getMantraList(vedaId, level1, level2) {
-  let sql = "SELECT * FROM mantras WHERE veda_id=?";
+
+
+async function getMantraList(
+
+  vedaId,
+
+  level1,
+
+  level2
+
+) {
+
+
+  let sql =
+
+    "SELECT * FROM mantras WHERE veda_id=?";
+
+
   const params = [vedaId];
-  if (level1 !== null && level1 !== undefined) {
+
+
+
+  if(level1 !== null && level1 !== undefined) {
+
+
     sql += " AND level1=?";
+
     params.push(level1);
+
+
   }
-  if (level2 !== null && level2 !== undefined) {
+
+
+
+  if(level2 !== null && level2 !== undefined) {
+
+
     sql += " AND level2=?";
+
     params.push(level2);
+
+
   }
+
+
+
   sql += " ORDER BY mantra_no, id";
+
+
+
   return query(sql, params);
+
+
 }
 
-async function getMantraRange(vedaId, fromNo, toNo) {
+
+
+
+
+async function getMantraRange(
+
+  vedaId,
+
+  fromNo,
+
+  toNo
+
+) {
+
+
   return query(
-    "SELECT * FROM mantras WHERE veda_id=? AND mantra_no BETWEEN ? AND ? ORDER BY mantra_no",
-    [vedaId, fromNo, toNo]
+
+    `SELECT *
+     FROM mantras
+     WHERE veda_id=?
+     AND mantra_no BETWEEN ? AND ?
+     ORDER BY mantra_no`,
+
+    [
+
+      vedaId,
+
+      fromNo,
+
+      toNo
+
+    ]
+
   );
+
+
 }
+
+
+
+
 
 async function getMantraCount(vedaId) {
-  const rows = await query("SELECT COUNT(*) as c FROM mantras WHERE veda_id=?", [vedaId]);
-  return rows[0].c;
+
+
+  const rows = await query(
+
+    "SELECT COUNT(*) AS c FROM mantras WHERE veda_id=?",
+
+    [vedaId]
+
+  );
+
+
+
+  return rows[0]?.c || 0;
+
+
 }
 
-async function getMantraByRef(vedaId, ref) {
-  const rows = await query("SELECT * FROM mantras WHERE veda_id=? AND mantra_ref_id=?", [vedaId, ref]);
+
+
+
+
+async function getMantraByRef(
+
+  vedaId,
+
+  ref
+
+) {
+
+
+  const rows = await query(
+
+    `SELECT *
+     FROM mantras
+     WHERE veda_id=?
+     AND mantra_ref_id=?`,
+
+    [
+
+      vedaId,
+
+      ref
+
+    ]
+
+  );
+
+
+
   return rows[0] || null;
+
+
 }
 
-async function getAdjacentMantras(vedaId, mantraId) {
-  const prevRows = await query(
-    "SELECT mantra_ref_id FROM mantras WHERE veda_id=? AND id < ? ORDER BY id DESC LIMIT 1",
-    [vedaId, mantraId]
+
+
+
+
+
+
+async function getAdjacentMantras(
+
+  vedaId,
+
+  mantraId
+
+) {
+
+
+  const previous = await query(
+
+    `SELECT mantra_ref_id
+     FROM mantras
+     WHERE veda_id=?
+     AND id < ?
+     ORDER BY id DESC
+     LIMIT 1`,
+
+    [
+
+      vedaId,
+
+      mantraId
+
+    ]
+
   );
-  const nextRows = await query(
-    "SELECT mantra_ref_id FROM mantras WHERE veda_id=? AND id > ? ORDER BY id ASC LIMIT 1",
-    [vedaId, mantraId]
+
+
+
+
+  const next = await query(
+
+    `SELECT mantra_ref_id
+     FROM mantras
+     WHERE veda_id=?
+     AND id > ?
+     ORDER BY id ASC
+     LIMIT 1`,
+
+    [
+
+      vedaId,
+
+      mantraId
+
+    ]
+
   );
+
+
+
   return {
-    prev: prevRows[0] ? prevRows[0].mantra_ref_id : null,
-    next: nextRows[0] ? nextRows[0].mantra_ref_id : null,
+
+
+    prev:
+
+      previous[0]
+
+      ? previous[0].mantra_ref_id
+
+      : null,
+
+
+
+    next:
+
+      next[0]
+
+      ? next[0].mantra_ref_id
+
+      : null
+
+
   };
+
+
 }
 
-// List of scholars for a veda — metadata only, no commentary content.
-// Includes pack_file/pack_size_bytes/entry_count/downloaded flag.
+
+
+
+
+
+
+/**
+ * Scholar metadata
+ * (Commentary is NOT stored here)
+ */
+
+
+
 async function getScholarsForVeda(vedaId) {
+
+
   const scholars = await query(
-    "SELECT * FROM scholars WHERE veda_id=? ORDER BY display_order, id", [vedaId]
+
+    `SELECT *
+     FROM scholars
+     WHERE veda_id=?
+     ORDER BY display_order,id`,
+
+    [vedaId]
+
   );
-  for (const s of scholars) {
-    s.downloaded = await isPackDownloaded(s.id);
-    s.fields = await query(
-      "SELECT field_key, display_order FROM scholar_fields WHERE scholar_id=? ORDER BY display_order",
-      [s.id]
+
+
+
+  for(const scholar of scholars) {
+
+
+    scholar.downloaded =
+
+      await isPackDownloaded(
+
+        scholar.id
+
+      );
+
+
+
+    scholar.fields = await query(
+
+      `SELECT field_key, display_order
+       FROM scholar_fields
+       WHERE scholar_id=?
+       ORDER BY display_order`,
+
+      [
+
+        scholar.id
+
+      ]
+
     );
+
+
   }
+
+
+
   return scholars;
+
+
 }
 
-// Only scholars who actually have commentary for this specific mantra
-// (uses the compact presence index — no need to download anything to know this).
-async function getScholarsForMantra(vedaId, mantraId) {
+
+
+
+
+async function getScholarsForMantra(
+
+  vedaId,
+
+  mantraId
+
+) {
+
+
   const scholars = await query(
-    `SELECT s.* FROM scholars s
-     JOIN bhashya_presence p ON p.scholar_id = s.id
-     WHERE s.veda_id=? AND p.mantra_id=?
-     ORDER BY s.display_order, s.id`,
-    [vedaId, mantraId]
+
+    `SELECT s.*
+     FROM scholars s
+     JOIN bhashya_presence p
+     ON p.scholar_id=s.id
+     WHERE s.veda_id=?
+     AND p.mantra_id=?
+     ORDER BY s.display_order,s.id`,
+
+    [
+
+      vedaId,
+
+      mantraId
+
+    ]
+
   );
-  for (const s of scholars) {
-    s.downloaded = await isPackDownloaded(s.id);
+
+
+
+  for(const scholar of scholars) {
+
+
+    scholar.downloaded =
+
+      await isPackDownloaded(
+
+        scholar.id
+
+      );
+
+
   }
+
+
+
   return scholars;
+
+
 }
+
+
+
+
+
+
+
+/**
+ * Full text search
+ */
+
 
 function escapeFTS(term) {
-  return '"' + term.replace(/"/g, '""') + '"';
+
+
+  return '"' +
+
+    term.replace(/"/g,'""')
+
+    + '"';
+
+
 }
 
-async function search(vedaCode, term, limit = 50) {
-  const ftsTerm = escapeFTS(term.trim());
-  let sql = "SELECT * FROM search_index WHERE search_index MATCH ?";
+
+
+
+async function search(
+
+  vedaCode,
+
+  term,
+
+  limit=50
+
+) {
+
+
+  const ftsTerm = escapeFTS(
+
+    term.trim()
+
+  );
+
+
+
+  let sql =
+
+    "SELECT * FROM search_index WHERE search_index MATCH ?";
+
+
+
   const params = [ftsTerm];
-  if (vedaCode) {
-    sql = "SELECT * FROM search_index WHERE veda_code=? AND search_index MATCH ?";
+
+
+
+
+  if(vedaCode) {
+
+
+    sql =
+
+      `SELECT *
+       FROM search_index
+       WHERE veda_code=?
+       AND search_index MATCH ?`;
+
+
+
     params.unshift(vedaCode);
+
+
   }
+
+
+
   sql += " LIMIT ?";
+
   params.push(limit);
+
+
+
   return query(sql, params);
+
+
 }
 
-// ---- Scholar pack (on-demand download) management ----
+
+
+/**
+ * Bhāṣya pack management
+ */
+
 
 function packDbName(scholarId) {
+
+
   return "pack_" + scholarId;
+
+
 }
+
+
+
+
 function packFileName(scholarId) {
+
+
   return `${PACK_DIR}/scholar_${scholarId}.db`;
+
+
 }
+
+
+
+
+
 
 async function isPackDownloaded(scholarId) {
+
+
   try {
-    await fsPlugin().stat({ path: packFileName(scholarId), directory: "DATA" });
+
+
+    await fsPlugin().stat({
+
+      path: packFileName(scholarId),
+
+      directory: directoryData()
+
+
+    });
+
+
+
     return true;
-  } catch (e) {
-    return false;
+
+
   }
+
+  catch(e) {
+
+
+    return false;
+
+
+  }
+
+
 }
+
+
+
+
+
+
+
+/**
+ * Convert gzip database to normal database
+ */
+
 
 async function decompressGzip(arrayBuffer) {
+
+
   const ds = new DecompressionStream("gzip");
-  const stream = new Blob([arrayBuffer]).stream().pipeThrough(ds);
-  const decompressedBlob = await new Response(stream).blob();
-  return decompressedBlob;
+
+
+
+  const stream =
+
+    new Blob([arrayBuffer])
+
+    .stream()
+
+    .pipeThrough(ds);
+
+
+
+  return await new Response(stream).blob();
+
+
 }
+
+
+
+
+
+
 
 function blobToBase64(blob) {
-  return new Promise((resolve, reject) => {
+
+
+  return new Promise((resolve,reject)=>{
+
+
     const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result.split(",")[1]);
+
+
+
+    reader.onloadend = ()=>{
+
+
+      resolve(
+
+        reader.result.split(",")[1]
+
+      );
+
+
+    };
+
+
+
     reader.onerror = reject;
+
+
+
     reader.readAsDataURL(blob);
+
+
+
   });
+
+
 }
 
-async function downloadPack(scholarId, packFile, onProgress) {
-  onProgress && onProgress("ডাউনলোড হচ্ছে…");
-  const url = PACK_RELEASE_BASE + packFile;
-  let res;
+
+
+
+
+
+
+
+async function downloadPack(
+
+  scholarId,
+
+  packFile,
+
+  onProgress
+
+) {
+
+
+
+  if(onProgress)
+
+    onProgress("ডাউনলোড হচ্ছে…");
+
+
+
+
+  const url =
+
+    PACK_RELEASE_BASE + packFile;
+
+
+
+
+  let response;
+
+
+
   try {
-    res = await fetch(url);
-  } catch (networkErr) {
-    throw new Error(`নেটওয়ার্ক ব্যর্থ। URL: ${url} — ${networkErr.message || networkErr}`);
+
+
+    response = await fetch(url);
+
+
   }
-  if (!res.ok) throw new Error(`ডাউনলোড ব্যর্থ: HTTP ${res.status}. URL: ${url}`);
-  const arrayBuffer = await res.arrayBuffer();
 
-  onProgress && onProgress("আনপ্যাক হচ্ছে…");
-  const decompressedBlob = await decompressGzip(arrayBuffer);
-  const base64 = await blobToBase64(decompressedBlob);
 
-  onProgress && onProgress("সেভ হচ্ছে…");
+  catch(error) {
+
+
+    throw new Error(
+
+      `নেটওয়ার্ক সমস্যা: ${error.message}`
+
+    );
+
+
+  }
+
+
+
+
+
+  if(!response.ok) {
+
+
+    throw new Error(
+
+      `Download failed HTTP ${response.status}`
+
+    );
+
+
+  }
+
+
+
+
+
+  const buffer =
+
+    await response.arrayBuffer();
+
+
+
+
+
+  if(onProgress)
+
+    onProgress("আনপ্যাক হচ্ছে…");
+
+
+
+
+  const dbBlob =
+
+    await decompressGzip(buffer);
+
+
+
+
+  const base64 =
+
+    await blobToBase64(dbBlob);
+
+
+
+
+
+  if(onProgress)
+
+    onProgress("সংরক্ষণ হচ্ছে…");
+
+
+
+
+
   await fsPlugin().writeFile({
+
     path: packFileName(scholarId),
+
+
     data: base64,
-    directory: "DATA",
-    recursive: true,
+
+
+    directory: directoryData(),
+
+
+    recursive:true
+
+
   });
+
+
+
 
   return true;
+
+
 }
 
+
+
+
+
+
+
 async function deletePack(scholarId) {
+
+
   await detachPack(scholarId);
-  await fsPlugin().deleteFile({ path: packFileName(scholarId), directory: "DATA" });
+
+
+
+  try {
+
+
+    await fsPlugin().deleteFile({
+
+      path: packFileName(scholarId),
+
+
+      directory: directoryData()
+
+
+    });
+
+
+  }
+
+
+  catch(e) {
+
+
+    console.log(
+
+      "Pack already removed"
+
+    );
+
+
+  }
+
+
 }
+
+
+
+
+
+
+
+
+/**
+ * Attach downloaded scholar database
+ */
+
 
 const attachedPacks = new Set();
 
-async function getBhashyaForMantraFromPack(scholarId, mantraId) {
+
+
+
+
+
+
+async function getBhashyaForMantraFromPack(
+
+  scholarId,
+
+  mantraId
+
+) {
+
+
   const sqlite = sqlitePlugin();
-  const alias = "pack_" + scholarId;
 
-  if (!attachedPacks.has(scholarId)) {
-    const uriRes = await fsPlugin().getUri({ path: packFileName(scholarId), directory: "DATA" });
-    let path = uriRes.uri;
-    if (path.startsWith("file://")) path = path.replace("file://", "");
 
-    // Defensive: force-detach first in case the native connection still has
-    // this alias attached from a previous session/state our JS tracking
-    // doesn't know about (e.g. after a delete+redownload cycle).
-    try {
-      await sqlite.execute({ database: CORE_DB_NAME, statements: `DETACH DATABASE ${alias};` });
-    } catch (e) {
-      // not attached — fine, this is the expected case most of the time
+
+  const alias = packDbName(scholarId);
+
+
+
+
+
+  if(!attachedPacks.has(scholarId)) {
+
+
+
+    const uri = await fsPlugin().getUri({
+
+      path: packFileName(scholarId),
+
+
+      directory: directoryData()
+
+
+    });
+
+
+
+
+
+
+    let dbPath = uri.uri;
+
+
+
+
+    if(dbPath.startsWith("file://")) {
+
+
+      dbPath = dbPath.replace(
+
+        "file://",
+
+        ""
+
+      );
+
+
     }
 
+
+
+
+
+
     try {
+
+
       await sqlite.execute({
+
         database: CORE_DB_NAME,
-        statements: `ATTACH DATABASE '${path}' AS ${alias};`,
+
+
+        statements:
+
+          `DETACH DATABASE ${alias};`
+
+
       });
-    } catch (attachErr) {
-      const msg = (attachErr && attachErr.message) || String(attachErr);
-      if (!msg.includes("already in use")) throw attachErr;
-      // already attached under the hood — proceed, treat as success
+
+
     }
+
+    catch(e){}
+
+
+
+
+
+    try {
+
+
+      await sqlite.execute({
+
+        database: CORE_DB_NAME,
+
+
+        statements:
+
+        `ATTACH DATABASE '${dbPath}' AS ${alias};`
+
+
+      });
+
+
+    }
+
+
+    catch(error) {
+
+
+      const msg =
+
+        error.message || String(error);
+
+
+
+      if(!msg.includes("already in use")) {
+
+
+        throw error;
+
+
+      }
+
+
+    }
+
+
+
+
     attachedPacks.add(scholarId);
+
+
   }
 
-  const res = await sqlite.query({
+
+
+
+
+
+  const result = await sqlite.query({
+
     database: CORE_DB_NAME,
-    statement: `SELECT field_key, value FROM ${alias}.bhashyas WHERE mantra_id=?`,
-    values: [mantraId],
+
+
+    statement:
+
+      `SELECT field_key,value
+       FROM ${alias}.bhashyas
+       WHERE mantra_id=?`,
+
+
+    values:[mantraId]
+
+
   });
-  return rowsOf(res);
+
+
+
+
+
+
+  return rowsOf(result);
+
+
 }
+
+
+/**
+ * Detach scholar pack database
+ */
+
 
 async function detachPack(scholarId) {
-  const alias = "pack_" + scholarId;
-  if (attachedPacks.has(scholarId)) {
+
+
+  const alias = packDbName(scholarId);
+
+
+
+  if(attachedPacks.has(scholarId)) {
+
+
     try {
+
+
       await sqlitePlugin().execute({
+
+
         database: CORE_DB_NAME,
-        statements: `DETACH DATABASE ${alias};`,
+
+
+        statements:
+
+          `DETACH DATABASE ${alias};`
+
+
       });
-    } catch (e) {
-      // ignore
+
+
     }
+
+
+    catch(e) {
+
+
+      console.log(
+
+        "Detach failed or already detached"
+
+      );
+
+
+    }
+
+
+
     attachedPacks.delete(scholarId);
+
+
   }
+
+
 }
 
+
+
+
+
+
+
+/**
+ * Public API
+ *
+ * Available globally:
+ * window.VedaDB
+ */
+
+
 window.VedaDB = {
+
+
+  // Database initialization
+
   initDB,
+
+
+
+  // Veda
+
   getVedas,
+
   getVedaByCode,
+
+
+
+  // Mantra navigation
+
   getLevel1List,
+
   getLevel2List,
+
   getMantraList,
+
   getMantraRange,
+
   getMantraCount,
+
   getMantraByRef,
+
   getAdjacentMantras,
+
+
+
+  // Scholars
+
   getScholarsForVeda,
+
   getScholarsForMantra,
+
+
+
+  // Search
+
   search,
+
+
+
+  // Bhāṣya packs
+
   isPackDownloaded,
+
   downloadPack,
+
   deletePack,
+
   getBhashyaForMantraFromPack,
+
+
+  detachPack
+
 };
