@@ -3,21 +3,25 @@ name: Build Chaturveda APK
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repo
         uses: actions/checkout@v4
 
+
       - name: Set up Node.js
-  uses: actions/setup-node@v4
-  with:
-    node-version: '24'
-    cache: npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -25,8 +29,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+
       - name: Install npm dependencies
         run: npm install
+
 
       - name: Download core database from latest Release
         run: |
@@ -37,20 +43,25 @@ jobs:
           mv core.db www/assets/databases/core.db
           ls -la www/assets/databases/
 
+
       - name: Add Android platform if missing
-  run: |
-    if [ ! -d "android" ]; then
-      npx cap add android
-    fi
+        run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+
 
       - name: Generate app icons and splash screen
         run: npx @capacitor/assets generate --android
 
+
       - name: Sync web assets + plugins into Android project
         run: npx cap sync android
 
+
       - name: Make gradlew executable
         run: chmod +x android/gradlew
+
 
       - name: Do not compress the .db asset (avoids OOM on a large SQLite file)
         run: |
@@ -61,6 +72,7 @@ jobs:
           echo "----- android block after patch -----"
           grep -n "aaptOptions" -A 2 "$BUILD_GRADLE"
 
+
       - name: Increase Gradle daemon heap size
         run: |
           {
@@ -69,9 +81,11 @@ jobs:
           } >> android/gradle.properties
           cat android/gradle.properties
 
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug --stacktrace
+
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
