@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v5.4-appOnlyStorage-2026-07-12";
+const APP_BUILD_VERSION = "v5.5-blobreader-2026-07-12";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -183,10 +183,15 @@ async function screenLibraryReader(bookId) {
       directory: "DATA",
       encoding: "utf8",
     });
+    const htmlContent = res.data || "";
+    if (!htmlContent.trim()) {
+      root.innerHTML = `<div class="empty">ফাইলটা খালি এসেছে। আবার ডাউনলোড করে দেখুন।</div>`;
+      return;
+    }
     setTitle(entry.title || "বই পড়ুন");
-    root.innerHTML = `<iframe class="bookReaderFrame" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
-    const iframe = root.querySelector(".bookReaderFrame");
-    iframe.srcdoc = res.data;
+    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+    const blobUrl = URL.createObjectURL(blob);
+    root.innerHTML = `<iframe class="bookReaderFrame" src="${blobUrl}"></iframe>`;
   } catch (e) {
     root.innerHTML = `<div class="empty">বই খুলতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
   }
