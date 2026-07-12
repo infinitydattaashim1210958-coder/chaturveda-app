@@ -3,7 +3,7 @@
  * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-const APP_BUILD_VERSION = "v5.1-inapp-reader-2026-07-11";
+const APP_BUILD_VERSION = "v5.4-appOnlyStorage-2026-07-12";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
@@ -180,7 +180,7 @@ async function screenLibraryReader(bookId) {
   try {
     const res = await window.Capacitor.Plugins.Filesystem.readFile({
       path: entry.filename,
-      directory: "DOCUMENTS",
+      directory: "DATA",
       encoding: "utf8",
     });
     setTitle(entry.title || "বই পড়ুন");

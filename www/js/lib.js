@@ -86,7 +86,7 @@ async function downloadBook(book, onProgress) {
   await fsPlugin().writeFile({
     path: localFilename,
     data: base64Data,
-    directory: "DOCUMENTS",
+    directory: "DATA",
     recursive: true,
   });
 
@@ -106,7 +106,7 @@ async function deleteBook(bookId) {
   const entry = manifest[bookId];
   if (!entry) return;
   try {
-    await fsPlugin().deleteFile({ path: entry.filename, directory: "DOCUMENTS" });
+    await fsPlugin().deleteFile({ path: entry.filename, directory: "DATA" });
   } catch (e) {
     console.warn("File already missing or failed to delete:", e);
   }
@@ -115,7 +115,7 @@ async function deleteBook(bookId) {
 }
 
 async function getFileUri(filename) {
-  const res = await fsPlugin().getUri({ path: filename, directory: "DOCUMENTS" });
+  const res = await fsPlugin().getUri({ path: filename, directory: "DATA" });
   return res.uri;
 }
 
