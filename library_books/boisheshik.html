@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="color-scheme" content="dark">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>বৈশেষিক দর্শন — পদার্থ, পরমাণু ও তত্ত্বজ্ঞানের শাস্ত্র</title>
@@ -25,7 +28,12 @@
   --verse-bg:#191510;
   --verse-border:#3a2e16;
 }
-*{box-sizing:border-box;}
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+}
 html{scroll-behavior:smooth;}
 body{
   margin:0;
@@ -35,6 +43,22 @@ body{
   font-size:17px;
   line-height:1.85;
   -webkit-font-smoothing:antialiased;
+
+  overflow-x:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+
+  text-rendering:optimizeLegibility;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+
+  -webkit-tap-highlight-color:transparent;
 }
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
@@ -50,7 +74,10 @@ body{
 }
 .bg-grain{
   position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+background:
+radial-gradient(circle at 20% 20%,rgba(255,255,255,.02),transparent 30%),
+radial-gradient(circle at 80% 60%,rgba(255,255,255,.02),transparent 35%);
+    
 }
 
 /* ===== Top bar ===== */
@@ -59,7 +86,7 @@ body{
   display:flex; align-items:center; gap:14px;
   padding:0 16px;
   background:rgba(10,12,16,0.86);
-  backdrop-filter:blur(10px);
+background:rgba(10,12,16,.96);
   border-bottom:1px solid var(--border);
 }
 .topbar .menu-btn{
@@ -156,16 +183,16 @@ main{flex:1; min-width:0; margin-left:280px;}
   color:var(--text-dim); font-size:1.15rem; max-width:640px; margin:0 auto 28px;
 }
 .atom-orbit{margin:8px auto 32px; width:min(420px,90vw); height:min(420px,90vw);}
-.atom-orbit .nucleus{filter:drop-shadow(0 0 18px rgba(232,196,104,0.85));}
+.atom-orbit .nucleus{box-shadow:0 0 12px rgba(232,196,104,.35);}
 .atom-orbit .label{
   font-family:'Hind Siliguri',sans-serif; font-size:11px; fill:var(--slate);
 }
 .atom-orbit ellipse.orbit-path{fill:none; stroke:rgba(201,149,46,0.28); stroke-width:1;}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 .orbit-group{transform-origin:210px 210px;}
-.orbit-group.o1{animation:spin 18s linear infinite;}
-.orbit-group.o2{animation:spin 26s linear infinite reverse;}
-.orbit-group.o3{animation:spin 34s linear infinite;}
+.orbit-group.o1{animation:spin 60s linear infinite;}
+.orbit-group.o2{animation:none;}
+.orbit-group.o3{animation:none;}
 .hero-meta{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:6px;}
 .hero-pill{
   font-size:0.78rem; padding:6px 14px; border-radius:20px;
@@ -286,7 +313,6 @@ mark.found{background:rgba(232,196,104,0.4); color:#1a1106; border-radius:2px;}
 </style>
 </head>
 <body>
-
 <div class="bg-field"></div>
 <div class="bg-grain"></div>
 
@@ -3589,7 +3615,6 @@ p.plain-point:last-child{ margin-bottom:0; }
     border:1px solid rgba(255,255,255,.15);
     border-radius:18px;
     background:rgba(255,255,255,.05);
-    backdrop-filter:blur(12px);
     transition:.4s ease;
 }
 
@@ -3624,7 +3649,7 @@ p.plain-point:last-child{ margin-bottom:0; }
     margin:25px auto 0;
     border-radius:50px;
     background:linear-gradient(90deg,#3b82f6,#a855f7,#06b6d4);
-    animation:glow 3s infinite linear;
+    animation:none;
 }
 
 @keyframes glow{
@@ -3740,7 +3765,7 @@ p.plain-point:last-child{ margin-bottom:0; }
 
     margin:auto;
 
-    backdrop-filter:blur(18px);
+    background:rgba(255,255,255,.08);
 
     background:var(--card);
 
@@ -3815,8 +3840,7 @@ bottom:0;
 
 border-radius:50% 50% 20% 20%;
 
-animation:flicker 2s infinite;
-}
+animation:flicker 6s ease-in-out infinite;}
 
 .flame1{
 width:60px;
@@ -3866,7 +3890,7 @@ opacity:.12;
 
 font-weight:bold;
 
-animation:float 15s linear infinite;
+animation:none;
 
 pointer-events:none;
 }
@@ -4006,11 +4030,27 @@ font-size:1rem;
 
 <style>
 /* Disable text selection */
+html{
+    overflow-x:hidden;
+    -webkit-text-size-adjust:100%;
+}
+
 body{
+    margin:0;
+    overflow-x:hidden;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+
+    transform:translateZ(0);
+    -webkit-transform:translateZ(0);
+
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
     user-select:none;
+
+    -webkit-tap-highlight-color:transparent;
+    text-rendering:optimizeLegibility;
 }
 
 /* Allow input/search boxes */
@@ -4126,16 +4166,7 @@ setInterval(function(){
 },1000);
 
 /* Anti iframe Embedding */
-if(window.self !== window.top){
 
-    document.documentElement.innerHTML='';
-
-    document.body.innerHTML='';
-
-    document.body.style.display='none';
-
-    throw new Error("Embedding blocked");
-}
 
 /* Reader Mode Deterrence */
 document.querySelectorAll('article').forEach(function(el){
@@ -4182,9 +4213,6 @@ e.preventDefault();
 }
 });
 
-if(window.self!==window.top){
-document.body.innerHTML="";
-}
 </script>
 </body>
 </html>
