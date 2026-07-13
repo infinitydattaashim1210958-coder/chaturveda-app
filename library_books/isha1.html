@@ -1,0 +1,3001 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ঈশা বাস্যমিদং সর্বং</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+""
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+font-family:'Hind Siliguri',sans-serif;
+
+background:
+linear-gradient(180deg, #0b2b22, #123d2f);
+
+color:#e8d7a8;
+
+overflow-x:hidden;
+
+}
+
+/* Background */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+radial-gradient(rgba(201,163,71,.08) 1px,black 1px);
+
+background-size:34px 34px;
+
+pointer-events:none;
+
+z-index:-2;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:700px;
+
+height:700px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(rgba(201,163,71,.10),transparent 70%);
+
+top:50%;
+
+left:50%;
+
+transform:translate(-50%,-50%);
+
+pointer-events:none;
+
+z-index:-1;
+
+}
+
+/* Cover */
+
+.cover{
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:40px 20px;
+
+text-align:center;
+
+}
+
+.cover-content{
+
+max-width:900px;
+
+width:100%;
+
+}
+
+.om{
+
+font-family:'Noto Sans Devanagari',serif;
+
+font-size:110px;
+
+color:#b9902d;
+
+animation:glow 4s ease-in-out infinite;
+
+}
+
+.divider{
+
+width:180px;
+
+height:2px;
+
+margin:30px auto;
+
+background:
+
+linear-gradient(to right,
+
+transparent,
+
+#b9902d,
+
+transparent);
+
+}
+
+.book-title{
+
+font-size:58px;
+
+font-weight:700;
+
+line-height:1.25;
+
+margin-bottom:15px;
+
+}
+
+.or{
+
+font-size:22px;
+
+color:#8b6d22;
+
+margin-bottom:15px;
+
+}
+
+.book-subtitle{
+
+font-size:34px;
+
+font-weight:600;
+
+line-height:1.5;
+
+margin-bottom:40px;
+
+}
+
+.label{
+
+font-size:20px;
+
+color:#666;
+
+margin-bottom:15px;
+
+}
+
+.author{
+
+font-size:36px;
+
+font-weight:700;
+
+color:#8b6d22;
+
+margin-bottom:18px;
+
+}
+
+.designation{
+
+font-size:20px;
+
+color:#555;
+
+}
+
+@keyframes glow{
+
+0%,100%{
+
+text-shadow:0 0 10px rgba(201,163,71,.3);
+
+}
+
+50%{
+
+text-shadow:0 0 35px rgba(201,163,71,.7);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.om{
+
+font-size:80px;
+
+}
+
+.book-title{
+
+font-size:38px;
+
+}
+
+.book-subtitle{
+
+font-size:25px;
+
+}
+
+.author{
+
+font-size:28px;
+
+}
+
+.designation{
+
+font-size:17px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.book-title{
+
+font-size:30px;
+
+}
+
+.book-subtitle{
+
+font-size:21px;
+
+}
+
+.om{
+
+font-size:68px;
+
+}
+
+.author{
+
+font-size:24px;
+
+}
+
+.label,
+
+.designation{
+
+font-size:16px;
+
+}
+
+}
+/* ==========================================
+        ARTICLE SECTION
+========================================== */
+
+.article-section{
+
+    max-width:900px;
+
+    margin:80px auto;
+
+    padding:0 24px;
+
+}
+
+.article-content{
+
+    text-align:justify;
+
+    font-size:1.15rem;
+
+    line-height:2.2;
+
+}
+
+.article-content p{
+
+    margin-bottom:24px;
+
+}
+
+/* Tablet */
+
+@media (max-width:768px){
+
+    .article-section{
+
+        padding:0 22px;
+
+    }
+
+}
+
+/* Mobile */
+
+@media (max-width:480px){
+
+    .article-section{
+
+        padding:0 18px;
+
+    }
+
+    .article-content{
+
+        font-size:1.05rem;
+
+        line-height:2;
+
+    }
+
+}
+.chapter{
+
+max-width:900px;
+
+margin:90px auto;
+
+padding:0 20px;
+
+animation:fadeIn 1s ease;
+
+}
+
+.chapter-header{
+
+text-align:center;
+
+margin-bottom:50px;
+
+}
+
+.chapter-om{
+
+font-size:70px;
+
+color:#c39a35;
+
+animation:omGlow 4s infinite;
+
+}
+
+.chapter-title{
+
+font-size:2.2rem;
+
+margin-top:10px;
+
+}
+
+.mantra-card{
+
+background:#111;
+
+border:1px solid rgba(195,154,53,.25);
+
+border-radius:24px;
+
+padding:28px;
+
+margin:35px 0;
+
+box-shadow:0 10px 35px rgba(0,0,0,.08);
+
+transition:.45s;
+
+}
+
+.mantra-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 20px 50px rgba(195,154,53,.25);
+
+border-color:#c39a35;
+
+}
+
+.card-heading{
+
+font-size:14px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+color:#8b6d22;
+
+margin-bottom:15px;
+
+}
+
+.mantra-text{
+
+font-family:'Noto Sans Devanagari',serif;
+
+font-size:1.5rem;
+
+line-height:2;
+
+text-align:center;
+
+padding:20px;
+
+border-left:4px solid #c39a35;
+
+background:#black;
+
+border-radius:14px;
+
+}
+
+.reference{
+
+display:inline-block;
+
+margin:20px auto;
+
+padding:8px 18px;
+
+background:#c39a35;
+
+color:#fff;
+
+border-radius:50px;
+
+font-weight:bold;
+
+}
+
+details{
+
+margin-top:15px;
+
+}
+
+summary{
+
+cursor:pointer;
+
+padding:14px 18px;
+
+border-radius:12px;
+
+background:#111;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+summary:hover{
+
+background:#ead9ae;
+
+}
+
+.meaning-text{
+
+margin-top:18px;
+
+padding:20px;
+
+border-left:4px solid #c39a35;
+
+line-height:2;
+
+background:#111111;
+
+border-radius:14px;
+
+animation:fadeIn .5s;
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes omGlow{
+
+0%,100%{
+
+text-shadow:0 0 10px #d8b04d;
+
+}
+
+50%{
+
+text-shadow:0 0 35px #d8b04d;
+
+}
+
+}
+</style>
+
+</head>
+
+<body>
+
+<section class="cover">
+
+<div class="cover-content">
+
+<div class="om">
+
+ॐ
+
+</div>
+
+<div class="divider"></div>
+
+<h1 class="book-title">
+
+“ঈশা বাস্যমিদং সর্বং”
+
+</h1>
+
+<div class="or">
+
+বা
+
+</div>
+
+<div class="book-subtitle">
+
+উপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+
+</div>
+
+<div class="divider"></div>
+
+<div class="label">
+
+সংগ্রহ ও প্রস্তুতকরণে
+
+</div>
+
+<div class="author">
+
+কুমারী অর্চি দে বৈশাখী
+
+
+</div>
+
+<div class="designation">
+
+সত্যার্থী ও প্রচারিকা, বাংলাদেশ অগ্নিবীর
+
+</div>
+
+</div>
+
+</section>
+
+<div class="toc">
+<style>/* Table of Contents - Old Scripture Style */
+
+.toc {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 30px 35px;
+    background: linear-gradient(
+        135deg,
+        #2b1a0f,
+        #3b2414,
+        #1c1209
+    );
+    border: 2px solid #c89b3c;
+    border-radius: 18px;
+    box-shadow:
+        0 0 25px rgba(200,155,60,0.35),
+        inset 0 0 20px rgba(255,215,120,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Ancient paper glow effect */
+
+.toc::before {
+    content: "ॐ";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 180px;
+    color: rgba(212,175,55,0.05);
+    pointer-events: none;
+}
+
+
+/* Heading */
+
+.toc h2 {
+    text-align: center;
+    color: #ffd76a;
+    font-family: "Noto Serif Bengali", serif;
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-shadow:
+        0 0 8px rgba(255,215,106,0.7);
+    border-bottom: 1px solid #c89b3c;
+    padding-bottom: 12px;
+}
+
+
+/* List */
+
+.toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* Items */
+
+.toc li {
+    margin: 12px 0;
+}
+
+
+/* Links */
+
+.toc a {
+    display: block;
+    padding: 14px 18px;
+    color: #f8e7b0;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "Noto Serif Bengali", serif;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,215,120,0.08),
+            transparent
+        );
+
+    border-left: 4px solid #c89b3c;
+    border-radius: 8px;
+
+    transition: all 0.35s ease;
+}
+
+
+/* Hover */
+
+.toc a:hover {
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(200,155,60,0.35),
+            rgba(200,155,60,0.05)
+        );
+
+    transform: translateX(8px);
+
+    box-shadow:
+        0 0 12px rgba(255,215,120,0.4);
+}
+
+
+/* Mobile Responsive */
+
+@media(max-width:600px){
+
+    .toc {
+        margin:20px 12px;
+        padding:22px;
+    }
+
+    .toc h2 {
+        font-size:24px;
+    }
+
+    .toc a {
+        font-size:16px;
+        padding:12px;
+    }
+
+}</style>
+
+
+<!-- Floating TOC Button -->
+
+<div class="floating-toc">
+    
+    <button class="toc-btn" onclick="toggleTOC()">
+        ⋮
+    </button>
+    <script>
+function toggleTOC(){
+
+    document
+    .getElementById("tocMenu")
+    .classList
+    .toggle("active");
+
+}
+</script>
+    <style>/* Floating 3 dot button */
+
+.floating-toc {
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+    z-index: 9999;
+}
+
+
+.toc-btn {
+
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+    border: 2px solid #d4af37;
+
+    background: #24150b;
+    color: #ffd76a;
+
+    font-size: 35px;
+    line-height: 20px;
+
+    cursor: pointer;
+
+    box-shadow:
+    0 0 15px rgba(212,175,55,0.6);
+
+}
+
+
+/* Hidden menu */
+
+.toc-menu {
+
+    position: absolute;
+    right: 0;
+    bottom: 70px;
+
+    width: 300px;
+    max-height: 70vh;
+
+    overflow-y: auto;
+
+    background:
+    linear-gradient(
+        135deg,
+        #2b1a0f,
+        #120a05
+    );
+
+    border: 2px solid #d4af37;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    display: none;
+
+    box-shadow:
+    0 0 25px rgba(212,175,55,0.5);
+
+}
+
+
+/* Show menu */
+
+.toc-menu.active {
+    display: block;
+}
+
+
+/* Heading */
+
+.toc-menu h3 {
+
+    color:#ffd76a;
+
+    text-align:center;
+
+    border-bottom:1px solid #d4af37;
+
+    padding-bottom:10px;
+
+}
+
+
+/* Links */
+
+.toc-menu a {
+
+    display:block;
+
+    padding:12px;
+
+    margin:8px 0;
+
+    color:#f5e6b3;
+
+    text-decoration:none;
+
+    background:
+    rgba(255,215,100,0.08);
+
+    border-left:3px solid #d4af37;
+
+    border-radius:6px;
+
+}
+
+
+.toc-menu a:hover {
+
+    background:
+    rgba(212,175,55,0.3);
+
+    transform:translateX(5px);
+
+}
+
+
+/* Smooth scroll */
+
+html {
+    scroll-behavior:smooth;
+}
+
+
+section {
+    scroll-margin-top:80px;
+}</style>
+    <div class="toc-menu" id="tocMenu">
+        
+        <h3>📜 বিষয়সূচী</h3>
+        
+        <a href="#intro">ভূমিকা ও পুস্তিকার উদ্দেশ্য</a>
+        
+        <a href="#isha">ঈশোপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#katha">কঠোপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#mundaka">মুণ্ডকোপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#mandukya">মাণ্ডুক্যোপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#aitareya">ঐতরেয় উপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#taittiriya">তৈত্তিরীয়োপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#svetashvatara">শ্বেতাশ্বতরোপনিষদে পরমেশ্বরের সর্বব্যাপকতা</a>
+        
+        <a href="#end">উপনিষদ সমাপ্তি</a>
+        
+    </div>
+    
+</div>
+
+</div>
+<!-- ==========================================
+        পুস্তিকার প্রয়োজনীয়তা ও উদ্দেশ্য
+========================================== -->
+
+<section id="purpose" class="article-section">
+<section id="intro">
+    <h2 class="article-title">
+        পুস্তিকার প্রয়োজনীয়তা ও উদ্দেশ্য
+    </h2>
+
+    <div class="article-divider"></div>
+
+    <div class="article-content">
+
+        <p>ওম, নমস্তে। সকল সনাতন ধর্মাবলম্বীগণ নিশ্চয়ই জানেন যে, সনাতন বৈদিক ধর্মে পরমেশ্বরের যতগুলো গুণের উল্লেখ করা হয়েছে তার মধ্যে অন্যতম মৌলিক দুটি গুণ হলো, পরমেশ্বর নিরাকার ও সর্বব্যাপক। এই দুটি গুণ একারণেই মৌলিক কেননা একমাত্র সনাতন বৈদিক ধর্মই পরমেশ্বরকে নিরাকার ও সর্বব্যাপক হিসেবে স্বীকার করে, অন্য কোন বিশ্বাসনির্ভর সম্প্রদায় (Religion) নয়।</p>
+
+        <p>নিরাকার বলতে বোঝায় যে, পরমেশ্বরের কোনো স্থূল, সূক্ষ্ম ও কারণ শরীর নেই। একথা যজুর্বেদ ৪০।৮ বা ঈশোপনিষদ ৮ নং শ্রুতিও আমাদের জানায়। এমনকি সাকারবাদী পৌরাণিকদের মান্য আচার্য আদ্য শঙ্করাচার্যও এই শ্রুতির ব্যাখ্যায় তা স্পষ্ট করে উল্লেখ করেছেন।</p>
+
+        <p>অন্যদিকে, পরমেশ্বর সর্বব্যাপক বলতে বোঝায়, পরমেশ্বর এই জগতের কোনো একটি নির্দিষ্ট স্থানে (যেমন কৈলাশ, বৈকুণ্ঠ বা আকাশের উপরে কোথাও) বিশেষভাবে না থেকে, সর্বদা সর্বদা উপস্থিত আছেন। সমগ্র সৃষ্টি পরমেশ্বরের মধ্যে রয়েছে এবং পরমেশ্বর এগুলোর ভিতরেও রয়েছেন, বাইরেও রয়েছেন কিন্তু এই জিনিসগুলো পরমেশ্বরের বাইরে নয়। তাই, জগতের সবকিছু পরমেশ্বর দ্বারা পরিপূর্ণ। সম্পূর্ণ জগৎকে পরমেশ্বর নিজের মধ্যে ধারণ করে রেখেছেন।</p>
+
+        <p>একটি সরল উপমায় বলা যায়, ঠিক যেভাবে এক টুকরা কাপড় জলের টবের মধ্যে থাকে, সেভাবেই আমরা পরমেশ্বরের মধ্যে আছি। কাপড়ের ভেতরে, বাইরে এবং চারপাশে জল রয়েছে। কাপড়ের কোনো অংশই এমন নেই যা জলে ভিজেনি, তবুও আর পাশাপাশি কাপড়ের বাইরেও জল আছে। এখানে জলকে পরমেশ্বরের উপমা এবং কাপড়ের টুকরাকে জগতের উপমা চিন্তা করলে চোখে যে চিত্রটি ভেসে ওঠে ঠিক সেভাবেই পরমেশ্বর জগতের ভিতরে ও বাইরের সর্বত্র রয়েছেন বা আরো ভালোভাবে বললে, আমরা সহ পুরো জগতটাই পরমেশ্বরের ভিতরে রয়েছে। আর পরমেশ্বর সেই জগতকে নিজের মধ্যে ধারণ করে রেখেছেন। সুতরাং, পরমেশ্বর এই জগতের ভিতরে-বাইরে সর্বত্র সর্বদা উপস্থিত রয়েছেন, এমনকি তিনি আমাদের এই দেহ, আত্মা এসবেরও ভিতরে ও বাইরেও একইভাবে উপস্থিত, এটাই পরমেশ্বরের সর্বব্যাপকত্ব।</p>
+
+        <p>এই ক্ষুদ্র পুস্তিকায় আমি চেষ্টা করেছি বৈদিক একাদশ উপনিষদের মধ্যে ৭টি উপনিষদ থেকে পরমেশ্বর যে সর্বব্যাপক, তিনি যে জগতের সর্বস্থানে অবস্থানের পাশাপাশি আমাদের দেহের, আত্মার অভ্যন্তরেও অবস্থান করেন এমন সিদ্ধান্ত প্রদানকারী বাক্যসমূহকে একস্থানে উপস্থাপন করতে, যাতে ব্রহ্মবিদ্যার অধ্যয়নকারীগণ একস্থানে সেগুলো অধ্যয়ন করতে ও অন্যকে শিক্ষা দিতে ব্যবহার করতে পারেন। এছাড়া পরমাত্মাকে সর্বব্যাপক হিসেবে উপলব্ধি করলে আমাদের এও স্বীকার করে নিতে হবে যে, পরমেশ্বর সর্বস্থানে উপস্থিত থেকে সর্বদা সবকিছু দেখছেন, প্রত্যেকটি জীবের মধ্যে তিনি আছেন। আমরা কোনো অবস্থাতেই তাঁর থেকে লুকিয়ে কোনো অন্যায় কাজ করতে পারব না আবার কোনো জীবের সাথে অন্যায় করা মানে পরমেশ্বরের সাথেই অন্যায় করা। সুতরাং পরমেশ্বরের সর্বব্যাপকতা উপলব্ধি করে আমরা সকলে যেন সর্বদা সকল অন্যায় কাজ থেকে দূরে থেকে বেদোক্ত কর্মের অনুশীলন করতে সচেষ্ট হই, এই প্রেরণা আমাদের মনে জাগ্রত করাও এই পুস্তিকার উদ্দেশ্য। অনুবাদের ক্ষেত্রে পুরোটাই স্বাধ্যায় প্রকাশনী প্রকাশিত উপনিষদ সংগ্রহ প্রথম ভাগ থেকে নেয়া হয়েছে। সুতরাং এই পুস্তিকার দ্বারা পাঠক যতটুকু উপকার লাভ করবেন তার সবটুকু কৃতিত্ব তাঁদেরই। আমি সংগ্রহকর্তা মাত্র সুতরাং এখানে আমার স্বল্পজ্ঞানের কারণে যদি কোন ত্রুটি হয়ে থাকে তবে সে দায় একান্ত আমার। আশা করি আমার এই সামান্য প্রয়াস সকলের জন্য উপকারী সিদ্ধ হবে। পরমপিতা পরমেশ্বর যথার্থভাবে তাঁকে উপলব্ধি করতে সকলকে সাহায্য করুন। শমিত্যোম্।</p>
+
+    </div>
+
+    <div class="article-signature">
+
+        <p>নিবেদক</p>
+
+        <h3>কুমারী অর্চি দে বৈশাখী</h3>
+
+    </div>
+
+</section>
+<!--==========================================
+        ঈশোপনিষদ
+===========================================-->
+
+<section id="isha" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            ঈশোপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+
+    <!-- Mantra 1 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">
+            📜 মন্ত্র
+        </div>
+
+        <div class="mantra-text">
+            ঈশা বাস্যমিদং সর্বং যৎ কিঞ্চ জগত্যাং জগৎ। তেন ত্যক্তেন ভুঞ্জীথা মা গৃধঃ কস্য স্বিদ্ধনম্ ॥
+        </div>
+
+        <div class="reference">
+            [ঈশ, ১]
+        </div>
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            হে মনুষ্য! এই প্রকৃতি (কারণ) থেকে শুরু করে পৃথিবী (কার্য) পর্যন্ত সমস্ত গতিশীল সৃষ্টিতে যে চরাচর জগৎ আছে, তা ঈশ্বরের দ্বারা আচ্ছাদনীয় অর্থাৎ সর্বতোভাবে অভিব্যপ্ত। সেই কারণে ত্যাগপূর্বক অর্থাৎ জগৎ থেকে চিত্তকে সরিয়ে (বাসনারহিত হয়ে) ভোগ্য পদার্থসমূহের উপভোগ করো। কিন্তু এই ধন কার? অর্থাৎ সবকিছুই ঈশ্বরের। অতএব, কারো ধন অর্থাৎ বস্তুমাত্রের অভিলাষ কোরো না।
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 2 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">
+            📜 মন্ত্র
+        </div>
+
+        <div class="mantra-text">
+            অনেজদেকং মনসো জবীযো নৈনদ্দেবা আপ্নুবন্ পূর্বমর্ষৎ। তদ্ধাবতোন্যানত্যেতি তিষ্ঠন্নিসপ্লো মাতরিশ্বা দধাতি ॥
+        </div>
+
+        <div class="reference">
+            [ঈশ, ৪]
+        </div>
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            হে বিদ্বান মনুষ্যগণ! যিনি অদ্বিতীয় ব্রহ্ম, তিনি কম্পন-রহিত, তিনি মনের বেগ থেকেও অতি বেগবান, সকলের পূর্বে গমন করেন। চক্ষুরাদি ইন্দ্রিয়সমূহ এই ব্রহ্মকে লাভ করতে বা জানতে পারে না। তিনি স্বয়ং নিজ স্বরূপে স্থির থেকে, নিজের অনন্ত ব্যাপ্তি দ্বারা বিষয়ের প্রতি ধাবমান আত্মস্বরূপ থেকে ভিন্ন মন, বাক্ আদি ইন্দ্রিয়কে অতিক্রম করে যান। যেরূপ অন্তরীক্ষে প্রাণ-সকলকে ধারণকারী বায়ু ক্রিয়াশীল থাকে, ওইরূপ সেই সর্বত্র অভিব্যপ্ত স্থির ব্রহ্মে জীব নিজের কর্ম বা ক্রিয়াকে ধারণ (স্থাপিত) করে।
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 3 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">
+            📜 মন্ত্র
+        </div>
+
+        <div class="mantra-text">
+            যস্তু সর্বাণি ভূতান্যাত্মন্যৈবানুপশ্যতি। সর্বভূতেষু চাত্মানং ততো ন বি চিকিৎসতি ॥
+        </div>
+
+        <div class="reference">
+            [ঈশ, ৬]
+        </div>
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            হে মনুষ্যগণ! যে বিদ্বান বিদ্যা, ধর্মাচরণ, যোগাভ্যাসের পশ্চাৎ পরমাত্মার মধ্যেই প্রাণী-অপ্রাণী সকলকে দর্শন করেন এবং যিনি সকল প্রকৃত্যাদি পদার্থসমূহের মধ্যে সর্বব্যাপক পরমাত্মাকে দর্শন করেন, তিনি ওইরূপ সম্যক দর্শনের পর কখনো সংশয়গ্রস্ত হন না।
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 4 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">
+            📜 মন্ত্র
+        </div>
+
+        <div class="mantra-text">
+            স পর্যগাচ্ছুক্রমকায়মব্রণমস্নাভিরং শুদ্ধমপাপবিদ্ধম্। কবিলনীষী পরিভূঃ স্বয়ম্ভূর্যথাতথ্যতোহর্থান্ ব্যদধাচ্ছাশ্বতীভ্যঃ সমাভ্যঃ ॥
+        </div>
+
+        <div class="reference">
+            [ঈশ, ৮]
+        </div>
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            হে মনুষ্যগণ! পরমাত্মা সর্বশক্তিমান, স্থূল-সূক্ষ্ম-কারণ শরীর রহিত, ছিদ্র রহিত, নাড়ী (শিরা) আদি বন্ধন রহিত, সদা পবিত্র, নিষ্পাপ, সর্বত্র ব্যাপক, সর্বজ্ঞ, অন্তর্যামী, দুষ্টের দমনকারী এবং অনাদিস্বরূপ। তিনি তাঁর শাশ্বত প্রজাদের (অর্থাৎ অনাদি জীবগণের) জন্য যথার্থভাবে বেদ-দ্বারা সমস্ত পদার্থের বিশেষ উপদেশ প্রদান করেছেন।
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 5 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">
+            📜 মন্ত্র
+        </div>
+
+        <div class="mantra-text">
+            হিরণ্ময়েন পাত্রেণ সত্যস্যাপিহিতং মুখম্। যোহসাবাদিত্যে পুরুষঃ সোহসাবহম্। ওম্ খং ব্রহ্ম ॥
+        </div>
+
+        <div class="reference">
+            [ঈশ, ১৭]
+        </div>
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            হে মনুষ্যগণ! জ্যোতির্ময়, সবার রক্ষক আমার দ্বারা অবিনাশী সৎরূপ কারণের (প্রকৃতির) আচ্ছাদিত মুখের তুল্য উত্তম অঙ্গ প্রকাশিত হয়। যিনি ওই প্রাণ বা সূর্যমণ্ডলে পূর্ণ পরমাত্মা, সেই তিনি পরোক্ষরূপে আমিই। আমি আকাশতুল্য ব্যাপক এবং গুণ, কর্ম ও স্বরূপের দৃষ্টিতে সর্বাপেক্ষা মহান। আমি সমস্ত জগতের রক্ষক ‘ওম্’- এরূপ জানবে।
+        </div>
+
+    </div>
+
+</section>
+<!--==========================================
+        কঠোপনিষদ
+===========================================-->
+
+<section id="katha" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            কঠোপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+    <!-- Mantra 1 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            অণোরণীয়ান মহতো মহীয়ানাত্মাস্য জন্তোর্নিহিতো গুহায়াম্। তমক্রতুঃ পশ্যতি বীতশোকো ধাতুপ্রসাদান্মহিমানমাত্মনঃ ॥
+        </div>
+
+        <div class="reference">
+            [কঠ ১।২।২০]
+        </div>
+
+    
+            <summary>💬 সরলার্থ</summary>
+
+            <div class="meaning-text">
+                ওই ব্যাপক ব্রহ্ম পরমাণু প্রভৃতি সূক্ষ্ম পদার্থ থেকেও অতি সূক্ষ্ম; আকাশ পৃথিব্যাদি বৃহৎ পদার্থ থেকেও বৃহত্তর। তিনি এই জীবের হৃদয়ারূপ গুহাতে বিরাজমান। পরমেশ্বরের কৃপাতেই সেই ব্যাপক ব্রহ্মের মহিমাকে নিষ্কামকর্মী ও শোকরহিত ব্যক্তিই অনুভব করেন।
+            </div>
+
+        
+
+    </div>
+
+    <!-- Mantra 2 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            আসীনো দূরং ব্রজতি শয়ানো যাতি সর্বতঃ। কস্তং মদামদং দেবং মদ্যো জ্ঞাতুমহৰ্হতি ॥
+        </div>
+
+        <div class="reference">
+            [কঠ ১।২।২১]
+        </div>
+
+
+
+            <summary>💬 সরলার্থ</summary>
+
+            <div class="meaning-text">
+                যম বললেন, সেই পরমাত্মা সর্বব্যাপী হওয়ার কারণে স্থির হয়েও অত্যন্ত দূরতম স্থানকেও প্রাপ্ত হয়ে আছেন, সমস্ত পদার্থে শয়ন করেও সকল দিক প্রাপ্ত হয়ে আছেন। সেই আনন্দস্বরূপ এবং লৌকিক সুখরহিত, পরমাত্মদেবকে আমি ছাড়া অন্য কে জানতে সমর্থ হতে পারে?
+            </div>
+
+        
+
+    </div>
+
+    <!-- Mantra 3 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            অশরীরেং শরীরেধ্বনবস্থেষবস্থিতম্। মহান্তং বিভুমাত্মানং মত্বা ধীরো ন শোচতি ॥
+        </div>
+
+        <div class="reference">
+            [কঠ ১।২।২২]
+        </div>
+
+    
+
+            <summary>💬 সরলার্থ</summary>
+
+            <div class="meaning-text">
+                এই পরমাত্মা প্রাণিদের নশ্বর শরীরে সর্ববিধ শরীররহিত হয়ে বিরাজমান এবং অনিত্য কার্য-বস্তুর মধ্যে নিত্যরূপে অবস্থিত। সর্বাপেক্ষা মহান সেই ব্যাপক পরমাত্মাকে জেনে বিবেকী পুরুষ শোক করেন না।
+            </div>
+
+        
+
+    </div>
+
+    <!-- Mantra 4 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            নায়মাত্মা প্রবচনেন লভ্যো ন মেধয়া ন বহুনা শ্রুতেন। যমেবৈষ বৃণুতে তেন লভ্যস্তস্যৈষ আত্মা বিবৃণুতে তনুংস্বাম্ ॥
+        </div>
+
+        <div class="reference">
+            [কঠ ১।২।২৩]
+        </div>
+
+        
+
+            <summary>💬 সরলার্থ</summary>
+
+            <div class="meaning-text">
+                এই সর্বব্যাপক পরমাত্মাকে অধ্যাপন ও প্রবচন দ্বারা লাভ করা যায় না, শাস্ত্রের অর্থ ধারণকারী বুদ্ধি দ্বারাও নয়, বহু শাস্ত্রের শ্রবণ দ্বারাও তাঁকে লাভ করা যায় না। এই পরমাত্মা যে উপাসককে অনুগ্রহপূর্বক বরণ করেন, সেই পুরুষের দ্বারাই তিনি লভ্য হন। সেই সাধনসম্পন্ন পুরুষের জন্য পরমাত্মা স্বীয় আত্মস্বরূপ প্রকাশ করেন।
+            </div>
+
+        
+
+    </div>
+
+</section>
+<!-- Mantra 5 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        ঋতং পিবন্তৌ সুকৃতস্য লোকে গুহাং প্রবিষ্টৌ পরমে পরার্ধে। ছায়াতপৌ ব্রহ্মবিদো বদন্তি পঞ্চাগ্নয়ো যে চ ত্রিনাচিকেতাঃ ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ১।৩।১]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            ব্রহ্মবিদগণ বলেন, সত্য বিজ্ঞানের সেবনকারী ছায়া ও আলোর ন্যায় জীবাত্মা ও পরমাত্মা শুভকর্মের সাধনভূত এই শরীররূপ লোকে সর্বোত্তম হৃদয়াংশরূপ গুপ্ত স্থানে প্রবিষ্ট আছেন। আর যাঁরা তিনবার নাচিকেতাগ্নি চয়ন অর্থাৎ যজ্ঞ করেছেন, ওইরূপ পঞ্চাগ্নিসম্পন্ন পুরুষও তাই বলেন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 6 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        পরাঞ্চি খানি ব্যতৃণৎ স্বয়ম্ভূস্তস্মাৎপরাং পশ্যতি নান্তরাত্মন্। কশ্চিদ্ধীরঃ প্রত্যগাত্মানমৈক্ষদাবৃত্তচক্ষুরমৃতত্বমিচ্ছন্ ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।১।১]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            পরমাত্মা ইন্দ্রিয়সমূহকে বাহ্য শব্দাদি বিষয়সমূহের অনুগামী করে বিশেষভাবে সৃষ্টি করেছেন, সেজন্য জীব ইন্দ্রিয়সমূহের দ্বারা বাহ্যবিষয়সমূহ জানতে পারে, অন্তর্যামী পরমাত্মাকে জানতে পারে না। কোনো (দুর্লভ) বিবেকী পুরুষ মোক্ষপদের অভিলাষী হয়ে চক্ষুরাদি ইন্দ্রিয়সমূহকে বাহ্য বিষয় থেকে নিবৃত্ত করে প্রত্যেক জীবের অন্তঃকরণে ব্যাপ্ত পরমাত্মার সাক্ষাৎ করেন অর্থাৎ তাঁকে জানতে পারেন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 7 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        স্বপ্লান্তং জাগ্রিতান্তং চোভৌ যেনানুপশ্যতি। মহান্তং বিভুমাত্মানং মত্বা ধীরো ন শোচতি ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।১।৪]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যে পরমাত্মার শক্তি দ্বারা মানুষ জাগ্রত অবস্থা ও নিদ্রাবস্থা - এই উভয় অবস্থার বিষয়সমূহ দর্শন করে, সবার থেকে মহান ব্যাপক সেই পরমাত্মাকে জেনে বিবেকবান ব্যক্তি শোক করেন না।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 8 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        অঙ্গুষ্ঠমাত্রঃ পুরুষো মধ্য আত্মনি তিষ্ঠতি। ঈশানং ভূতভব্যস্য ন ততো বিজুগুপ্সতে। এতদ্বৈ তৎ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।১।১২]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            অঙ্গুষ্ঠমাত্র হৃদয়দেশে লভ্য পরমাত্মা প্রত্যেক জীবাত্মার মধ্যে বিরাজমান, তিনি ভূত ও ভবিষ্যৎ অর্থাৎ সর্বকালের অধ্যক্ষ। তাঁকে জানার পর কোনো পুরুষ নিন্দিত হয় না। ইনিই সেই ব্রহ্ম।
+        </div>
+
+    </div>
+
+</div><!-- Mantra 9 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য় এষ সুপ্তেষু জাগর্তি কামং কামং পুরুষো নির্মিমাণঃ। তদেব শুক্রং তদ্ব্রহ্ম তদেবামৃতমুচ্যতে। তস্মিন্লোকাঃ শ্রিতাঃ সর্বে তদু নাত্যেতি কশ্চন। এতদ্বৈ তৎ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।২।৮]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            এই যে ব্রহ্মাণ্ডে ব্যাপ্ত পুরুষ, তিনি প্রত্যেক কামনার পূর্তির জন্য সম্পূর্ণ জগতের নির্মাণ করে সুপ্ত জীবের মধ্যে জাগ্রত হয়ে আছেন। তিনি শুদ্ধ, সবার থেকে মহান ও অবিনাশীরূপে উক্ত হন। তাঁর মধ্যে সমস্ত লোক আশ্রিত, তাঁর নিয়মের কেউ লঙ্ঘন করতে পারে না, ইনিই নিশ্চিতভাবে সেই ব্রহ্ম।
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Mantra 10 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        অগ্নিযথৈকো ভুবনং প্রবিষ্টো রূপং রূপং প্রতিরূপো বভূব। একস্তথা সর্বভূতান্তরাত্মা রূপং রূপং প্রতিরূপো বহিশ্চ ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।২।৯]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যেরূপ একই অগ্নি কার্যরূপ ভৌতিক পদার্থে নিহিত হয়ে প্রত্যেক রূপবান পদার্থের রূপের সদৃশ হয়ে আছে, তদ্রূপ এক সর্বান্তর্যামী পরমাত্মা প্রত্যেক রূপবান পদার্থের রূপের সদৃশ হয়ে আছেন এবং তার বাইরেও আছেন।
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Mantra 11 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        বায়ুর্যথৈকো ভুবনং প্রবিষ্টো রূপং রূপং প্রতিরূপো বভূব। একস্তথা সর্বভূতান্তরাত্মা রূপং রূপং প্রতিরূপো বহিশ্চ ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।২।১০]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যেরূপ একই বায়ু কার্যরূপ ভৌতিক পদার্থে প্রবিষ্ট হয়ে প্রত্যেক রূপবান পদার্থের রূপের সদৃশ হয়ে আছে, তদ্রূপ এক সর্বভূতের অন্তর্যামী পরমাত্মা প্রত্যেক রূপবান পদার্থের রূপের সদৃশ হয়ে আছেন এবং তার বাইরেও আছেন।
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Mantra 12 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        সূর্যো যথা সর্বলোকস্য চক্ষুর্র ন লিপ্যতে চাক্ষুষৈর্বাহ্যদোষৈঃ। একস্তথা সর্বভূতান্তরাত্মা ন লিপ্যতে লোকদুঃখেন বাহ্যঃ ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।২।১১]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যেরূপ সূর্য সমস্ত সংসারের দর্শনশক্তির দাতা হওয়ার পর ও চক্ষুসন্ধীয় বাহ্য দোষ দ্বারা লিপ্ত হয় না, তদ্রূপ এক সর্বভূতের অন্তর্যামী পরমাত্মা সংসারের দুঃখ দ্বারা লিপ্ত হন না কেননা তিনি তা থেকে পৃথক।
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Mantra 13 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        একো বশী সর্বভূতান্তরাত্মা একং রূপং বহুধা য়ঃ করোতি। তমাত্মস্থং য়েনুপশ্যন্তি ধীরাস্তেষাং সুখং শাশ্বতং নেতরেষাম্ ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।২।১২]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            চরাচর জগতের একমাত্র নিয়ন্তা এবং সর্বান্তর্যামী এক পরমাত্মা, যিনি এক প্রকরূিপী বীজকে অনেক প্রকার করেন। যে বিবেকী মনুষ্য তাঁকে নিজের আত্মাতে ব্যাপকরূপে জানেন, তার নিরন্তর সুখ লাভ হয়, অন্যের হয় না।
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Mantra 14 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        অব্যক্তাৎ তু পরঃ পুরুষো ব্যাপকোঽলিঙ্গ এব চ। য়ং জ্ঞাত্বা মুচ্যতে জন্তুরমৃতত্বঞ্চ গচ্ছতি ॥
+    </div>
+
+    <div class="reference">
+        [কঠ ২।৩।৮]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সর্বব্যাপক ও চিহ্ণরহিত নিরাকার পরমাত্মা জগতের উপাদান কারণ মূল-প্রকৃতি থেকে অতিসূক্ষ্ম, তাঁকে জেনে জীব অবিদ্যার বন্ধন থেকে মুক্ত হয়ে যায় ও মুক্তিলাভ করে।
+        </div>
+
+    </div>
+
+</div><!--==========================================
+        মুণ্ডকোপনিষদ
+===========================================-->
+
+<section id="mundaka" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            মুণ্ডকোপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+
+    <!-- Mantra 1 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            য়তদদৃশ্যমগ্রাহ্যমগোত্রমবর্ণমচক্ষুঃশ্রোত্রং তদপাণিপাদম্। নিত্যং বিভুং সর্বগতং সুসূক্ষ্মং তদ্ব্যয়ং য়দ্ভূত্যোনিং পরিপশ্যন্তি ধীরাঃ॥
+        </div>
+
+        <div class="reference">
+            [মুণ্ডক ১।১।৬]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: সেই যিনি জ্ঞানেন্দ্রিয়ের অজ্ঞেয়, কর্মেন্দ্রিয়ের অগ্রাহ্য, বংশ-পরম্পরা রহিত, লাল-পীতাদি বর্ণ রহিত, চক্ষু, কর্ণাদি রহিত, হস্ত-পদ রহিত, সর্বত্র ব্যাপক, অত্যন্ত সূক্ষ্ম, বৃদ্ধি ও ক্ষয় রহিত, অবিনাশী, সর্বব্যাপী, যে চরাচর সৃষ্টির কারণকে বিবেকী পুরুষগণ জ্ঞানদৃষ্টি দ্বারা সর্বত্র দর্শন করেন, তিনিই ব্রহ্ম।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 2 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            দিব্যো হ্যমূর্তঃ পুরুষঃ সবাহ্যাভ্যন্তরো হ্যজঃ। অপ্রাণো হ্যমনাঃ শুভ্রো হ্যক্ষরাৎ পরতঃ পরঃ॥
+        </div>
+
+        <div class="reference">
+            [মুণ্ডক ২।১।২]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: নিশ্চয়ই ব্রহ্ম স্বপ্রকাশস্বরূপ ও মূর্তি-রহিত। তিনি সর্বব্যাপক, জগতের প্রত্যেক পদার্থের বাইরে এবং অভ্যন্তরে ব্যাপ্ত। তিনি জন্ম-রহিত, প্রাণের ক্রিয়া-রহিত এবং মন-রহিত। অতএব, তিনি শুদ্ধ এবং সূক্ষ্ম অব্যক্তরূপ প্রকৃতি থেকেও পরম সূক্ষ্ম।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 3 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            পুরুষ এবেদং বিশ্বং কর্ম তপো ব্রহ্ম পরমৃতম্। এতদ য়ো বেদ নিহিতং গুহায়াং সোহবিদ্যামগ্রন্থি বিকিরতীহ সোম্য ॥
+        </div>
+
+        <div class="reference">
+            [মুণ্ডক ২।১।১০]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: এই সম্পূর্ণ সংসার পুরুষই; যজ্ঞাদি কর্ম এবং তপস্যা পরম অমৃতস্বরূপ ব্রহ্ম। হে প্রিয় শিষ্য! যিনি এই হৃদয়রুপ গুহায় স্থিত এই পুরুষকে (সর্বব্যাপক ব্রহ্মকে) জানেন, তিনি এই মানবজীবনেই অবিদ্যারূপ গ্রন্থিকে ছিন্ন করেন।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 4 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            আবিঃ সন্নিতং গুহাচরং নাম মহৎপদমতৈতৎ সমর্পিতম্। এজৎ প্রাণন্নিমিষচ্চ য়দেতজ্জানথ সদসদ্বরেণ্যং পরং বিজ্ঞানাদ যদ্বরিষ্ঠং প্রজানাশ্॥
+        </div>
+
+        <div class="reference">
+            [মুণ্ডক ২।২।১]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: যে প্রকাশমান ব্রহ্ম সবার মধ্যে স্থিত, হৃদয়রুপ গুহায় বিচরণকারী (গুহাচর) নামে প্রসিদ্ধ, তিনি সকল জীবের মহান আশ্রয়। এই ব্রহ্মে চলনশীল, প্রাণধারী, নিমিষক্রিয়াযুক্ত সম্পূর্ণ জীব-জগৎ প্রবিষ্ট বা স্থিত। যিনি স্থূল, সূক্ষ্ম সমস্ত পদার্থের মধ্যে বরণীয় এবং সর্বাপেক্ষা শ্রেষ্ঠ, মনুষ্যাদি প্রাণিগণের বিজ্ঞানের (লৌকিক জ্ঞানের) ঊর্ধ্বে, সেই ব্রহ্মকে তোমরা জেনো।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 5 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            য়দর্চি মদ য়দণুভ্যোণু চ য়স্মিন্লোকা নিহিতা লোকিনশ্চ। তদেতদক্ষরং ব্রহ্ম স প্রাণস্তদ বাঙ্মনঃ। তদেতৎ সত্যং তদমৃতং তদ্বেদ্ধব্যং সোম্য বিদ্ধি ॥
+        </div>
+
+        <div class="reference">
+            [মুণ্ডক ২।২।২]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: যিনি প্রকাশমান, যিনি সূক্ষ্ম থেকে সূক্ষ্ম, যাঁর মধ্যে সমস্ত লোক এবং সেই লোকসমূহে নিবাসকারী প্রাণিগণ অবস্থিত, তিনিই এই অবিনাশী ব্রহ্ম। তিনি প্রাণ, তিনিই বাক্ ও মন। সেই ব্রহ্রই সত্য, তিনিই অমৃত; তাঁকেই বিদ্ধ করতে (লক্ষ্য বানাতে) হবে। হে প্রিয় শিষ্য! তুমি তাঁকে বিদ্ধ করো অর্থাৎ ব্রহ্মকে নিজের লক্ষ্য বানাও॥
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Mantra 6 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য়স্মিন্ দ্যৌঃ পৃথিবী চান্তরিক্ষমোতং মনঃ সহ প্রাণৈশ্চ সর্বৈঃ। তমেবৈতং জানথ আত্মানমন্যা বাচো বিমুঞ্চথামৃতস্যৈষ সেতুঃ ॥
+    </div>
+
+    <div class="reference">
+        [মুণ্ডক ২।২।৫]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সরলার্থ: যাঁর মধ্যে দ্যুলোক, পৃথিবী, অন্তরিক্ষ এবং সমস্ত প্রাণের সহিত মন ওতপ্রোত হয়ে আছে, নিশ্চিতরূপে সেই এক পরমাত্মাকে জেনো এবং তদ্ভিন্ন অন্য সকল বাক্য পরিত্যাগ করো। কারণ এই পরমাত্মাই মোক্ষ-প্রাপ্তির উপায়।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 7 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য়ঃ সর্বজ্ঞঃ সর্ববিদ্ য়স্য মহিমা ভুবি। দিব্যে ব্রহ্মপুরে হ্যেষ বোম্যাত্মা প্রতিষ্ঠিতঃ। মনোময়ঃ প্রাণশরীরনেতা প্রতিষ্ঠিতোহন্নে হৃদয়ং সন্নিধায়। তদ্বিজ্ঞানে পরিপশ্যন্তি ধীরা আনন্দরূপমমৃতং য়দ্ বিভাতি ॥
+    </div>
+
+    <div class="reference">
+        [মুণ্ডক ২।২।৭]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সরলার্থ: যিনি সর্বজ্ঞ ও সর্ববিৎ, সংসারে যাঁর এই প্রসিদ্ধ মহিমা (বিভূতি) আছে; সেই পরমাত্মাই হৃদয়পদ্মস্থ দিব্য আকাশে স্থিত। মনে ব্যাপ্ত, প্রাণ ও শরীরের সঞ্চালক এই পরমাত্মা হৃদয়কে অন্নময় কোশে স্থাপিত করে দেহে প্রতিষ্ঠিত আছেন। তাঁর বিজ্ঞান (ব্রহ্মজ্ঞান) দ্বারা ধীর-পুরুষগণ সর্বত্র প্রকাশমান আনন্দরূপ অমৃতকে জ্ঞানদৃষ্টি দ্বারা দর্শন করেন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 8 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        ব্রহ্মৈবেদমমৃতং পুরস্তাদব্রহ্ম পশ্চাদ্ব্রহ্ম দক্ষিণতশ্চোত্তরেণ। অধশ্চোর্ধ্বং চ প্রসৃতং ব্রহ্মৈবেদং বিশ্বমিদং বরিষ্ঠম্ ॥
+    </div>
+
+    <div class="reference">
+        [মুণ্ডক ২।২।১১]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সরলার্থ: এই অমৃতস্বরূপ ব্রহ্মই সামনে, পিছনে, দক্ষিণদিকে, উত্তরদিকে, নিচের দিকে এবং উপরের দিকেও পরিব্যাপ্ত। এই সম্পূর্ণ সংসার (ব্রহ্মাণ্ড) সর্বশ্রেষ্ঠ ব্রহ্মই।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 9 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        বৃহচ্চ তদ্ দিব্যমচিন্ত্যরূপং সূক্ষ্মাচ তৎ সূক্ষ্মতরং বিভাতি। দূরাৎ সুদূরে তদিহান্তিকে চ পশ্যত্থৈবেহ নিহিতং গুহায়াম্ ॥
+    </div>
+
+    <div class="reference">
+        [মুণ্ডক ৩।১।৭]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সরলার্থ: সেই ব্রহ্ম মহান্, দিব্য, অচিন্ত্যরূপ এবং তিনি সূক্ষ্ম থেকেও অত্যন্ত সূক্ষ্মরূপে প্রকাশমান। তিনি দূর থেকেও অতি দূরে এবং এই শরীরেই অতি নিকটে স্থিত। জ্ঞানদৃষ্টিসম্পন্ন দ্রষ্টাদের মধ্যে শরীরস্থ হৃদয়রুপী গুহাতে তিনি বিরাজমান।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 10 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        সংপ্রাপ্যৈনমৃষয়ো জ্ঞানতৃপ্তাঃ কৃতাত্মানো বীতরাগাঃ প্রশান্তাঃ। তে সর্বগং সর্বতঃ প্রাপ্য ধীরা যুক্তাত্মানঃ সর্বমেবাবিশন্তি ॥
+    </div>
+
+    <div class="reference">
+        [মুণ্ডক ৩।২।৫]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সরলার্থ: এই পরমাত্মাকে সম্যক প্রাপ্ত হয়ে তত্ত্বদর্শী ঋষিগণ আত্মজ্ঞান দ্বারা তৃপ্ত হয়ে আত্মজ্ঞানী, আসক্তিশূন্য ও শান্তচিত্ত হন। সমাহিতচিত্ত সেই জ্ঞানিগণ সর্বগত ব্রহ্মকে সর্বদিকে প্রাপ্ত হয়ে সর্বান্তর্যামী পরমাত্মাতেই প্রবিষ্ট হন অর্থাৎ তাঁর শরণ (আশ্রয়) গ্রহণ করেন।
+        </div>
+
+    </div>
+
+</div>
+
+<!--==========================================
+        মাণ্ডুক্যোপনিষদ
+===========================================-->
+
+<section id="mandukya" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            মাণ্ডুক্যোপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+
+    <!-- Mantra 1 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            ওমিত্যেতদক্ষরমিদং সর্বং তস্যাপব্যাখ্যানং ভূভং ভবদ ভবিষ্যদিতি সর্বমোঙ্কার এব। য়চ্চান্যৎ ত্রিকালাতীতং তদপ্যঙ্কার এব ॥
+        </div>
+
+        <div class="reference">
+            [মাণ্ডুক্যোপনিষদ ১]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: ‘ওম্’ এই অবিনাশী ব্রহ্ম, এই সম্পূর্ণ জগৎ তাঁর নিকটতম মহিমার বোধক। অতীত, বর্তমান ও ভবিষ্যৎ এই সবকিছু ওঙ্কারই এবং ত্রিকালের ঊর্ধ্বে অন্য যা কিছু আছে, তাও ওঙ্কারই।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 2 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            সর্বংহ্যতদ ব্রহ্মায়মাত্মা ব্রহ্ম সোহয়মাত্মা চতুষ্পাৎ ॥
+        </div>
+
+        <div class="reference">
+            [মাণ্ডুক্যোপনিষদ ২]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: নিশ্চিতরূপে এই সমস্ত (জগৎ) ব্রহ্ম। এই সর্বব্যাপক তত্ত্ব (পরমাত্মা) ব্রহ্ম। এই পরমাত্মা চার পাদ-বিশিষ্ট।
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!--==========================================
+        ঐতরেয় উপনিষদ
+===========================================-->
+
+<section id="aitareya" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            ঐতরেয় উপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+
+    <!-- Mantra 3 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            এষ ব্রহ্মৈষ ইন্দ্র এষ প্রজাপতিরিতে সর্বে দেবা ইমানি চ পঞ্চ মহাভূতানি পৃথিবী বায়ুরাকাশ আপো জ্যোতিংষীতৈতানিমানি চ ক্ষুদ্রমিশ্রাণীভ বীজানীতরাণি চেতরাণি চাজানি চ জারুজানি চ স্বেদজানি চোদ্ভিজ্জানি চাশ্বা গাবঃ পুরুষা হস্তিনো য়ৎকিঞ্চেদং প্রাণি জঙ্গমং চ পতত্রি চ য়চ্চ স্থাবরং সর্বং তৎপ্রজ্ঞানেনত্রম্। প্রজ্ঞানে প্রতিষ্ঠিতং প্রজ্ঞানেনত্রো লোকঃ প্রজ্ঞা প্রতিষ্ঠা প্রজ্ঞানং ব্রহ্ম ॥
+        </div>
+
+        <div class="reference">
+            [ঐতরেয় ৩।১।৩]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: এই উপাস্য আত্মাই ব্রহ্ম, ইনি ইন্দ্র, ইনি প্রজাপতি। এই সকল দেবতা, পৃথিবী, বায়ু, আকাশ, জল, তেজ- এরূপ এই পঞ্চ মহাভূত, এই পিপিলিকাদির ন্যায় ক্ষুদ্র প্রাণী, আরও ক্ষুদ্র প্রাণীর বীজ এবং এগুলো ছাড়াও পক্ষী-মৎস্যাদি অণ্ডজ, মনুষ্যাদি জরায়ুজ, মশকাদি স্বেদজ এবং বৃক্ষ-বনস্পত্যাদি উদ্ভিজ্জ- এই সকল; অশ্বসমূহ, গোসমূহ, মনুষ্যগণ, হস্তীসমূহ এবং যা কিছু গতিশীল ও উড্ডয়নশীল প্রাণিসমুদয় এবং যা কিছু স্থাবর-সেই সমস্ত প্রজ্ঞানস্বরূপ পরমাত্মা দ্বারা চালিত; প্রজ্ঞানস্বরূপ পরমাত্মাতেই প্রতিষ্ঠিত। এই লোক (ব্রহ্মাণ্ড) প্রজ্ঞানস্বরূপ পরমাত্মাতেই ওতপ্রোত। চিৎ-শক্তিই এই জগতের আশ্রয়। অতএব, প্রজ্ঞানস্বরূপ পরমাত্মাই সর্বাপেক্ষা বৃহৎ বা মহান।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 4 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            স জাতো ভূত্যনভ্যৈব্যং কিমিহানং বাবদিষদিতি। স এতমেব পুরুষং ব্রহ্ম ততমপশ্যদিদমদর্শমিতি ॥
+        </div>
+
+        <div class="reference">
+            [ঐতরেয় ১।৩।১৩]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: জীবাত্মা মানবদেহে প্রবিষ্ট হয়ে ভূতসমূহকে বিবেক দ্বারা জেনে, “এই সংসারে অন্য কার কথা বলব?” এরূপ বিচার করলেন। তিনি এই পুরুষকেই সর্বোপরি ব্যাপক ব্রহ্মরূপে উপলব্ধি করলেন এবং বললেন, “এঁকে আমি সম্যক্ জ্ঞাত হলাম”।
+            </div>
+
+        </div>
+
+    </div>
+
+</section><!--==========================================
+        তৈত্তিরীয়োপনিষদ
+===========================================-->
+
+<section id="taittiriya" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            তৈত্তিরীয়োপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+
+    <!-- Mantra 1 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            ওম্ শং নো মিত্রঃ শং নো বরুণঃ। শং নো ভবত্বর্যমা। শং ন ইন্দ্রো বৃহস্পতিঃ। শং নো বিষ্ণুরুরুক্রমঃ। নমো ব্রহ্মণে। নমস্তে বায়ো। ত্বমেব প্রত্যক্ষং ব্রহ্মাসি। ত্বামেব প্রত্যক্ষং ব্রহ্ম বদিষ্যামি। ঋতং বদিষ্যামি। সত্যং বদিষ্যামি। তন্মামবতু। তদ্বক্তারমবতু। অবতু মাম্। অবতু বক্তারম্। ওম্ শান্তিঃ শান্তিঃ শান্তিঃ ॥
+        </div>
+
+        <div class="reference">
+            [শিক্ষাবল্লী। ১ম অনুবাক]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: সকলের রক্ষক প্রেমময় পরমাত্মা আমাদের জন্য কল্যাণকারী হোন, সকলের বরণীয় পরমাত্মা আমাদের জন্য কল্যাণকারী হোন, নায়কারী পরমাত্মা আমাদের জন্য কল্যাণকারী হোন, বৃহৎ লোকসমূহের অধিপতি ঐশ্বর্যবান পরমাত্মা আমাদের জন্য কল্যাণকারী হোন, মহাপরাক্রমশালী সর্বব্যাপক পরমাত্মা আমাদের জন্য কল্যাণকারী হোন। ব্রহ্মকে নমস্কার, হে সর্বাধার পরমাত্মা! তোমাকে নমস্কার; তুমিই সর্বাস্বীরূপ ব্রহ্ম, তোমাকেই প্রত্যক্ষ ব্রহ্ম বলব, তোমারই বেদোক্ত আজ্ঞার বর্ণনা করব, সদা সত্য বলব। সেই ব্রহ্ম আমাকে রক্ষা করুন, সেই ব্রহ্ম আচার্যকে রক্ষা করুন; আমাকে রক্ষা করুন, আমার আচার্যকে রক্ষা করুন। হে পরমাত্মা! আধ্যাত্মিক, আধিভৌতিক ও আধিদৈবিক- এই ত্রিবিধ দুঃখকে শান্ত করো।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 2 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            সুবরিত্যাদিতো। মহ ইতি ব্রহ্মণি। আপ্নোতি স্বরাজ্যম্। আপ্নোতি মনসস্পতিম্। বাচ্পতিশ্চক্ষুস্পতিঃ। শ্রোত্রপতির্বিজ্ঞানপতিঃ। এতত্ততো ভবতি। আকাশশরীরং ব্রহ্ম। সত্যাত্মা প্রাণারামং মন আনন্দম্। শান্তিসমৃদ্ধমমৃতম্। ইতি প্রাচীনযোগ্যোপাস্ব ॥
+        </div>
+
+        <div class="reference">
+            [শিক্ষাবল্লী। ৬ষ্ঠ অনুবাক। ২]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: শরীরস্থ ব্যান অথবা চক্ষুরাদি ইন্দ্রিয় সূর্যে, শরীরস্থ অন্ন অথবা মহিমা-মহান ব্রহ্মে বিলীন হয়ে যায়, তখন জীবাত্মা নিজের ইন্দ্রিয়ের ওপর আধিপত্য লাভ করেন তথা মন, বাণী, চক্ষু, শ্রোত্র ও বিজ্ঞানের অধিপতি হয়ে যান। হে প্রাচীনযোগ্য শিষ্য! আকাশতুল্য ব্যাপক ব্রহ্মকে সত্যস্বরূপ, সকল প্রাণীতে রমণকারী, মনকে আনন্দ দানকারী, শান্তি দ্বারা সমৃদ্ধ এবং অবিনাশী-এরূপ জেনে তাঁর উপাসনা করো।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 3 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            অথ দৈবীঃ। তৃপ্তিরিতি বৃষ্টিঃ। বলমিতি বিদ্যুতি। যশ ইতি পশুষু। জ্যোতিরিতি নক্ষত্রেযু। প্রজান্তিরমৃতমানন্দ ইত্যপস্থে। সর্বমিত্যাকাশে ॥
+        </div>
+
+        <div class="reference">
+            [ভৃগুবল্লী। ১০ম অনুবাক। ৩]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                সরলার্থ: এখন দৈবী প্রার্থনা করা হচ্ছে-বৃষ্টিতে তৃপ্তির, বিদ্যুতে বলের, পশুতে যশের, নক্ষত্রে জ্যোতির, সন্তানের মৃত্যুরহিত (দীর্ঘায়ু) হওয়ার এবং জননেন্দ্রিয়ে আনন্দের প্রার্থনা করবে। এই সবকিছু আকাশবৎ ব্যাপক সর্বাধার ব্রহ্মে স্থিত।
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+<!--==========================================
+        শ্বেতাশ্বতরোপনিষদ
+===========================================-->
+
+<section id="svetashvatara" class="chapter">
+
+    <div class="chapter-header">
+
+        <div class="chapter-om">ॐ ॥</div>
+
+        <h2 class="chapter-title">
+            শ্বেতাশ্বতরোপনিষদে পরমেশ্বরের সর্বব্যাপকতা
+        </h2>
+
+    </div>
+
+
+    <!-- Mantra 1 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            বিশ্বতশ্চক্ষুরুত বিশ্বতোমুখো বিশ্বতোবাহুরুত বিশ্বতস্পাৎ। সং বাহুভ্যাং ধমতি সং পতত্রৈদ্যাবাভূমী জনয়ন্ দেব একঃ॥
+        </div>
+
+        <div class="reference">
+            [যজু ১৭।১৯, ঋ০ ১০।৮১।৩, শ্বেতা ৩।৩]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                যিনি সর্বদ্রষ্টা, সর্বব্যাপ্তা, সর্বধারক ও সর্বগত [অর্থাৎ সর্বত্র উপস্থিত], তিনি অদ্বিতীয় পরমাত্মদেব। তিনিই প্রকৃতির ত্রিগুণাত্মক পরমাণুসমূহ দ্বারা সূর্যাদি প্রকাশমান লোকসমূহ ও পৃথিবীকে যথার্থরূপে উৎপন্ন করে, স্বীয় অনন্ত বল (সামর্থ্য) দ্বারা সম্পূর্ণ জগৎকে চালনা করছেন।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 2 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            সর্বাননশিরোগ্রীবঃ সর্বভূতগুহাশয়ঃ। সর্বব্যাপী স ভগবানস্মাৎ সর্বগতঃ শিবঃ॥
+        </div>
+
+        <div class="reference">
+            [শ্বেতা ৩।১১]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                যাঁর মধ্যে সকল প্রাণীর মুখ, মস্তক ও গ্রীবা অবস্থিত, যিনি সকল প্রাণীর হৃদয়রুপ গুহায় শয়নকারী, তিনিই সর্বব্যাপী ভগবান। সেই কারণে তিনি সর্বত্র উপস্থিত এবং কল্যাণকারী।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 3 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            সূক্ষ্মাতিসূক্ষ্মং কলিলস্য মধ্যে বিশ্বস্য স্রষ্টারমনেকরূপম্। বিশ্বস্যৈকং পরিবেষ্টিতারং জ্ঞাত্বা শিবং শান্তিমত্যন্তমেতি ॥
+        </div>
+
+        <div class="reference">
+            [শ্বেতা ৪।১৪]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                যিনি গহন সংসারের মধ্যে বিদ্যমান, সূক্ষ্ম থেকেও অতি সূক্ষ্ম, অনেক রূপবান পদার্থসমূহের রচয়িতা এবং সম্পূর্ণ জগতের একমাত্র পরিব্যাপক, সেই কল্যাণস্বরূপ পরমাত্মাকে জেনেই মানুষ অত্যধিক শান্তি লাভ করে।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 4 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            তিলেষু তৈলং দধনিব সর্পিরাপঃ শ্রোতঃস্বরণীষু চাগ্নিঃ। এবমাত্মাত্মনি গৃহ্যতেহসৌ সত্যেনৈনং তপসা য়োহনুপশ্যতি ॥
+        </div>
+
+        <div class="reference">
+            [শ্বেতা ১।১৫]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                যেরূপ তিলের মধ্যে তৈল, দধির মধ্যে ঘৃত, স্রোতের মধ্যে জল এবং অরণির (কাষ্ঠখণ্ডের) মধ্যে অগ্নি প্রচ্ছন্নরূপে থাকে, তদ্রূপ ওই পরমাত্মা সকল জীবাত্মার মধ্যে ব্যাপ্ত অর্থাৎ জীবের হৃদয়াকাশে বিরাজমান। যে সাধক এই পরমাত্মাকে সত্যচরণ ও তপস্যার দ্বারা সম্যক জানেন, তাঁর দ্বারাই পরমাত্মা গৃহীত হন।
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mantra 5 -->
+
+    <div class="mantra-card">
+
+        <div class="card-heading">📜 মন্ত্র</div>
+
+        <div class="mantra-text">
+            সর্বব্যাপিনমাত্মানং ক্ষীরে সর্পিরাবর্পিতম্। আত্মবিদ্যাতপোমূলং তদ্ ব্রহ্মোপনিষৎ পরম্। তদ্ ব্রহ্মোপনিষৎ পরম্ ॥
+        </div>
+
+        <div class="reference">
+            [শ্বেতা ১।১৬]
+        </div>
+
+        <div class="meaning-box">
+
+            <div class="meaning-heading">
+                💬 সরলার্থ
+            </div>
+
+            <div class="meaning-text">
+                দুগ্ধের মধ্যে স্থিত ঘৃতের ন্যায় সর্বত্র ব্যাপক পরমাত্মাকে আত্মজ্ঞান ও তপস্যা দ্বারাই লাভ করা যায়। সেই ব্রহ্মই উপনিষদে পরম শ্রেয়রূপে উপদিষ্ট।
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+<!-- Mantra 6 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        যুঞ্জতে মন উত যুঞ্জতে ধিয়ো বিপ্রা বিপ্রস্য বৃহতো বিপশ্চিতঃ। বি হোত্রা দধে বয়ুবিনাবিদেক ইন্মহী দেবস্য সবিতুঃ পরিষ্টুতিঃ॥
+    </div>
+
+    <div class="reference">
+        [যজু ১১।৪, ঋ০ ৫।৮১।১, শ্বেতা ২।৪]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            দান গ্রহণ ও প্রদানের স্বভাবযুক্ত ব্রহ্মের উপাসক জ্ঞানিগণ- জগতে বিশেষরূপে ব্যাপক, মহান, অনন্ত বিদ্যাবান, সর্ব-প্রেরক, সর্বপ্রকাশক পরমাত্মায় মন ও বুদ্ধিকে যুক্ত করেন। যিনি সমস্ত প্রজ্ঞা ও প্রজার জ্ঞাতা এবং একাই সমস্ত জগৎকে রচনা ও ধারণ করেন, তাঁকেই সর্বপ্রকারে মহতী স্তুতি করা আবশ্যক।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 7 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        এষ হ দেবঃ প্রদিশোহনু সর্বাঃ পূর্বো হ জাতঃ স উ গর্ভে অন্তঃ। স এব জাতঃ স জনিষ্যমাণঃ প্রত্যঙ্ জনাস্তিষ্ঠতি সর্বতোমুখঃ॥
+    </div>
+
+    <div class="reference">
+        [যজু ৩২।৪, শ্বেতা ২।১৬]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            হে মনুষ্য! এই প্রসিদ্ধ পরমাত্মদেব সকল দিশা-উপদিশা অর্থাৎ সর্বদিকে অনুকূলতা দ্বারা ব্যাপ্ত হয়ে আছেন। পূর্ব কল্পের সৃষ্টিতে তিনিই সকলের অন্তঃকরণের মধ্যে নিশ্চিতরূপে প্রকট হয়েছেন। তিনিই সৃষ্টিকে নির্মাণ করে প্রকট হয়েছেন এবং ভবিষ্যৎ কল্পের সৃষ্টিতেও প্রকট হবেন। তিনি সর্বত্র মুখ-বিশিষ্ট (সকলের অন্তর্যামীরূপে উপদেষ্টা) এবং প্রত্যেক জীবের মধ্যে অবস্থিত।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 8 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য়ো দেবো অগ্নৌ য়ো অপ্সু য়ো বিশ্বং ভুবনমাবিবেশ। য় ঔষধীষু য়ো বনস্পতিষু তস্মৈ দেবায় নমো নমঃ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ২।১৭]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যে পরমাত্মদেব অগ্নিতে, জলে, সম্পূর্ণ জগতের মধ্যে ব্যাপক হয়ে আছেন, যিনি ওষধি ও বনস্পতির মধ্যে ব্যাপক হয়ে আছেন, সেই পরমাত্মাকে বার-বার নমস্কার।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 9 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        বিশ্বতশ্চক্ষুরুত বিশ্বতোমুখো বিশ্বতোবাহুরুত বিশ্বতস্পাৎ। সং বাহুভ্যাং ধমতি সং পতত্রৈদ্যাবাভূমী জনয়ন্ দেব একঃ॥
+    </div>
+
+    <div class="reference">
+        [যজু ১৭।১৯, ঋ০ ১০।৮১।৩, শ্বেতা ৩।৩]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যিনি সর্বদ্রষ্টা, সর্বব্যাপ্তা, সর্বধারক ও সর্বগত [অর্থাৎ সর্বত্র উপস্থিত], তিনি অদ্বিতীয় পরমাত্মদেব। তিনিই প্রকৃতির ত্রিগুণাত্মক পরমাণুসমূহ দ্বারা সূর্যাদি প্রকাশমান লোকসমূহ ও পৃথিবীকে যথার্থরূপে উৎপন্ন করে, স্বীয় অনন্ত বল (সামর্থ্য) দ্বারা সম্পূর্ণ জগৎকে চালনা করছেন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 10 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য়স্মাৎ পরং নাপরমস্তি কিঞ্চিৎ য়স্মান্নীয়ো ন জ্যায়োহস্তি কশ্চিৎ। বৃক্ষ ইব স্তব্ধো দিবি তিষ্ঠত্যতেনিদং পূর্ণং পুরুষেণ সর্বম্॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৩।৯]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যাঁর থেকে শ্রেষ্ঠ অন্য কিছুই নেই, যাঁর থেকে সূক্ষ্ম ও মহান কেউ নেই, যিনি প্রকাশময় স্বরূপে বৃক্ষের ন্যায় নিশ্চলভাবে বিরাজমান, সেই অদ্বিতীয় পূর্ণ পরমাত্মা দ্বারা এই সম্পূর্ণ জগৎ পরিব্যাপ্ত।
+        </div>
+
+    </div>
+
+</div>
+<!-- Mantra 11 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        মহান প্রভুর্ভৈ পুরুষঃ সত্ত্বস্যৈষ প্রবর্তকঃ। সুনিৰ্মলামিমাং প্রাপ্তীশানো জ্যোতিরব্যয়ঃ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৩।১২]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            এই পরমাত্মা নিশ্চিতরূপে মহান, অনন্ত সামর্থ্যবান ও সকলের স্বামী। তিনি অবিনাশী, প্রকাশস্বরূপ এবং সর্বদিকে পরিপূর্ণ। তিনিই অত্যন্ত নির্মল এই পরমপদ লাভের প্রতি অন্তঃকরণে সৎ ভাবনার প্রেরয়িতা।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 12 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        অঙ্গুষ্ঠমাত্রঃ পুরুষোহন্তরাত্মা সদা জনানাং হৃদয়ে সন্নিবিষ্টঃ। হৃদ মনীষো মনসাধিকৃপ্তো য় এতদ্ বিদুরমৃতাস্তে ভবন্তি ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৩।১৩]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            অঙ্গুষ্ঠমাত্র পূর্ণ পরমাত্মা অন্তর্যামীরূপে মনুষ্যের হৃদয়ে সর্বদা প্রতিষ্ঠিত। সেই জ্ঞানাধীশ পরমাত্মা হৃদয় ও মন দ্বারা প্রকাশিত হন-যাঁরা এই তত্ত্ব জানেন, তাঁরা মোক্ষপ্রাপ্ত হন॥
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 13 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        সহস্রশীর্ষা পুরুষঃ সহস্রাক্ষঃ সহস্রপাৎ। স ভূমিং বিশ্বতো বৃত্বাত্যতিষ্ঠদ্দশাঙ্গুলম্ ॥
+    </div>
+
+    <div class="reference">
+        [ঋ০ ১০।৯০।১, শ্বেতা ৩।১৪]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যাঁর মধ্যে সকল প্রাণীর অসংখ্য মস্তক, চক্ষু ও চরণ স্থিত, অথবা যিনি সর্বজ্ঞ, সর্বদ্রষ্টা, সর্বগত-সেই পূর্ণ পরমাত্মা সমগ্র জগতের সর্বদিকে ব্যাপ্ত হয়ে দশাঙ্গুল (পঞ্চ-স্থূলভূত ও পঞ্চ-সূক্ষ্মভূত সম্পন্ন জগৎকে) উল্লঙ্ঘন করে স্থিত।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 14 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        সর্বতঃ পাণিপাদং তৎ সর্বতোহক্ষিশিরোমুখম্। সর্বতঃ শ্রুতিমল্লোকে সর্বমাবৃত্য তিষ্ঠতি ॥
+    </div>
+
+    <div class="reference">
+        [গীতা ১৩।১৪, শ্বেতা ৩।১৬]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সেই পরমাত্মা সর্বত্র হস্ত ও চরণ বিশিষ্ট অর্থাৎ অনন্ত বলবান এবং সর্বগত; সর্বত্র চক্ষু, মস্তক ও মুখ বিশিষ্ট অর্থাৎ সর্বদ্রষ্টা (সবার কর্মের সাক্ষী), সর্বজ্ঞ (অনন্ত জ্ঞানবান), সর্বব্যাপ্তা।
+
+(অন্তর্যামীরূপে সবার উপদেষ্টা) এবং সর্বত্র শ্রুতিযুক্ত (সর্বদিকে শ্রবণশক্তি সম্পন্ন)। তিনি জগতে সবকিছু আবৃত করে অর্থাৎ সবার মধ্যে পরিব্যাপ্ত হয়ে অবস্থিত রয়েছেন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 15 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        নবদ্বারে পুরে দেহী হংসো লেলায়তে বহিঃ। বশী সর্বস্য লোকস্য স্থাবরস্য চরস্য চ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৩।১৮]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            পাপ-প্রবৃত্তির হন্তা, সর্বজ্ঞ পরমাত্মাই এ ব্রহ্মাণ্ডরূপ দেহের স্বামী, সমস্ত স্থাবর ও জঙ্গম জগতের নিয়ন্তা, তিনি নবদ্বার-বিশিষ্ট শরীররূপ নগরে এবং বাইরেও প্রকাশমান।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 16 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        অপাণিপাদো জবনো গ্রহীতা পশ্যত্যচক্ষুঃ শৃণোত্যকর্ণঃ। স বেত্তি বেদ্যং ন চ তস্যাস্তি বেত্তা তমাহুরগ্র্যং পুরুষং মহান্তম্ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৩।১৯]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সেই পরমাত্মার হাত নেই, তবুও নিজের অনন্ত শক্তি দ্বারা তিনি সবকিছু গ্রহণ অর্থাৎ ধারণ করেন। তাঁর পা নেই, তবুও তিনি সর্বব্যাপক হওয়ার কারণে সর্বাধিক বেগবান। তাঁর চক্ষু নেই, তবুও তিনি সবকিছু দর্শন করেন। তাঁর কর্ণ নেই, তবুও তিনি সবই শ্রবণ করেন। তিনি সমস্ত জ্ঞাতব্য বিষয় জানেন, অথচ তাঁকে কেউ সম্পূর্ণরূপে জানে না। এজন জ্ঞানিগণ তাঁকে সর্বাগ্রণী, সর্বাপেক্ষা মহান পুরুষ বলেন।।
+        </div>
+
+    </div>
+
+</div><!-- Mantra 17 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        বেদাহমেতমজরং পুরাণং সর্বাত্মানং সর্বগতং বিভূত্বাৎ। জন্মনিরোধং প্রবদন্তি য়স্য ব্রহ্মবাদিনো হি প্রবদন্তি নিত্যম্ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৩।২১]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            ব্রহ্মবেত্তাগণ যাঁকে জন্ম-রহিত এবং নিত্য বলেন; যিনি জরা-রহিত, সনাতন, সর্বান্তর্যামী এবং সর্বব্যাপকতার কারণে সর্বত্র উপস্থিত, সেই পরমাত্মাকে আমি জানি।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 18 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        ঋচো অক্ষরে পরমে ব্যোমন্ য়স্মিন্ দেবা অধি বিশ্বে নিষেদুঃ। য়স্তং ন বেদ কিমুচা করিষ্যতি য় ইৎ তদ্বিদুস্ত ইমে সমাসতে ॥
+    </div>
+
+    <div class="reference">
+        [ঋ০ ১।১৬৪।৩৯, শ্বেতা ৪।৮]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            ঋগ্বেদাদি (চতুর্বেদ) দ্বারা প্রতিপাদিত যে অবিনাশী, পরম আকাশবৎ সর্বব্যাপক ব্রহ্মে সকল বিদ্বান এবং পৃথিবী, সূর্যাদি লোকসমূহ আশ্রিত; সেই ব্রহ্মকে যে মনুষ্য জানে না, সে ঋগ্বেদাদি (চতুর্বেদ) দ্বারা কী করবে? কিন্তু যাঁরা বেদের অধ্যয়ন দ্বারা ধর্মাত্মা তথা যোগী হয়ে সেই ব্রহ্মকে জানেন, তাঁরাই এই ব্রহ্মে সম্যক স্থিত হন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 19 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        মায়াং তু প্রকৃতিং বিদ্যাত্মায়িনং তু মহেশ্বরম্। তস্যাবয়বভূত্যৈস্তু ব্যাপ্তং সর্বমিদং জগৎ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৪।১০]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            মায়াকে প্রকৃতি বলে জানবে এবং মায়ার অধিষ্ঠাতাকে মহেশ্বর বলে জানবে। তাঁর একদেশস্থ পাঁচ অঙ্গভূত অর্থাৎ পঞ্চ-মহাভূত দ্বারা এই সম্পূর্ণ জগৎ পরিব্যাপ্ত।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 20 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        সূক্ষ্মাতিসূক্ষ্মং কলিলস্য মধ্যে বিশ্বস্য স্রষ্টারমনেকরূপম্। বিশ্বস্যৈকং পরিবেষ্টিতারং জ্ঞাত্বা শিবং শান্তিমত্যন্তমেতি ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৪।১৪]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যিনি গহন সংসারের মধ্যে বিদ্যমান, সূক্ষ্ম থেকেও অতি সূক্ষ্ম, অনেক রূপবান পদার্থসমূহের রচয়িতা এবং সম্পূর্ণ জগতের একমাত্র পরিব্যাপক, সেই কল্যাণস্বরূপ পরমাত্মাকে জেনেই মানুষ অত্যধিক শান্তি লাভ করে।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 21 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        ঘৃতাৎ পরং মণ্ডমিবাতিসূক্ষ্মং জ্ঞাত্বা শিবং সর্বভূতেষু গূঢ়ম্। বিশ্বস্যৈকং পরিবেষ্টিতারং জ্ঞাত্বা দেবং মুচ্যতে সর্বপাশৈঃ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৪।১৬]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            ঘৃতের ওপরে স্থিত মণ্ডর (সরের মতো সূক্ষ্ম আবরণের) ন্যায় অত্যন্ত সূক্ষ্ম, মঙ্গলময় পরমাত্মাকে সমস্ত প্রাণীর মধ্যে অন্তর্যামীরূপে বিদ্যমান জেনে এবং জগতের একমাত্র পরিবেষ্টনকারী পরমাত্মদেবের স্বরূপ জেনে যোগীপুরুষ সমস্ত বন্ধন থেকে মুক্ত হন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 22 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        এষ দেবো বিশ্বকর্মা মহাত্মা সদা জনানাং হৃদয়ে সন্নিবিষ্টঃ। হৃদ মনীষা মনসাহভিকৃপ্তো য় এতদ্ বিদুরমৃতাস্তে ভবন্তি ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৪।১৭]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            এই সম্পূর্ণ জগতের রচয়িতা, সর্বব্যাপক পরমাত্মদেব সর্বদা সকল জীবের হৃদয়ে অবস্থিত। হৃদয়ের আকাঙ্ক্ষা, নিশ্চয়াত্মিকা বুদ্ধি এবং বিশুদ্ধ মন দ্বারা তিনি উপাসকের হৃদয়ে অভিব্যক্ত হন। যাঁরা এই পরমেশ্বরকে জানেন, তাঁরা মুক্ত হন।
+        </div>
+
+    </div>
+
+</div><!-- Mantra 23 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        ন সন্দর্শে তিষ্ঠতি রূপমস্য ন চক্ষুষা পশ্যতি কশ্চনৈনম্। হৃদ হৃদিস্থং মনসা য় এনমেবং বিদুরমৃতাস্তে ভবন্তি ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৪।২০]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            এই ব্রহ্মের রূপ দৃষ্টিগোচর হয় না, কারণ কেউ এই ব্রহ্মকে চক্ষু দ্বারা দর্শন করতে পারে না। যাঁরা এই হৃদয়স্থিত ব্রহ্মকে হৃদয়ের ভক্তিভাব ও নিরুদ্ধ মন দ্বারা এরূপ জানেন, তাঁরা মোক্ষপ্রাপ্ত হন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 24 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        অনাদনন্তং কলিলস্য মধ্যে বিশ্বস্য স্রষ্টারমনেকরূপম্। বিশ্বস্যৈকং পরিবেষ্টিতারং জ্ঞাত্বা দেবং মুচ্যতে সর্বপাশৈঃ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৫।১৩]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            দুর্গম সংসারের মধ্যে ব্যাপ্ত অনাদি, অনন্ত, জগতের রচয়িতা এবং বহুরূপে প্রকাশমান জগতের পরিবেষ্টনকারী অদ্বিতীয় পরমাত্মাকে জেনেই জীব জন্ম-মৃত্যুর সমস্ত বন্ধন থেকে মুক্ত হতে পারে।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 25 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য়েনাবৃতং নিত্যমিদং হি সর্বং জ্ঞঃ কালকারো গুণী সর্ববিদ্ য়ঃ। তেনেশিতং কর্ম বিবর্ততে হ পৃথ্ব্যাপজোঽনিলখানি চিন্ত্যম্ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৬।২]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যে পরমাত্মা দ্বারা এই সমস্ত জগৎ সর্বদা আচ্ছাদিত, যিনি জ্ঞানস্বরূপ, কালের কর্তা, সর্বগুণসম্পন্ন এবং সর্বজ্ঞ; তাঁরই অধ্যক্ষতায় জগৎ-রচনারূপ কর্ম সর্বপ্রকারে সঞ্চালিত হয়ে থাকে। অতএব পৃথিবী, জল, অগ্নি, বায়ু ও আকাশ-এই পঞ্চভূত সৃষ্টির সঞ্চালন করছে, এ কথাটি চিন্তনীয় অর্থাৎ স ঠিক নয়।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 26 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        য়স্তন্তনাভ ইব তন্তুভিঃ প্রধানজৈঃ স্বভাবতো দেব একঃ স্বামবৃণোৎ। স নো দধাৎ ব্রহ্মাপ্যয়ম্ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৬।১০]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            যেরূপ মাকড়সা তন্তু (জাল) দ্বারা নিজেকে আচ্ছাদিত করে, তদ্রূপ যে অদ্বিতীয় পরমাত্মাদেব অনায়াসে প্রকৃতি থেকে উৎপন্ন তন্তুরূপ মায়া-জাল (কার্যরূপ জগৎ) দ্বারা নিজেকে আচ্ছাদিত করেন, তিনি নিজের ব্রহ্মস্বরূপে আমাদের আশ্রয় (মোক্ষ) প্রদান করুন।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 27 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        একো দেবঃ সর্বভূতেষু গূঢ়ঃ সর্বব্যাপী সর্বভূতান্তরাত্মা। কর্মাধ্যক্ষঃ সর্বভূতাধিবাসঃ সাক্ষী চেতা কেবলো নির্গুণশ্চ ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৬।১১]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            পরমদেব পরমেশ্বর এক (অদ্বিতীয়); তিনি সকল প্রাণীর মধ্যে গূঢ়ভাবে বিদ্যমান, সর্বব্যাপক হয়ে সকল প্রাণীর আত্মার মধ্যে অন্তর্যামীরূপে স্থিত এবং সবার কর্মের অধষ্ঠাতা অর্থাৎ যথাসংখ্য কর্মফল প্রদানকারী। তিনিই সর্বভূতের নিবাসস্থান, সকল জীবের শুভাশুভকর্মের দ্রষ্টা, চেতনস্বরূপ এবং গুণাতীত।
+        </div>
+
+    </div>
+
+</div>
+<!-- Mantra 28 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        একো হংসো ভুবনস্যাস্য মধ্যে স এবাগ্নিঃ সলিলে সন্নিবিষ্টঃ। তমেব বিদিত্বাতিমৃত্যুমেতি নান্যঃ পন্থা বিদ্যতেহয়নায় ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৬।১৫]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            এক পাপ-প্রবৃত্তির বিনাশক পরমাত্মা এই জগতের মধ্যে বিরাজমান, তিনিই অবিদ্যাদি দোষের দাহকরূপে সলিলবৎ অন্তঃকরণে অবস্থিত। সেই পরমাত্মাকে জেনেই মানুষ মৃত্যুকে অতিক্রম করে, এ ছাড়া মোক্ষ-প্রাপ্তির অন্য কোনো মার্গ (পথ) নেই।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Mantra 29 -->
+
+<div class="mantra-card">
+
+    <div class="card-heading">📜 মন্ত্র</div>
+
+    <div class="mantra-text">
+        স তন্য়োয় হ্যমৃত ঈশসংস্থো জ্ঞঃ সর্বগো ভুবনস‍্য গোপ্তা। য় ঈশেহস্য জগতো নিত্যমেব নান্যো হেতুবর্দ্যতে ঈশনায় ॥
+    </div>
+
+    <div class="reference">
+        [শ্বেতা ৬।১৭]
+    </div>
+
+    <div class="meaning-box">
+
+        <div class="meaning-heading">
+            💬 সরলার্থ
+        </div>
+
+        <div class="meaning-text">
+            সেই পরমাত্মা স্বয়ম্ভু, অবিনাশী, শাসকের মর্যাদাসম্পন্ন, জ্ঞানস্বরূপ এবং সর্বব্যাপক। যিনি এই জগতের রক্ষক, সর্বদা এই জগতের শাসন করেন, তিনি ছাড়া এই সমগ্র জগতের শাসনের জন্য অন্য কোনো কারণ নেই।
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Chapter Ending -->
+
+<div class="upanishad-end">
+<section id="end">
+    <div class="end-line"></div>
+<style>
+.upanishad-end {
+    text-align: center;
+    margin: 60px auto 30px;
+    padding: 30px 20px;
+    color: #d4af37;
+}
+
+.end-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #d4af37,
+        transparent
+    );
+    margin: 20px auto;
+}
+
+.end-om {
+    font-size: 55px;
+    font-family: "Noto Serif Devanagari", serif;
+    color: #d4af37;
+    text-shadow: 0 0 15px rgba(212,175,55,0.5);
+    animation: glowOm 3s infinite alternate;
+}
+
+.end-text {
+    margin-top: 15px;
+    font-size: 22px;
+    font-family: "Noto Serif Devanagari", serif;
+    color: #f1d98b;
+    letter-spacing: 2px;
+}
+
+.end-subtitle {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #c9b27c;
+    font-style: italic;
+}
+
+
+@keyframes glowOm {
+    from {
+        text-shadow: 0 0 5px #d4af37;
+    }
+    to {
+        text-shadow: 0 0 25px #d4af37;
+    }
+}
+</style>    <div class="end-om">
+        ॐ
+    </div>
+
+    <div class="end-text">
+        शम् इत्योम्
+    </div>
+
+    <div class="end-subtitle">
+        ॥ उपनिषद् समाप्तम् ॥
+    </div>
+
+    <div class="end-line"></div>
+
+</div>
+
+</section>
+</section>
+</body>
+</html>
