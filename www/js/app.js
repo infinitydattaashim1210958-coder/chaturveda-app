@@ -1,2257 +1,638 @@
 /**
- * app.js — Chaturveda Native App Controller
- *
- * Capacitor 6 + SQLite architecture
- *
- * Depends on:
- *   db.js        → window.VedaDB
- *   library.js   → window.VedaLibrary
+ * app.js — Hash-based router and screen renderer for the Chaturveda app.
+ * All content is rendered dynamically from SQLite queries (see db.js).
  */
 
-
-const APP_BUILD_VERSION = "v6.0-native-sqlite-2026-07-13";
-
-
-
+const APP_BUILD_VERSION = "v6.1-settings-merged-2026-07-13";
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
 const searchBtn = document.getElementById("searchBtn");
 
-
-
 const VEDA_THEME = {
-
-    rigveda:{
-        a:"#d4a24c",
-        b:"#e8915c",
-        tag:"Veda I · Knowledge"
-    },
-
-    yajurveda:{
-        a:"#ff7a1a",
-        b:"#e8b23d",
-        tag:"Veda II · Ritual"
-    },
-
-    samaveda:{
-        a:"#f2c464",
-        b:"#ff7a1a",
-        tag:"Veda III · Chant"
-    },
-
-    atharvaveda:{
-        a:"#4f8c6b",
-        b:"#c99a3e",
-        tag:"Veda IV · Life"
-    }
-
+  rigveda:     { a: "#d4a24c", b: "#e8915c", tag: "Veda I · Knowledge" },
+  yajurveda:   { a: "#ff7a1a", b: "#e8b23d", tag: "Veda II · Ritual" },
+  samaveda:    { a: "#f2c464", b: "#ff7a1a", tag: "Veda III · Chant" },
+  atharvaveda: { a: "#4f8c6b", b: "#c99a3e", tag: "Veda IV · Life" },
 };
 
+let vedaCache = {}; // code -> veda row (with id + labels)
+let history = [];   // simple in-app back stack of hashes
 
-
-let vedaCache = {};
-
-let appHistory = [];
-
-
-
-
-
-/**
- * UI helpers
- */
-
-
-function setTitle(text){
-
-    if(titleEl)
-        titleEl.textContent = text;
-
+function setTitle(t) {
+  titleEl.textContent = t;
 }
 
-
-
-function showBack(show){
-
-    if(backBtn)
-        backBtn.style.visibility =
-            show ? "visible" : "hidden";
-
+function showBack(show) {
+  backBtn.style.visibility = show ? "visible" : "hidden";
 }
 
-
-
-function createElement(html){
-
-    const template =
-        document.createElement("template");
-
-    template.innerHTML =
-        html.trim();
-
-
-    return template.content.firstChild;
-
+function el(html) {
+  const t = document.createElement("template");
+  t.innerHTML = html.trim();
+  return t.content.firstChild;
 }
 
-
-
-
-
-async function ensureVedaCache(){
-
-
-    if(Object.keys(vedaCache).length)
-        return;
-
-
-    const rows =
-        await window.VedaDB.getVedas();
-
-
-
-    rows.forEach(v=>{
-
-        vedaCache[v.code]=v;
-
-    });
-
-
+async function ensureVedaCache() {
+  if (Object.keys(vedaCache).length) return;
+  const rows = await window.VedaDB.getVedas();
+  for (const r of rows) vedaCache[r.code] = r;
 }
 
+// ---------- Screens ----------
 
+async function screenHome() {
+  showBack(false);
+  setTitle("চতুর্বেদ সংকলন");
+  await ensureVedaCache();
 
+  const cards = Object.values(vedaCache).map((v) => {
+    const theme = VEDA_THEME[v.code] || { a: "#d4a24c", b: "#e8915c", tag: "" };
+    return `
+      <a class="card" href="#/veda/${v.code}" style="--a:${theme.a};--b:${theme.b}">
+        <div class="tag">${theme.tag}</div>
+        <h2>${v.name}</h2>
+        <div class="arrow">→</div>
+      </a>`;
+  }).join("");
 
+  const libraryCard = `
+    <a class="card" href="#/library" style="--a:#7fb0a8;--b:#4f8c6b">
+      <div class="tag">অনলাইন</div>
+      <h2>ডিজিটাল লাইব্রেরি</h2>
+      <div class="arrow">→</div>
+    </a>`;
 
-
-
-
-/**
- * HOME SCREEN
- */
-
-
-async function screenHome(){
-
-
-    showBack(false);
-
-    setTitle("চতুর্বেদ সংকলন");
-
-
-
-    await ensureVedaCache();
-
-
-
-    const cards =
-        Object.values(vedaCache)
-        .map(v=>{
-
-
-            const theme =
-                VEDA_THEME[v.code]
-                ||
-                {
-                    a:"#d4a24c",
-                    b:"#e8915c",
-                    tag:""
-                };
-
-
-
-            return `
-
-            <a class="card"
-               href="#/veda/${v.code}"
-               style="--a:${theme.a};--b:${theme.b}">
-
-
-                <div class="tag">
-                    ${theme.tag}
-                </div>
-
-
-                <h2>
-                    ${v.name}
-                </h2>
-
-
-                <div class="arrow">
-                    →
-                </div>
-
-
-            </a>
-
-            `;
-
-
-        })
-        .join("");
-
-
-
-
-
-    const libraryCard = `
-
-
-    <a class="card"
-       href="#/library"
-       style="--a:#7fb0a8;--b:#4f8c6b">
-
-
-        <div class="tag">
-            Online
-        </div>
-
-
-        <h2>
-            ডিজিটাল লাইব্রেরি
-        </h2>
-
-
-        <div class="arrow">
-            →
-        </div>
-
-
-    </a>
-
-
-
-    `;
-
-
-
-
-
-
-
-    root.innerHTML = `
-
-
+  root.innerHTML = `
     <div class="hero">
-
-
-        <div class="om">
-            ॐ
-        </div>
-
-
-        <div class="sub">
-
-        The Four Vedas —
-        সম্পূর্ণ মন্ত্র সংকলন,
-        ভাষ্য ও অনুবাদসহ
-
-        </div>
-
-
+      <div class="om">ॐ</div>
+      <div class="sub">The Four Vedas — সম্পূর্ণ মন্ত্র সংকলন, ভাষ্য ও অনুবাদসহ</div>
     </div>
-
-
-
-    <div class="grid">
-
-        ${cards}
-
-        ${libraryCard}
-
-    </div>
-
-
-
-    `;
-
-
+    <div class="grid">${cards}${libraryCard}</div>`;
 }
 
+async function screenLibrary() {
+  showBack(true);
+  setTitle("ডিজিটাল লাইব্রেরি");
+  root.innerHTML = `<div class="loading" style="padding:60px 20px;"><div>বইয়ের তালিকা লোড হচ্ছে…</div></div>`;
 
-/**
- * LIBRARY SCREEN
- */
+  let books, manifest;
+  try {
+    [books, manifest] = await Promise.all([
+      window.VedaLibrary.fetchBlogBooks(),
+      window.VedaLibrary.getManifest(),
+    ]);
+  } catch (e) {
+    root.innerHTML = `<div class="empty">বইয়ের তালিকা লোড করা যায়নি।<br><small>ইন্টারনেট সংযোগ পরীক্ষা করুন।</small><br><br><small style="opacity:.5;">${e.message || e}</small></div>`;
+    return;
+  }
 
+  if (!books.length) {
+    root.innerHTML = `<div class="empty">এখনো কোনো বই যোগ করা হয়নি।</div>`;
+    return;
+  }
 
-async function screenLibrary(){
-
-
-    showBack(true);
-
-    setTitle("ডিজিটাল লাইব্রেরি");
-
-
-
-    root.innerHTML = `
-
-    <div class="loading"
-         style="padding:60px 20px">
-
-        বইয়ের তালিকা লোড হচ্ছে…
-
-    </div>
-
-    `;
-
-
-
-    try{
-
-
-        const [
-
-            books,
-
-            manifest
-
-        ] = await Promise.all([
-
-
-            window.VedaLibrary.fetchBlogBooks(),
-
-
-            window.VedaLibrary.getManifest()
-
-
-        ]);
-
-
-
-        renderLibraryList(
-
-            books,
-
-            manifest
-
-        );
-
-
-    }
-
-    catch(error){
-
-
-
-        root.innerHTML = `
-
-        <div class="empty">
-
-        বই লোড করা যায়নি।
-
-        <br><br>
-
-        <small>
-        ${error.message || error}
-        </small>
-
-
-        </div>
-
-        `;
-
-
-
-    }
-
-
+  renderLibraryList(books, manifest);
 }
 
-
-
-
-
-
-
-
-function renderLibraryList(
-
-    books,
-
-    manifest
-
-){
-
-
-
-    if(!books.length){
-
-
-        root.innerHTML = `
-
-        <div class="empty">
-
-        কোনো বই পাওয়া যায়নি।
-
-        </div>
-
-        `;
-
-
-        return;
-
-
-    }
-
-
-
-
-
-
-    root.innerHTML = `
-
-
-    <div class="listHeader">
-
-        ${books.length}
-        টি বই
-
-    </div>
-
-
-
-
+function renderLibraryList(books, manifest) {
+  root.innerHTML = `
+    <div class="listHeader">${books.length}টা বই · সম্পূর্ণ অনলাইন-ভিত্তিক</div>
     <div class="libraryList">
-
-
-    ${books.map(book=>{
-
-
-        const downloaded =
-            manifest[book.id];
-
-
-
+      ${books.map((b) => {
+        const dl = manifest[b.id];
+        const thumb = b.thumbnail
+          ? `<img class="bookThumb" src="${b.thumbnail}" alt="">`
+          : `<div class="bookThumb bookThumbPlaceholder">ও৩ম্</div>`;
         return `
-
-
-        <div class="bookCard">
-
-
+          <div class="bookCard" data-book-id="${b.id}">
+            ${thumb}
             <div class="bookInfo">
-
-
-                <div class="bookTitle">
-
-                    ${book.title}
-
-                </div>
-
-
-
-                <div class="bookMeta">
-
-                    ${book.published || ""}
-
-                </div>
-
-
-
-
-
-                ${
-                    downloaded
-
-                    ?
-
-                    `
-
-                    <button
-                    class="bookBtn openBtn"
-                    data-id="${book.id}">
-
-                    খুলুন
-
-                    </button>
-
-
-                    <button
-                    class="bookBtn deleteBtn"
-                    data-id="${book.id}">
-
-                    মুছুন
-
-                    </button>
-
-
-                    `
-
-                    :
-
-                    `
-
-
-                    <button
-                    class="bookBtn downloadBtn"
-                    data-id="${book.id}">
-
-                    ডাউনলোড
-
-                    </button>
-
-
-                    `
-
+              <div class="bookTitle">${b.title}</div>
+              <div class="bookMeta">${(b.published || "").slice(0, 10)}</div>
+              <div class="bookActions">
+                ${dl
+                  ? `<button class="bookBtn openBtn" data-id="${b.id}">খুলুন</button>
+                     <button class="bookBtn deleteBtn" data-id="${b.id}">মুছুন</button>`
+                  : `<button class="bookBtn downloadBtn" data-id="${b.id}">ডাউনলোড</button>`
                 }
-
-
-
-
-                <div
-                class="bookStatus"
-                data-status="${book.id}">
-
-                </div>
-
-
-
+              </div>
+              <div class="bookStatus" data-status="${b.id}"></div>
             </div>
-
-
-
-        </div>
-
-
-
-        `;
-
-
-
-    }).join("")}
-
-
-
-    </div>
-
-
-
-    `;
-
-
-
-
-
-
-    const bookMap={};
-
-
-    books.forEach(
-
-        b=>bookMap[b.id]=b
-
-    );
-
-
-
-
-
-    root.querySelectorAll(".downloadBtn")
-
-    .forEach(btn=>{
-
-
-        btn.onclick = async()=>{
-
-
-            const id =
-                btn.dataset.id;
-
-
-
-            const status =
-                root.querySelector(
-                `[data-status="${id}"]`
-                );
-
-
-
-            btn.disabled=true;
-
-            btn.textContent="ডাউনলোড হচ্ছে…";
-
-
-
-            try{
-
-
-                await window.VedaLibrary.downloadBook(
-
-                    bookMap[id],
-
-                    msg=>{
-
-                        if(status)
-                            status.textContent=msg;
-
-                    }
-
-                );
-
-
-
-                renderLibraryList(
-
-                    books,
-
-                    await window.VedaLibrary.getManifest()
-
-                );
-
-
-            }
-
-
-            catch(e){
-
-
-                btn.disabled=false;
-
-                btn.textContent="ডাউনলোড";
-
-
-                if(status)
-                    status.textContent=e.message;
-
-
-            }
-
-
-
-        };
-
-
+          </div>`;
+      }).join("")}
+    </div>`;
+
+  const booksById = {};
+  books.forEach((b) => (booksById[b.id] = b));
+
+  root.querySelectorAll(".downloadBtn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      const statusEl = root.querySelector(`.bookStatus[data-status="${id}"]`);
+      btn.disabled = true;
+      btn.textContent = "ডাউনলোড হচ্ছে…";
+      try {
+        await window.VedaLibrary.downloadBook(booksById[id], (msg) => {
+          if (statusEl) statusEl.textContent = msg;
+        });
+        if (statusEl) statusEl.textContent = "✓ সেভ হয়েছে";
+        const manifest = await window.VedaLibrary.getManifest();
+        renderLibraryList(books, manifest);
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = "ডাউনলোড";
+        if (statusEl) statusEl.textContent = "ব্যর্থ: " + (e.message || e);
+      }
     });
+  });
 
-
-
-
-
-
-
-    root.querySelectorAll(".openBtn")
-
-    .forEach(btn=>{
-
-
-        btn.onclick=()=>{
-
-
-            location.hash =
-
-            "#/library/read/" +
-
-            btn.dataset.id;
-
-
-        };
-
-
+  root.querySelectorAll(".deleteBtn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.id;
+      if (!confirm("এই বইটা ফোন থেকে মুছে ফেলতে চান?")) return;
+      await window.VedaLibrary.deleteBook(id);
+      const manifest = await window.VedaLibrary.getManifest();
+      renderLibraryList(books, manifest);
     });
+  });
 
-
-
-
-
-
-
-    root.querySelectorAll(".deleteBtn")
-
-    .forEach(btn=>{
-
-
-        btn.onclick=async()=>{
-
-
-            if(!confirm(
-
-            "বইটি মুছে ফেলবেন?"
-
-            ))
-
-            return;
-
-
-
-            await window.VedaLibrary.deleteBook(
-
-                btn.dataset.id
-
-            );
-
-
-
-            renderLibraryList(
-
-                books,
-
-                await window.VedaLibrary.getManifest()
-
-            );
-
-
-        };
-
-
+  root.querySelectorAll(".openBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      location.hash = `#/library/read/${id}`;
     });
-
-
-
+  });
 }
 
+async function screenLibraryReader(bookId) {
+  showBack(true);
+  setTitle("বই পড়ুন");
+  root.innerHTML = `<div class="loading" style="padding:60px 20px;"><div>বই লোড হচ্ছে…</div></div>`;
 
+  const manifest = await window.VedaLibrary.getManifest();
+  const entry = manifest[bookId];
+  if (!entry) {
+    root.innerHTML = `<div class="empty">এই বইটা ডাউনলোড করা নেই।</div>`;
+    return;
+  }
 
-
-
-
-
-
-
-async function screenLibraryReader(id){
-
-
-    showBack(true);
-
-    setTitle("বই পড়ুন");
-
-
-
-    const manifest =
-
-        await window.VedaLibrary.getManifest();
-
-
-
-    const file =
-
-        manifest[id];
-
-
-
-    if(!file){
-
-
-        root.innerHTML=
-
-        `<div class="empty">
-        বই ডাউনলোড করা নেই।
-        </div>`;
-
-        return;
-
-
-    }
-
-
-
-    const uri =
-
-        await window.VedaLibrary.getFileUri(
-
-            file.filename
-
-        );
-
-
-
-    const src =
-
-        window.Capacitor.convertFileSrc(uri);
-
-
-
-
-
+  // Heavy/animation-rich books are flagged "external" in manifest.json —
+  // a nested in-app iframe shares this app's limited resources and can
+  // fail to render such pages, while a full system browser tab has its
+  // own dedicated resources and always renders correctly.
+  if (entry.renderMode === "external") {
+    setTitle(entry.title || "বই পড়ুন");
     root.innerHTML = `
+      <div class="empty" style="padding:60px 20px;">
+        এই বইটা তুলনামূলক ভারী (বেশি animation) — তাই সরাসরি আপনার ফোনের ব্রাউজারে খোলা হচ্ছে, সেখানে ভালোভাবে চলবে।
+        <br><br>
+        <button class="bookBtn downloadBtn" id="openExternalNow">এখন খুলুন</button>
+      </div>`;
+    document.getElementById("openExternalNow").addEventListener("click", async () => {
+      try {
+        const uri = await window.VedaLibrary.getFileUri(entry.filename);
+        await window.Capacitor.Plugins.FileOpener.open({ filePath: uri, contentType: "text/html" });
+      } catch (e2) {
+        alert("ব্রাউজারে খুলতে সমস্যা হয়েছে: " + (e2.message || e2));
+      }
+    });
+    return;
+  }
 
+  try {
+    const uri = await window.VedaLibrary.getFileUri(entry.filename);
+    const playableSrc = window.Capacitor.convertFileSrc(uri);
 
-    <iframe
-
-    class="bookReaderFrame"
-
-    src="${src}">
-
-    </iframe>
-
-
-    `;
-
-
+    setTitle(entry.title || "বই পড়ুন");
+    root.innerHTML = `<iframe class="bookReaderFrame" src="${playableSrc}"></iframe>`;
+  } catch (e) {
+    root.innerHTML = `<div class="empty">বই খুলতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
+  }
 }
 
-
-
-
-
-
-
-
-/**
- * VEDA NAVIGATION
- */
-
-
-async function screenVeda(code){
-
-
-    await ensureVedaCache();
-
-
-
-    const veda =
-
-        vedaCache[code];
-
-
-
-    if(!veda)
-
-        return screenHome();
-
-
-
-
-    showBack(true);
-
-    setTitle(veda.name);
-
-
-
-    const list =
-
-        await window.VedaDB.getLevel1List(
-
-            veda.id
-
-        );
-
-
-
-
-    root.innerHTML=`
-
-
-    <div class="listHeader">
-
-    ${veda.level1_label || "অধ্যায়"}
-
-    </div>
-
-
-
-    <div class="numGrid">
-
-
-    ${list.map(x=>`
-
-
-    <a class="numChip"
-
-    href="#/veda/${code}/${x.level1}">
-
-    ${x.level1}
-
-    </a>
-
-
-    `).join("")}
-
-
-
-    </div>
-
-
-
-    `;
-
-
-}
-
-
-/**
- * Level 1 screen
- */
-
-
-async function screenLevel1(code, level1){
-
-
-    await ensureVedaCache();
-
-
-    const veda = vedaCache[code];
-
-
-    if(!veda)
-
-        return screenHome();
-
-
-
-    showBack(true);
-
-
-
-    setTitle(
-
-        `${veda.level1_label || ""} ${level1}`
-
-    );
-
-
-
-
-    if(veda.level2_label){
-
-
-        const list =
-
-            await window.VedaDB.getLevel2List(
-
-                veda.id,
-
-                level1
-
-            );
-
-
-
-        root.innerHTML=`
-
-
-        <div class="listHeader">
-
-        ${veda.level2_label}
-
-        </div>
-
-
-        <div class="numGrid">
-
-
-        ${list.map(x=>`
-
-
-        <a class="numChip"
-
-        href="#/veda/${code}/${level1}/${x.level2}">
-
-        ${x.level2}
-
-        </a>
-
-
-        `).join("")}
-
-
-
-        </div>
-
-
-        `;
-
-
-
+async function screenVeda(code) {
+  await ensureVedaCache();
+  const veda = vedaCache[code];
+  if (!veda) return screenHome();
+  showBack(true);
+  setTitle(veda.name);
+
+  if (veda.level1_label) {
+    const level1s = await window.VedaDB.getLevel1List(veda.id);
+    root.innerHTML = `
+      <div class="listHeader">${veda.level1_label} বেছে নিন</div>
+      <div class="numGrid">
+        ${level1s.map(r => `<a class="numChip" href="#/veda/${code}/${r.level1}">${r.level1}</a>`).join("")}
+      </div>`;
+  } else {
+    // Flat veda (e.g. Samaveda) — paginate by mantra_no in chunks of 100
+    const total = await window.VedaDB.getMantraCount(veda.id);
+    const chunkSize = 100;
+    const chunks = [];
+    for (let start = 1; start <= total; start += chunkSize) {
+      chunks.push([start, Math.min(start + chunkSize - 1, total)]);
     }
-
-
-    else{
-
-
-        const mantras =
-
-        await window.VedaDB.getMantraList(
-
-            veda.id,
-
-            level1,
-
-            null
-
-        );
-
-
-        renderMantraList(
-
-            veda,
-
-            mantras
-
-        );
-
-
-    }
-
-
-
+    root.innerHTML = `
+      <div class="listHeader">${veda.mantra_no_label || "মন্ত্র"} নির্বাচন করুন (মোট ${total})</div>
+      <div class="rangeList">
+        ${chunks.map(([s, e]) => `<a class="rangeItem" href="#/veda/${code}/range/${s}-${e}">${s}–${e}</a>`).join("")}
+      </div>`;
+  }
 }
 
+async function screenLevel1(code, level1) {
+  await ensureVedaCache();
+  const veda = vedaCache[code];
+  if (!veda) return screenHome();
+  showBack(true);
 
+  if (level1 === "range") return; // handled separately below via screenRange
 
+  setTitle(`${veda.level1_label} ${level1}`);
 
-
-
-
-
-async function screenLevel2(
-
-    code,
-
-    level1,
-
-    level2
-
-){
-
-
-    await ensureVedaCache();
-
-
-
-    const veda = vedaCache[code];
-
-
-
-    showBack(true);
-
-
-
-    const mantras =
-
-    await window.VedaDB.getMantraList(
-
-        veda.id,
-
-        level1,
-
-        level2
-
-    );
-
-
-
-    renderMantraList(
-
-        veda,
-
-        mantras
-
-    );
-
-
-
+  if (veda.level2_label) {
+    const level2s = await window.VedaDB.getLevel2List(veda.id, level1);
+    root.innerHTML = `
+      <div class="listHeader">${veda.level2_label} বেছে নিন</div>
+      <div class="numGrid">
+        ${level2s.map(r => `<a class="numChip" href="#/veda/${code}/${level1}/${r.level2}">${r.level2}</a>`).join("")}
+      </div>`;
+  } else {
+    const mantras = await window.VedaDB.getMantraList(veda.id, level1, null);
+    renderMantraList(veda, mantras);
+  }
 }
 
+async function screenRange(code, fromNo, toNo) {
+  await ensureVedaCache();
+  const veda = vedaCache[code];
+  if (!veda) return screenHome();
+  showBack(true);
+  setTitle(`${veda.mantra_no_label || "মন্ত্র"} ${fromNo}–${toNo}`);
+  const mantras = await window.VedaDB.getMantraRange(veda.id, fromNo, toNo);
+  renderMantraList(veda, mantras);
+}
 
+async function screenLevel2(code, level1, level2) {
+  await ensureVedaCache();
+  const veda = vedaCache[code];
+  if (!veda) return screenHome();
+  showBack(true);
+  setTitle(`${veda.level1_label} ${level1} · ${veda.level2_label} ${level2}`);
+  const mantras = await window.VedaDB.getMantraList(veda.id, level1, level2);
+  renderMantraList(veda, mantras);
+}
 
-
-
-
-
-function renderMantraList(
-
-    veda,
-
-    mantras
-
-){
-
-
-
-    root.innerHTML=`
-
-
-    <div class="listHeader">
-
-    ${mantras.length}
-
-    মন্ত্র
-
-    </div>
-
-
-
+function renderMantraList(veda, mantras) {
+  root.innerHTML = `
+    <div class="listHeader">${mantras.length} মন্ত্র</div>
     <div class="mantraList">
-
-
-    ${mantras.map(m=>`
-
-
-    <a class="mantraItem"
-
-    href="#/mantra/${veda.code}/${encodeURIComponent(m.mantra_ref_id)}">
-
-
-        <div class="mref">
-
-        ${m.mantra_ref_id}
-
-        </div>
-
-
-
-        <div class="mtext">
-
-        ${(m.sanskrit_swara ||
-        m.sanskrit_text ||
-        "").slice(0,80)}
-
-        </div>
-
-
-    </a>
-
-
-    `).join("")}
-
-
-
-    </div>
-
-
-
-    `;
-
-
+      ${mantras.map(m => `
+        <a class="mantraItem" href="#/mantra/${veda.code}/${encodeURIComponent(m.mantra_ref_id)}">
+          <div class="mref">${m.mantra_ref_id}</div>
+          <div class="mtext">${(m.sanskrit_swara || m.sanskrit_text || "").slice(0, 70)}${(m.sanskrit_swara || m.sanskrit_text || "").length > 70 ? "…" : ""}</div>
+        </a>`).join("")}
+    </div>`;
 }
 
-
-
-
-
-
-
-
-
-/**
- * Mantra detail screen
- */
-
-
-async function screenMantra(
-
-    code,
-
-    refEncoded
-
-){
-
-
-
-    await ensureVedaCache();
-
-
-
-    const veda =
-
-        vedaCache[code];
-
-
-
-    if(!veda)
-
-        return screenHome();
-
-
-
-
-    const ref =
-
-        decodeURIComponent(
-
-            refEncoded
-
-        );
-
-
-
-
-    showBack(true);
-
-
-
-    setTitle(
-
-        `${veda.name} ${ref}`
-
-    );
-
-
-
-
-    const mantra =
-
-    await window.VedaDB.getMantraByRef(
-
-        veda.id,
-
-        ref
-
-    );
-
-
-
-    if(!mantra){
-
-
-        root.innerHTML=
-
-        `<div class="empty">
-
-        মন্ত্র পাওয়া যায়নি।
-
-        </div>`;
-
-
-        return;
-
-
-    }
-
-
-
-
-
-
-    const scholars =
-
-    await window.VedaDB.getScholarsForMantra(
-
-        veda.id,
-
-        mantra.id
-
-    );
-
-
-
-
-
-    root.innerHTML=`
-
-
+async function screenMantra(code, refEncodedWithQuery) {
+  await ensureVedaCache();
+  const veda = vedaCache[code];
+  if (!veda) return screenHome();
+
+  const [refEncoded, queryString] = refEncodedWithQuery.split("?");
+  const ref = decodeURIComponent(refEncoded);
+  const queryParams = new URLSearchParams(queryString || "");
+  const wantedLang = queryParams.get("lang");
+  const wantedScholarId = queryParams.get("scholar") ? parseInt(queryParams.get("scholar"), 10) : null;
+
+  showBack(true);
+  setTitle(`${veda.name} ${ref}`);
+
+  const mantra = await window.VedaDB.getMantraByRef(veda.id, ref);
+  if (!mantra) {
+    root.innerHTML = `<div class="empty">এই মন্ত্র খুঁজে পাওয়া যায়নি।</div>`;
+    return;
+  }
+  const scholars = await window.VedaDB.getScholarsForMantra(veda.id, mantra.id);
+  const { prev, next } = await window.VedaDB.getAdjacentMantras(veda.id, mantra.id);
+
+  const meta = [
+    mantra.devata ? `দেবতা: ${mantra.devata}` : "",
+    mantra.rishi ? `ঋষি: ${mantra.rishi}` : "",
+    mantra.chhanda ? `ছন্দ: ${mantra.chhanda}` : "",
+  ].filter(Boolean).join(" &nbsp;·&nbsp; ");
+
+  // Normalize near-duplicate/non-language labels
+  const LANG_NORMALIZE = { "Hinglish": "Hindi" };
+
+  const byLang = {};
+  for (const s of scholars) {
+    let lang = s.language || "অন্যান্য";
+    lang = LANG_NORMALIZE[lang] || lang;
+    s._lang = lang;
+    if (!byLang[lang]) byLang[lang] = [];
+    byLang[lang].push(s);
+  }
+  const langOrder = Object.keys(byLang).sort((a, b) => a.localeCompare(b, "en"));
+
+  // Decide initial active language + scholar (from nav state, else first)
+  let activeLang = langOrder.includes(wantedLang) ? wantedLang : langOrder[0];
+  let activeScholarId =
+    wantedScholarId && byLang[activeLang] && byLang[activeLang].some((s) => s.id === wantedScholarId)
+      ? wantedScholarId
+      : (byLang[activeLang] && byLang[activeLang][0] ? byLang[activeLang][0].id : null);
+
+  const navState = { lang: activeLang, scholarId: activeScholarId };
+
+  function navUrl(targetRef) {
+    if (!targetRef) return "";
+    const q = navState.lang
+      ? `?lang=${encodeURIComponent(navState.lang)}${navState.scholarId ? `&scholar=${navState.scholarId}` : ""}`
+      : "";
+    return `#/mantra/${code}/${encodeURIComponent(targetRef)}${q}`;
+  }
+
+  const langChipsHtml = langOrder.map((lang) => `
+    <button class="langChip ${lang === activeLang ? "active" : ""}" data-lang="${lang}">${lang}</button>
+  `).join("");
+
+  function sizeLabel(bytes) {
+    if (!bytes) return "";
+    const kb = bytes / 1024;
+    return kb < 1024 ? `${Math.round(kb)} KB` : `${(kb / 1024).toFixed(1)} MB`;
+  }
+
+  const scholarGroupsHtml = langOrder.map((lang) => `
+    <div class="scholarGroup ${lang === activeLang ? "active" : ""}" data-lang-group="${lang}">
+      <div class="tabBar tabBarVertical">
+        ${byLang[lang].map((s) => `
+          <button class="tabBtn ${s.id === activeScholarId ? "active" : ""}" data-scholar="${s.id}">
+            ${s.name}${s.downloaded ? "" : " ⬇"}
+          </button>
+        `).join("")}
+      </div>
+      <div class="tabPanels">
+        ${byLang[lang].map((s) => `
+          <div class="tabPanel ${s.id === activeScholarId ? "active" : ""}" data-scholar="${s.id}" data-loaded="0">
+            <div class="panelBody"></div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  root.innerHTML = `
     <div class="mantraDetail">
-
-
-        <div class="sanskritBlock">
-
-
-        ${mantra.sanskrit_swara ||
-
-        mantra.sanskrit_text ||
-
-        ""}
-
-
-        </div>
-
-
-
+      <div class="sanskritBlock">${mantra.sanskrit_swara || mantra.sanskrit_text || ""}</div>
+      ${meta ? `<div class="mantraMeta">${meta}</div>` : ""}
     </div>
-
-
-
-    <div class="scholarContainer">
-
-
-    ${scholars.map(s=>`
-
-
-        <div class="scholarCard"
-
-        data-scholar="${s.id}">
-
-
-            <h3>
-
-            ${s.name}
-
-            ${s.downloaded ? "" : "⬇"}
-
-            </h3>
-
-
-
-            <div
-
-            class="scholarBody">
-
-
-            </div>
-
-
-
-        </div>
-
-
-
-    `).join("")}
-
-
-
+    ${scholars.length ? `
+      <div class="langChips">${langChipsHtml}</div>
+      ${scholarGroupsHtml}
+    ` : `<div class="empty">এই মন্ত্রের কোনো ভাষ্য পাওয়া যায়নি।</div>`}
+    <div class="mantraNav">
+      <a class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="${navUrl(prev)}"` : ""}>← আগের মন্ত্র</a>
+      <a class="navBtn ${next ? "" : "disabled"}" ${next ? `href="${navUrl(next)}"` : ""}>পরের মন্ত্র →</a>
     </div>
-
-
-    `;
-
-
-
-
-
-
-    root.querySelectorAll(".scholarCard")
-
-    .forEach(card=>{
-
-
-        loadScholarPanel(
-
-            card,
-
-            card.dataset.scholar,
-
-            mantra.id
-
-        );
-
-
-    });
-
-
-
-}
-
-
-
-
-
-
-
-
-
-async function loadScholarPanel(
-
-    card,
-
-    scholarId,
-
-    mantraId
-
-){
-
-
-
-    const body =
-
-    card.querySelector(".scholarBody");
-
-
-
-    const scholars =
-
-    await window.VedaDB.getScholarsForMantra(
-
-        null,
-
-        mantraId
-
-    );
-
-
-
-    const scholar =
-
-    scholars.find(
-
-        s=>s.id == scholarId
-
-    );
-
-
-
-    if(!scholar)
-
-        return;
-
-
-
-
-
-
-    if(!scholar.downloaded){
-
-
-
-        body.innerHTML=`
-
-
-        <button class="bookBtn">
-
-        ভাষ্য ডাউনলোড করুন
-
-        </button>
-
-
-        `;
-
-
-
-        body.querySelector("button")
-
-        .onclick=async()=>{
-
-
-            await window.VedaDB.downloadPack(
-
-                scholar.id,
-
-                scholar.pack_file,
-
-                msg=>{
-
-                    body.textContent=msg;
-
-                }
-
-            );
-
-
-
-            location.reload();
-
-
-
-        };
-
-
-
-        return;
-
-    }
-
-
-
-
-
-
-
-    body.innerHTML=
-
-    "লোড হচ্ছে…";
-
-
-
-
-
-    try{
-
-
-        const fields =
-
-        await window.VedaDB
-
-        .getBhashyaForMantraFromPack(
-
-            scholar.id,
-
-            mantraId
-
-        );
-
-
-
-        body.innerHTML=
-
-
-        fields.map(f=>`
-
-
-        <div class="field">
-
-
-        <b>${f.field_key}</b>
-
-
-        <p>${f.value}</p>
-
-
-        </div>
-
-
-        `).join("");
-
-
-
-
-    }
-
-
-    catch(e){
-
-
-        body.textContent=
-
-        e.message;
-
-
-    }
-
-
-}
-
-
-/**
- * SEARCH SCREEN
- */
-
-
-async function screenSearch(){
-
-
-    showBack(true);
-
-
-    setTitle("খুঁজুন");
-
-
-
-    root.innerHTML = `
-
-
-    <div class="searchBox">
-
-
-        <input
-
-        id="searchInput"
-
-        type="text"
-
-        placeholder="সংস্কৃত, বাংলা বা ইংরেজিতে খুঁজুন...">
-
-
-    </div>
-
-
-
-    <div id="searchResults">
-
-    </div>
-
-
-    `;
-
-
-
-    const input =
-
-    document.getElementById(
-
-        "searchInput"
-
-    );
-
-
-
-    let timer;
-
-
-
-    input.addEventListener(
-
-        "input",
-
-        ()=>{
-
-
-            clearTimeout(timer);
-
-
-
-            timer=setTimeout(
-
-                ()=>runSearch(input.value),
-
-                400
-
-            );
-
-
-
-        }
-
-    );
-
-
-
-}
-
-
-
-
-
-
-
-
-async function runSearch(term){
-
-
-
-    const resultBox =
-
-    document.getElementById(
-
-        "searchResults"
-
-    );
-
-
-
-    if(!term || term.trim().length<2){
-
-
-        resultBox.innerHTML="";
-
-        return;
-
-
-    }
-
-
-
-
-
-    try{
-
-
-        const results =
-
-        await window.VedaDB.search(
-
-            null,
-
-            term,
-
-            50
-
-        );
-
-
-
-
-        if(!results.length){
-
-
-            resultBox.innerHTML=
-
-            `<div class="empty">
-
-            কোনো ফলাফল নেই।
-
-            </div>`;
-
-            return;
-
-
-        }
-
-
-
-
-        resultBox.innerHTML=
-
-
-        results.map(r=>`
-
-
-        <a class="mantraItem"
-
-        href="#/mantra/${r.veda_code}/${encodeURIComponent(r.mantra_ref_id)}">
-
-
-            <div class="mref">
-
-            ${r.veda_code}
-
-            ${r.mantra_ref_id}
-
-            </div>
-
-
-
-            <div class="mtext">
-
-            ${(r.content || "").slice(0,100)}
-
-            </div>
-
-
-
-        </a>
-
-
-        `).join("");
-
-
-
-    }
-
-
-    catch(e){
-
-
-
-        resultBox.innerHTML=
-
-        `<div class="empty">
-
-        Search Error
-
+  `;
+
+  function refreshNavLinks() {
+    const prevLink = root.querySelector(".mantraNav .navBtn:first-child");
+    const nextLink = root.querySelector(".mantraNav .navBtn:last-child");
+    if (prevLink && prev) prevLink.setAttribute("href", navUrl(prev));
+    if (nextLink && next) nextLink.setAttribute("href", navUrl(next));
+  }
+
+  const scholarsById = {};
+  scholars.forEach((s) => (scholarsById[s.id] = s));
+
+  async function loadPanel(panel) {
+    if (panel.dataset.loaded === "1") return;
+    const scholarId = parseInt(panel.dataset.scholar, 10);
+    const s = scholarsById[scholarId];
+    const body = panel.querySelector(".panelBody");
+
+    if (!s.downloaded) {
+      body.innerHTML = `
+        <div class="downloadPrompt">
+          <div class="downloadPromptText">এই ভাষ্য এখনো ডাউনলোড করা হয়নি (${sizeLabel(s.pack_size_bytes)}, ${s.entry_count} এন্ট্রি)</div>
+          <button class="bookBtn downloadBtn" data-scholar-dl="${scholarId}">ডাউনলোড করুন</button>
+          <div class="bookStatus" data-dl-status="${scholarId}"></div>
         </div>`;
-
-
-        console.error(e);
-
-
-    }
-
-
-
-}
-
-
-
-
-
-
-
-
-
-/**
- * HASH ROUTER
- */
-
-
-async function router(){
-
-
-
-    const hash =
-
-        location.hash || "#/";
-
-
-
-    const parts =
-
-        hash
-
-        .replace(/^#\//,"")
-
-        .split("/")
-
-        .filter(Boolean);
-
-
-
-
-
-    try{
-
-
-
-        if(parts.length===0)
-
-            return screenHome();
-
-
-
-
-
-        switch(parts[0]){
-
-
-
-            case "search":
-
-
-                return screenSearch();
-
-
-
-
-
-            case "library":
-
-
-
-                if(parts.length===1)
-
-                    return screenLibrary();
-
-
-
-                if(
-
-                    parts[1]==="read"
-
-                    &&
-
-                    parts[2]
-
-                )
-
-                    return screenLibraryReader(
-
-                        parts[2]
-
-                    );
-
-
-                break;
-
-
-
-
-
-
-
-            case "veda":
-
-
-
-                if(parts.length===2)
-
-                    return screenVeda(
-
-                        parts[1]
-
-                    );
-
-
-
-
-                if(parts.length===3)
-
-                    return screenLevel1(
-
-                        parts[1],
-
-                        parts[2]
-
-                    );
-
-
-
-
-                if(parts.length===4)
-
-                    return screenLevel2(
-
-                        parts[1],
-
-                        parts[2],
-
-                        parts[3]
-
-                    );
-
-
-
-                break;
-
-
-
-
-
-
-
-            case "mantra":
-
-
-
-                if(parts.length===3)
-
-                    return screenMantra(
-
-                        parts[1],
-
-                        parts[2]
-
-                    );
-
-
-                break;
-
-
-
-
-
-            case "settings":
-
-
-                if(window.SettingsUI)
-
-                    return window.SettingsUI.render();
-
-
-                break;
-
-
-
-
+      const btn = body.querySelector(".downloadBtn");
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        const statusEl = body.querySelector(`[data-dl-status="${scholarId}"]`);
+        try {
+          await window.VedaDB.downloadPack(scholarId, s.pack_file, (msg) => {
+            if (statusEl) statusEl.textContent = msg;
+          });
+          s.downloaded = true;
+          panel.dataset.loaded = "0";
+          await loadPanel(panel);
+          const tabBtn = root.querySelector(`.tabBtn[data-scholar="${scholarId}"]`);
+          if (tabBtn) tabBtn.innerHTML = s.name;
+        } catch (e) {
+          btn.disabled = false;
+          if (statusEl) statusEl.textContent = "ব্যর্থ: " + (e.message || e);
         }
-
-
-
-        return screenHome();
-
-
-
+      });
+      return;
     }
 
-
-
-    catch(e){
-
-
-
-        console.error(e);
-
-
-
-        root.innerHTML=`
-
-
-        <div class="empty">
-
-
-        পেজ লোড করতে সমস্যা হয়েছে।
-
-
-        <br><br>
-
-
-        <small>
-
-        ${e.message || e}
-
-        </small>
-
-
+    body.innerHTML = `<div class="empty" style="padding:20px 0;">লোড হচ্ছে…</div>`;
+    try {
+      const fields = await window.VedaDB.getBhashyaForMantraFromPack(scholarId, mantra.id);
+      body.innerHTML = `
+        <div class="panelDeleteRow">
+          <button class="miniBtn deletePackBtn" data-scholar-del="${scholarId}">এই ভাষ্য মুছুন</button>
         </div>
-
-
-        `;
-
-
-
+        ${fields.length ? fields.map(f => `
+          <div class="field">
+            <div class="fieldLabel">${f.field_key}</div>
+            <div class="fieldValue">${f.value}</div>
+          </div>`).join("") : `<div class="empty">এই মন্ত্রে এই ভাষ্যকারের কোনো তথ্য নেই।</div>`}
+      `;
+      body.querySelector(".deletePackBtn").addEventListener("click", async () => {
+        if (!confirm(`"${s.name}" ভাষ্যটা ফোন থেকে মুছে ফেলতে চান?`)) return;
+        await window.VedaDB.deletePack(scholarId);
+        s.downloaded = false;
+        panel.dataset.loaded = "0";
+        await loadPanel(panel);
+        const tabBtn = root.querySelector(`.tabBtn[data-scholar="${scholarId}"]`);
+        if (tabBtn) tabBtn.innerHTML = s.name + " ⬇";
+      });
+    } catch (e) {
+      body.innerHTML = `<div class="empty">লোড করতে সমস্যা হয়েছে।<br><small>${e.message || e}</small></div>`;
     }
+    panel.dataset.loaded = "1";
+  }
 
+  // Load the initially-visible active panel
+  const firstActivePanel = root.querySelector(".tabPanel.active");
+  if (firstActivePanel) loadPanel(firstActivePanel);
 
+  // Language chip switching
+  root.querySelectorAll(".langChip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      root.querySelectorAll(".langChip").forEach(c => c.classList.remove("active"));
+      root.querySelectorAll(".scholarGroup").forEach(g => g.classList.remove("active"));
+      chip.classList.add("active");
+      const activeGroup = root.querySelector(`.scholarGroup[data-lang-group="${chip.dataset.lang}"]`);
+      activeGroup.classList.add("active");
+      const activePanelInGroup = activeGroup.querySelector(".tabPanel.active");
+      if (activePanelInGroup) loadPanel(activePanelInGroup);
 
+      navState.lang = chip.dataset.lang;
+      const activeBtnInGroup = activeGroup.querySelector(".tabBtn.active");
+      navState.scholarId = activeBtnInGroup ? parseInt(activeBtnInGroup.dataset.scholar, 10) : null;
+      refreshNavLinks();
+
+      chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      setTimeout(() => {
+        const appBar = document.querySelector(".appBar");
+        const barHeight = appBar ? appBar.offsetHeight : 0;
+        const targetY = activeGroup.getBoundingClientRect().top + window.scrollY - barHeight - 12;
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }, 50);
+    });
+  });
+
+  // Scholar tab switching (within each language group)
+  root.querySelectorAll(".tabBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const group = btn.closest(".scholarGroup");
+      group.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("active"));
+      group.querySelectorAll(".tabPanel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      const activePanel = group.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`);
+      activePanel.classList.add("active");
+      loadPanel(activePanel);
+
+      navState.scholarId = parseInt(btn.dataset.scholar, 10);
+      refreshNavLinks();
+
+      btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      setTimeout(() => {
+        const appBar = document.querySelector(".appBar");
+        const barHeight = appBar ? appBar.offsetHeight : 0;
+        const targetY = activePanel.getBoundingClientRect().top + window.scrollY - barHeight - 12;
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }, 50);
+    });
+  });
 }
 
-
-
-
-
-
-/**
- * Navigation events
- */
-
-
-window.addEventListener(
-
-    "hashchange",
-
-    router
-
-);
-
-
-
-
-
-if(backBtn){
-
-
-    backBtn.onclick=()=>{
-
-
-        if(history.length)
-
-            window.history.back();
-
-
-        else
-
-            location.hash="#/";
-
-
-    };
-
-
-}
-
-
-
-
-
-
-if(searchBtn){
-
-
-    searchBtn.onclick=()=>{
-
-
-        location.hash="#/search";
-
-
-    };
-
-
-}
-
-
-/**
- * APP BOOT
- */
-
-
-async function boot(){
-
-
-    root.innerHTML = `
-
-
-    <div class="loadingFull">
-
-
-        <div class="omBig">
-
-            ओ३म्
-
-        </div>
-
-
-
-        <div class="loadingText">
-
-            ডাটাবেস লোড হচ্ছে...
-
-        </div>
-
-
-
-        <div class="loadingVersion">
-
-            ${APP_BUILD_VERSION}
-
-        </div>
-
-
+async function screenSearch() {
+  showBack(true);
+  setTitle("খুঁজুন");
+  root.innerHTML = `
+    <div class="searchBox">
+      <input type="text" id="searchInput" placeholder="সংস্কৃত, বাংলা বা ইংরেজিতে খুঁজুন…" autofocus />
     </div>
+    <div id="searchResults"></div>`;
 
-
-
-    `;
-
-
-
-
-
-    try{
-
-
-
-        await window.VedaDB.initDB();
-
-
-
-        await router();
-
-
-
-    }
-
-
-
-    catch(e){
-
-
-
-        console.error(e);
-
-
-
-        root.innerHTML = `
-
-
-        <div class="empty">
-
-
-        ডাটাবেস চালু করতে সমস্যা হয়েছে।
-
-
-
-        <br><br>
-
-
-        <b>
-
-        ${e.message || e}
-
-        </b>
-
-
-
-        </div>
-
-
-
-        `;
-
-
-    }
-
-
-
+  const input = document.getElementById("searchInput");
+  let timer = null;
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => runSearch(input.value), 350);
+  });
 }
 
+async function runSearch(term) {
+  const resultsEl = document.getElementById("searchResults");
+  if (!term || term.trim().length < 2) {
+    resultsEl.innerHTML = "";
+    return;
+  }
+  await ensureVedaCache();
+  const codeToName = {};
+  for (const [code, v] of Object.entries(vedaCache)) codeToName[code] = v.name;
 
-
-
-
-
-
-
-
-/**
- * Capacitor Ready
- *
- * Android Native App
- */
-
-
-document.addEventListener(
-
-    "deviceready",
-
-    boot
-
-);
-
-
-
-
-
-
-
-
-/**
- * Browser fallback
- *
- * SQLite native plugin unavailable
- */
-
-
-if(
-
-    !window.Capacitor
-
-    ||
-
-    !window.Capacitor.isNativePlatform
-
-    ||
-
-    !window.Capacitor.isNativePlatform()
-
-){
-
-
-
-    window.addEventListener(
-
-        "DOMContentLoaded",
-
-        ()=>{
-
-
-            root.innerHTML=`
-
-
-            <div class="empty">
-
-
-            এই অ্যাপটি Android Capacitor
-            পরিবেশের জন্য তৈরি।
-
-
-            <br><br>
-
-
-            Browser preview এ
-            SQLite Database কাজ করবে না।
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-    );
-
-
+  try {
+    const results = await window.VedaDB.search(null, term, 60);
+    if (!results.length) {
+      resultsEl.innerHTML = `<div class="empty">কোনো ফলাফল পাওয়া যায়নি।</div>`;
+      return;
+    }
+    resultsEl.innerHTML = results.map(r => `
+      <a class="mantraItem" href="#/mantra/${r.veda_code}/${encodeURIComponent(r.mantra_ref_id)}">
+        <div class="mref">${codeToName[r.veda_code] || r.veda_code} ${r.mantra_ref_id}</div>
+        <div class="mtext">${(r.content || "").slice(0, 90)}…</div>
+      </a>`).join("");
+  } catch (e) {
+    resultsEl.innerHTML = `<div class="empty">সার্চ ব্যর্থ হয়েছে।</div>`;
+    console.error(e);
+  }
 }
 
+// ---------- Router ----------
 
+async function router() {
+  // Defensive safety net: remove any leftover offscreen PDF-render containers
+  // (e.g. from a crashed download) so they can never block the UI.
+  document.querySelectorAll(".pdfRenderContainer").forEach((el) => {
+    try { el.parentNode && el.parentNode.removeChild(el); } catch (e) { /* ignore */ }
+  });
 
+  const hash = location.hash || "#/";
+  const parts = hash.replace(/^#\//, "").split("/").filter(Boolean);
 
+  try {
+    if (parts.length === 0) return await screenHome();
 
+    if (parts[0] === "search") return await screenSearch();
+    if (parts[0] === "library" && parts.length === 1) return await screenLibrary();
+    if (parts[0] === "library" && parts[1] === "read" && parts.length === 3) return await screenLibraryReader(parts[2]);
 
+    if (parts[0] === "veda" && parts.length === 2) return await screenVeda(parts[1]);
 
-
-/**
- * Global debug helpers
- */
-
-
-window.Chaturveda = {
-
-
-    version:APP_BUILD_VERSION,
-
-
-    reload:()=>{
-
-        location.reload();
-
-    },
-
-
-    clearCache:async()=>{
-
-
-        if(window.VedaDB){
-
-
-            console.log(
-
-            "Use Android Settings → Clear Storage"
-
-            );
-
-
-        }
-
-
+    if (parts[0] === "veda" && parts.length === 4 && parts[2] === "range") {
+      const [fromNo, toNo] = parts[3].split("-").map(Number);
+      return await screenRange(parts[1], fromNo, toNo);
     }
 
+    if (parts[0] === "veda" && parts.length === 3) return await screenLevel1(parts[1], parts[2]);
+    if (parts[0] === "veda" && parts.length === 4) return await screenLevel2(parts[1], parts[2], parts[3]);
 
-};
+    if (parts[0] === "mantra" && parts.length === 3) return await screenMantra(parts[1], parts[2]);
+
+    return await screenHome();
+  } catch (e) {
+    const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack available";
+    root.innerHTML = `<div class="empty" style="text-align:left;word-break:break-word;">এই পাতা লোড করতে সমস্যা হয়েছে। [${APP_BUILD_VERSION}]<br><br>hash: ${hash}<br><br><b>${e.message || e}</b><br><br><small style="opacity:.6;">${stackInfo}</small></div>`;
+    console.error(e);
+  }
+}
+
+window.addEventListener("hashchange", router);
+backBtn.addEventListener("click", () => history.length ? window.history.back() : (location.hash = "#/"));
+searchBtn.addEventListener("click", () => (location.hash = "#/search"));
+
+async function boot() {
+  root.innerHTML = `
+    <div class="loadingFull">
+      <div class="omBig">ओ३म्</div>
+      <div class="loadingText">ডাটাবেস লোড হচ্ছে…</div>
+      <div class="loadingVersion">${APP_BUILD_VERSION}</div>
+    </div>`;
+  try {
+    await window.VedaDB.initDB();
+    router();
+  } catch (e) {
+    const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack available";
+    root.innerHTML = `<div class="empty" style="text-align:left;word-break:break-word;">ডাটাবেস লোড করতে সমস্যা হয়েছে। [${APP_BUILD_VERSION}]<br><br><b>${e.message || e}</b><br><br><small style="opacity:.6;">${stackInfo}</small></div>`;
+    console.error(e);
+  }
+}
+
+document.addEventListener("deviceready", boot);
+// Fallback for browser preview / non-Capacitor context
+if (!window.Capacitor || !window.Capacitor.isNativePlatform || !window.Capacitor.isNativePlatform()) {
+  window.addEventListener("DOMContentLoaded", () => {
+    root.innerHTML = `<div class="empty">এই অ্যাপ শুধু Android বিল্ডে (Capacitor) কাজ করে — ব্রাউজার প্রিভিউতে ডাটাবেস প্লাগইন পাওয়া যায় না।</div>`;
+  });
+}
