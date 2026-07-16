@@ -148,19 +148,16 @@ async function initDB() {
 
 
 
-  // Create Bhāṣya directory
+  // Create Bhāṣya directory (non-fatal if Filesystem plugin unavailable)
 
   try {
 
     const fs = fsPlugin();
     const dir = directoryData();
 
-    if (!fs) {
-      throw new Error("Filesystem plugin not available");
-    }
-
-    if (!dir) {
-      throw new Error("Filesystem Directory.Data not available");
+    if (!fs || !dir) {
+      console.log("Filesystem plugin not available — Bhāṣya packs won't be available");
+      return;
     }
 
     await fs.mkdir({
@@ -177,7 +174,7 @@ async function initDB() {
   } catch(e) {
 
 
-    console.log("Pack directory exists or error:", e.message);
+    console.log("Pack directory creation failed or already exists:", e.message);
 
 
   }
@@ -1011,7 +1008,7 @@ async function downloadPack(
   const dir = directoryData();
 
   if (!fs || !dir) {
-    throw new Error("Filesystem plugin not available");
+    throw new Error("Filesystem plugin not available — cannot save Bhāṣya pack");
   }
 
   await fs.writeFile({
