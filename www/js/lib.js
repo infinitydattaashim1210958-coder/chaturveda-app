@@ -104,10 +104,9 @@ async function downloadBook(book, onProgress) {
   try {
     res = await fetch(url, { cache: "no-store" });
   } catch (networkErr) {
-    throw new Error(`নেটওয়ার্ক ব্যর্থ। URL: ${url} — ${networkErr.message || networkErr}`);
+    throw new Error("নেটওয়ার্ক সংযোগ পাওয়া যায়নি।");
   }
-  if (!res.ok) throw new Error(`ডাউনলোড ব্যর্থ: HTTP ${res.status}. URL: ${url}`);
-
+  if (!res.ok) throw new Error(`ডাউনলোড ব্যর্থ (HTTP ${res.status})`);
   const htmlText = await res.text();
   const localFilename = book.filename;
 
