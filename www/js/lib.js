@@ -24,23 +24,55 @@ function fsPlugin() {
 function prefsPlugin() {
   return window.Capacitor.Plugins.Preferences;
 }
+const MANIFEST_CACHE_KEY = "digitalLibraryManifestCache";
 
 async function fetchBlogBooks() {
-  let res;
   try {
-    res = await fetch(MANIFEST_URL, { cache: "no-store" });
+    const res = await fetch(MANIFEST_URL, { cache: "no-store" });
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    // Cache manifest
+    await prefsPlugin().set({
+      key: MANIFEST_CACHE_KEY,
+      value: JSON.stringify(data),
+    });
+
+    return (data.books || []).map((b) => ({
+      id: b.id,
+      title: b.title,
+      filename: b.filename,
+      date: b.date || "",
+    }));
+
   } catch (networkErr) {
-    throw new Error(`তালিকা আনা যায়নি। URL: ${MANIFEST_URL} — ${networkErr.message || networkErr}`);
+
+    // Try cached manifest
+    const cache = await prefsPlugin().get({
+      key: MANIFEST_CACHE_KEY,
+    });
+
+    if (cache.value) {
+      const data = JSON.parse(cache.value);
+
+      return (data.books || []).map((b) => ({
+        id: b.id,
+        title: b.title,
+        filename: b.filename,
+        date: b.date || "",
+      }));
+    }
+
+    throw new Error(
+      `বইয়ের তালিকা পাওয়া যায়নি। একবার ইন্টারনেট চালু করে লাইব্রেরি খুলুন।`
+    );
   }
-  if (!res.ok) throw new Error(`তালিকা আনা ব্যর্থ: HTTP ${res.status}. URL: ${MANIFEST_URL}`);
-  const data = await res.json();
-  return (data.books || []).map((b) => ({
-    id: b.id,
-    title: b.title,
-    filename: b.filename,
-    date: b.date || "",
-  }));
 }
+
 
 async function getManifest() {
   try {
