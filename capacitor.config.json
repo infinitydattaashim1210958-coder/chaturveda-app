@@ -6,9 +6,13 @@
   "server": {
     "androidScheme": "https"
   },
+  "android": {
+    "path": "android"
+  },
   "plugins": {
     "CapacitorSQLite": {
       "androidIsEncryption": false
-    }
+    },
+    "Filesystem": {}
   }
 }
