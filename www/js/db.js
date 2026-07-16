@@ -25,19 +25,27 @@ const PACK_DIR = "bhashya_packs";
 
 
 /**
- * Capacitor plugins
+ * Capacitor plugins with robust error handling
  */
 
 function sqlitePlugin() {
 
-  return window.Capacitor?.Plugins?.CapacitorSQLite;
+  if (!window.Capacitor?.Plugins?.CapacitorSQLite) {
+    console.error("CapacitorSQLite plugin not initialized");
+    return null;
+  }
+  return window.Capacitor.Plugins.CapacitorSQLite;
 
 }
 
 
 function fsPlugin() {
 
-  return window.Capacitor?.Plugins?.Filesystem;
+  if (!window.Capacitor?.Plugins?.Filesystem) {
+    console.warn("Filesystem plugin not initialized — Bhāṣya packs will be unavailable");
+    return null;
+  }
+  return window.Capacitor.Plugins.Filesystem;
 
 }
 
@@ -45,7 +53,12 @@ function fsPlugin() {
 
 function directoryData() {
 
-  return window.Capacitor?.Plugins?.Filesystem?.Directory?.Data;
+  const fs = window.Capacitor?.Plugins?.Filesystem;
+  if (!fs?.Directory?.Data) {
+    console.warn("Filesystem.Directory.Data not available");
+    return null;
+  }
+  return fs.Directory.Data;
 
 }
 
@@ -61,12 +74,8 @@ async function ensureCapacitorReady() {
     throw new Error("Capacitor is not available");
   }
 
-  // Wait for Capacitor to be ready
-  try {
-    await window.Capacitor.ready;
-  } catch (e) {
-    console.log("Capacitor.ready check completed or not available");
-  }
+  // Capacitor v6 automatically waits for ready
+  return true;
 
 }
 
@@ -85,7 +94,7 @@ async function initDB() {
   const sqlite = sqlitePlugin();
 
   if (!sqlite) {
-    throw new Error("CapacitorSQLite plugin not available");
+    throw new Error("CapacitorSQLite plugin not available — cannot initialize database");
   }
 
 
@@ -96,7 +105,7 @@ async function initDB() {
 
   } catch(e) {
 
-    console.log("SQLite WebStore already initialized");
+    console.log("SQLite WebStore initialization:", e.message);
 
   }
 
@@ -148,7 +157,7 @@ async function initDB() {
 
 
 
-  // Create Bhāṣya directory (non-fatal if Filesystem plugin unavailable)
+  // Create Bhāṣya directory (non-fatal if Filesystem unavailable)
 
   try {
 
@@ -156,7 +165,7 @@ async function initDB() {
     const dir = directoryData();
 
     if (!fs || !dir) {
-      console.log("Filesystem plugin not available — Bhāṣya packs won't be available");
+      console.log("Filesystem plugin not available — Bhāṣya packs feature disabled");
       return;
     }
 
@@ -170,22 +179,16 @@ async function initDB() {
 
     });
 
+    console.log("Pack directory created/verified");
 
   } catch(e) {
 
-
-    console.log("Pack directory creation failed or already exists:", e.message);
-
+    console.log("Pack directory creation:", e.message);
 
   }
 
 
 }
-
-
-
-
-
 
 
 
@@ -223,7 +226,12 @@ async function query(
 ) {
 
 
-  const result = await sqlitePlugin().query({
+  const sqlite = sqlitePlugin();
+  if (!sqlite) {
+    throw new Error("SQLite plugin not available");
+  }
+
+  const result = await sqlite.query({
 
     database,
 
@@ -1106,7 +1114,9 @@ async function getBhashyaForMantraFromPack(
 
   const sqlite = sqlitePlugin();
 
-
+  if (!sqlite) {
+    throw new Error("SQLite plugin not available");
+  }
 
   const alias = packDbName(scholarId);
 
@@ -1115,15 +1125,18 @@ async function getBhashyaForMantraFromPack(
 
   if(!attachedPacks.has(scholarId)) {
 
+    const fs = fsPlugin();
+    const dir = directoryData();
 
+    if (!fs || !dir) {
+      throw new Error("Filesystem plugin not available");
+    }
 
-    const uri = await fsPlugin().getUri({
+    const uri = await fs.getUri({
 
       path: packFileName(scholarId),
 
-
-      directory: directoryData()
-
+      directory: dir
 
     });
 
@@ -1257,6 +1270,11 @@ async function getBhashyaForMantraFromPack(
 async function detachPack(scholarId) {
 
 
+  const sqlite = sqlitePlugin();
+  if (!sqlite) {
+    return;
+  }
+
   const alias = packDbName(scholarId);
 
 
@@ -1267,7 +1285,7 @@ async function detachPack(scholarId) {
     try {
 
 
-      await sqlitePlugin().execute({
+      await sqlite.execute({
 
 
         database: CORE_DB_NAME,
