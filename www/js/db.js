@@ -30,14 +30,14 @@ const PACK_DIR = "bhashya_packs";
 
 function sqlitePlugin() {
 
-  return window.Capacitor.Plugins.CapacitorSQLite;
+  return window.Capacitor?.Plugins?.CapacitorSQLite;
 
 }
 
 
 function fsPlugin() {
 
-  return window.Capacitor.Plugins.Filesystem;
+  return window.Capacitor?.Plugins?.Filesystem;
 
 }
 
@@ -45,10 +45,30 @@ function fsPlugin() {
 
 function directoryData() {
 
-  return window.Capacitor.Plugins.Filesystem.Directory.Data;
+  return window.Capacitor?.Plugins?.Filesystem?.Directory?.Data;
 
 }
 
+
+
+/**
+ * Ensure Capacitor is ready
+ */
+
+async function ensureCapacitorReady() {
+
+  if (!window.Capacitor) {
+    throw new Error("Capacitor is not available");
+  }
+
+  // Wait for Capacitor to be ready
+  try {
+    await window.Capacitor.ready;
+  } catch (e) {
+    console.log("Capacitor.ready check completed or not available");
+  }
+
+}
 
 
 
@@ -59,8 +79,14 @@ function directoryData() {
 
 async function initDB() {
 
+  // Ensure Capacitor is ready first
+  await ensureCapacitorReady();
 
   const sqlite = sqlitePlugin();
+
+  if (!sqlite) {
+    throw new Error("CapacitorSQLite plugin not available");
+  }
 
 
   // Required for Capacitor SQLite
@@ -126,12 +152,22 @@ async function initDB() {
 
   try {
 
+    const fs = fsPlugin();
+    const dir = directoryData();
 
-    await fsPlugin().mkdir({
+    if (!fs) {
+      throw new Error("Filesystem plugin not available");
+    }
+
+    if (!dir) {
+      throw new Error("Filesystem Directory.Data not available");
+    }
+
+    await fs.mkdir({
 
       path: PACK_DIR,
 
-      directory: directoryData(),
+      directory: dir,
 
       recursive: true
 
@@ -141,13 +177,15 @@ async function initDB() {
   } catch(e) {
 
 
-    console.log("Pack directory exists");
+    console.log("Pack directory exists or error:", e.message);
 
 
   }
 
 
 }
+
+
 
 
 
@@ -173,9 +211,6 @@ function rowsOf(result) {
   return [];
 
 }
-
-
-
 
 
 
@@ -207,9 +242,6 @@ async function query(
 
 
 }
-
-
-
 
 
 
@@ -255,7 +287,6 @@ async function getVedaByCode(code) {
 
 
 
-
 async function getLevel1List(vedaId) {
 
 
@@ -273,7 +304,6 @@ async function getLevel1List(vedaId) {
 
 
 }
-
 
 
 
@@ -360,7 +390,6 @@ async function getMantraList(
 
 
 
-
 async function getMantraRange(
 
   vedaId,
@@ -398,7 +427,6 @@ async function getMantraRange(
 
 
 
-
 async function getMantraCount(vedaId) {
 
 
@@ -416,7 +444,6 @@ async function getMantraCount(vedaId) {
 
 
 }
-
 
 
 
@@ -453,9 +480,6 @@ async function getMantraByRef(
 
 
 }
-
-
-
 
 
 
@@ -542,9 +566,6 @@ async function getAdjacentMantras(
 
 
 
-
-
-
 /**
  * Scholar metadata
  * (Commentary is NOT stored here)
@@ -609,7 +630,6 @@ async function getScholarsForVeda(vedaId) {
 
 
 
-
 async function getScholarsForMantra(
 
   vedaId,
@@ -665,9 +685,6 @@ async function getScholarsForMantra(
 
 
 
-
-
-
 /**
  * Full text search
  */
@@ -684,7 +701,6 @@ function escapeFTS(term) {
 
 
 }
-
 
 
 
@@ -777,19 +793,23 @@ function packFileName(scholarId) {
 
 
 
-
-
 async function isPackDownloaded(scholarId) {
 
 
   try {
 
+    const fs = fsPlugin();
+    const dir = directoryData();
 
-    await fsPlugin().stat({
+    if (!fs || !dir) {
+      return false;
+    }
+
+    await fs.stat({
 
       path: packFileName(scholarId),
 
-      directory: directoryData()
+      directory: dir
 
 
     });
@@ -811,9 +831,6 @@ async function isPackDownloaded(scholarId) {
 
 
 }
-
-
-
 
 
 
@@ -844,9 +861,6 @@ async function decompressGzip(arrayBuffer) {
 
 
 }
-
-
-
 
 
 
@@ -887,10 +901,6 @@ function blobToBase64(blob) {
 
 
 }
-
-
-
-
 
 
 
@@ -949,7 +959,6 @@ async function downloadPack(
 
 
 
-
   if(!response.ok) {
 
 
@@ -965,11 +974,9 @@ async function downloadPack(
 
 
 
-
   const buffer =
 
     await response.arrayBuffer();
-
 
 
 
@@ -980,18 +987,15 @@ async function downloadPack(
 
 
 
-
   const dbBlob =
 
     await decompressGzip(buffer);
 
 
 
-
   const base64 =
 
     await blobToBase64(dbBlob);
-
 
 
 
@@ -1003,8 +1007,14 @@ async function downloadPack(
 
 
 
+  const fs = fsPlugin();
+  const dir = directoryData();
 
-  await fsPlugin().writeFile({
+  if (!fs || !dir) {
+    throw new Error("Filesystem plugin not available");
+  }
+
+  await fs.writeFile({
 
     path: packFileName(scholarId),
 
@@ -1012,7 +1022,7 @@ async function downloadPack(
     data: base64,
 
 
-    directory: directoryData(),
+    directory: dir,
 
 
     recursive:true
@@ -1022,14 +1032,10 @@ async function downloadPack(
 
 
 
-
   return true;
 
 
 }
-
-
-
 
 
 
@@ -1043,13 +1049,19 @@ async function deletePack(scholarId) {
 
   try {
 
+    const fs = fsPlugin();
+    const dir = directoryData();
 
-    await fsPlugin().deleteFile({
+    if (!fs || !dir) {
+      return;
+    }
+
+    await fs.deleteFile({
 
       path: packFileName(scholarId),
 
 
-      directory: directoryData()
+      directory: dir
 
 
     });
@@ -1076,19 +1088,12 @@ async function deletePack(scholarId) {
 
 
 
-
-
-
-
 /**
  * Attach downloaded scholar database
  */
 
 
 const attachedPacks = new Set();
-
-
-
 
 
 
@@ -1111,7 +1116,6 @@ async function getBhashyaForMantraFromPack(
 
 
 
-
   if(!attachedPacks.has(scholarId)) {
 
 
@@ -1125,8 +1129,6 @@ async function getBhashyaForMantraFromPack(
 
 
     });
-
-
 
 
 
@@ -1153,8 +1155,6 @@ async function getBhashyaForMantraFromPack(
 
 
 
-
-
     try {
 
 
@@ -1174,7 +1174,6 @@ async function getBhashyaForMantraFromPack(
     }
 
     catch(e){}
-
 
 
 
@@ -1209,7 +1208,6 @@ async function getBhashyaForMantraFromPack(
 
       if(!msg.includes("already in use")) {
 
-
         throw error;
 
 
@@ -1220,13 +1218,10 @@ async function getBhashyaForMantraFromPack(
 
 
 
-
     attachedPacks.add(scholarId);
 
 
   }
-
-
 
 
 
@@ -1247,8 +1242,6 @@ async function getBhashyaForMantraFromPack(
 
 
   });
-
-
 
 
 
@@ -1315,9 +1308,6 @@ async function detachPack(scholarId) {
 
 
 }
-
-
-
 
 
 
