@@ -62,13 +62,19 @@ async function screenHome() {
       <h2>ডিজিটাল লাইব্রেরি</h2>
       <div class="arrow">→</div>
     </a>`;
+  const settingsCard = `
+<a class="card" href="#/settings" style="--a:#5b6cff;--b:#3949ab">
+  <div class="tag">Preferences</div>
+  <h2>⚙️ Settings</h2>
+  <div class="arrow">→</div>
+</a>`;
 
   root.innerHTML = `
     <div class="hero">
       <div class="om">ॐ</div>
       <div class="sub">The Four Vedas — সম্পূর্ণ মন্ত্র সংকলন, ভাষ্য ও অনুবাদসহ</div>
     </div>
-    <div class="grid">${cards}${libraryCard}</div>`;
+    <div class="grid">${cards}${libraryCard}${settingsCard}</div>;
 }
 
 async function screenLibrary() {
@@ -525,7 +531,7 @@ async function screenMantra(code, refEncodedWithQuery) {
   });
 }
 
-async function screenSearch() {
+  async function screenSearch() {
   showBack(true);
   setTitle("খুঁজুন");
   root.innerHTML = `
@@ -540,6 +546,25 @@ async function screenSearch() {
     clearTimeout(timer);
     timer = setTimeout(() => runSearch(input.value), 350);
   });
+}
+
+// ← এখান থেকে নতুন function শুরু হবে
+
+async function screenSettings() {
+
+  showBack(true);
+  setTitle("Settings");
+
+  root.innerHTML = `
+    ...
+  `;
+}
+
+// তারপর নিচে থাকবে
+
+async function runSearch(term) {
+   ...
+}
 }
 
 async function runSearch(term) {
@@ -599,6 +624,11 @@ async function router() {
     if (parts[0] === "veda" && parts.length === 4) return await screenLevel2(parts[1], parts[2], parts[3]);
 
     if (parts[0] === "mantra" && parts.length === 3) return await screenMantra(parts[1], parts[2]);
+    if(parts[0]=="settings" && parts[1]=="search")
+    return await screenSearchSettings();
+    if(parts[0]=="settings" && parts[1]=="reader")
+    if(parts[0]=="settings" && parts[1]=="library")
+    if(parts[0]=="settings" && parts[1]=="about")
 
     return await screenHome();
   } catch (e) {
