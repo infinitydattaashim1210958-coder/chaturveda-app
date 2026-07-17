@@ -17,7 +17,7 @@ const VEDA_THEME = {
 };
 
 let vedaCache = {}; // code -> veda row (with id + labels)
-let history = [];   // simple in-app back stack of hashes
+backBtn.onclick = () => window.history.back();   // simple in-app back stack of hashes
 
 function setTitle(t) {
   titleEl.textContent = t;
@@ -74,7 +74,7 @@ async function screenHome() {
       <div class="om">ॐ</div>
       <div class="sub">The Four Vedas — সম্পূর্ণ মন্ত্র সংকলন, ভাষ্য ও অনুবাদসহ</div>
     </div>
-    <div class="grid">${cards}${libraryCard}${settingsCard}</div>;
+    <div class="grid">${cards}${libraryCard}${settingsCard}</div>`;
 }
 
 async function screenLibrary() {
@@ -556,17 +556,275 @@ async function screenSettings() {
   setTitle("Settings");
 
   root.innerHTML = `
-    ...
+  <div class="section">
+  <div class="sectionTitle">📖 Reader</div>
+
+  <a class="item" href="#/settings/reader">
+    <span class="icon">📖</span>
+    Reader Preferences
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">📚 Library</div>
+
+  <a class="item" href="#/settings/library">
+    <span class="icon">📚</span>
+    Library Settings
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">🌐 Language</div>
+
+  <a class="item" href="#/settings/language">
+    <span class="icon">🌐</span>
+    Language Settings
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">🔔 Notifications</div>
+
+  <a class="item" href="#/settings/notification">
+    <span class="icon">🔔</span>
+    Notification Settings
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">🔍 Search</div>
+
+  <a class="item" href="#/settings/search">
+    <span class="icon">🔍</span>
+    Search Settings
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">🛡 Privacy & Legal</div>
+
+  <a class="item" href="#/settings/privacy">
+    <span class="icon">📖</span>
+    Privacy Policy
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="item" href="#/settings/terms">
+    <span class="icon">📄</span>
+    Terms & Conditions
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="item" href="#/settings/disclaimer">
+    <span class="icon">⚖️</span>
+    Disclaimer
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="item" href="#/settings/licenses">
+    <span class="icon">📜</span>
+    Open Source Licenses
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">💬 Support</div>
+
+  <a class="item" href="#/settings/contact">
+    <span class="icon">📧</span>
+    Contact Us
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="item" href="#/settings/feedback">
+    <span class="icon">💡</span>
+    Send Feedback
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="item" href="#/settings/report-bug">
+    <span class="icon">🐞</span>
+    Report a Bug
+    <span class="arrow">›</span>
+  </a>
+
+  <a class="item" href="#/settings/faq">
+    <span class="icon">❓</span>
+    Help & FAQ
+    <span class="arrow">›</span>
+  </a>
+</div>
+
+<div class="section">
+  <div class="sectionTitle">⭐ About</div>
+
+  <a class="item" href="#/settings/about">
+    <span class="icon">🕉</span>
+    About Chaturveda
+    <span class="arrow">›</span>
+  </a>
+</div>
   `;
 }
 
 // তারপর নিচে থাকবে
+async function screenReaderSettings() {
 
-async function runSearch(term) {
-   ...
-}
+  showBack(true);
+  setTitle("Reader Preferences");
+
+  const settings = await ChaturvedaSettings.loadAll();
+const theme = settings.theme;
+
+  root.innerHTML = `
+    <div class="section">
+      <div class="sectionTitle">Appearance</div>
+
+      <div class="item">
+        <span>Theme</span>
+
+        <select id="themeSelect">.
+          <option value="auto">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+    </div>
+  `;
+
+const select = document.getElementById("themeSelect");
+
+const slider = document.getElementById("fontSlider");
+const fontValue = document.getElementById("fontValue");
+
+const fontSize = (await ChaturvedaSettings.get("fontSize")) || "18";
+
+slider.value = fontSize;
+fontValue.textContent = fontSize + "px";
+
+select.value = theme;
+
+slider.addEventListener("input", async () => {
+    fontValue.textContent = slider.value + "px";
+
+    await ChaturvedaSettings.save("fontSize", slider.value);
+
+    document.documentElement.style.setProperty(
+        "--reader-font-size",
+        slider.value + "px"
+    );
+});
+
+select.addEventListener("change", async () => {
+    await ChaturvedaSettings.setTheme(select.value);
+});
+  select.value = theme;
+
+  select.addEventListener("change", async () => {
+      await ChaturvedaSettings.setTheme(select.value);
+  });
+   <div class="section">
+  <div class="sectionTitle">Font Size</div>
+
+  <div class="item">
+    <span id="fontValue">18px</span>
+  </div>
+
+  <input
+    type="range"
+    id="fontSlider"
+    min="14"
+    max="30"
+    step="1">
+</div>
+
 }
 
+
+async function screenLibrarySettings() {
+  showBack(true);
+  setTitle("Library Settings");
+  root.innerHTML = `<div class="empty">Library Settings (Coming Soon)</div>`;
+}
+
+async function screenLanguageSettings() {
+  showBack(true);
+  setTitle("Language Settings");
+  root.innerHTML = `<div class="empty">Language Settings (Coming Soon)</div>`;
+}
+
+async function screenNotificationSettings() {
+  showBack(true);
+  setTitle("Notification Settings");
+  root.innerHTML = `<div class="empty">Notification Settings (Coming Soon)</div>`;
+}
+
+async function screenSearchSettings() {
+  showBack(true);
+  setTitle("Search Settings");
+  root.innerHTML = `<div class="empty">Search Settings (Coming Soon)</div>`;
+}
+
+async function screenPrivacyPolicy() {
+  showBack(true);
+  setTitle("Privacy Policy");
+  root.innerHTML = `<div class="empty">Privacy Policy</div>`;
+}
+
+async function screenTerms() {
+  showBack(true);
+  setTitle("Terms & Conditions");
+  root.innerHTML = `<div class="empty">Terms & Conditions</div>`;
+}
+
+async function screenDisclaimer() {
+  showBack(true);
+  setTitle("Disclaimer");
+  root.innerHTML = `<div class="empty">Disclaimer</div>`;
+}
+
+async function screenLicenses() {
+  showBack(true);
+  setTitle("Open Source Licenses");
+  root.innerHTML = `<div class="empty">Open Source Licenses</div>`;
+}
+
+async function screenContact() {
+  showBack(true);
+  setTitle("Contact Us");
+  root.innerHTML = `<div class="empty">Contact Us</div>`;
+}
+
+async function screenFeedback() {
+  showBack(true);
+  setTitle("Send Feedback");
+  root.innerHTML = `<div class="empty">Send Feedback</div>`;
+}
+
+async function screenReportBug() {
+  showBack(true);
+  setTitle("Report a Bug");
+  root.innerHTML = `<div class="empty">Report a Bug</div>`;
+}
+
+async function screenFAQ() {
+  showBack(true);
+  setTitle("Help & FAQ");
+  root.innerHTML = `<div class="empty">Help & FAQ</div>`;
+}
+
+async function screenAbout() {
+  showBack(true);
+  setTitle("About Chaturveda");
+  root.innerHTML = `<div class="empty">About Chaturveda</div>`;
+}
 async function runSearch(term) {
   const resultsEl = document.getElementById("searchResults");
   if (!term || term.trim().length < 2) {
@@ -624,11 +882,50 @@ async function router() {
     if (parts[0] === "veda" && parts.length === 4) return await screenLevel2(parts[1], parts[2], parts[3]);
 
     if (parts[0] === "mantra" && parts.length === 3) return await screenMantra(parts[1], parts[2]);
-    if(parts[0]=="settings" && parts[1]=="search")
-    return await screenSearchSettings();
-    if(parts[0]=="settings" && parts[1]=="reader")
-    if(parts[0]=="settings" && parts[1]=="library")
-    if(parts[0]=="settings" && parts[1]=="about")
+    if (parts[0] === "settings" && parts.length === 1)
+  return await screenSettings();
+
+if (parts[0] === "settings" && parts[1] === "reader")
+  return await screenReaderSettings();
+
+if (parts[0] === "settings" && parts[1] === "library")
+  return await screenLibrarySettings();
+
+if (parts[0] === "settings" && parts[1] === "language")
+  return await screenLanguageSettings();
+
+if (parts[0] === "settings" && parts[1] === "notification")
+  return await screenNotificationSettings();
+
+if (parts[0] === "settings" && parts[1] === "search")
+  return await screenSearchSettings();
+
+if (parts[0] === "settings" && parts[1] === "privacy")
+  return await screenPrivacyPolicy();
+
+if (parts[0] === "settings" && parts[1] === "terms")
+  return await screenTerms();
+
+if (parts[0] === "settings" && parts[1] === "disclaimer")
+  return await screenDisclaimer();
+
+if (parts[0] === "settings" && parts[1] === "licenses")
+  return await screenLicenses();
+
+if (parts[0] === "settings" && parts[1] === "contact")
+  return await screenContact();
+
+if (parts[0] === "settings" && parts[1] === "feedback")
+  return await screenFeedback();
+
+if (parts[0] === "settings" && parts[1] === "report-bug")
+  return await screenReportBug();
+
+if (parts[0] === "settings" && parts[1] === "faq")
+  return await screenFAQ();
+
+if (parts[0] === "settings" && parts[1] === "about")
+  return await screenAbout();
 
     return await screenHome();
   } catch (e) {
@@ -649,6 +946,7 @@ async function boot() {
       <div class="loadingText">ডাটাবেস লোড হচ্ছে…</div>
       <div class="loadingVersion">${APP_BUILD_VERSION}</div>
     </div>`;
+    await ChaturvedaSettings.apply();
   try {
     await window.VedaDB.initDB();
     router();
