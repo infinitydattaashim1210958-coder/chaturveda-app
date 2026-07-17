@@ -70,6 +70,7 @@ async function screenHome() {
 </a>`;
 
   root.innerHTML = `
+  
     <div class="hero">
       <div class="om">ॐ</div>
       <div class="sub">The Four Vedas — সম্পূর্ণ মন্ত্র সংকলন, ভাষ্য ও অনুবাদসহ</div>
@@ -680,57 +681,24 @@ async function screenReaderSettings() {
   showBack(true);
   setTitle("Reader Preferences");
 
-  const settings = await ChaturvedaSettings.loadAll();
-const theme = settings.theme;
+  const settings = await ChaturvedaSettings.loadAll(); 
+  
+root.innerHTML = `
+<div class="section">
+  <div class="sectionTitle">Appearance</div>
 
-  root.innerHTML = `
-    <div class="section">
-      <div class="sectionTitle">Appearance</div>
+  <div class="item">
+    <span>Theme</span>
 
-      <div class="item">
-        <span>Theme</span>
+    <select id="themeSelect">
+      <option value="auto">System</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </div>
+</div>
 
-        <select id="themeSelect">.
-          <option value="auto">System</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-      </div>
-    </div>
-  `;
-
-const select = document.getElementById("themeSelect");
-
-const slider = document.getElementById("fontSlider");
-const fontValue = document.getElementById("fontValue");
-
-const fontSize = (await ChaturvedaSettings.get("fontSize")) || "18";
-
-slider.value = fontSize;
-fontValue.textContent = fontSize + "px";
-
-select.value = theme;
-
-slider.addEventListener("input", async () => {
-    fontValue.textContent = slider.value + "px";
-
-    await ChaturvedaSettings.save("fontSize", slider.value);
-
-    document.documentElement.style.setProperty(
-        "--reader-font-size",
-        slider.value + "px"
-    );
-});
-
-select.addEventListener("change", async () => {
-    await ChaturvedaSettings.setTheme(select.value);
-});
-  select.value = theme;
-
-  select.addEventListener("change", async () => {
-      await ChaturvedaSettings.setTheme(select.value);
-  });
-   <div class="section">
+<div class="section">
   <div class="sectionTitle">Font Size</div>
 
   <div class="item">
@@ -742,11 +710,55 @@ select.addEventListener("change", async () => {
     id="fontSlider"
     min="14"
     max="30"
-    step="1">
+    step="1"
+  />
 </div>
 
-}
+<div class="section">
+  <div class="sectionTitle">Font Family</div>
 
+  <div class="item">
+    <span>Font</span>
+
+    <select id="fontFamilySelect">
+      <option value="default">Default</option>
+      <option value="serif">Serif</option>
+      <option value="sans">Sans Serif</option>
+    </select>
+  </div>
+</div>
+`;
+  const select = document.getElementById("themeSelect");
+const slider = document.getElementById("fontSlider");
+const fontValue = document.getElementById("fontValue");
+const fontFamily = document.getElementById("fontFamilySelect");
+
+const fontSize = settings.fontSize || "18";
+const theme = settings.theme || "auto";
+const family = settings.fontFamily || "default";
+
+slider.value = fontSize;
+fontValue.textContent = fontSize + "px";
+select.value = theme;
+fontFamily.value = family;
+
+slider.addEventListener("input", async () => {
+  fontValue.textContent = slider.value + "px";
+  await ChaturvedaSettings.save("fontSize", slider.value);
+  document.documentElement.style.setProperty(
+    "--reader-font-size",
+    slider.value + "px"
+  );
+});
+
+select.addEventListener("change", async () => {
+  await ChaturvedaSettings.setTheme(select.value);
+});
+
+fontFamily.addEventListener("change", async () => {
+  await ChaturvedaSettings.save("fontFamily", fontFamily.value);
+});
+}
 
 async function screenLibrarySettings() {
   showBack(true);
