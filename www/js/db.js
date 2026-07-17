@@ -40,25 +40,31 @@ function sqlitePlugin() {
 
 
 function fsPlugin() {
+  const fs =
+    window.Capacitor?.Plugins?.Filesystem ||
+    window.Capacitor?.Filesystem ||
+    window.Filesystem;
 
-  if (!window.Capacitor?.Plugins?.Filesystem) {
-    console.warn("Filesystem plugin not initialized — Bhāṣya packs will be unavailable");
+  if (!fs || typeof fs.writeFile !== "function") {
+    console.warn("Filesystem plugin unavailable");
     return null;
   }
-  return window.Capacitor.Plugins.Filesystem;
 
+  return fs;
 }
 
 
 
 function directoryData() {
 
-  const fs = window.Capacitor?.Plugins?.Filesystem;
-  if (!fs?.Directory?.Data) {
-    console.warn("Filesystem.Directory.Data not available");
-    return null;
-  }
-  return fs.Directory.Data;
+  const fs = fsPlugin();
+
+  if (!fs) return "DATA";
+
+  if (fs.Directory?.Data) return fs.Directory.Data;
+  if (fs.Directory?.DATA) return fs.Directory.DATA;
+
+  return "DATA";
 
 }
 
@@ -1020,21 +1026,11 @@ async function downloadPack(
   }
 
   await fs.writeFile({
-
     path: packFileName(scholarId),
-
-
     data: base64,
-
-
-    directory: dir,
-
-
-    recursive:true
-
-
-  });
-
+    directory: dir || "DATA",
+    recursive: true
+});
 
 
   return true;
