@@ -250,3 +250,152 @@ a{color:inherit;text-decoration:none;}
 @media (prefers-reduced-motion: reduce){
   .tabPanel.active{ animation:none; }
 }
+/* ══════════════════════════════════════════════════════
+   SETTINGS UI — added v7.0
+══════════════════════════════════════════════════════ */
+
+/* Settings menu sections */
+.section {
+  margin: 14px 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.sectionTitle {
+  padding: 12px 16px;
+  font-size: .82rem;
+  font-weight: bold;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212,162,76,.06);
+  border-bottom: 1px solid var(--line);
+}
+.item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--parchment);
+  gap: 12px;
+  transition: background .15s;
+}
+.item:last-child { border-bottom: none; }
+.item:active { background: rgba(212,162,76,.08); }
+.item .icon { font-size: 1.2rem; flex-shrink: 0; }
+.item .arrow { margin-left: auto; opacity: .45; color: var(--gold); font-size: 1.1rem; }
+
+/* Settings row (toggle / select rows inside sections) */
+.settingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  gap: 12px;
+}
+.settingRow:last-child { border-bottom: none; }
+
+/* Select inside settings */
+.settingSelect {
+  background: rgba(212,162,76,.08);
+  border: 1px solid var(--line);
+  color: var(--parchment);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: .9rem;
+  font-family: inherit;
+  max-width: 160px;
+}
+.settingSelect option { background: #1a1a2e; }
+
+/* Range slider */
+.settingSlider {
+  width: 100%;
+  accent-color: var(--gold);
+  height: 6px;
+  cursor: pointer;
+}
+
+/* iOS-style toggle */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggleSlider {
+  position: absolute;
+  inset: 0;
+  background: var(--ash-dim);
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.toggleSlider::before {
+  content: "";
+  position: absolute;
+  width: 20px; height: 20px;
+  left: 3px; top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform .2s;
+}
+.toggle input:checked + .toggleSlider { background: var(--gold); }
+.toggle input:checked + .toggleSlider::before { transform: translateX(22px); }
+
+/* Primary button */
+.primaryBtn {
+  width: 100%;
+  background: var(--gold);
+  color: #1a1200;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity .15s;
+}
+.primaryBtn:disabled { opacity: .5; cursor: not-allowed; }
+.primaryBtn:active { opacity: .8; }
+
+/* Settings footer */
+.settingsFooter {
+  text-align: center;
+  padding: 30px 16px 60px;
+  color: var(--ash);
+  font-size: .85rem;
+  line-height: 1.8;
+}
+
+/* Info / static pages */
+.infoPage { padding-bottom: 40px; }
+.infoCard {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 14px 0;
+}
+.infoCard h2 {
+  color: var(--gold);
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+.infoCard p, .infoCard li { color: var(--parchment); line-height: 1.75; }
+.infoCard ul { padding-left: 20px; }
+.infoCard li { margin-bottom: 6px; }
+.infoCard a { color: var(--gold-bright); }
+
+/* FAQ */
+.faqQ { color: var(--gold); font-weight: bold; margin-bottom: 8px; }
+.faqA { color: var(--parchment); line-height: 1.7; }
+
+/* Ramayana shloka display tweaks */
+.mantraMeta { margin-bottom: 10px; font-size: .82rem; color: var(--ash); }
