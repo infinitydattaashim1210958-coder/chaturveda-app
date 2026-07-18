@@ -1546,10 +1546,11 @@ async function boot() {
     </div>`;
   await ChaturvedaSettings.apply();
   try {
-    await Promise.all([
-      window.VedaDB.initDB(),
-      window.RamayanaDB.initDB(),
-    ]);
+    // VedaDB.initDB() must run first — it calls copyFromAssets() which
+    // copies ALL bundled databases (core.db AND ramayana.db) to app storage.
+    // Only after that can RamayanaDB.initDB() safely open ramayana.db.
+    await window.VedaDB.initDB();
+    await window.RamayanaDB.initDB();
     router();
   } catch (e) {
     const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack";

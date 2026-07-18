@@ -8,21 +8,24 @@
  *   shlokas — raw JSON: { id, sanskrit, pratipada, tat, comment,
  *                         sarga: { id }, kanda: { id } }
  *
- * Navigation hierarchy: Kanda → Sarga → Shloka
- * Ref format: "K<kanda_id>.S<sarga_id>.<shloka_id>"  e.g. "K1.S1.42"
+ * Navigation: Kanda → Sarga → Shloka
+ * Ref format: "K<kandaId>.S<sargaId>.<shlokaId>"  e.g. "K1.S1.42"
+ *
+ * IMPORTANT: db.js (VedaDB.initDB) must be called first.
+ * It runs copyFromAssets() which copies ALL bundled databases including
+ * ramayana.db. We must NOT call copyFromAssets() again here.
  */
 
 const RAMAYANA_DB_NAME = "ramayana";
 
 function rSqlite() {
-  if (!window.Capacitor?.Plugins?.CapacitorSQLite) return null;
-  return window.Capacitor.Plugins.CapacitorSQLite;
+  const s = window.Capacitor?.Plugins?.CapacitorSQLite;
+  if (!s) throw new Error("CapacitorSQLite plugin not available");
+  return s;
 }
 
 async function rQuery(sql, params = []) {
-  const sqlite = rSqlite();
-  if (!sqlite) throw new Error("CapacitorSQLite not available");
-  const result = await sqlite.query({
+  const result = await rSqlite().query({
     database: RAMAYANA_DB_NAME,
     statement: sql,
     values: params,
@@ -37,23 +40,45 @@ let _rInitDone = false;
 async function rInitDB() {
   if (_rInitDone) return;
   const sqlite = rSqlite();
-  if (!sqlite) throw new Error("CapacitorSQLite plugin not available");
 
-  try { await sqlite.initWebStore(); } catch (e) { /* ok */ }
-
+  // Check if the db file exists in app storage.
+  // NOTE: copyFromAssets was already called by VedaDB.initDB() — do NOT call it again.
+  // CapacitorSQLite copies ALL databases from www/assets/databases/ in one shot.
   const exists = await sqlite.isDatabase({ database: RAMAYANA_DB_NAME });
   if (!exists.result) {
+    // Fallback: in case VedaDB.initDB() wasn't called first, copy assets now.
+    // overwrite:false so we don't disturb an already-copied core.db.
     await sqlite.copyFromAssets({ overwrite: false });
   }
 
-  await sqlite.createConnection({
-    database: RAMAYANA_DB_NAME,
-    encrypted: false,
-    mode: "no-encryption",
-    version: 1,
-    readonly: true,
-  });
-  await sqlite.open({ database: RAMAYANA_DB_NAME });
+  // createConnection throws if a connection already exists for this db name.
+  // Wrap in try/catch and proceed — if it throws "already in use" we're fine.
+  try {
+    await sqlite.createConnection({
+      database: RAMAYANA_DB_NAME,
+      encrypted: false,
+      mode: "no-encryption",
+      version: 1,
+      readonly: false,   // readonly:true causes query() failures on some devices
+    });
+  } catch (e) {
+    const msg = e.message || String(e);
+    // "already in use" / "connection already exists" → connection is already open, continue
+    if (!msg.toLowerCase().includes("already") && !msg.toLowerCase().includes("exist")) {
+      throw e;
+    }
+  }
+
+  // open() is also safe to call on an already-open connection on most plugin versions.
+  try {
+    await sqlite.open({ database: RAMAYANA_DB_NAME });
+  } catch (e) {
+    const msg = e.message || String(e);
+    if (!msg.toLowerCase().includes("already") && !msg.toLowerCase().includes("exist")) {
+      throw e;
+    }
+  }
+
   _rInitDone = true;
 }
 
@@ -61,7 +86,7 @@ async function rInitDB() {
 
 async function getKandas() {
   const rows = await rQuery(
-    "SELECT json_extract(raw,'$.id') AS id, raw FROM kandas ORDER BY CAST(json_extract(raw,'$.id') AS INTEGER)"
+    "SELECT raw FROM kandas ORDER BY CAST(json_extract(raw,'$.id') AS INTEGER)"
   );
   return rows.map(r => JSON.parse(r.raw));
 }
@@ -80,7 +105,7 @@ async function getSargasForKanda(kandaId) {
   const rows = await rQuery(
     `SELECT raw FROM sargas
      WHERE json_extract(raw,'$.kanda.id') = ?
-     ORDER BY CAST(json_extract(raw,'$.id') AS INTEGER)`,
+     ORDER BY CAST(json_extract(raw,'$.chapter') AS INTEGER)`,
     [kandaId]
   );
   return rows.map(r => JSON.parse(r.raw));
@@ -107,11 +132,10 @@ async function getShlokasForSarga(sargaId) {
 }
 
 async function getShlokaByRef(ref) {
-  // ref format: "K<kandaId>.S<sargaId>.<shlokaId>"
+  // ref = "K<kandaId>.S<sargaId>.<shlokaId>"
   const m = ref.match(/^K(\d+)\.S(\d+)\.(\d+)$/);
   if (!m) return null;
   const [, kandaId, sargaId, shlokaId] = m.map(Number);
-  // Use ROWID for uniqueness since shloka ids repeat across sargas
   const rows = await rQuery(
     `SELECT ROWID, raw FROM shlokas
      WHERE json_extract(raw,'$.kanda.id') = ?
