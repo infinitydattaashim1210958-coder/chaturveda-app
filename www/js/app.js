@@ -567,9 +567,15 @@ async function screenRamayanaShloka(refEncoded) {
     ${scholarTabsHtml}
 
     <div class="mantraNav">
-      <a class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="${navHref(prev)}"` : ""}>← আগের শ্লোক</a>
-      <a class="navBtn ${next ? "" : "disabled"}" ${next ? `href="${navHref(next)}"` : ""}>পরের শ্লোক →</a>
+      <a id="prevShlokaBtn" class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="${navHref(prev)}"` : ""}>← আগের শ্লোক</a>
+      <a id="nextShlokaBtn" class="navBtn ${next ? "" : "disabled"}" ${next ? `href="${navHref(next)}"` : ""}>পরের শ্লোক →</a>
+    </div>
+    <div style="text-align:center;font-size:.72rem;color:var(--ash-dim);margin-top:8px;word-break:break-all;">
+      DEBUG · rowid:${shloka._rowid} · sarga:${shloka.sarga.id} · prev_href:${prev ? navHref(prev) : "null"} · next_href:${next ? navHref(next) : "null"}
     </div>`;
+
+  document.getElementById("prevShlokaBtn")?.addEventListener("click", () => console.log("[nav] prev clicked, href=", navHref(prev)));
+  document.getElementById("nextShlokaBtn")?.addEventListener("click", () => console.log("[nav] next clicked, href=", navHref(next)));
 
   if (!scholars.length) return;
 
