@@ -1129,6 +1129,8 @@ async function deletePack(scholarId) {
  * since pack filenames are derived from scholarId alone (packFileName()).
  */
 
+const attachedPacks = new Set();
+
 async function getScholarsForShloka(kandaId, sargaId, shlokaId) {
 
   const scholars = await query(
