@@ -3,11 +3,19 @@
  * Covers: Vedas (4), Ramayana, Digital Library, Settings (all sections)
  */
 
-const APP_BUILD_VERSION = "v7.0-ramayana-settings-2026-07-18";
+const APP_BUILD_VERSION = "v7.1-home-hierarchy-settings-fix-2026-07-18";
+
+const COPYRIGHT_HTML = `
+  <div style="font-weight:bold;color:var(--gold-bright);">©️ Copyright &amp; Preservation</div>
+  <div>All rights reserved. This digital work is protected and preserved for educational, spiritual and research purposes.</div>
+  <div style="margin-top:6px;">Kyronix Innovation Group (KIG)</div>
+  <div>Ashim Datta</div>
+  <div>Founder &amp; CEO</div>`;
 const root = document.getElementById("app");
 const backBtn = document.getElementById("backBtn");
 const titleEl = document.getElementById("appTitle");
 const searchBtn = document.getElementById("searchBtn");
+const settingsBtn = document.getElementById("settingsBtn");
 
 const VEDA_THEME = {
   rigveda:     { a: "#d4a24c", b: "#e8915c", tag: "Veda I · Knowledge" },
@@ -54,17 +62,42 @@ async function ensureKandaCache() {
 /* ══════════════════════════════════════════════════════
    HOME
 ══════════════════════════════════════════════════════ */
+// Branch hierarchy shown on the home screen.
+// `route` = available now; `soon` = placeholder, no data bundled yet.
+const HOME_SECTIONS = [
+  { icon: "🕉", label: "বেদ",           route: "#/vedas" },
+  { icon: "🏹", label: "রামায়ণ",        route: "#/ramayana" },
+  { icon: "⚔️", label: "মহাভারত",       soon: true },
+  { icon: "📖", label: "পুরাণ",         soon: true },
+  { icon: "🔥", label: "ব্রাহ্মণ",      soon: true },
+  { icon: "🪔", label: "উপনিষদ",        soon: true },
+  { icon: "🌳", label: "আরণ্যক",        soon: true },
+  { icon: "🔤", label: "নিরুক্তশাস্ত্র", soon: true },
+  { icon: "🎵", label: "ছন্দশাস্ত্র",   soon: true },
+  { icon: "🎓", label: "শিক্ষাশাস্ত্র", soon: true },
+  { icon: "🕯", label: "তন্ত্র",         soon: true },
+  { icon: "📜", label: "স্মৃতি",        soon: true },
+  { icon: "🏠", label: "গৃহ্যসূত্র",    soon: true },
+  { icon: "⚖️", label: "ধর্মসূত্র",     soon: true },
+  { icon: "📚", label: "ডিজিটাল লাইব্রেরি", route: "#/library" },
+];
+
 async function screenHome() {
   showBack(false);
   setTitle("চতুর্বেদ সংকলন");
-  await ensureVedaCache();
 
-  const vedaCards = Object.values(vedaCache).map((v) => {
-    const theme = VEDA_THEME[v.code] || { a: "#d4a24c", b: "#e8915c", tag: "" };
-    return `<a class="card" href="#/veda/${v.code}" style="--a:${theme.a};--b:${theme.b}">
-      <div class="tag">${theme.tag}</div>
-      <h2>${v.name}</h2>
-      <div class="arrow">→</div>
+  const items = HOME_SECTIONS.map((s) => {
+    if (s.soon) {
+      return `<div class="listItem comingSoon" aria-disabled="true">
+        <span class="icon">${s.icon}</span>
+        <span class="label">${s.label}</span>
+        <span class="badge">শীঘ্রই আসছে</span>
+      </div>`;
+    }
+    return `<a class="listItem" href="${s.route}">
+      <span class="icon">${s.icon}</span>
+      <span class="label">${s.label}</span>
+      <span class="arrow">›</span>
     </a>`;
   }).join("");
 
@@ -73,24 +106,24 @@ async function screenHome() {
       <div class="om">ॐ</div>
       <div class="sub">The Four Vedas & Valmiki Ramayana — সম্পূর্ণ সংকলন</div>
     </div>
-    <div class="grid">
-      ${vedaCards}
-      <a class="card" href="#/ramayana" style="--a:#c27ba0;--b:#7b4fc9">
-        <div class="tag">Epic · Itihasa</div>
-        <h2>🏹 বাল্মীকি রামায়ণ</h2>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="#/library" style="--a:#7fb0a8;--b:#4f8c6b">
-        <div class="tag">অনলাইন</div>
-        <h2>ডিজিটাল লাইব্রেরি</h2>
-        <div class="arrow">→</div>
-      </a>
-      <a class="card" href="#/settings" style="--a:#5b6cff;--b:#3949ab">
-        <div class="tag">Preferences</div>
-        <h2>⚙️ Settings</h2>
-        <div class="arrow">→</div>
-      </a>
-    </div>`;
+    <div class="homeList">${items}</div>`;
+}
+
+async function screenVedas() {
+  showBack(true);
+  setTitle("বেদ");
+  await ensureVedaCache();
+
+  const vedaItems = Object.values(vedaCache).map((v) => {
+    const theme = VEDA_THEME[v.code] || { a: "#d4a24c", b: "#e8915c", tag: "" };
+    return `<a class="listItem" href="#/veda/${v.code}">
+      <span class="icon" style="color:${theme.a}">🕉</span>
+      <span class="label">${v.name}<div style="font-size:.75rem;color:var(--ash);">${theme.tag}</div></span>
+      <span class="arrow">›</span>
+    </a>`;
+  }).join("");
+
+  root.innerHTML = `<div class="homeList">${vedaItems}</div>`;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -767,7 +800,7 @@ async function screenSettings() {
       <div style="color:var(--gold-bright);font-weight:bold;">Chaturveda</div>
       <div>Version 1.0.0 (Build 1)</div>
       <div>Developed by Ashim Datta</div>
-      <div>© 2026 Chaturveda. All Rights Reserved.</div>
+      ${COPYRIGHT_HTML}
     </div>`;
 }
 
@@ -1306,7 +1339,7 @@ async function screenPrivacyPolicy() {
     <p>Chaturveda is an educational app suitable for all ages. We do not knowingly collect data from children.</p></div>
     <div class="infoCard"><h2>6. Contact</h2>
     <p>For privacy-related questions, contact: <strong>Ashim Datta</strong><br>Website: <a href="https://arsa-siddanto.blogspot.com" style="color:var(--gold);">arsa-siddanto.blogspot.com</a></p></div>
-    <div class="infoCard" style="text-align:center;color:var(--ash);">© 2026 Chaturveda App. All Rights Reserved.</div>`);
+    <div class="infoCard" style="text-align:center;color:var(--ash);">${COPYRIGHT_HTML}</div>`);
 }
 
 async function screenTerms() {
@@ -1318,7 +1351,8 @@ async function screenTerms() {
     <div class="infoCard"><h2>2. Acceptable Use</h2>
     <ul><li>Use the app lawfully and respectfully</li><li>Do not attempt to reverse engineer or modify the app</li><li>Do not use automated tools to scrape content</li></ul></div>
     <div class="infoCard"><h2>3. Intellectual Property</h2>
-    <p>Ancient Vedic scriptures and Ramayana are in the public domain. App design, code, and compilation are protected under applicable copyright laws. © 2026 Ashim Datta.</p></div>
+    <p>Ancient Vedic scriptures and Ramayana are in the public domain. App design, code, and compilation are protected under applicable copyright laws.</p>
+    <div style="margin-top:10px;">${COPYRIGHT_HTML}</div></div>
     <div class="infoCard"><h2>4. Disclaimer</h2>
     <p>The app is provided "as is" without warranties. We are not liable for any loss or damage arising from use of the app.</p></div>
     <div class="infoCard"><h2>5. Changes</h2>
@@ -1340,7 +1374,7 @@ async function screenDisclaimer() {
     <p>Content is not professional religious, legal, medical, or financial advice.</p></div>
     <div class="infoCard"><h2>5. Liability</h2>
     <p>Chaturveda and its developer are not liable for any loss or consequence arising from use of this application.</p></div>
-    <div class="infoCard" style="text-align:center;color:var(--ash);">Chaturveda v1.0.0 · © 2026 Ashim Datta</div>`);
+    <div class="infoCard" style="text-align:center;color:var(--ash);">Chaturveda v1.0.0<br>${COPYRIGHT_HTML}</div>`);
 }
 
 async function screenLicenses() {
@@ -1355,7 +1389,7 @@ async function screenLicenses() {
     <div class="infoCard"><h2>Material Design Components (Apache 2.0)</h2><p>Copyright © Google LLC.</p></div>
     <div class="infoCard"><h2>Noto Fonts (OFL)</h2><p>Copyright © Google LLC. Noto Sans Bengali, Noto Serif Bengali, Noto Serif Devanagari.</p></div>
     <div class="infoCard"><h2>Valmiki Ramayana Text</h2><p>Source: valmikiramayan.net — Public domain Sanskrit text with English translations by Sri Desiraju Hanumantha Rao and Sri K.M.K. Murthy.</p></div>
-    <div class="infoCard" style="text-align:center;color:var(--ash);">© 2026 Chaturveda App · Developed by Ashim Datta</div>`);
+    <div class="infoCard" style="text-align:center;color:var(--ash);">${COPYRIGHT_HTML}</div>`);
 }
 
 async function screenContact() {
@@ -1369,7 +1403,7 @@ async function screenContact() {
         <div><div style="color:var(--gold);font-size:.78rem;margin-bottom:4px;">APP VERSION</div><div>1.0.0 (Build 1)</div></div>
       </div>
     </div>
-    <div class="infoCard" style="text-align:center;color:var(--ash);">© 2026 Chaturveda. All Rights Reserved.</div>`);
+    <div class="infoCard" style="text-align:center;color:var(--ash);">${COPYRIGHT_HTML}</div>`);
 }
 
 async function screenFeedback() {
@@ -1467,8 +1501,7 @@ async function screenAbout() {
     <p>Website: <a href="https://arsa-siddanto.blogspot.com" style="color:var(--gold-bright);">arsa-siddanto.blogspot.com</a></p></div>
     <div class="infoCard" style="text-align:center;color:var(--ash);">
       <div>Chaturveda v1.0.0 · Build 1</div>
-      <div>© 2026 Chaturveda · Developed by Ashim Datta</div>
-      <div>All Rights Reserved.</div>
+      ${COPYRIGHT_HTML}
     </div>`);
 }
 
@@ -1493,6 +1526,7 @@ async function router() {
     if (parts[0] === "library" && parts[1] === "read" && parts.length === 3) return await screenLibraryReader(parts[2]);
 
     // Vedas
+    if (parts[0] === "vedas" && parts.length === 1) return await screenVedas();
     if (parts[0] === "veda" && parts.length === 2) return await screenVeda(parts[1]);
     if (parts[0] === "veda" && parts.length === 4 && parts[2] === "range") {
       const [fromNo, toNo] = parts[3].split("-").map(Number);
@@ -1536,6 +1570,7 @@ async function router() {
 window.addEventListener("hashchange", router);
 backBtn.addEventListener("click", () => history.length ? window.history.back() : (location.hash = "#/"));
 searchBtn.addEventListener("click", () => (location.hash = "#/search"));
+settingsBtn.addEventListener("click", () => (location.hash = "#/settings"));
 
 async function boot() {
   root.innerHTML = `
@@ -1546,11 +1581,10 @@ async function boot() {
     </div>`;
   await ChaturvedaSettings.apply();
   try {
-    // VedaDB.initDB() must run first — it calls copyFromAssets() which
-    // copies ALL bundled databases (core.db AND ramayana.db) to app storage.
-    // Only after that can RamayanaDB.initDB() safely open ramayana.db.
-    await window.VedaDB.initDB();
-    await window.RamayanaDB.initDB();
+    await Promise.all([
+      window.VedaDB.initDB(),
+      window.RamayanaDB.initDB(),
+    ]);
     router();
   } catch (e) {
     const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack";
