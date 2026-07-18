@@ -34,7 +34,18 @@ jobs:
             "https://github.com/${{ github.repository }}/releases/latest/download/core.db.gz"
           gunzip -f core.db.gz
           mv core.db www/assets/databases/core.db
-          ls -la www/assets/databases/
+          echo "core.db size: $(du -sh www/assets/databases/core.db)"
+
+      - name: Download Ramayana database from latest Release
+        run: |
+          curl -L -o ramayana.db.gz \
+            "https://github.com/${{ github.repository }}/releases/latest/download/ramayana.db.gz"
+          gunzip -f ramayana.db.gz
+          mv ramayana.db www/assets/databases/ramayana.db
+          echo "ramayana.db size: $(du -sh www/assets/databases/ramayana.db)"
+
+      - name: List databases
+        run: ls -lh www/assets/databases/
 
       - name: Add Android platform
         run: npx cap add android
@@ -48,13 +59,13 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
-      - name: Do not compress the .db asset (avoids OOM on a large SQLite file)
+      - name: Do not compress .db assets (avoids OOM on large SQLite files)
         run: |
           BUILD_GRADLE="android/app/build.gradle"
           if ! grep -q "aaptOptions" "$BUILD_GRADLE"; then
             sed -i '/^android {/a\    aaptOptions { noCompress "db" }' "$BUILD_GRADLE"
           fi
-          echo "----- android block after patch -----"
+          echo "----- aaptOptions after patch -----"
           grep -n "aaptOptions" -A 2 "$BUILD_GRADLE"
 
       - name: Increase Gradle daemon heap size
