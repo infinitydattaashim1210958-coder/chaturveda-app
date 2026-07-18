@@ -38,8 +38,9 @@ a{color:inherit;text-decoration:none;}
   font-size:1.4rem; cursor:pointer; padding:4px 8px;
   visibility:hidden;
 }
-#searchBtn{ visibility:visible; margin-left:auto; }
-#settingsBtn{ visibility:visible; text-decoration:none; display:inline-flex; align-items:center; }
+.appBarRight{ display:flex; align-items:center; gap:2px; margin-left:auto; }
+#searchBtn{ visibility:visible; }
+#settingsBtn{ visibility:visible; text-decoration:none; display:inline-flex; align-items:center; font-size:1.25rem; }
 #appTitle{
   font-size:1.15rem; font-weight:600; color:var(--parchment);
   flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
@@ -60,6 +61,24 @@ a{color:inherit;text-decoration:none;}
 .hero .sub{ font-size:.98rem; color:var(--ash); font-style:italic; line-height:1.6; }
 
 .grid{ display:grid; grid-template-columns:1fr; gap:16px; }
+
+/* ---- Home branch-hierarchy list ---- */
+.homeList{ display:flex; flex-direction:column; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.listItem{
+  display:flex; align-items:center; gap:14px;
+  padding:16px 14px; border-bottom:1px solid var(--line);
+  color:var(--parchment); background:rgba(255,255,255,.02);
+}
+.listItem:last-child{ border-bottom:none; }
+.listItem:active{ background:rgba(255,255,255,.06); }
+.listItem .icon{ font-size:1.3rem; width:28px; text-align:center; flex-shrink:0; }
+.listItem .label{ flex:1; font-size:1.02rem; font-weight:500; }
+.listItem .arrow{ color:var(--gold); opacity:.7; }
+.listItem.comingSoon{ opacity:.5; cursor:default; }
+.listItem.comingSoon .badge{
+  font-size:.68rem; color:var(--ash); border:1px solid var(--line);
+  border-radius:20px; padding:3px 9px; white-space:nowrap;
+}
 @media(min-width:600px){ .grid{ grid-template-columns:1fr 1fr; } }
 
 .card{
