@@ -509,6 +509,37 @@ async function screenRamayanaShloka(refEncoded) {
     return r ? `#/ramayana/shloka/${encodeURIComponent(r)}` : "";
   }
 
+  function sizeLabel(bytes) {
+    if (!bytes) return "";
+    const kb = bytes / 1024;
+    return kb < 1024 ? `${Math.round(kb)} KB` : `${(kb / 1024).toFixed(1)} MB`;
+  }
+
+  // Scholar/Bhāṣya commentary — same download → study → delete pattern as mantras
+  let scholars = [];
+  try {
+    scholars = await window.VedaDB.getScholarsForShloka(shloka.kanda.id, shloka.sarga.id, shloka.id);
+  } catch (e) {
+    console.error("getScholarsForShloka failed:", e);
+  }
+
+  const scholarTabsHtml = scholars.length ? `
+    <div class="section" style="margin-top:14px;">
+      <div class="sectionTitle">📜 ভাষ্য (Commentary)</div>
+      <div class="tabBar">
+        ${scholars.map((s, i) => `
+          <button class="tabBtn ${i === 0 ? "active" : ""}" data-scholar="${s.id}">
+            ${s.name}${s.downloaded ? "" : " ⬇"}
+          </button>`).join("")}
+      </div>
+      <div class="tabPanels">
+        ${scholars.map((s, i) => `
+          <div class="tabPanel ${i === 0 ? "active" : ""}" data-scholar="${s.id}" data-loaded="0">
+            <div class="panelBody"></div>
+          </div>`).join("")}
+      </div>
+    </div>` : "";
+
   root.innerHTML = `
     <div class="mantraDetail">
       <div class="mantraMeta">${kanda?.name || ""} Kanda · Sarga ${shloka.sarga.id} · Shloka ${shloka.id}</div>
@@ -533,10 +564,88 @@ async function screenRamayanaShloka(refEncoded) {
       <div class="fieldValue">${shloka.comment.replace(/\n/g, "<br>")}</div>
     </div>` : ""}
 
+    ${scholarTabsHtml}
+
     <div class="mantraNav">
       <a class="navBtn ${prev ? "" : "disabled"}" ${prev ? `href="${navHref(prev)}"` : ""}>← আগের শ্লোক</a>
       <a class="navBtn ${next ? "" : "disabled"}" ${next ? `href="${navHref(next)}"` : ""}>পরের শ্লোক →</a>
     </div>`;
+
+  if (!scholars.length) return;
+
+  const scholarsById = {};
+  scholars.forEach(s => (scholarsById[s.id] = s));
+
+  async function loadPanel(panel) {
+    if (panel.dataset.loaded === "1") return;
+    const scholarId = parseInt(panel.dataset.scholar, 10);
+    const s = scholarsById[scholarId];
+    const body = panel.querySelector(".panelBody");
+
+    if (!s.downloaded) {
+      body.innerHTML = `
+        <div class="downloadPrompt">
+          <div class="downloadPromptText">এই ভাষ্য ডাউনলোড করা হয়নি (${sizeLabel(s.pack_size_bytes)}, ${s.entry_count || 0} এন্ট্রি)</div>
+          <button class="bookBtn downloadBtn" data-scholar-dl="${scholarId}">ডাউনলোড করুন</button>
+          <div class="bookStatus" data-dl-status="${scholarId}"></div>
+        </div>`;
+      body.querySelector(".downloadBtn").addEventListener("click", async () => {
+        const btn = body.querySelector(".downloadBtn");
+        const statusEl = body.querySelector(`[data-dl-status="${scholarId}"]`);
+        btn.disabled = true;
+        try {
+          await window.VedaDB.downloadPack(scholarId, s.pack_file, msg => { if (statusEl) statusEl.textContent = msg; });
+          s.downloaded = true;
+          panel.dataset.loaded = "0";
+          await loadPanel(panel);
+          const tabBtn = root.querySelector(`.tabBtn[data-scholar="${scholarId}"]`);
+          if (tabBtn) tabBtn.innerHTML = s.name;
+        } catch (e) {
+          btn.disabled = false;
+          if (statusEl) statusEl.textContent = "ব্যর্থ: " + (e.message || e);
+        }
+      });
+      return;
+    }
+
+    body.innerHTML = `<div class="empty" style="padding:20px 0;">লোড হচ্ছে…</div>`;
+    try {
+      const fields = await window.VedaDB.getBhashyaForShlokaFromPack(scholarId, shloka.kanda.id, shloka.sarga.id, shloka.id);
+      body.innerHTML = `
+        <div class="panelDeleteRow">
+          <button class="miniBtn deletePackBtn" data-scholar-del="${scholarId}">এই ভাষ্য মুছুন</button>
+        </div>
+        ${fields.length
+          ? fields.map(f => `<div class="field"><div class="fieldLabel">${f.field_key}</div><div class="fieldValue">${f.value}</div></div>`).join("")
+          : `<div class="empty">এই শ্লোকে এই ভাষ্যকারের কোনো তথ্য নেই।</div>`}`;
+      body.querySelector(".deletePackBtn").addEventListener("click", async () => {
+        if (!confirm(`"${s.name}" ভাষ্য মুছে ফেলতে চান?`)) return;
+        await window.VedaDB.deletePack(scholarId);
+        s.downloaded = false;
+        panel.dataset.loaded = "0";
+        await loadPanel(panel);
+        const tabBtn = root.querySelector(`.tabBtn[data-scholar="${scholarId}"]`);
+        if (tabBtn) tabBtn.innerHTML = s.name + " ⬇";
+      });
+    } catch (e) {
+      body.innerHTML = `<div class="empty">লোড করতে সমস্যা।<br><small>${e.message || e}</small></div>`;
+    }
+    panel.dataset.loaded = "1";
+  }
+
+  const firstPanel = root.querySelector(".tabPanel.active");
+  if (firstPanel) loadPanel(firstPanel);
+
+  root.querySelectorAll(".tabBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      root.querySelectorAll(".tabBtn").forEach(b => b.classList.remove("active"));
+      root.querySelectorAll(".tabPanel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      const panel = root.querySelector(`.tabPanel[data-scholar="${btn.dataset.scholar}"]`);
+      panel.classList.add("active");
+      loadPanel(panel);
+    });
+  });
 }
 
 /* ══════════════════════════════════════════════════════

@@ -1090,11 +1090,104 @@ async function deletePack(scholarId) {
 
 
 /**
- * Attach downloaded scholar database
+ * Ramayana scholar/bhashya support
+ * Mirrors getScholarsForMantra / getBhashyaForMantraFromPack exactly,
+ * but keyed by (kanda_id, sarga_id, shloka_id) instead of mantra_id.
+ *
+ * Requires two NEW tables in core.db (additive — does not touch the
+ * existing `scholars` / `bhashya_presence` Veda tables):
+ *
+ *   CREATE TABLE ramayana_scholars (
+ *     id INTEGER PRIMARY KEY,
+ *     name TEXT NOT NULL,
+ *     era TEXT,
+ *     description TEXT,
+ *     display_order INTEGER DEFAULT 0,
+ *     pack_file TEXT NOT NULL,       -- e.g. 'scholar_201.db.gz' (bhashya_packs/)
+ *     pack_size_bytes INTEGER,
+ *     entry_count INTEGER
+ *   );
+ *
+ *   CREATE TABLE ramayana_bhashya_presence (
+ *     scholar_id INTEGER NOT NULL REFERENCES ramayana_scholars(id),
+ *     kanda_id   INTEGER NOT NULL,
+ *     sarga_id   INTEGER NOT NULL,
+ *     shloka_id  INTEGER NOT NULL
+ *   );
+ *
+ * And inside each downloaded scholar_N.db pack, a `ramayana_bhashyas` table:
+ *
+ *   CREATE TABLE ramayana_bhashyas (
+ *     kanda_id  INTEGER NOT NULL,
+ *     sarga_id  INTEGER NOT NULL,
+ *     shloka_id INTEGER NOT NULL,
+ *     field_key TEXT NOT NULL,
+ *     value     TEXT NOT NULL
+ *   );
+ *
+ * scholar ids must not collide with existing Veda `scholars.id` values,
+ * since pack filenames are derived from scholarId alone (packFileName()).
  */
 
+async function getScholarsForShloka(kandaId, sargaId, shlokaId) {
 
-const attachedPacks = new Set();
+  const scholars = await query(
+    `SELECT s.*
+     FROM ramayana_scholars s
+     JOIN ramayana_bhashya_presence p
+     ON p.scholar_id=s.id
+     WHERE p.kanda_id=? AND p.sarga_id=? AND p.shloka_id=?
+     ORDER BY s.display_order,s.id`,
+    [kandaId, sargaId, shlokaId]
+  );
+
+  for (const scholar of scholars) {
+    scholar.downloaded = await isPackDownloaded(scholar.id);
+  }
+
+  return scholars;
+}
+
+async function getBhashyaForShlokaFromPack(scholarId, kandaId, sargaId, shlokaId) {
+
+  const sqlite = sqlitePlugin();
+  if (!sqlite) throw new Error("SQLite plugin not available");
+
+  const alias = packDbName(scholarId);
+
+  if (!attachedPacks.has(scholarId)) {
+    const fs = fsPlugin();
+    const dir = directoryData();
+    if (!fs || !dir) throw new Error("Filesystem plugin not available");
+
+    const uri = await fs.getUri({ path: packFileName(scholarId), directory: dir });
+    let dbPath = uri.uri;
+    if (dbPath.startsWith("file://")) dbPath = dbPath.replace("file://", "");
+
+    try {
+      await sqlite.execute({ database: CORE_DB_NAME, statements: `DETACH DATABASE ${alias};` });
+    } catch (e) { /* not attached yet, ignore */ }
+
+    try {
+      await sqlite.execute({ database: CORE_DB_NAME, statements: `ATTACH DATABASE '${dbPath}' AS ${alias};` });
+    } catch (error) {
+      const msg = error.message || String(error);
+      if (!msg.includes("already in use")) throw error;
+    }
+
+    attachedPacks.add(scholarId);
+  }
+
+  const result = await sqlite.query({
+    database: CORE_DB_NAME,
+    statement: `SELECT field_key,value FROM ${alias}.ramayana_bhashyas WHERE kanda_id=? AND sarga_id=? AND shloka_id=?`,
+    values: [kandaId, sargaId, shlokaId]
+  });
+
+  return rowsOf(result);
+}
+
+
 
 
 
@@ -1371,6 +1464,12 @@ window.VedaDB = {
   getScholarsForVeda,
 
   getScholarsForMantra,
+
+  // Ramayana scholars/bhashya (shares the same pack download/attach infra)
+
+  getScholarsForShloka,
+
+  getBhashyaForShlokaFromPack,
 
 
 
