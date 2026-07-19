@@ -55,7 +55,7 @@ async function rInitDB() {
       encrypted: false,
       mode: "no-encryption",
       version: 1,
-      readonly: true,
+      readonly: false,
     });
   } catch (e) {
     const msg = (e && e.message || String(e)).toLowerCase();
@@ -66,7 +66,23 @@ async function rInitDB() {
     await sqlite.open({ database: RAMAYANA_DB_NAME });
   } catch (e) {
     const msg = (e && e.message || String(e)).toLowerCase();
-    if (!msg.includes("already") && !msg.includes("exist")) throw e;
+    if (msg.includes("already") || msg.includes("exist")) {
+      // benign — connection was already open, nothing to do
+    } else if (msg.includes("no available connection")) {
+      // createConnection() silently failed to register despite not
+      // throwing an "already" error — self-heal by creating it again
+      // right before retrying open().
+      await sqlite.createConnection({
+        database: RAMAYANA_DB_NAME,
+        encrypted: false,
+        mode: "no-encryption",
+        version: 1,
+        readonly: false,
+      });
+      await sqlite.open({ database: RAMAYANA_DB_NAME });
+    } else {
+      throw e;
+    }
   }
 
   _rInitDone = true;
