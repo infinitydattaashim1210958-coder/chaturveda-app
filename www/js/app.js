@@ -1690,10 +1690,12 @@ async function boot() {
     </div>`;
   await ChaturvedaSettings.apply();
   try {
-    await Promise.all([
-      window.VedaDB.initDB(),
-      window.RamayanaDB.initDB(),
-    ]);
+    // Sequential on purpose: both initDB() calls run copyFromAssets()
+    // against the same www/assets/databases/ folder. Running them in
+    // parallel races and intermittently throws
+    // "No available connection for database ramayana".
+    await window.VedaDB.initDB();
+    await window.RamayanaDB.initDB();
     router();
   } catch (e) {
     const stackInfo = (e && e.stack) ? e.stack.replace(/\n/g, "<br>") : "no stack";

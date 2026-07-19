@@ -139,27 +139,29 @@ async function initDB() {
 
 
 
-  await sqlite.createConnection({
+  // A connection can already be open from a previous session/resume —
+  // treat "already"/"exist" as fine, only rethrow genuine failures.
+  try {
+    await sqlite.createConnection({
+      database: CORE_DB_NAME,
+      encrypted: false,
+      mode: "no-encryption",
+      version: 1,
+      readonly: false
+    });
+  } catch (e) {
+    const msg = (e && e.message || String(e)).toLowerCase();
+    if (!msg.includes("already") && !msg.includes("exist")) throw e;
+  }
 
-    database: CORE_DB_NAME,
-
-    encrypted: false,
-
-    mode: "no-encryption",
-
-    version: 1,
-
-    readonly: false
-
-  });
-
-
-
-  await sqlite.open({
-
-    database: CORE_DB_NAME
-
-  });
+  try {
+    await sqlite.open({
+      database: CORE_DB_NAME
+    });
+  } catch (e) {
+    const msg = (e && e.message || String(e)).toLowerCase();
+    if (!msg.includes("already") && !msg.includes("exist")) throw e;
+  }
 
 
 

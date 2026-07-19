@@ -46,14 +46,29 @@ async function rInitDB() {
     await sqlite.copyFromAssets({ overwrite: false });
   }
 
-  await sqlite.createConnection({
-    database: RAMAYANA_DB_NAME,
-    encrypted: false,
-    mode: "no-encryption",
-    version: 1,
-    readonly: true,
-  });
-  await sqlite.open({ database: RAMAYANA_DB_NAME });
+  // A connection can already be open from a previous session/resume —
+  // that's not an error, so we treat "already"/"exist" messages as fine
+  // and only rethrow genuine failures.
+  try {
+    await sqlite.createConnection({
+      database: RAMAYANA_DB_NAME,
+      encrypted: false,
+      mode: "no-encryption",
+      version: 1,
+      readonly: true,
+    });
+  } catch (e) {
+    const msg = (e && e.message || String(e)).toLowerCase();
+    if (!msg.includes("already") && !msg.includes("exist")) throw e;
+  }
+
+  try {
+    await sqlite.open({ database: RAMAYANA_DB_NAME });
+  } catch (e) {
+    const msg = (e && e.message || String(e)).toLowerCase();
+    if (!msg.includes("already") && !msg.includes("exist")) throw e;
+  }
+
   _rInitDone = true;
 }
 
