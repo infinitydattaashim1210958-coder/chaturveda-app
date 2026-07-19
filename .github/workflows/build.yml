@@ -28,18 +28,20 @@ jobs:
         run: npm install
 
       - name: Download core database from latest Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p www/assets/databases
-          curl -L -o core.db.gz \
-            "https://github.com/${{ github.repository }}/releases/latest/download/core.db.gz"
+          gh release download --repo "${{ github.repository }}" --pattern "core.db.gz" --clobber --dir .
           gunzip -f core.db.gz
           mv core.db www/assets/databases/core.db
           echo "core.db size: $(du -sh www/assets/databases/core.db)"
 
       - name: Download Ramayana database from latest Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -L -o ramayana.db.gz \
-            "https://github.com/${{ github.repository }}/releases/latest/download/ramayana.db.gz"
+          gh release download --repo "${{ github.repository }}" --pattern "ramayana.db.gz" --clobber --dir .
           gunzip -f ramayana.db.gz
           mv ramayana.db www/assets/databases/ramayana.db
           echo "ramayana.db size: $(du -sh www/assets/databases/ramayana.db)"
